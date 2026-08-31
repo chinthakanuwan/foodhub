@@ -32,7 +32,6 @@
         .stat-value { font-size: 32px; font-weight: bold; color: #667eea; margin-bottom: 5px; }
         .stat-label { color: #666; font-size: 14px; }
         
-        /* Image Gallery Styles */
         .image-gallery {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -131,14 +130,14 @@
         
         <div class="form-group">
             <label>Category</label>
-            <select id="shopCategory" onchange="filterImages('shop')">
+            <select id="shopCategory">
                 <option value="Restaurant">🍽️ Restaurant</option>
                 <option value="Fast Food">🍔 Fast Food</option>
                 <option value="Drinks">🥤 Drinks</option>
-                <option value="Flowers">🌹 Flowers</option>
+                <option value="Flowers"> Flowers</option>
                 <option value="Gifts">🎁 Gifts</option>
                 <option value="Desserts">🍰 Desserts</option>
-                <option value="Cakes">🎂 Cakes</option>
+                <option value="Cakes"> Cakes</option>
                 <option value="Bakery">🥐 Bakery</option>
             </select>
         </div>
@@ -157,7 +156,6 @@
             <div class="selected-image-preview" id="shopImagePreview" style="display: none;">
                 <strong>Selected Image:</strong>
                 <img src="" alt="Selected">
-                <p style="margin-top: 10px; font-size: 12px; color: #666;">Click on another image to change</p>
             </div>
         </div>
         
@@ -189,12 +187,12 @@
         <div class="form-group">
             <label>
                 <input type="checkbox" id="isFeatured" style="margin-right: 10px;">
-                <strong>⭐ Featured Shop (මුදල් ගෙව කඩ)</strong>
+                <strong>⭐ Featured Shop</strong>
             </label>
         </div>
         
         <button class="btn btn-primary" onclick="saveShop()"> Save Shop</button>
-        <button class="btn btn-warning" onclick="clearForm('shop')">🔄 Clear Form</button>
+        <button class="btn btn-warning" onclick="clearForm('shop')"> Clear Form</button>
     </div>
 
     <!-- Add/Edit Food Form -->
@@ -215,11 +213,11 @@
         
         <div class="form-group">
             <label>Category</label>
-            <select id="foodCategory" onchange="filterImages('food')">
+            <select id="foodCategory">
                 <option value="Rice">🍚 Rice Dishes</option>
                 <option value="Kottu">🍗 Kottu</option>
                 <option value="Pizza">🍕 Pizza</option>
-                <option value="Burger"> Burgers</option>
+                <option value="Burger">🍔 Burgers</option>
                 <option value="Drinks">🥤 Drinks</option>
                 <option value="Desserts"> Desserts</option>
                 <option value="Other">🍽️ Other</option>
@@ -259,13 +257,13 @@
 
     <!-- All Shops -->
     <div class="section">
-        <h2>🏪 All Shops</h2>
+        <h2>🏪 All Shops <button onclick="deleteAllShops()" class="btn btn-danger" style="float: right; padding: 8px 15px; font-size: 14px;">🗑️ Delete All</button></h2>
         <div class="item-list" id="shopsList"></div>
     </div>
 
     <!-- All Foods -->
     <div class="section">
-        <h2>🍔 All Foods</h2>
+        <h2>🍔 All Foods <button onclick="deleteAllFoods()" class="btn btn-danger" style="float: right; padding: 8px 15px; font-size: 14px;">🗑️ Delete All</button></h2>
         <div class="item-list" id="foodsList"></div>
     </div>
 
@@ -284,41 +282,25 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Pre-loaded Image Gallery
+        // Pre-loaded Image Gallery - 100% Working URLs
         const imageGallery = {
             restaurants: [
-                { url: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500', name: 'Restaurant Interior', category: 'restaurant' },
+                { url: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500', name: 'Restaurant', category: 'restaurant' },
                 { url: 'https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=500', name: 'Restaurant', category: 'restaurant' },
-                { url: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=500', name: 'Restaurant', category: 'restaurant' },
-                { url: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500', name: 'Fine Dining', category: 'restaurant' },
                 { url: 'https://images.unsplash.com/photo-1552566626-52f8b75a6827?w=500', name: 'Restaurant', category: 'restaurant' },
             ],
             food: [
                 { url: 'https://images.unsplash.com/photo-1603057196846-221a74961791?w=500', name: 'Kottu', category: 'kottu' },
-                { url: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500', name: 'Curry', category: 'rice' },
                 { url: 'https://images.unsplash.com/photo-1604329760661-54dc45194b33?w=500', name: 'Fried Rice', category: 'rice' },
                 { url: 'https://images.unsplash.com/photo-1596797038530-2c107229654b?w=500', name: 'Rice & Curry', category: 'rice' },
-                { url: 'https://images.unsplash.com/photo-1512058564366-18510be2db1f?w=500', name: 'Nasi Goreng', category: 'rice' },
                 { url: 'https://images.unsplash.com/photo-1513104890138-7c749659a59f?w=500', name: 'Pizza', category: 'fastfood' },
                 { url: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500', name: 'Pizza', category: 'fastfood' },
                 { url: 'https://images.unsplash.com/photo-1568901346375-23c9450c5840?w=500', name: 'Burger', category: 'fastfood' },
                 { url: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=500', name: 'Burger', category: 'fastfood' },
-                { url: 'https://images.unsplash.com/photo-1551782450-a2132b7ba93a?w=500', name: 'Burger', category: 'fastfood' },
-            ],
-            flowers: [
-                { url: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=500', name: 'Flower Bouquet', category: 'general' },
-                { url: 'https://images.unsplash.com/photo-1494972308805-463bc619d34e?w=500', name: 'Flowers', category: 'general' },
-                { url: 'https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=500', name: 'Rose Bouquet', category: 'general' },
-            ],
-            cakes: [
-                { url: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500', name: 'Cake', category: 'general' },
-                { url: 'https://images.unsplash.com/photo-1565958011703-44f5328f6434?w=500', name: 'Cake', category: 'general' },
-                { url: 'https://images.unsplash.com/photo-1535131749006-b7c522384d8c?w=500', name: 'Birthday Cake', category: 'general' },
             ],
             general: [
                 { url: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500', name: 'Food', category: 'general' },
-                { url: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=500', name: 'Food Platter', category: 'general' },
-                { url: 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=500', name: 'Food', category: 'general' },
+                { url: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=500', name: 'Food', category: 'general' },
             ]
         };
 
@@ -343,7 +325,7 @@
             if (type === 'shop') {
                 images = [...imageGallery.restaurants, ...imageGallery.general];
             } else {
-                images = [...imageGallery.food, ...imageGallery.flowers, ...imageGallery.cakes];
+                images = [...imageGallery.food, ...imageGallery.general];
             }
             
             if (filter !== 'all') {
@@ -352,7 +334,7 @@
             
             gallery.innerHTML = images.map(img => `
                 <div class="gallery-item" onclick="selectImage('${type}', '${img.url}', this)">
-                    <img src="${img.url}" alt="${img.name}">
+                    <img src="${img.url}" alt="${img.name}" onerror="this.src='https://via.placeholder.com/120x100?text=No+Image'">
                     <p>${img.name}</p>
                 </div>
             `).join('');
@@ -371,16 +353,13 @@
         }
 
         function selectImage(type, url, element) {
-            // Remove selected class from all items
             const galleryId = type === 'shop' ? 'shopImageGallery' : 'foodImageGallery';
             document.querySelectorAll(`#${galleryId} .gallery-item`).forEach(item => {
                 item.classList.remove('selected');
             });
             
-            // Add selected class to clicked item
             element.classList.add('selected');
             
-            // Set the URL
             if (type === 'shop') {
                 document.getElementById('shopImageURL').value = url;
                 document.getElementById('shopImagePreview').style.display = 'block';
@@ -389,22 +368,6 @@
                 document.getElementById('foodImageURL').value = url;
                 document.getElementById('foodImagePreview').style.display = 'block';
                 document.getElementById('foodImagePreview').querySelector('img').src = url;
-            }
-        }
-
-        function filterImages(type) {
-            if (type === 'shop') {
-                const category = document.getElementById('shopCategory').value;
-                if (category === 'Flowers') {
-                    renderImageGallery('shop', 'general');
-                } else if (category === 'Cakes' || category === 'Desserts') {
-                    // Show cake images
-                } else {
-                    renderImageGallery('shop', 'restaurant');
-                }
-            } else {
-                const category = document.getElementById('foodCategory').value;
-                renderImageGallery('food', category.toLowerCase());
             }
         }
 
@@ -499,7 +462,7 @@
                 document.getElementById('shopImagePreview').querySelector('img').src = shop.image;
             }
 
-            document.getElementById('shopFormTitle').textContent = '️ Edit Shop';
+            document.getElementById('shopFormTitle').textContent = '✏️ Edit Shop';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -520,7 +483,7 @@
                 document.getElementById('foodImagePreview').querySelector('img').src = food.image;
             }
 
-            document.getElementById('foodFormTitle').textContent = '️ Edit Food';
+            document.getElementById('foodFormTitle').textContent = '✏️ Edit Food';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -533,15 +496,48 @@
             clearForm('food');
         }
 
+        // Delete Functions - FIXED
         function deleteShop(id) {
-            if (confirm('Delete this shop?')) {
-                database.ref('shops').child(id).remove();
+            if (confirm('Delete this shop? This cannot be undone!')) {
+                database.ref('shops').child(id).remove()
+                    .then(() => {
+                        alert('✅ Shop deleted successfully!');
+                    })
+                    .catch(error => {
+                        alert('❌ Error: ' + error.message);
+                    });
             }
         }
 
         function deleteFood(id) {
-            if (confirm('Delete this food item?')) {
-                database.ref('foods').child(id).remove();
+            if (confirm('Delete this food item? This cannot be undone!')) {
+                database.ref('foods').child(id).remove()
+                    .then(() => {
+                        alert('✅ Food deleted successfully!');
+                    })
+                    .catch(error => {
+                        alert('❌ Error: ' + error.message);
+                    });
+            }
+        }
+
+        function deleteAllShops() {
+            if (confirm('️ Delete ALL shops? This cannot be undone!')) {
+                database.ref('shops').remove()
+                    .then(() => {
+                        alert('✅ All shops deleted!');
+                        location.reload();
+                    });
+            }
+        }
+
+        function deleteAllFoods() {
+            if (confirm('⚠️ Delete ALL foods? This cannot be undone!')) {
+                database.ref('foods').remove()
+                    .then(() => {
+                        alert('✅ All foods deleted!');
+                        location.reload();
+                    });
             }
         }
 
@@ -569,7 +565,7 @@
         function loadShops() {
             database.ref('shops').on('value', (snapshot) => {
                 const data = snapshot.val();
-                shops = data ? Object.values(data).map(s => ({...s, id: snapshot.ref.key})) : [];
+                shops = data ? Object.values(data).map(s => ({...s, id: Object.keys(data)[Object.values(data).indexOf(s)]})) : [];
                 updateStats();
                 renderShops();
                 updateShopSelect();
@@ -579,7 +575,7 @@
         function loadFoods() {
             database.ref('foods').on('value', (snapshot) => {
                 const data = snapshot.val();
-                foods = data ? Object.values(data).map(f => ({...f, id: snapshot.ref.key})) : [];
+                foods = data ? Object.values(data).map(f => ({...f, id: Object.keys(data)[Object.values(data).indexOf(f)]})) : [];
                 updateStats();
                 renderFoods();
             });
@@ -619,7 +615,7 @@
                     </div>
                     <div>
                         <button class="btn btn-warning" onclick="editShop('${shop.id}')" style="padding: 8px 15px; margin-bottom: 5px;">✏️ Edit</button>
-                        <button class="btn btn-danger" onclick="deleteShop('${shop.id}')" style="padding: 8px 15px;">🗑️ Delete</button>
+                        <button class="btn btn-danger" onclick="deleteShop('${shop.id}')" style="padding: 8px 15px;">️ Delete</button>
                     </div>
                 </div>
             `).join('');
@@ -641,7 +637,7 @@
                             <div style="font-size: 12px; color: #666;">${shop ? shop.name : ''} | Rs. ${food.price}</div>
                         </div>
                         <div>
-                            <button class="btn btn-warning" onclick="editFood('${food.id}')" style="padding: 8px 15px; margin-bottom: 5px;">️ Edit</button>
+                            <button class="btn btn-warning" onclick="editFood('${food.id}')" style="padding: 8px 15px; margin-bottom: 5px;">✏️ Edit</button>
                             <button class="btn btn-danger" onclick="deleteFood('${food.id}')" style="padding: 8px 15px;">🗑️ Delete</button>
                         </div>
                     </div>
