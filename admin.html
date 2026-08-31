@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - FoodHub</title>
     
-    <!-- Firebase SDK (Compat version) -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -18,20 +19,73 @@
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #555; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 5px; font-size: 14px; }
-        .btn { padding: 12px 25px; border: none; border-radius: 5px; font-size: 16px; font-weight: 600; cursor: pointer; margin-right: 10px; }
+        .btn { padding: 12px 25px; border: none; border-radius: 5px; font-size: 16px; font-weight: 600; cursor: pointer; margin-right: 10px; margin-bottom: 10px; }
         .btn-primary { background: #667eea; color: white; }
+        .btn-success { background: #4CAF50; color: white; }
         .btn-danger { background: #f44336; color: white; }
+        .btn-share { background: #25D366; color: white; }
         .item-list { margin-top: 20px; }
         .item-card { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .item-card img { width: 60px; height: 60px; object-fit: cover; border-radius: 5px; margin-right: 15px; }
+        .item-card img { width: 80px; height: 80px; object-fit: cover; border-radius: 5px; margin-right: 15px; }
         .item-info { flex: 1; }
         .ad-section { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px; }
         .stat-card { background: white; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .stat-value { font-size: 32px; font-weight: bold; color: #667eea; margin-bottom: 5px; }
-        .stat-label { color: #666; }
-        .banner-preview { margin-top: 10px; border: 2px dashed #ddd; padding: 10px; text-align: center; }
-        .banner-preview img { max-width: 100%; max-height: 150px; border-radius: 5px; }
+        .stat-label { color: #666; font-size: 14px; }
+        
+        /* Image Upload Styles */
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            background: #f8f9ff;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        .upload-area:hover {
+            background: #eef0ff;
+        }
+        .upload-area i {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .image-preview {
+            margin-top: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+        }
+        .image-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 5px;
+        }
+        .category-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .category-tag {
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            border: 2px solid #ddd;
+            transition: all 0.3s;
+        }
+        .category-tag.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        .category-tag:hover {
+            border-color: #667eea;
+        }
     </style>
 </head>
 <body>
@@ -44,7 +98,6 @@
         <div class="stat-card"><div class="stat-value" id="totalShops">0</div><div class="stat-label">Total Shops</div></div>
         <div class="stat-card"><div class="stat-value" id="totalFoods">0</div><div class="stat-label">Total Foods</div></div>
         <div class="stat-card"><div class="stat-value" id="totalOrders">0</div><div class="stat-label">Total Orders</div></div>
-        <div class="stat-card"><div class="stat-value" id="totalAds">0</div><div class="stat-label">Active Ads</div></div>
     </div>
 
     <div class="ad-section">
@@ -53,83 +106,130 @@
         <p style="margin-top: 10px;"><strong>Price: Rs. 500/week | Rs. 1500/month</strong></p>
     </div>
 
-    <!-- Banner Ad Management -->
-    <div class="section">
-        <h2>🎨 Add Banner Advertisement</h2>
-        <div class="form-group">
-            <label>Ad Title</label>
-            <input type="text" id="adTitle" placeholder="e.g., Pizza Hut Special Offer">
-        </div>
-        <div class="form-group">
-            <label>Banner Image URL</label>
-            <input type="text" id="adImageUrl" placeholder="https://..." oninput="previewAd()">
-        </div>
-        <div class="form-group">
-            <label>Click URL (Optional)</label>
-            <input type="text" id="adClickUrl" placeholder="https://... (User goes here when clicking)">
-        </div>
-        <div class="form-group">
-            <label>Position</label>
-            <select id="adPosition">
-                <option value="top">Top (Shops tab - 200px height)</option>
-                <option value="middle">Middle (Shops tab - 250px height)</option>
-                <option value="bottom">Bottom (Foods tab - 200px height)</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label>
-                <input type="checkbox" id="adActive" checked style="margin-right: 10px;">
-                <strong>Active</strong>
-            </label>
-        </div>
-        <div class="banner-preview" id="bannerPreview">
-            <p style="color: #999;">Banner preview will appear here</p>
-        </div>
-        <button class="btn btn-primary" onclick="addBannerAd()" style="margin-top: 15px;">Add Banner Ad</button>
-    </div>
-
-    <!-- Existing Banner Ads -->
-    <div class="section">
-        <h2>📱 Active Banner Ads</h2>
-        <div class="item-list" id="bannerAdsList"></div>
-    </div>
-
+    <!-- Add New Shop with Image Upload -->
     <div class="section">
         <h2>🏪 Add New Shop</h2>
-        <div class="form-group"><label>Shop Name</label><input type="text" id="shopName" placeholder="e.g., Pizza Hut"></div>
-        <div class="form-group"><label>Shop Image URL</label><input type="text" id="shopImage" placeholder="https://..."></div>
-        <div class="form-group"><label>Phone Number</label><input type="text" id="shopPhone" placeholder="0766488689"></div>
-        <div class="form-group"><label>Delivery Time</label><input type="text" id="shopDeliveryTime" placeholder="30-40 min"></div>
-        <div class="form-group"><label>Delivery Fee (Rs.)</label><input type="number" id="shopDeliveryFee" placeholder="150"></div>
-        <div class="form-group"><label>Rating</label><input type="number" id="shopRating" placeholder="4.5" step="0.1"></div>
-        <div class="form-group"><label>Tags (comma separated)</label><input type="text" id="shopTags" placeholder="Pizza, Italian, Fast Food"></div>
+        
+        <div class="form-group">
+            <label>Shop Name</label>
+            <input type="text" id="shopName" placeholder="e.g., Pizza Hut">
+        </div>
+        
+        <div class="form-group">
+            <label>Category</label>
+            <div class="category-tags">
+                <div class="category-tag" onclick="selectCategory(this, 'Restaurant')">🍽️ Restaurant</div>
+                <div class="category-tag" onclick="selectCategory(this, 'Fast Food')">🍔 Fast Food</div>
+                <div class="category-tag" onclick="selectCategory(this, 'Drinks')">🥤 Drinks</div>
+                <div class="category-tag" onclick="selectCategory(this, 'Flowers')">🌹 Flowers</div>
+                <div class="category-tag" onclick="selectCategory(this, 'Gifts')">🎁 Gifts</div>
+                <div class="category-tag" onclick="selectCategory(this, 'Desserts')">🍰 Desserts</div>
+            </div>
+            <input type="hidden" id="shopCategory" value="Restaurant">
+        </div>
+        
+        <div class="form-group">
+            <label>Shop Image</label>
+            <div class="upload-area" onclick="document.getElementById('shopImageUpload').click()">
+                <div style="font-size: 48px;"></div>
+                <p>Click to upload image from your device</p>
+                <p style="font-size: 12px; color: #666;">or drag and drop</p>
+            </div>
+            <input type="file" id="shopImageUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(this, 'shopImagePreview')">
+            <div class="image-preview" id="shopImagePreview" style="display: none;">
+                <img src="" alt="Preview">
+                <p style="margin-top: 10px; font-size: 12px; color: #666;">Image uploaded successfully!</p>
+            </div>
+            <input type="hidden" id="shopImageURL">
+        </div>
+        
+        <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="shopPhone" placeholder="0766488689">
+        </div>
+        
+        <div class="form-group">
+            <label>Delivery Time</label>
+            <input type="text" id="shopDeliveryTime" placeholder="30-40 min">
+        </div>
+        
+        <div class="form-group">
+            <label>Delivery Fee (Rs.)</label>
+            <input type="number" id="shopDeliveryFee" placeholder="150">
+        </div>
+        
+        <div class="form-group">
+            <label>Rating</label>
+            <input type="number" id="shopRating" placeholder="4.5" step="0.1" min="0" max="5">
+        </div>
+        
+        <div class="form-group">
+            <label>Tags (comma separated)</label>
+            <input type="text" id="shopTags" placeholder="Pizza, Italian, Fast Food">
+        </div>
+        
         <div class="form-group">
             <label>
                 <input type="checkbox" id="isFeatured" style="margin-right: 10px;">
                 <strong>⭐ Featured Shop (මුදල් ගෙව කඩ)</strong>
             </label>
-            <p style="font-size: 12px; color: #666; margin-top: 5px;">මේක select කළොත් shop එක app එකේ ඩින්ම පේනවා (Rs. 500/week)</p>
+            <p style="font-size: 12px; color: #666; margin-top: 5px;">මේක select කළොත් shop එක app එකේ උඩින්ම පේනවා (Rs. 500/week)</p>
         </div>
-        <button class="btn btn-primary" onclick="addShop()">Add Shop</button>
+        
+        <button class="btn btn-primary" onclick="addShop()">💾 Save Shop</button>
+        <button class="btn btn-success" onclick="shareApp()">📱 Share App</button>
     </div>
 
+    <!-- Add New Food Item with Image Upload -->
     <div class="section">
         <h2>🍕 Add New Food Item</h2>
-        <div class="form-group"><label>Select Shop</label><select id="foodShop"></select></div>
-        <div class="form-group"><label>Food Name</label><input type="text" id="foodName" placeholder="e.g., Margherita Pizza"></div>
-        <div class="form-group"><label>Food Image URL</label><input type="text" id="foodImage" placeholder="https://..."></div>
-        <div class="form-group"><label>Price (Rs.)</label><input type="number" id="foodPrice" placeholder="1200"></div>
-        <div class="form-group"><label>Description</label><textarea id="foodDescription" rows="3" placeholder="Description..."></textarea></div>
-        <button class="btn btn-primary" onclick="addFood()">Add Food</button>
+        
+        <div class="form-group">
+            <label>Select Shop</label>
+            <select id="foodShop"></select>
+        </div>
+        
+        <div class="form-group">
+            <label>Food Name</label>
+            <input type="text" id="foodName" placeholder="e.g., Margherita Pizza">
+        </div>
+        
+        <div class="form-group">
+            <label>Food Image</label>
+            <div class="upload-area" onclick="document.getElementById('foodImageUpload').click()">
+                <div style="font-size: 48px;">📷</div>
+                <p>Click to upload food image</p>
+            </div>
+            <input type="file" id="foodImageUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(this, 'foodImagePreview')">
+            <div class="image-preview" id="foodImagePreview" style="display: none;">
+                <img src="" alt="Preview">
+                <p style="margin-top: 10px; font-size: 12px; color: #666;">Image uploaded!</p>
+            </div>
+            <input type="hidden" id="foodImageURL">
+        </div>
+        
+        <div class="form-group">
+            <label>Price (Rs.)</label>
+            <input type="number" id="foodPrice" placeholder="1200">
+        </div>
+        
+        <div class="form-group">
+            <label>Description</label>
+            <textarea id="foodDescription" rows="3" placeholder="Description..."></textarea>
+        </div>
+        
+        <button class="btn btn-primary" onclick="addFood()">💾 Save Food</button>
     </div>
 
+    <!-- All Shops -->
     <div class="section">
         <h2>🏪 All Shops</h2>
         <div class="item-list" id="shopsList"></div>
     </div>
 
+    <!-- All Foods -->
     <div class="section">
-        <h2> All Foods</h2>
+        <h2>🍔 All Foods</h2>
         <div class="item-list" id="foodsList"></div>
     </div>
 
@@ -140,7 +240,7 @@
             authDomain: "foodhub-app-6632c.firebaseapp.com",
             databaseURL: "https://foodhub-app-6632c-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "foodhub-app-6632c",
-            storageBucket: "foodhub-app-6632c.firebasestorage.app",
+            storageBucket: "foodhub-app-6632c.appspot.com",
             messagingSenderId: "1025149369233",
             appId: "1:1025149369233:web:245f846d959274ee487830"
         };
@@ -148,90 +248,80 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
+        const storage = firebase.storage();
 
         let shops = [];
         let foods = [];
         let orders = [];
-        let bannerAds = [];
 
         document.addEventListener('DOMContentLoaded', () => {
             loadShops();
             loadFoods();
             loadOrders();
-            loadBannerAds();
         });
 
-        // Banner Ad Functions
-        function previewAd() {
-            const imageUrl = document.getElementById('adImageUrl').value;
-            const preview = document.getElementById('bannerPreview');
-            if (imageUrl) {
-                preview.innerHTML = `<img src="${imageUrl}" alt="Preview" onerror="this.src='https://via.placeholder.com/300x150?text=Invalid+Image+URL'">`;
-            } else {
-                preview.innerHTML = '<p style="color: #999;">Banner preview will appear here</p>';
+        // Category Selection
+        function selectCategory(element, category) {
+            document.querySelectorAll('.category-tag').forEach(tag => tag.classList.remove('active'));
+            element.classList.add('active');
+            document.getElementById('shopCategory').value = category;
+        }
+
+        // Image Upload Handler
+        function handleImageUpload(input, previewId) {
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Show preview
+                    document.getElementById(previewId).style.display = 'block';
+                    document.getElementById(previewId).querySelector('img').src = e.target.result;
+                    
+                    // Upload to Firebase Storage
+                    const storageRef = storage.ref();
+                    const imageRef = storageRef.child('images/' + Date.now() + '_' + file.name);
+                    
+                    imageRef.putString(e.target.result, 'data_url')
+                        .then(snapshot => {
+                            return snapshot.getDownloadURL();
+                        })
+                        .then(downloadURL => {
+                            if (previewId === 'shopImagePreview') {
+                                document.getElementById('shopImageURL').value = downloadURL;
+                            } else {
+                                document.getElementById('foodImageURL').value = downloadURL;
+                            }
+                            alert('✅ Image uploaded successfully!');
+                        })
+                        .catch(error => {
+                            alert('❌ Upload failed: ' + error.message);
+                            console.error(error);
+                        });
+                };
+                reader.readAsDataURL(file);
             }
         }
 
-        function loadBannerAds() {
-            database.ref('bannerAds').on('value', (snapshot) => {
-                const data = snapshot.val();
-                bannerAds = data ? Object.values(data) : [];
-                document.getElementById('totalAds').textContent = bannerAds.filter(ad => ad.active).length;
-                renderBannerAds();
-            });
-        }
-
-        function addBannerAd() {
-            const ad = {
-                title: document.getElementById('adTitle').value,
-                imageUrl: document.getElementById('adImageUrl').value,
-                clickUrl: document.getElementById('adClickUrl').value,
-                position: document.getElementById('adPosition').value,
-                active: document.getElementById('adActive').checked,
-                createdAt: Date.now()
+        // Share App Function
+        function shareApp() {
+            const shareData = {
+                title: 'FoodHub - ආහාර Delivery',
+                text: 'හොඳම ආහාර delivery app එක! දැන්ම order කරන්න!',
+                url: 'https://chinthakanuwan.github.io/foodhub/'
             };
 
-            if (!ad.title || !ad.imageUrl) {
-                alert('Ad Title and Image URL are required!');
-                return;
-            }
-
-            database.ref('bannerAds').push(ad).then(() => {
-                alert('✅ Banner Ad added successfully!');
-                document.getElementById('adTitle').value = '';
-                document.getElementById('adImageUrl').value = '';
-                document.getElementById('adClickUrl').value = '';
-                document.getElementById('bannerPreview').innerHTML = '<p style="color: #999;">Banner preview will appear here</p>';
-            }).catch(error => {
-                alert('❌ Error: ' + error.message);
-            });
-        }
-
-        function renderBannerAds() {
-            const list = document.getElementById('bannerAdsList');
-            if (bannerAds.length === 0) {
-                list.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">No banner ads yet</p>';
-                return;
-            }
-            list.innerHTML = bannerAds.map(ad => `
-                <div class="item-card">
-                    <img src="${ad.imageUrl}" alt="${ad.title}" onerror="this.src='https://via.placeholder.com/60'">
-                    <div class="item-info">
-                        <div style="font-weight: bold;">${ad.title}</div>
-                        <div style="font-size: 12px; color: #666;">Position: ${ad.position} | Status: ${ad.active ? '✅ Active' : '❌ Inactive'}</div>
-                    </div>
-                    <button class="btn btn-danger" onclick="deleteBannerAd('${ad.id || ad.createdAt}')">Delete</button>
-                </div>
-            `).join('');
-        }
-
-        function deleteBannerAd(id) {
-            if (confirm('Delete this banner ad?')) {
-                database.ref('bannerAds').child(id).remove();
+            if (navigator.share) {
+                navigator.share(shareData)
+                    .then(() => console.log('Shared successfully'))
+                    .catch((error) => console.log('Error sharing', error));
+            } else {
+                // Fallback - copy to clipboard
+                navigator.clipboard.writeText(shareData.url)
+                    .then(() => alert('✅ Link copied to clipboard! Share it on WhatsApp/Facebook'));
             }
         }
 
-        // Existing Functions
+        // Load Data
         function loadShops() {
             database.ref('shops').on('value', (snapshot) => {
                 const data = snapshot.val();
@@ -273,7 +363,8 @@
         function addShop() {
             const shop = {
                 name: document.getElementById('shopName').value,
-                image: document.getElementById('shopImage').value || 'https://via.placeholder.com/500',
+                category: document.getElementById('shopCategory').value,
+                image: document.getElementById('shopImageURL').value || 'https://via.placeholder.com/500',
                 phone: document.getElementById('shopPhone').value,
                 deliveryTime: document.getElementById('shopDeliveryTime').value,
                 deliveryFee: parseInt(document.getElementById('shopDeliveryFee').value) || 150,
@@ -289,15 +380,12 @@
             }
 
             database.ref('shops').push(shop).then(() => {
-                alert('✅ Shop added successfully! සියලුම අයට දැන් පේනවා!');
+                alert('✅ Shop added successfully!');
+                // Clear form
                 document.getElementById('shopName').value = '';
-                document.getElementById('shopImage').value = '';
+                document.getElementById('shopImageURL').value = '';
                 document.getElementById('shopPhone').value = '';
-                document.getElementById('shopDeliveryTime').value = '';
-                document.getElementById('shopDeliveryFee').value = '';
-                document.getElementById('shopRating').value = '';
-                document.getElementById('shopTags').value = '';
-                document.getElementById('isFeatured').checked = false;
+                document.getElementById('shopImagePreview').style.display = 'none';
             }).catch(error => {
                 alert('❌ Error: ' + error.message);
             });
@@ -307,7 +395,7 @@
             const food = {
                 shopId: document.getElementById('foodShop').value,
                 name: document.getElementById('foodName').value,
-                image: document.getElementById('foodImage').value || 'https://via.placeholder.com/500',
+                image: document.getElementById('foodImageURL').value || 'https://via.placeholder.com/500',
                 price: parseInt(document.getElementById('foodPrice').value) || 0,
                 description: document.getElementById('foodDescription').value,
                 createdAt: Date.now()
@@ -319,11 +407,10 @@
             }
 
             database.ref('foods').push(food).then(() => {
-                alert('✅ Food added successfully! සියලුම අයට දැන් පේනවා!');
+                alert('✅ Food added successfully!');
                 document.getElementById('foodName').value = '';
-                document.getElementById('foodImage').value = '';
-                document.getElementById('foodPrice').value = '';
-                document.getElementById('foodDescription').value = '';
+                document.getElementById('foodImageURL').value = '';
+                document.getElementById('foodImagePreview').style.display = 'none';
             }).catch(error => {
                 alert('❌ Error: ' + error.message);
             });
@@ -337,7 +424,7 @@
             }
             list.innerHTML = shops.map(shop => `
                 <div class="item-card">
-                    <img src="${shop.image}" alt="${shop.name}" onerror="this.src='https://via.placeholder.com/60'">
+                    <img src="${shop.image}" alt="${shop.name}" onerror="this.src='https://via.placeholder.com/80'">
                     <div class="item-info">
                         <div style="font-weight: bold;">${shop.name} ${shop.isFeatured ? '⭐' : ''}</div>
                         <div style="font-size: 12px; color: #666;">📞 ${shop.phone} | ⏱️ ${shop.deliveryTime}</div>
@@ -357,7 +444,7 @@
                 const shop = shops.find(s => s.id === food.shopId);
                 return `
                     <div class="item-card">
-                        <img src="${food.image}" alt="${food.name}" onerror="this.src='https://via.placeholder.com/60'">
+                        <img src="${food.image}" alt="${food.name}" onerror="this.src='https://via.placeholder.com/80'">
                         <div class="item-info">
                             <div style="font-weight: bold;">${food.name}</div>
                             <div style="font-size: 12px; color: #666;">${shop ? shop.name : ''} | Rs. ${food.price}</div>
