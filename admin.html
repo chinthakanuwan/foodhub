@@ -23,7 +23,8 @@
         .btn-primary { background: #667eea; color: white; }
         .btn-success { background: #4CAF50; color: white; }
         .btn-danger { background: #f44336; color: white; }
-        .btn-share { background: #25D366; color: white; }
+        .btn-warning { background: #FF9800; color: white; }
+        .btn-info { background: #2196F3; color: white; }
         .item-list { margin-top: 20px; }
         .item-card { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .item-card img { width: 80px; height: 80px; object-fit: cover; border-radius: 5px; margin-right: 15px; }
@@ -34,7 +35,6 @@
         .stat-value { font-size: 32px; font-weight: bold; color: #667eea; margin-bottom: 5px; }
         .stat-label { color: #666; font-size: 14px; }
         
-        /* Image Upload Styles */
         .upload-area {
             border: 3px dashed #667eea;
             border-radius: 10px;
@@ -44,14 +44,7 @@
             cursor: pointer;
             margin-bottom: 15px;
         }
-        .upload-area:hover {
-            background: #eef0ff;
-        }
-        .upload-area i {
-            font-size: 48px;
-            color: #667eea;
-            margin-bottom: 10px;
-        }
+        .upload-area:hover { background: #eef0ff; }
         .image-preview {
             margin-top: 10px;
             border: 2px solid #ddd;
@@ -83,8 +76,36 @@
             color: white;
             border-color: #667eea;
         }
-        .category-tag:hover {
+        .image-option {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        .image-option button {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .image-option button.active {
+            background: #667eea;
+            color: white;
             border-color: #667eea;
+        }
+        .hidden-field { display: none; }
+        .danger-zone {
+            background: #ffebee;
+            border: 2px solid #f44336;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .danger-zone h3 {
+            color: #f44336;
+            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -106,9 +127,17 @@
         <p style="margin-top: 10px;"><strong>Price: Rs. 500/week | Rs. 1500/month</strong></p>
     </div>
 
-    <!-- Add New Shop with Image Upload -->
+    <!-- Edit Mode Indicator -->
+    <div id="editModeIndicator" style="display: none; background: #FFF3CD; border: 2px solid #FFC107; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
+        <strong>✏️ Edit Mode</strong> - You are editing: <span id="editItemName"></span>
+        <button onclick="cancelEdit()" style="margin-left: 10px; padding: 5px 10px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancel Edit</button>
+    </div>
+
+    <!-- Add/Edit Shop Form -->
     <div class="section">
-        <h2>🏪 Add New Shop</h2>
+        <h2 id="shopFormTitle">🏪 Add New Shop</h2>
+        
+        <input type="hidden" id="editShopId" value="">
         
         <div class="form-group">
             <label>Shop Name</label>
@@ -118,29 +147,43 @@
         <div class="form-group">
             <label>Category</label>
             <div class="category-tags">
-                <div class="category-tag" onclick="selectCategory(this, 'Restaurant')">🍽️ Restaurant</div>
+                <div class="category-tag" onclick="selectCategory(this, 'Restaurant')">️ Restaurant</div>
                 <div class="category-tag" onclick="selectCategory(this, 'Fast Food')">🍔 Fast Food</div>
                 <div class="category-tag" onclick="selectCategory(this, 'Drinks')">🥤 Drinks</div>
                 <div class="category-tag" onclick="selectCategory(this, 'Flowers')">🌹 Flowers</div>
                 <div class="category-tag" onclick="selectCategory(this, 'Gifts')">🎁 Gifts</div>
-                <div class="category-tag" onclick="selectCategory(this, 'Desserts')">🍰 Desserts</div>
+                <div class="category-tag" onclick="selectCategory(this, 'Desserts')"> Desserts</div>
+                <div class="category-tag" onclick="selectCategory(this, 'Cakes')">🎂 Cakes</div>
+                <div class="category-tag" onclick="selectCategory(this, 'Bakery')">🥐 Bakery</div>
             </div>
             <input type="hidden" id="shopCategory" value="Restaurant">
         </div>
         
         <div class="form-group">
-            <label>Shop Image</label>
-            <div class="upload-area" onclick="document.getElementById('shopImageUpload').click()">
-                <div style="font-size: 48px;"></div>
-                <p>Click to upload image from your device</p>
-                <p style="font-size: 12px; color: #666;">or drag and drop</p>
+            <label>Image Source</label>
+            <div class="image-option">
+                <button onclick="selectImageMethod('upload')" id="uploadBtn" class="active">📷 Upload from Device</button>
+                <button onclick="selectImageMethod('url')" id="urlBtn">🔗 Use URL</button>
             </div>
-            <input type="file" id="shopImageUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(this, 'shopImagePreview')">
-            <div class="image-preview" id="shopImagePreview" style="display: none;">
-                <img src="" alt="Preview">
-                <p style="margin-top: 10px; font-size: 12px; color: #666;">Image uploaded successfully!</p>
+            
+            <!-- Upload Option -->
+            <div id="uploadSection">
+                <div class="upload-area" onclick="document.getElementById('shopImageUpload').click()">
+                    <div style="font-size: 48px;">📷</div>
+                    <p>Click to upload image from your device</p>
+                </div>
+                <input type="file" id="shopImageUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(this, 'shop')">
+                <div class="image-preview" id="shopImagePreview" style="display: none;">
+                    <img src="" alt="Preview">
+                    <p style="margin-top: 10px; font-size: 12px; color: #666;">Image uploaded!</p>
+                </div>
             </div>
-            <input type="hidden" id="shopImageURL">
+            
+            <!-- URL Option -->
+            <div id="urlSection" class="hidden-field">
+                <input type="text" id="shopImageURL" placeholder="https://example.com/image.jpg">
+                <p style="font-size: 12px; color: #666; margin-top: 5px;">You can use Google Drive, Imgur, or any image URL</p>
+            </div>
         </div>
         
         <div class="form-group">
@@ -173,16 +216,18 @@
                 <input type="checkbox" id="isFeatured" style="margin-right: 10px;">
                 <strong>⭐ Featured Shop (මුදල් ගෙව කඩ)</strong>
             </label>
-            <p style="font-size: 12px; color: #666; margin-top: 5px;">මේක select කළොත් shop එක app එකේ උඩින්ම පේනවා (Rs. 500/week)</p>
         </div>
         
-        <button class="btn btn-primary" onclick="addShop()">💾 Save Shop</button>
-        <button class="btn btn-success" onclick="shareApp()">📱 Share App</button>
+        <button class="btn btn-primary" onclick="saveShop()">💾 Save Shop</button>
+        <button class="btn btn-success" onclick="shareApp()"> Share App</button>
+        <button class="btn btn-warning" onclick="clearForm('shop')">🔄 Clear Form</button>
     </div>
 
-    <!-- Add New Food Item with Image Upload -->
+    <!-- Add/Edit Food Form -->
     <div class="section">
-        <h2>🍕 Add New Food Item</h2>
+        <h2 id="foodFormTitle">🍕 Add New Food Item</h2>
+        
+        <input type="hidden" id="editFoodId" value="">
         
         <div class="form-group">
             <label>Select Shop</label>
@@ -196,16 +241,25 @@
         
         <div class="form-group">
             <label>Food Image</label>
-            <div class="upload-area" onclick="document.getElementById('foodImageUpload').click()">
-                <div style="font-size: 48px;">📷</div>
-                <p>Click to upload food image</p>
+            <div class="image-option">
+                <button onclick="selectFoodImageMethod('upload')" id="foodUploadBtn" class="active">📷 Upload</button>
+                <button onclick="selectFoodImageMethod('url')" id="foodUrlBtn"> URL</button>
             </div>
-            <input type="file" id="foodImageUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(this, 'foodImagePreview')">
-            <div class="image-preview" id="foodImagePreview" style="display: none;">
-                <img src="" alt="Preview">
-                <p style="margin-top: 10px; font-size: 12px; color: #666;">Image uploaded!</p>
+            
+            <div id="foodUploadSection">
+                <div class="upload-area" onclick="document.getElementById('foodImageUpload').click()">
+                    <div style="font-size: 48px;"></div>
+                    <p>Click to upload food image</p>
+                </div>
+                <input type="file" id="foodImageUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(this, 'food')">
+                <div class="image-preview" id="foodImagePreview" style="display: none;">
+                    <img src="" alt="Preview">
+                </div>
             </div>
-            <input type="hidden" id="foodImageURL">
+            
+            <div id="foodUrlSection" class="hidden-field">
+                <input type="text" id="foodImageURL" placeholder="https://example.com/image.jpg">
+            </div>
         </div>
         
         <div class="form-group">
@@ -218,19 +272,27 @@
             <textarea id="foodDescription" rows="3" placeholder="Description..."></textarea>
         </div>
         
-        <button class="btn btn-primary" onclick="addFood()">💾 Save Food</button>
+        <button class="btn btn-primary" onclick="saveFood()">💾 Save Food</button>
+        <button class="btn btn-warning" onclick="clearForm('food')">🔄 Clear Form</button>
     </div>
 
-    <!-- All Shops -->
+    <!-- All Shops with Edit/Delete -->
     <div class="section">
-        <h2>🏪 All Shops</h2>
+        <h2>🏪 All Shops <button onclick="deleteAllShops()" class="btn btn-danger" style="float: right; padding: 8px 15px; font-size: 14px;">🗑️ Delete All</button></h2>
         <div class="item-list" id="shopsList"></div>
     </div>
 
-    <!-- All Foods -->
+    <!-- All Foods with Edit/Delete -->
     <div class="section">
-        <h2>🍔 All Foods</h2>
+        <h2>🍔 All Foods <button onclick="deleteAllFoods()" class="btn btn-danger" style="float: right; padding: 8px 15px; font-size: 14px;">🗑️ Delete All</button></h2>
         <div class="item-list" id="foodsList"></div>
+    </div>
+
+    <!-- Danger Zone -->
+    <div class="danger-zone">
+        <h3>⚠️ Danger Zone</h3>
+        <p style="margin-bottom: 15px; color: #666;">These actions cannot be undone. Be careful!</p>
+        <button onclick="clearAllData()" class="btn btn-danger">🗑️ Delete ALL Data (Shops + Foods + Orders)</button>
     </div>
 
     <script>
@@ -245,7 +307,6 @@
             appId: "1:1025149369233:web:245f846d959274ee487830"
         };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
         const storage = firebase.storage();
@@ -253,6 +314,8 @@
         let shops = [];
         let foods = [];
         let orders = [];
+        let shopImageUploadMode = 'upload';
+        let foodImageUploadMode = 'upload';
 
         document.addEventListener('DOMContentLoaded', () => {
             loadShops();
@@ -267,26 +330,54 @@
             document.getElementById('shopCategory').value = category;
         }
 
-        // Image Upload Handler
-        function handleImageUpload(input, previewId) {
+        // Image Method Selection
+        function selectImageMethod(method) {
+            shopImageUploadMode = method;
+            if (method === 'upload') {
+                document.getElementById('uploadSection').classList.remove('hidden-field');
+                document.getElementById('urlSection').classList.add('hidden-field');
+                document.getElementById('uploadBtn').classList.add('active');
+                document.getElementById('urlBtn').classList.remove('active');
+            } else {
+                document.getElementById('uploadSection').classList.add('hidden-field');
+                document.getElementById('urlSection').classList.remove('hidden-field');
+                document.getElementById('uploadBtn').classList.remove('active');
+                document.getElementById('urlBtn').classList.add('active');
+            }
+        }
+
+        function selectFoodImageMethod(method) {
+            foodImageUploadMode = method;
+            if (method === 'upload') {
+                document.getElementById('foodUploadSection').classList.remove('hidden-field');
+                document.getElementById('foodUrlSection').classList.add('hidden-field');
+                document.getElementById('foodUploadBtn').classList.add('active');
+                document.getElementById('foodUrlBtn').classList.remove('active');
+            } else {
+                document.getElementById('foodUploadSection').classList.add('hidden-field');
+                document.getElementById('foodUrlSection').classList.remove('hidden-field');
+                document.getElementById('foodUploadBtn').classList.remove('active');
+                document.getElementById('foodUrlBtn').classList.add('active');
+            }
+        }
+
+        // Image Upload
+        function handleImageUpload(input, type) {
             const file = input.files[0];
             if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    // Show preview
+                    const previewId = type === 'shop' ? 'shopImagePreview' : 'foodImagePreview';
                     document.getElementById(previewId).style.display = 'block';
                     document.getElementById(previewId).querySelector('img').src = e.target.result;
                     
-                    // Upload to Firebase Storage
                     const storageRef = storage.ref();
                     const imageRef = storageRef.child('images/' + Date.now() + '_' + file.name);
                     
                     imageRef.putString(e.target.result, 'data_url')
-                        .then(snapshot => {
-                            return snapshot.getDownloadURL();
-                        })
+                        .then(snapshot => snapshot.getDownloadURL())
                         .then(downloadURL => {
-                            if (previewId === 'shopImagePreview') {
+                            if (type === 'shop') {
                                 document.getElementById('shopImageURL').value = downloadURL;
                             } else {
                                 document.getElementById('foodImageURL').value = downloadURL;
@@ -302,22 +393,215 @@
             }
         }
 
-        // Share App Function
+        // Save Shop (Add or Edit)
+        function saveShop() {
+            const editId = document.getElementById('editShopId').value;
+            const imageUrl = shopImageUploadMode === 'url' ? 
+                document.getElementById('shopImageURL').value : 
+                document.getElementById('shopImageURL').value;
+            
+            const shop = {
+                name: document.getElementById('shopName').value,
+                category: document.getElementById('shopCategory').value,
+                image: imageUrl || 'https://via.placeholder.com/500',
+                phone: document.getElementById('shopPhone').value,
+                deliveryTime: document.getElementById('shopDeliveryTime').value,
+                deliveryFee: parseInt(document.getElementById('shopDeliveryFee').value) || 150,
+                rating: parseFloat(document.getElementById('shopRating').value) || 4.0,
+                tags: document.getElementById('shopTags').value.split(',').map(t => t.trim()),
+                isFeatured: document.getElementById('isFeatured').checked,
+                updatedAt: Date.now()
+            };
+
+            if (!shop.name) {
+                alert('Shop name එක දෙන්න!');
+                return;
+            }
+
+            if (editId) {
+                // Edit existing
+                database.ref('shops').child(editId).update(shop).then(() => {
+                    alert('✅ Shop updated successfully!');
+                    cancelEdit();
+                });
+            } else {
+                // Add new
+                shop.createdAt = Date.now();
+                database.ref('shops').push(shop).then(() => {
+                    alert('✅ Shop added successfully!');
+                    clearForm('shop');
+                });
+            }
+        }
+
+        // Save Food (Add or Edit)
+        function saveFood() {
+            const editId = document.getElementById('editFoodId').value;
+            const imageUrl = foodImageUploadMode === 'url' ? 
+                document.getElementById('foodImageURL').value : 
+                document.getElementById('foodImageURL').value;
+            
+            const food = {
+                shopId: document.getElementById('foodShop').value,
+                name: document.getElementById('foodName').value,
+                image: imageUrl || 'https://via.placeholder.com/500',
+                price: parseInt(document.getElementById('foodPrice').value) || 0,
+                description: document.getElementById('foodDescription').value,
+                updatedAt: Date.now()
+            };
+
+            if (!food.name) {
+                alert('Food name එක දෙන්න!');
+                return;
+            }
+
+            if (editId) {
+                database.ref('foods').child(editId).update(food).then(() => {
+                    alert('✅ Food updated successfully!');
+                    cancelEdit();
+                });
+            } else {
+                food.createdAt = Date.now();
+                database.ref('foods').push(food).then(() => {
+                    alert('✅ Food added successfully!');
+                    clearForm('food');
+                });
+            }
+        }
+
+        // Edit Functions
+        function editShop(id) {
+            const shop = shops.find(s => s.id === id);
+            if (!shop) return;
+
+            document.getElementById('editShopId').value = id;
+            document.getElementById('shopName').value = shop.name;
+            document.getElementById('shopCategory').value = shop.category || 'Restaurant';
+            document.getElementById('shopPhone').value = shop.phone;
+            document.getElementById('shopDeliveryTime').value = shop.deliveryTime;
+            document.getElementById('shopDeliveryFee').value = shop.deliveryFee;
+            document.getElementById('shopRating').value = shop.rating;
+            document.getElementById('shopTags').value = shop.tags ? shop.tags.join(', ') : '';
+            document.getElementById('isFeatured').checked = shop.isFeatured || false;
+            document.getElementById('shopImageURL').value = shop.image;
+
+            // Show preview
+            document.getElementById('shopImagePreview').style.display = 'block';
+            document.getElementById('shopImagePreview').querySelector('img').src = shop.image;
+
+            // Update UI
+            document.getElementById('shopFormTitle').textContent = '️ Edit Shop';
+            document.getElementById('editModeIndicator').style.display = 'block';
+            document.getElementById('editItemName').textContent = shop.name;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function editFood(id) {
+            const food = foods.find(f => f.id === id);
+            if (!food) return;
+
+            document.getElementById('editFoodId').value = id;
+            document.getElementById('foodShop').value = food.shopId;
+            document.getElementById('foodName').value = food.name;
+            document.getElementById('foodPrice').value = food.price;
+            document.getElementById('foodDescription').value = food.description || '';
+            document.getElementById('foodImageURL').value = food.image;
+
+            document.getElementById('foodImagePreview').style.display = 'block';
+            document.getElementById('foodImagePreview').querySelector('img').src = food.image;
+
+            document.getElementById('foodFormTitle').textContent = '✏️ Edit Food';
+            document.getElementById('editModeIndicator').style.display = 'block';
+            document.getElementById('editItemName').textContent = food.name;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function cancelEdit() {
+            document.getElementById('editShopId').value = '';
+            document.getElementById('editFoodId').value = '';
+            document.getElementById('shopFormTitle').textContent = '🏪 Add New Shop';
+            document.getElementById('foodFormTitle').textContent = '🍕 Add New Food Item';
+            document.getElementById('editModeIndicator').style.display = 'none';
+            clearForm('shop');
+            clearForm('food');
+        }
+
+        // Delete Functions
+        function deleteShop(id) {
+            if (confirm('Delete this shop? This will also delete all its foods.')) {
+                database.ref('shops').child(id).remove();
+                // Delete associated foods
+                const shopFoods = foods.filter(f => f.shopId === id);
+                shopFoods.forEach(food => {
+                    database.ref('foods').child(food.id).remove();
+                });
+            }
+        }
+
+        function deleteFood(id) {
+            if (confirm('Delete this food item?')) {
+                database.ref('foods').child(id).remove();
+            }
+        }
+
+        function deleteAllShops() {
+            if (confirm('⚠️ Delete ALL shops? This cannot be undone!')) {
+                database.ref('shops').remove();
+            }
+        }
+
+        function deleteAllFoods() {
+            if (confirm('⚠️ Delete ALL foods? This cannot be undone!')) {
+                database.ref('foods').remove();
+            }
+        }
+
+        function clearAllData() {
+            if (confirm('⚠️⚠️️ DELETE EVERYTHING? This will delete all shops, foods, and orders! This CANNOT be undone!')) {
+                if (confirm('Are you absolutely sure?')) {
+                    database.ref('shops').remove();
+                    database.ref('foods').remove();
+                    database.ref('orders').remove();
+                    alert('All data deleted!');
+                    location.reload();
+                }
+            }
+        }
+
+        function clearForm(type) {
+            if (type === 'shop') {
+                document.getElementById('shopName').value = '';
+                document.getElementById('shopPhone').value = '';
+                document.getElementById('shopDeliveryTime').value = '';
+                document.getElementById('shopDeliveryFee').value = '';
+                document.getElementById('shopRating').value = '';
+                document.getElementById('shopTags').value = '';
+                document.getElementById('shopImageURL').value = '';
+                document.getElementById('shopImagePreview').style.display = 'none';
+                document.getElementById('isFeatured').checked = false;
+            } else {
+                document.getElementById('foodName').value = '';
+                document.getElementById('foodPrice').value = '';
+                document.getElementById('foodDescription').value = '';
+                document.getElementById('foodImageURL').value = '';
+                document.getElementById('foodImagePreview').style.display = 'none';
+            }
+        }
+
         function shareApp() {
             const shareData = {
                 title: 'FoodHub - ආහාර Delivery',
-                text: 'හොඳම ආහාර delivery app එක! දැන්ම order කරන්න!',
+                text: 'හොඳම හාර delivery app එක! දැන්ම order කරන්න!',
                 url: 'https://chinthakanuwan.github.io/foodhub/'
             };
 
             if (navigator.share) {
-                navigator.share(shareData)
-                    .then(() => console.log('Shared successfully'))
-                    .catch((error) => console.log('Error sharing', error));
+                navigator.share(shareData);
             } else {
-                // Fallback - copy to clipboard
-                navigator.clipboard.writeText(shareData.url)
-                    .then(() => alert('✅ Link copied to clipboard! Share it on WhatsApp/Facebook'));
+                navigator.clipboard.writeText(shareData.url);
+                alert('✅ Link copied to clipboard!');
             }
         }
 
@@ -325,7 +609,7 @@
         function loadShops() {
             database.ref('shops').on('value', (snapshot) => {
                 const data = snapshot.val();
-                shops = data ? Object.values(data) : [];
+                shops = data ? Object.values(data).map(s => ({...s, id: snapshot.ref.key})) : [];
                 updateStats();
                 renderShops();
                 updateShopSelect();
@@ -335,7 +619,7 @@
         function loadFoods() {
             database.ref('foods').on('value', (snapshot) => {
                 const data = snapshot.val();
-                foods = data ? Object.values(data) : [];
+                foods = data ? Object.values(data).map(f => ({...f, id: snapshot.ref.key})) : [];
                 updateStats();
                 renderFoods();
             });
@@ -360,62 +644,6 @@
             select.innerHTML = shops.map(shop => `<option value="${shop.id}">${shop.name}</option>`).join('');
         }
 
-        function addShop() {
-            const shop = {
-                name: document.getElementById('shopName').value,
-                category: document.getElementById('shopCategory').value,
-                image: document.getElementById('shopImageURL').value || 'https://via.placeholder.com/500',
-                phone: document.getElementById('shopPhone').value,
-                deliveryTime: document.getElementById('shopDeliveryTime').value,
-                deliveryFee: parseInt(document.getElementById('shopDeliveryFee').value) || 150,
-                rating: parseFloat(document.getElementById('shopRating').value) || 4.0,
-                tags: document.getElementById('shopTags').value.split(',').map(t => t.trim()),
-                isFeatured: document.getElementById('isFeatured').checked,
-                createdAt: Date.now()
-            };
-
-            if (!shop.name) {
-                alert('Shop name එක දෙන්න!');
-                return;
-            }
-
-            database.ref('shops').push(shop).then(() => {
-                alert('✅ Shop added successfully!');
-                // Clear form
-                document.getElementById('shopName').value = '';
-                document.getElementById('shopImageURL').value = '';
-                document.getElementById('shopPhone').value = '';
-                document.getElementById('shopImagePreview').style.display = 'none';
-            }).catch(error => {
-                alert('❌ Error: ' + error.message);
-            });
-        }
-
-        function addFood() {
-            const food = {
-                shopId: document.getElementById('foodShop').value,
-                name: document.getElementById('foodName').value,
-                image: document.getElementById('foodImageURL').value || 'https://via.placeholder.com/500',
-                price: parseInt(document.getElementById('foodPrice').value) || 0,
-                description: document.getElementById('foodDescription').value,
-                createdAt: Date.now()
-            };
-
-            if (!food.name) {
-                alert('Food name එක දෙන්න!');
-                return;
-            }
-
-            database.ref('foods').push(food).then(() => {
-                alert('✅ Food added successfully!');
-                document.getElementById('foodName').value = '';
-                document.getElementById('foodImageURL').value = '';
-                document.getElementById('foodImagePreview').style.display = 'none';
-            }).catch(error => {
-                alert('❌ Error: ' + error.message);
-            });
-        }
-
         function renderShops() {
             const list = document.getElementById('shopsList');
             if (shops.length === 0) {
@@ -429,7 +657,10 @@
                         <div style="font-weight: bold;">${shop.name} ${shop.isFeatured ? '⭐' : ''}</div>
                         <div style="font-size: 12px; color: #666;">📞 ${shop.phone} | ⏱️ ${shop.deliveryTime}</div>
                     </div>
-                    <button class="btn btn-danger" onclick="deleteShop('${shop.id}')">Delete</button>
+                    <div>
+                        <button class="btn btn-warning" onclick="editShop('${shop.id}')" style="padding: 8px 15px; margin-bottom: 5px;">✏️ Edit</button>
+                        <button class="btn btn-danger" onclick="deleteShop('${shop.id}')" style="padding: 8px 15px;">🗑️ Delete</button>
+                    </div>
                 </div>
             `).join('');
         }
@@ -449,22 +680,13 @@
                             <div style="font-weight: bold;">${food.name}</div>
                             <div style="font-size: 12px; color: #666;">${shop ? shop.name : ''} | Rs. ${food.price}</div>
                         </div>
-                        <button class="btn btn-danger" onclick="deleteFood('${food.id}')">Delete</button>
+                        <div>
+                            <button class="btn btn-warning" onclick="editFood('${food.id}')" style="padding: 8px 15px; margin-bottom: 5px;">️ Edit</button>
+                            <button class="btn btn-danger" onclick="deleteFood('${food.id}')" style="padding: 8px 15px;">🗑️ Delete</button>
+                        </div>
                     </div>
                 `;
             }).join('');
-        }
-
-        function deleteShop(id) {
-            if (confirm('Delete this shop?')) {
-                database.ref('shops').child(id).remove();
-            }
-        }
-
-        function deleteFood(id) {
-            if (confirm('Delete this food item?')) {
-                database.ref('foods').child(id).remove();
-            }
         }
     </script>
 </body>
