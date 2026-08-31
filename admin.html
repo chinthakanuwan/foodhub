@@ -30,6 +30,8 @@
         .stat-card { background: white; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .stat-value { font-size: 32px; font-weight: bold; color: #667eea; margin-bottom: 5px; }
         .stat-label { color: #666; }
+        .banner-preview { margin-top: 10px; border: 2px dashed #ddd; padding: 10px; text-align: center; }
+        .banner-preview img { max-width: 100%; max-height: 150px; border-radius: 5px; }
     </style>
 </head>
 <body>
@@ -42,12 +44,54 @@
         <div class="stat-card"><div class="stat-value" id="totalShops">0</div><div class="stat-label">Total Shops</div></div>
         <div class="stat-card"><div class="stat-value" id="totalFoods">0</div><div class="stat-label">Total Foods</div></div>
         <div class="stat-card"><div class="stat-value" id="totalOrders">0</div><div class="stat-label">Total Orders</div></div>
+        <div class="stat-card"><div class="stat-value" id="totalAds">0</div><div class="stat-label">Active Ads</div></div>
     </div>
 
     <div class="ad-section">
         <h3>📢 Shop Advertisement</h3>
         <p>Shops can pay to advertise their shop on the top of the app</p>
         <p style="margin-top: 10px;"><strong>Price: Rs. 500/week | Rs. 1500/month</strong></p>
+    </div>
+
+    <!-- Banner Ad Management -->
+    <div class="section">
+        <h2>🎨 Add Banner Advertisement</h2>
+        <div class="form-group">
+            <label>Ad Title</label>
+            <input type="text" id="adTitle" placeholder="e.g., Pizza Hut Special Offer">
+        </div>
+        <div class="form-group">
+            <label>Banner Image URL</label>
+            <input type="text" id="adImageUrl" placeholder="https://..." oninput="previewAd()">
+        </div>
+        <div class="form-group">
+            <label>Click URL (Optional)</label>
+            <input type="text" id="adClickUrl" placeholder="https://... (User goes here when clicking)">
+        </div>
+        <div class="form-group">
+            <label>Position</label>
+            <select id="adPosition">
+                <option value="top">Top (Shops tab - 200px height)</option>
+                <option value="middle">Middle (Shops tab - 250px height)</option>
+                <option value="bottom">Bottom (Foods tab - 200px height)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="adActive" checked style="margin-right: 10px;">
+                <strong>Active</strong>
+            </label>
+        </div>
+        <div class="banner-preview" id="bannerPreview">
+            <p style="color: #999;">Banner preview will appear here</p>
+        </div>
+        <button class="btn btn-primary" onclick="addBannerAd()" style="margin-top: 15px;">Add Banner Ad</button>
+    </div>
+
+    <!-- Existing Banner Ads -->
+    <div class="section">
+        <h2>📱 Active Banner Ads</h2>
+        <div class="item-list" id="bannerAdsList"></div>
     </div>
 
     <div class="section">
@@ -59,11 +103,18 @@
         <div class="form-group"><label>Delivery Fee (Rs.)</label><input type="number" id="shopDeliveryFee" placeholder="150"></div>
         <div class="form-group"><label>Rating</label><input type="number" id="shopRating" placeholder="4.5" step="0.1"></div>
         <div class="form-group"><label>Tags (comma separated)</label><input type="text" id="shopTags" placeholder="Pizza, Italian, Fast Food"></div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="isFeatured" style="margin-right: 10px;">
+                <strong>⭐ Featured Shop (මුදල් ගෙව කඩ)</strong>
+            </label>
+            <p style="font-size: 12px; color: #666; margin-top: 5px;">මේක select කළොත් shop එක app එකේ ඩින්ම පේනවා (Rs. 500/week)</p>
+        </div>
         <button class="btn btn-primary" onclick="addShop()">Add Shop</button>
     </div>
 
     <div class="section">
-        <h2> Add New Food Item</h2>
+        <h2>🍕 Add New Food Item</h2>
         <div class="form-group"><label>Select Shop</label><select id="foodShop"></select></div>
         <div class="form-group"><label>Food Name</label><input type="text" id="foodName" placeholder="e.g., Margherita Pizza"></div>
         <div class="form-group"><label>Food Image URL</label><input type="text" id="foodImage" placeholder="https://..."></div>
@@ -78,12 +129,12 @@
     </div>
 
     <div class="section">
-        <h2>🍔 All Foods</h2>
+        <h2> All Foods</h2>
         <div class="item-list" id="foodsList"></div>
     </div>
 
     <script>
-        // Firebase Configuration - ඔයාගේ Config
+        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDduouixF2IW568mND20cfxmnBNxQfRkrg",
             authDomain: "foodhub-app-6632c.firebaseapp.com",
@@ -101,13 +152,86 @@
         let shops = [];
         let foods = [];
         let orders = [];
+        let bannerAds = [];
 
         document.addEventListener('DOMContentLoaded', () => {
             loadShops();
             loadFoods();
             loadOrders();
+            loadBannerAds();
         });
 
+        // Banner Ad Functions
+        function previewAd() {
+            const imageUrl = document.getElementById('adImageUrl').value;
+            const preview = document.getElementById('bannerPreview');
+            if (imageUrl) {
+                preview.innerHTML = `<img src="${imageUrl}" alt="Preview" onerror="this.src='https://via.placeholder.com/300x150?text=Invalid+Image+URL'">`;
+            } else {
+                preview.innerHTML = '<p style="color: #999;">Banner preview will appear here</p>';
+            }
+        }
+
+        function loadBannerAds() {
+            database.ref('bannerAds').on('value', (snapshot) => {
+                const data = snapshot.val();
+                bannerAds = data ? Object.values(data) : [];
+                document.getElementById('totalAds').textContent = bannerAds.filter(ad => ad.active).length;
+                renderBannerAds();
+            });
+        }
+
+        function addBannerAd() {
+            const ad = {
+                title: document.getElementById('adTitle').value,
+                imageUrl: document.getElementById('adImageUrl').value,
+                clickUrl: document.getElementById('adClickUrl').value,
+                position: document.getElementById('adPosition').value,
+                active: document.getElementById('adActive').checked,
+                createdAt: Date.now()
+            };
+
+            if (!ad.title || !ad.imageUrl) {
+                alert('Ad Title and Image URL are required!');
+                return;
+            }
+
+            database.ref('bannerAds').push(ad).then(() => {
+                alert('✅ Banner Ad added successfully!');
+                document.getElementById('adTitle').value = '';
+                document.getElementById('adImageUrl').value = '';
+                document.getElementById('adClickUrl').value = '';
+                document.getElementById('bannerPreview').innerHTML = '<p style="color: #999;">Banner preview will appear here</p>';
+            }).catch(error => {
+                alert('❌ Error: ' + error.message);
+            });
+        }
+
+        function renderBannerAds() {
+            const list = document.getElementById('bannerAdsList');
+            if (bannerAds.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">No banner ads yet</p>';
+                return;
+            }
+            list.innerHTML = bannerAds.map(ad => `
+                <div class="item-card">
+                    <img src="${ad.imageUrl}" alt="${ad.title}" onerror="this.src='https://via.placeholder.com/60'">
+                    <div class="item-info">
+                        <div style="font-weight: bold;">${ad.title}</div>
+                        <div style="font-size: 12px; color: #666;">Position: ${ad.position} | Status: ${ad.active ? '✅ Active' : '❌ Inactive'}</div>
+                    </div>
+                    <button class="btn btn-danger" onclick="deleteBannerAd('${ad.id || ad.createdAt}')">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteBannerAd(id) {
+            if (confirm('Delete this banner ad?')) {
+                database.ref('bannerAds').child(id).remove();
+            }
+        }
+
+        // Existing Functions
         function loadShops() {
             database.ref('shops').on('value', (snapshot) => {
                 const data = snapshot.val();
@@ -155,6 +279,7 @@
                 deliveryFee: parseInt(document.getElementById('shopDeliveryFee').value) || 150,
                 rating: parseFloat(document.getElementById('shopRating').value) || 4.0,
                 tags: document.getElementById('shopTags').value.split(',').map(t => t.trim()),
+                isFeatured: document.getElementById('isFeatured').checked,
                 createdAt: Date.now()
             };
 
@@ -172,6 +297,7 @@
                 document.getElementById('shopDeliveryFee').value = '';
                 document.getElementById('shopRating').value = '';
                 document.getElementById('shopTags').value = '';
+                document.getElementById('isFeatured').checked = false;
             }).catch(error => {
                 alert('❌ Error: ' + error.message);
             });
@@ -211,9 +337,9 @@
             }
             list.innerHTML = shops.map(shop => `
                 <div class="item-card">
-                    <img src="${shop.image}" alt="${shop.name}">
+                    <img src="${shop.image}" alt="${shop.name}" onerror="this.src='https://via.placeholder.com/60'">
                     <div class="item-info">
-                        <div style="font-weight: bold;">${shop.name}</div>
+                        <div style="font-weight: bold;">${shop.name} ${shop.isFeatured ? '⭐' : ''}</div>
                         <div style="font-size: 12px; color: #666;">📞 ${shop.phone} | ⏱️ ${shop.deliveryTime}</div>
                     </div>
                     <button class="btn btn-danger" onclick="deleteShop('${shop.id}')">Delete</button>
@@ -231,7 +357,7 @@
                 const shop = shops.find(s => s.id === food.shopId);
                 return `
                     <div class="item-card">
-                        <img src="${food.image}" alt="${food.name}">
+                        <img src="${food.image}" alt="${food.name}" onerror="this.src='https://via.placeholder.com/60'">
                         <div class="item-info">
                             <div style="font-weight: bold;">${food.name}</div>
                             <div style="font-size: 12px; color: #666;">${shop ? shop.name : ''} | Rs. ${food.price}</div>
