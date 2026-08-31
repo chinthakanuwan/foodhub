@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - FoodHub</title>
+    
+    <!-- Firebase SDK (Compat version) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; padding: 20px; }
@@ -40,7 +45,7 @@
     </div>
 
     <div class="ad-section">
-        <h3> Shop Advertisement</h3>
+        <h3>📢 Shop Advertisement</h3>
         <p>Shops can pay to advertise their shop on the top of the app</p>
         <p style="margin-top: 10px;"><strong>Price: Rs. 500/week | Rs. 1500/month</strong></p>
     </div>
@@ -58,7 +63,7 @@
     </div>
 
     <div class="section">
-        <h2>🍕 Add New Food Item</h2>
+        <h2> Add New Food Item</h2>
         <div class="form-group"><label>Select Shop</label><select id="foodShop"></select></div>
         <div class="form-group"><label>Food Name</label><input type="text" id="foodName" placeholder="e.g., Margherita Pizza"></div>
         <div class="form-group"><label>Food Image URL</label><input type="text" id="foodImage" placeholder="https://..."></div>
@@ -73,16 +78,62 @@
     </div>
 
     <div class="section">
-        <h2> All Foods</h2>
+        <h2>🍔 All Foods</h2>
         <div class="item-list" id="foodsList"></div>
     </div>
 
     <script>
-        let shops = JSON.parse(localStorage.getItem('shops')) || [];
-        let foods = JSON.parse(localStorage.getItem('foods')) || [];
-        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        // Firebase Configuration - ඔයාගේ Config
+        const firebaseConfig = {
+            apiKey: "AIzaSyDduouixF2IW568mND20cfxmnBNxQfRkrg",
+            authDomain: "foodhub-app-6632c.firebaseapp.com",
+            databaseURL: "https://foodhub-app-6632c-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "foodhub-app-6632c",
+            storageBucket: "foodhub-app-6632c.firebasestorage.app",
+            messagingSenderId: "1025149369233",
+            appId: "1:1025149369233:web:245f846d959274ee487830"
+        };
 
-        document.addEventListener('DOMContentLoaded', () => { updateStats(); renderShops(); renderFoods(); updateShopSelect(); });
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        let shops = [];
+        let foods = [];
+        let orders = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadShops();
+            loadFoods();
+            loadOrders();
+        });
+
+        function loadShops() {
+            database.ref('shops').on('value', (snapshot) => {
+                const data = snapshot.val();
+                shops = data ? Object.values(data) : [];
+                updateStats();
+                renderShops();
+                updateShopSelect();
+            });
+        }
+
+        function loadFoods() {
+            database.ref('foods').on('value', (snapshot) => {
+                const data = snapshot.val();
+                foods = data ? Object.values(data) : [];
+                updateStats();
+                renderFoods();
+            });
+        }
+
+        function loadOrders() {
+            database.ref('orders').on('value', (snapshot) => {
+                const data = snapshot.val();
+                orders = data ? Object.values(data) : [];
+                updateStats();
+            });
+        }
 
         function updateStats() {
             document.getElementById('totalShops').textContent = shops.length;
@@ -91,52 +142,117 @@
         }
 
         function updateShopSelect() {
-            document.getElementById('foodShop').innerHTML = shops.map(shop => `<option value="${shop.id}">${shop.name}</option>`).join('');
+            const select = document.getElementById('foodShop');
+            select.innerHTML = shops.map(shop => `<option value="${shop.id}">${shop.name}</option>`).join('');
         }
 
         function addShop() {
-            const shop = { id: Date.now(), name: document.getElementById('shopName').value, image: document.getElementById('shopImage').value || 'https://via.placeholder.com/500', phone: document.getElementById('shopPhone').value, deliveryTime: document.getElementById('shopDeliveryTime').value, deliveryFee: parseInt(document.getElementById('shopDeliveryFee').value), rating: parseFloat(document.getElementById('shopRating').value), tags: document.getElementById('shopTags').value.split(',').map(t => t.trim()) };
-            shops.push(shop);
-            localStorage.setItem('shops', JSON.stringify(shops));
-            alert('Shop added successfully!');
-            updateStats(); renderShops(); updateShopSelect();
-            document.getElementById('shopName').value = ''; document.getElementById('shopImage').value = ''; document.getElementById('shopPhone').value = '';
+            const shop = {
+                name: document.getElementById('shopName').value,
+                image: document.getElementById('shopImage').value || 'https://via.placeholder.com/500',
+                phone: document.getElementById('shopPhone').value,
+                deliveryTime: document.getElementById('shopDeliveryTime').value,
+                deliveryFee: parseInt(document.getElementById('shopDeliveryFee').value) || 150,
+                rating: parseFloat(document.getElementById('shopRating').value) || 4.0,
+                tags: document.getElementById('shopTags').value.split(',').map(t => t.trim()),
+                createdAt: Date.now()
+            };
+
+            if (!shop.name) {
+                alert('Shop name එක දෙන්න!');
+                return;
+            }
+
+            database.ref('shops').push(shop).then(() => {
+                alert('✅ Shop added successfully! සියලුම අයට දැන් පේනවා!');
+                document.getElementById('shopName').value = '';
+                document.getElementById('shopImage').value = '';
+                document.getElementById('shopPhone').value = '';
+                document.getElementById('shopDeliveryTime').value = '';
+                document.getElementById('shopDeliveryFee').value = '';
+                document.getElementById('shopRating').value = '';
+                document.getElementById('shopTags').value = '';
+            }).catch(error => {
+                alert('❌ Error: ' + error.message);
+            });
         }
 
         function addFood() {
-            const food = { id: Date.now(), shopId: parseInt(document.getElementById('foodShop').value), name: document.getElementById('foodName').value, image: document.getElementById('foodImage').value || 'https://via.placeholder.com/500', price: parseInt(document.getElementById('foodPrice').value), description: document.getElementById('foodDescription').value };
-            foods.push(food);
-            localStorage.setItem('foods', JSON.stringify(foods));
-            alert('Food item added successfully!');
-            updateStats(); renderFoods();
-            document.getElementById('foodName').value = ''; document.getElementById('foodImage').value = ''; document.getElementById('foodPrice').value = ''; document.getElementById('foodDescription').value = '';
+            const food = {
+                shopId: document.getElementById('foodShop').value,
+                name: document.getElementById('foodName').value,
+                image: document.getElementById('foodImage').value || 'https://via.placeholder.com/500',
+                price: parseInt(document.getElementById('foodPrice').value) || 0,
+                description: document.getElementById('foodDescription').value,
+                createdAt: Date.now()
+            };
+
+            if (!food.name) {
+                alert('Food name එක දෙන්න!');
+                return;
+            }
+
+            database.ref('foods').push(food).then(() => {
+                alert('✅ Food added successfully! සියලුම අයට දැන් පේනවා!');
+                document.getElementById('foodName').value = '';
+                document.getElementById('foodImage').value = '';
+                document.getElementById('foodPrice').value = '';
+                document.getElementById('foodDescription').value = '';
+            }).catch(error => {
+                alert('❌ Error: ' + error.message);
+            });
         }
 
         function renderShops() {
-            document.getElementById('shopsList').innerHTML = shops.map(shop => `
+            const list = document.getElementById('shopsList');
+            if (shops.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">No shops yet</p>';
+                return;
+            }
+            list.innerHTML = shops.map(shop => `
                 <div class="item-card">
                     <img src="${shop.image}" alt="${shop.name}">
-                    <div class="item-info"><div style="font-weight: bold;">${shop.name}</div><div style="font-size: 12px; color: #666;">📞 ${shop.phone} | ⏱️ ${shop.deliveryTime}</div></div>
-                    <button class="btn btn-danger" onclick="deleteShop(${shop.id})">Delete</button>
+                    <div class="item-info">
+                        <div style="font-weight: bold;">${shop.name}</div>
+                        <div style="font-size: 12px; color: #666;">📞 ${shop.phone} | ⏱️ ${shop.deliveryTime}</div>
+                    </div>
+                    <button class="btn btn-danger" onclick="deleteShop('${shop.id}')">Delete</button>
                 </div>
             `).join('');
         }
 
         function renderFoods() {
-            document.getElementById('foodsList').innerHTML = foods.map(food => {
+            const list = document.getElementById('foodsList');
+            if (foods.length === 0) {
+                list.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">No foods yet</p>';
+                return;
+            }
+            list.innerHTML = foods.map(food => {
                 const shop = shops.find(s => s.id === food.shopId);
                 return `
                     <div class="item-card">
                         <img src="${food.image}" alt="${food.name}">
-                        <div class="item-info"><div style="font-weight: bold;">${food.name}</div><div style="font-size: 12px; color: #666;">${shop ? shop.name : ''} | Rs. ${food.price}</div></div>
-                        <button class="btn btn-danger" onclick="deleteFood(${food.id})">Delete</button>
+                        <div class="item-info">
+                            <div style="font-weight: bold;">${food.name}</div>
+                            <div style="font-size: 12px; color: #666;">${shop ? shop.name : ''} | Rs. ${food.price}</div>
+                        </div>
+                        <button class="btn btn-danger" onclick="deleteFood('${food.id}')">Delete</button>
                     </div>
                 `;
             }).join('');
         }
 
-        function deleteShop(id) { if (confirm('Delete this shop?')) { shops = shops.filter(s => s.id !== id); localStorage.setItem('shops', JSON.stringify(shops)); updateStats(); renderShops(); updateShopSelect(); } }
-        function deleteFood(id) { if (confirm('Delete this food item?')) { foods = foods.filter(f => f.id !== id); localStorage.setItem('foods', JSON.stringify(foods)); updateStats(); renderFoods(); } }
+        function deleteShop(id) {
+            if (confirm('Delete this shop?')) {
+                database.ref('shops').child(id).remove();
+            }
+        }
+
+        function deleteFood(id) {
+            if (confirm('Delete this food item?')) {
+                database.ref('foods').child(id).remove();
+            }
+        }
     </script>
 </body>
 </html>
