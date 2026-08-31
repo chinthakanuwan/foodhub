@@ -8,7 +8,6 @@
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,88 +23,86 @@
         .btn-success { background: #4CAF50; color: white; }
         .btn-danger { background: #f44336; color: white; }
         .btn-warning { background: #FF9800; color: white; }
-        .btn-info { background: #2196F3; color: white; }
         .item-list { margin-top: 20px; }
         .item-card { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .item-card img { width: 80px; height: 80px; object-fit: cover; border-radius: 5px; margin-right: 15px; }
         .item-info { flex: 1; }
-        .ad-section { background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
         .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px; }
         .stat-card { background: white; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .stat-value { font-size: 32px; font-weight: bold; color: #667eea; margin-bottom: 5px; }
         .stat-label { color: #666; font-size: 14px; }
         
-        .upload-area {
-            border: 3px dashed #667eea;
-            border-radius: 10px;
-            padding: 30px;
-            text-align: center;
-            background: #f8f9ff;
-            cursor: pointer;
-            margin-bottom: 15px;
-        }
-        .upload-area:hover { background: #eef0ff; }
-        .image-preview {
-            margin-top: 10px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
+        /* Image Gallery Styles */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+            max-height: 400px;
+            overflow-y: auto;
             padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+        }
+        .gallery-item {
+            cursor: pointer;
+            border: 3px solid transparent;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .gallery-item:hover {
+            transform: scale(1.05);
+            border-color: #667eea;
+        }
+        .gallery-item.selected {
+            border-color: #4CAF50;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+        }
+        .gallery-item p {
+            font-size: 11px;
             text-align: center;
+            padding: 5px;
+            background: #f5f5f5;
+            margin: 0;
         }
-        .image-preview img {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 5px;
-        }
-        .category-tags {
+        .category-filter {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            margin-top: 10px;
-        }
-        .category-tag {
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            border: 2px solid #ddd;
-            transition: all 0.3s;
-        }
-        .category-tag.active {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-        .image-option {
-            display: flex;
-            gap: 10px;
             margin-bottom: 15px;
         }
-        .image-option button {
-            flex: 1;
-            padding: 10px;
+        .category-filter button {
+            padding: 8px 15px;
             border: 2px solid #ddd;
-            border-radius: 5px;
+            border-radius: 20px;
             background: white;
             cursor: pointer;
-            font-weight: 600;
+            font-size: 14px;
         }
-        .image-option button.active {
+        .category-filter button.active {
             background: #667eea;
             color: white;
             border-color: #667eea;
         }
-        .hidden-field { display: none; }
-        .danger-zone {
-            background: #ffebee;
-            border: 2px solid #f44336;
+        .selected-image-preview {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f0f8ff;
+            border: 2px solid #667eea;
             border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
+            text-align: center;
         }
-        .danger-zone h3 {
-            color: #f44336;
-            margin-bottom: 15px;
+        .selected-image-preview img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 5px;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -121,18 +118,6 @@
         <div class="stat-card"><div class="stat-value" id="totalOrders">0</div><div class="stat-label">Total Orders</div></div>
     </div>
 
-    <div class="ad-section">
-        <h3>📢 Shop Advertisement</h3>
-        <p>Shops can pay to advertise their shop on the top of the app</p>
-        <p style="margin-top: 10px;"><strong>Price: Rs. 500/week | Rs. 1500/month</strong></p>
-    </div>
-
-    <!-- Edit Mode Indicator -->
-    <div id="editModeIndicator" style="display: none; background: #FFF3CD; border: 2px solid #FFC107; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
-        <strong>✏️ Edit Mode</strong> - You are editing: <span id="editItemName"></span>
-        <button onclick="cancelEdit()" style="margin-left: 10px; padding: 5px 10px; background: #6c757d; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancel Edit</button>
-    </div>
-
     <!-- Add/Edit Shop Form -->
     <div class="section">
         <h2 id="shopFormTitle">🏪 Add New Shop</h2>
@@ -141,48 +126,38 @@
         
         <div class="form-group">
             <label>Shop Name</label>
-            <input type="text" id="shopName" placeholder="e.g., Pizza Hut">
+            <input type="text" id="shopName" placeholder="e.g., Silvas Family Restaurant">
         </div>
         
         <div class="form-group">
             <label>Category</label>
-            <div class="category-tags">
-                <div class="category-tag" onclick="selectCategory(this, 'Restaurant')">️ Restaurant</div>
-                <div class="category-tag" onclick="selectCategory(this, 'Fast Food')">🍔 Fast Food</div>
-                <div class="category-tag" onclick="selectCategory(this, 'Drinks')">🥤 Drinks</div>
-                <div class="category-tag" onclick="selectCategory(this, 'Flowers')">🌹 Flowers</div>
-                <div class="category-tag" onclick="selectCategory(this, 'Gifts')">🎁 Gifts</div>
-                <div class="category-tag" onclick="selectCategory(this, 'Desserts')"> Desserts</div>
-                <div class="category-tag" onclick="selectCategory(this, 'Cakes')">🎂 Cakes</div>
-                <div class="category-tag" onclick="selectCategory(this, 'Bakery')">🥐 Bakery</div>
-            </div>
-            <input type="hidden" id="shopCategory" value="Restaurant">
+            <select id="shopCategory" onchange="filterImages('shop')">
+                <option value="Restaurant">🍽️ Restaurant</option>
+                <option value="Fast Food">🍔 Fast Food</option>
+                <option value="Drinks">🥤 Drinks</option>
+                <option value="Flowers">🌹 Flowers</option>
+                <option value="Gifts">🎁 Gifts</option>
+                <option value="Desserts">🍰 Desserts</option>
+                <option value="Cakes">🎂 Cakes</option>
+                <option value="Bakery">🥐 Bakery</option>
+            </select>
         </div>
         
         <div class="form-group">
-            <label>Image Source</label>
-            <div class="image-option">
-                <button onclick="selectImageMethod('upload')" id="uploadBtn" class="active">📷 Upload from Device</button>
-                <button onclick="selectImageMethod('url')" id="urlBtn">🔗 Use URL</button>
+            <label>Select Image from Gallery</label>
+            <div class="category-filter" id="shopImageFilter">
+                <button onclick="filterShopImages('all')" class="active">All</button>
+                <button onclick="filterShopImages('restaurant')">Restaurant</button>
+                <button onclick="filterShopImages('food')">Food</button>
+                <button onclick="filterShopImages('general')">General</button>
             </div>
+            <div class="image-gallery" id="shopImageGallery"></div>
+            <input type="hidden" id="shopImageURL" value="">
             
-            <!-- Upload Option -->
-            <div id="uploadSection">
-                <div class="upload-area" onclick="document.getElementById('shopImageUpload').click()">
-                    <div style="font-size: 48px;">📷</div>
-                    <p>Click to upload image from your device</p>
-                </div>
-                <input type="file" id="shopImageUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(this, 'shop')">
-                <div class="image-preview" id="shopImagePreview" style="display: none;">
-                    <img src="" alt="Preview">
-                    <p style="margin-top: 10px; font-size: 12px; color: #666;">Image uploaded!</p>
-                </div>
-            </div>
-            
-            <!-- URL Option -->
-            <div id="urlSection" class="hidden-field">
-                <input type="text" id="shopImageURL" placeholder="https://example.com/image.jpg">
-                <p style="font-size: 12px; color: #666; margin-top: 5px;">You can use Google Drive, Imgur, or any image URL</p>
+            <div class="selected-image-preview" id="shopImagePreview" style="display: none;">
+                <strong>Selected Image:</strong>
+                <img src="" alt="Selected">
+                <p style="margin-top: 10px; font-size: 12px; color: #666;">Click on another image to change</p>
             </div>
         </div>
         
@@ -208,7 +183,7 @@
         
         <div class="form-group">
             <label>Tags (comma separated)</label>
-            <input type="text" id="shopTags" placeholder="Pizza, Italian, Fast Food">
+            <input type="text" id="shopTags" placeholder="Kottu, Rice & Curry, Fried Rice">
         </div>
         
         <div class="form-group">
@@ -218,8 +193,7 @@
             </label>
         </div>
         
-        <button class="btn btn-primary" onclick="saveShop()">💾 Save Shop</button>
-        <button class="btn btn-success" onclick="shareApp()"> Share App</button>
+        <button class="btn btn-primary" onclick="saveShop()"> Save Shop</button>
         <button class="btn btn-warning" onclick="clearForm('shop')">🔄 Clear Form</button>
     </div>
 
@@ -236,29 +210,36 @@
         
         <div class="form-group">
             <label>Food Name</label>
-            <input type="text" id="foodName" placeholder="e.g., Margherita Pizza">
+            <input type="text" id="foodName" placeholder="e.g., Fried Rice">
         </div>
         
         <div class="form-group">
-            <label>Food Image</label>
-            <div class="image-option">
-                <button onclick="selectFoodImageMethod('upload')" id="foodUploadBtn" class="active">📷 Upload</button>
-                <button onclick="selectFoodImageMethod('url')" id="foodUrlBtn"> URL</button>
+            <label>Category</label>
+            <select id="foodCategory" onchange="filterImages('food')">
+                <option value="Rice">🍚 Rice Dishes</option>
+                <option value="Kottu">🍗 Kottu</option>
+                <option value="Pizza">🍕 Pizza</option>
+                <option value="Burger"> Burgers</option>
+                <option value="Drinks">🥤 Drinks</option>
+                <option value="Desserts"> Desserts</option>
+                <option value="Other">🍽️ Other</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>Select Image from Gallery</label>
+            <div class="category-filter" id="foodImageFilter">
+                <button onclick="filterFoodImages('all')" class="active">All</button>
+                <button onclick="filterFoodImages('rice')">Rice</button>
+                <button onclick="filterFoodImages('kottu')">Kottu</button>
+                <button onclick="filterFoodImages('fastfood')">Fast Food</button>
             </div>
+            <div class="image-gallery" id="foodImageGallery"></div>
+            <input type="hidden" id="foodImageURL" value="">
             
-            <div id="foodUploadSection">
-                <div class="upload-area" onclick="document.getElementById('foodImageUpload').click()">
-                    <div style="font-size: 48px;"></div>
-                    <p>Click to upload food image</p>
-                </div>
-                <input type="file" id="foodImageUpload" accept="image/*" style="display: none;" onchange="handleImageUpload(this, 'food')">
-                <div class="image-preview" id="foodImagePreview" style="display: none;">
-                    <img src="" alt="Preview">
-                </div>
-            </div>
-            
-            <div id="foodUrlSection" class="hidden-field">
-                <input type="text" id="foodImageURL" placeholder="https://example.com/image.jpg">
+            <div class="selected-image-preview" id="foodImagePreview" style="display: none;">
+                <strong>Selected Image:</strong>
+                <img src="" alt="Selected">
             </div>
         </div>
         
@@ -276,23 +257,16 @@
         <button class="btn btn-warning" onclick="clearForm('food')">🔄 Clear Form</button>
     </div>
 
-    <!-- All Shops with Edit/Delete -->
+    <!-- All Shops -->
     <div class="section">
-        <h2>🏪 All Shops <button onclick="deleteAllShops()" class="btn btn-danger" style="float: right; padding: 8px 15px; font-size: 14px;">🗑️ Delete All</button></h2>
+        <h2>🏪 All Shops</h2>
         <div class="item-list" id="shopsList"></div>
     </div>
 
-    <!-- All Foods with Edit/Delete -->
+    <!-- All Foods -->
     <div class="section">
-        <h2>🍔 All Foods <button onclick="deleteAllFoods()" class="btn btn-danger" style="float: right; padding: 8px 15px; font-size: 14px;">🗑️ Delete All</button></h2>
+        <h2>🍔 All Foods</h2>
         <div class="item-list" id="foodsList"></div>
-    </div>
-
-    <!-- Danger Zone -->
-    <div class="danger-zone">
-        <h3>⚠️ Danger Zone</h3>
-        <p style="margin-bottom: 15px; color: #666;">These actions cannot be undone. Be careful!</p>
-        <button onclick="clearAllData()" class="btn btn-danger">🗑️ Delete ALL Data (Shops + Foods + Orders)</button>
     </div>
 
     <script>
@@ -309,101 +283,140 @@
 
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-        const storage = firebase.storage();
+
+        // Pre-loaded Image Gallery
+        const imageGallery = {
+            restaurants: [
+                { url: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500', name: 'Restaurant Interior', category: 'restaurant' },
+                { url: 'https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=500', name: 'Restaurant', category: 'restaurant' },
+                { url: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=500', name: 'Restaurant', category: 'restaurant' },
+                { url: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=500', name: 'Fine Dining', category: 'restaurant' },
+                { url: 'https://images.unsplash.com/photo-1552566626-52f8b75a6827?w=500', name: 'Restaurant', category: 'restaurant' },
+            ],
+            food: [
+                { url: 'https://images.unsplash.com/photo-1603057196846-221a74961791?w=500', name: 'Kottu', category: 'kottu' },
+                { url: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500', name: 'Curry', category: 'rice' },
+                { url: 'https://images.unsplash.com/photo-1604329760661-54dc45194b33?w=500', name: 'Fried Rice', category: 'rice' },
+                { url: 'https://images.unsplash.com/photo-1596797038530-2c107229654b?w=500', name: 'Rice & Curry', category: 'rice' },
+                { url: 'https://images.unsplash.com/photo-1512058564366-18510be2db1f?w=500', name: 'Nasi Goreng', category: 'rice' },
+                { url: 'https://images.unsplash.com/photo-1513104890138-7c749659a59f?w=500', name: 'Pizza', category: 'fastfood' },
+                { url: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500', name: 'Pizza', category: 'fastfood' },
+                { url: 'https://images.unsplash.com/photo-1568901346375-23c9450c5840?w=500', name: 'Burger', category: 'fastfood' },
+                { url: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=500', name: 'Burger', category: 'fastfood' },
+                { url: 'https://images.unsplash.com/photo-1551782450-a2132b7ba93a?w=500', name: 'Burger', category: 'fastfood' },
+            ],
+            flowers: [
+                { url: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=500', name: 'Flower Bouquet', category: 'general' },
+                { url: 'https://images.unsplash.com/photo-1494972308805-463bc619d34e?w=500', name: 'Flowers', category: 'general' },
+                { url: 'https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=500', name: 'Rose Bouquet', category: 'general' },
+            ],
+            cakes: [
+                { url: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500', name: 'Cake', category: 'general' },
+                { url: 'https://images.unsplash.com/photo-1565958011703-44f5328f6434?w=500', name: 'Cake', category: 'general' },
+                { url: 'https://images.unsplash.com/photo-1535131749006-b7c522384d8c?w=500', name: 'Birthday Cake', category: 'general' },
+            ],
+            general: [
+                { url: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500', name: 'Food', category: 'general' },
+                { url: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=500', name: 'Food Platter', category: 'general' },
+                { url: 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=500', name: 'Food', category: 'general' },
+            ]
+        };
 
         let shops = [];
         let foods = [];
         let orders = [];
-        let shopImageUploadMode = 'upload';
-        let foodImageUploadMode = 'upload';
 
         document.addEventListener('DOMContentLoaded', () => {
             loadShops();
             loadFoods();
             loadOrders();
+            renderImageGallery('shop', 'all');
+            renderImageGallery('food', 'all');
         });
 
-        // Category Selection
-        function selectCategory(element, category) {
-            document.querySelectorAll('.category-tag').forEach(tag => tag.classList.remove('active'));
-            element.classList.add('active');
-            document.getElementById('shopCategory').value = category;
-        }
-
-        // Image Method Selection
-        function selectImageMethod(method) {
-            shopImageUploadMode = method;
-            if (method === 'upload') {
-                document.getElementById('uploadSection').classList.remove('hidden-field');
-                document.getElementById('urlSection').classList.add('hidden-field');
-                document.getElementById('uploadBtn').classList.add('active');
-                document.getElementById('urlBtn').classList.remove('active');
+        // Image Gallery Functions
+        function renderImageGallery(type, filter) {
+            const galleryId = type === 'shop' ? 'shopImageGallery' : 'foodImageGallery';
+            const gallery = document.getElementById(galleryId);
+            
+            let images = [];
+            if (type === 'shop') {
+                images = [...imageGallery.restaurants, ...imageGallery.general];
             } else {
-                document.getElementById('uploadSection').classList.add('hidden-field');
-                document.getElementById('urlSection').classList.remove('hidden-field');
-                document.getElementById('uploadBtn').classList.remove('active');
-                document.getElementById('urlBtn').classList.add('active');
+                images = [...imageGallery.food, ...imageGallery.flowers, ...imageGallery.cakes];
             }
+            
+            if (filter !== 'all') {
+                images = images.filter(img => img.category === filter);
+            }
+            
+            gallery.innerHTML = images.map(img => `
+                <div class="gallery-item" onclick="selectImage('${type}', '${img.url}', this)">
+                    <img src="${img.url}" alt="${img.name}">
+                    <p>${img.name}</p>
+                </div>
+            `).join('');
         }
 
-        function selectFoodImageMethod(method) {
-            foodImageUploadMode = method;
-            if (method === 'upload') {
-                document.getElementById('foodUploadSection').classList.remove('hidden-field');
-                document.getElementById('foodUrlSection').classList.add('hidden-field');
-                document.getElementById('foodUploadBtn').classList.add('active');
-                document.getElementById('foodUrlBtn').classList.remove('active');
+        function filterShopImages(category) {
+            document.querySelectorAll('#shopImageFilter button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderImageGallery('shop', category);
+        }
+
+        function filterFoodImages(category) {
+            document.querySelectorAll('#foodImageFilter button').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderImageGallery('food', category);
+        }
+
+        function selectImage(type, url, element) {
+            // Remove selected class from all items
+            const galleryId = type === 'shop' ? 'shopImageGallery' : 'foodImageGallery';
+            document.querySelectorAll(`#${galleryId} .gallery-item`).forEach(item => {
+                item.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked item
+            element.classList.add('selected');
+            
+            // Set the URL
+            if (type === 'shop') {
+                document.getElementById('shopImageURL').value = url;
+                document.getElementById('shopImagePreview').style.display = 'block';
+                document.getElementById('shopImagePreview').querySelector('img').src = url;
             } else {
-                document.getElementById('foodUploadSection').classList.add('hidden-field');
-                document.getElementById('foodUrlSection').classList.remove('hidden-field');
-                document.getElementById('foodUploadBtn').classList.remove('active');
-                document.getElementById('foodUrlBtn').classList.add('active');
+                document.getElementById('foodImageURL').value = url;
+                document.getElementById('foodImagePreview').style.display = 'block';
+                document.getElementById('foodImagePreview').querySelector('img').src = url;
             }
         }
 
-        // Image Upload
-        function handleImageUpload(input, type) {
-            const file = input.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const previewId = type === 'shop' ? 'shopImagePreview' : 'foodImagePreview';
-                    document.getElementById(previewId).style.display = 'block';
-                    document.getElementById(previewId).querySelector('img').src = e.target.result;
-                    
-                    const storageRef = storage.ref();
-                    const imageRef = storageRef.child('images/' + Date.now() + '_' + file.name);
-                    
-                    imageRef.putString(e.target.result, 'data_url')
-                        .then(snapshot => snapshot.getDownloadURL())
-                        .then(downloadURL => {
-                            if (type === 'shop') {
-                                document.getElementById('shopImageURL').value = downloadURL;
-                            } else {
-                                document.getElementById('foodImageURL').value = downloadURL;
-                            }
-                            alert('✅ Image uploaded successfully!');
-                        })
-                        .catch(error => {
-                            alert('❌ Upload failed: ' + error.message);
-                            console.error(error);
-                        });
-                };
-                reader.readAsDataURL(file);
+        function filterImages(type) {
+            if (type === 'shop') {
+                const category = document.getElementById('shopCategory').value;
+                if (category === 'Flowers') {
+                    renderImageGallery('shop', 'general');
+                } else if (category === 'Cakes' || category === 'Desserts') {
+                    // Show cake images
+                } else {
+                    renderImageGallery('shop', 'restaurant');
+                }
+            } else {
+                const category = document.getElementById('foodCategory').value;
+                renderImageGallery('food', category.toLowerCase());
             }
         }
 
-        // Save Shop (Add or Edit)
+        // Save Functions
         function saveShop() {
             const editId = document.getElementById('editShopId').value;
-            const imageUrl = shopImageUploadMode === 'url' ? 
-                document.getElementById('shopImageURL').value : 
-                document.getElementById('shopImageURL').value;
+            const imageUrl = document.getElementById('shopImageURL').value;
             
             const shop = {
                 name: document.getElementById('shopName').value,
                 category: document.getElementById('shopCategory').value,
-                image: imageUrl || 'https://via.placeholder.com/500',
+                image: imageUrl || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500',
                 phone: document.getElementById('shopPhone').value,
                 deliveryTime: document.getElementById('shopDeliveryTime').value,
                 deliveryFee: parseInt(document.getElementById('shopDeliveryFee').value) || 150,
@@ -419,13 +432,11 @@
             }
 
             if (editId) {
-                // Edit existing
                 database.ref('shops').child(editId).update(shop).then(() => {
                     alert('✅ Shop updated successfully!');
                     cancelEdit();
                 });
             } else {
-                // Add new
                 shop.createdAt = Date.now();
                 database.ref('shops').push(shop).then(() => {
                     alert('✅ Shop added successfully!');
@@ -434,17 +445,15 @@
             }
         }
 
-        // Save Food (Add or Edit)
         function saveFood() {
             const editId = document.getElementById('editFoodId').value;
-            const imageUrl = foodImageUploadMode === 'url' ? 
-                document.getElementById('foodImageURL').value : 
-                document.getElementById('foodImageURL').value;
+            const imageUrl = document.getElementById('foodImageURL').value;
             
             const food = {
                 shopId: document.getElementById('foodShop').value,
                 name: document.getElementById('foodName').value,
-                image: imageUrl || 'https://via.placeholder.com/500',
+                category: document.getElementById('foodCategory').value,
+                image: imageUrl || 'https://images.unsplash.com/photo-1604329760661-54dc45194b33?w=500',
                 price: parseInt(document.getElementById('foodPrice').value) || 0,
                 description: document.getElementById('foodDescription').value,
                 updatedAt: Date.now()
@@ -485,15 +494,12 @@
             document.getElementById('isFeatured').checked = shop.isFeatured || false;
             document.getElementById('shopImageURL').value = shop.image;
 
-            // Show preview
-            document.getElementById('shopImagePreview').style.display = 'block';
-            document.getElementById('shopImagePreview').querySelector('img').src = shop.image;
+            if (shop.image) {
+                document.getElementById('shopImagePreview').style.display = 'block';
+                document.getElementById('shopImagePreview').querySelector('img').src = shop.image;
+            }
 
-            // Update UI
             document.getElementById('shopFormTitle').textContent = '️ Edit Shop';
-            document.getElementById('editModeIndicator').style.display = 'block';
-            document.getElementById('editItemName').textContent = shop.name;
-
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -504,17 +510,17 @@
             document.getElementById('editFoodId').value = id;
             document.getElementById('foodShop').value = food.shopId;
             document.getElementById('foodName').value = food.name;
+            document.getElementById('foodCategory').value = food.category || 'Other';
             document.getElementById('foodPrice').value = food.price;
             document.getElementById('foodDescription').value = food.description || '';
             document.getElementById('foodImageURL').value = food.image;
 
-            document.getElementById('foodImagePreview').style.display = 'block';
-            document.getElementById('foodImagePreview').querySelector('img').src = food.image;
+            if (food.image) {
+                document.getElementById('foodImagePreview').style.display = 'block';
+                document.getElementById('foodImagePreview').querySelector('img').src = food.image;
+            }
 
-            document.getElementById('foodFormTitle').textContent = '✏️ Edit Food';
-            document.getElementById('editModeIndicator').style.display = 'block';
-            document.getElementById('editItemName').textContent = food.name;
-
+            document.getElementById('foodFormTitle').textContent = '️ Edit Food';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -523,50 +529,19 @@
             document.getElementById('editFoodId').value = '';
             document.getElementById('shopFormTitle').textContent = '🏪 Add New Shop';
             document.getElementById('foodFormTitle').textContent = '🍕 Add New Food Item';
-            document.getElementById('editModeIndicator').style.display = 'none';
             clearForm('shop');
             clearForm('food');
         }
 
-        // Delete Functions
         function deleteShop(id) {
-            if (confirm('Delete this shop? This will also delete all its foods.')) {
+            if (confirm('Delete this shop?')) {
                 database.ref('shops').child(id).remove();
-                // Delete associated foods
-                const shopFoods = foods.filter(f => f.shopId === id);
-                shopFoods.forEach(food => {
-                    database.ref('foods').child(food.id).remove();
-                });
             }
         }
 
         function deleteFood(id) {
             if (confirm('Delete this food item?')) {
                 database.ref('foods').child(id).remove();
-            }
-        }
-
-        function deleteAllShops() {
-            if (confirm('⚠️ Delete ALL shops? This cannot be undone!')) {
-                database.ref('shops').remove();
-            }
-        }
-
-        function deleteAllFoods() {
-            if (confirm('⚠️ Delete ALL foods? This cannot be undone!')) {
-                database.ref('foods').remove();
-            }
-        }
-
-        function clearAllData() {
-            if (confirm('⚠️⚠️️ DELETE EVERYTHING? This will delete all shops, foods, and orders! This CANNOT be undone!')) {
-                if (confirm('Are you absolutely sure?')) {
-                    database.ref('shops').remove();
-                    database.ref('foods').remove();
-                    database.ref('orders').remove();
-                    alert('All data deleted!');
-                    location.reload();
-                }
             }
         }
 
@@ -587,21 +562,6 @@
                 document.getElementById('foodDescription').value = '';
                 document.getElementById('foodImageURL').value = '';
                 document.getElementById('foodImagePreview').style.display = 'none';
-            }
-        }
-
-        function shareApp() {
-            const shareData = {
-                title: 'FoodHub - ආහාර Delivery',
-                text: 'හොඳම හාර delivery app එක! දැන්ම order කරන්න!',
-                url: 'https://chinthakanuwan.github.io/foodhub/'
-            };
-
-            if (navigator.share) {
-                navigator.share(shareData);
-            } else {
-                navigator.clipboard.writeText(shareData.url);
-                alert('✅ Link copied to clipboard!');
             }
         }
 
