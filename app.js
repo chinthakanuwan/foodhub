@@ -1,5 +1,5 @@
 // ==========================================
-// FIREBASE CONFIGURATION - ඔයාගේ Config
+// FIREBASE CONFIGURATION
 // ==========================================
 const firebaseConfig = {
     apiKey: "AIzaSyDduouixF2IW568mND20cfxmnBNxQfRkrg",
@@ -20,12 +20,14 @@ let shops = [];
 let foods = [];
 let orders = JSON.parse(localStorage.getItem('orders')) || [];
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
+let bannerAds = [];
 let selectedPaymentMethod = 'cod';
 
 // Initialize App
 document.addEventListener('DOMContentLoaded', () => {
     loadShopsFromFirebase();
     loadFoodsFromFirebase();
+    loadBannerAdsFromFirebase();
     renderOrders();
     updateCartCount();
     
@@ -41,6 +43,55 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// Load Banner Ads from Firebase
+function loadBannerAdsFromFirebase() {
+    database.ref('bannerAds').on('value', (snapshot) => {
+        const data = snapshot.val();
+        bannerAds = data ? Object.values(data).filter(ad => ad.active) : [];
+        renderBannerAds();
+    });
+}
+
+// Render Banner Ads
+function renderBannerAds() {
+    const topAds = bannerAds.filter(ad => ad.position === 'top');
+    const middleAds = bannerAds.filter(ad => ad.position === 'middle');
+    const bottomAds = bannerAds.filter(ad => ad.position === 'bottom');
+    
+    // Top Banner
+    const topBannerDiv = document.getElementById('topBannerAds');
+    if (topBannerDiv) {
+        topBannerDiv.innerHTML = topAds.map(ad => `
+            <div class="banner-ad banner-ad-top" onclick="${ad.clickUrl ? `window.open('${ad.clickUrl}', '_blank')` : ''}">
+                <span class="ad-label">Ad</span>
+                <img src="${ad.imageUrl}" alt="${ad.title}" onerror="this.style.display='none'">
+            </div>
+        `).join('');
+    }
+    
+    // Middle Banner
+    const middleBannerDiv = document.getElementById('middleBannerAds');
+    if (middleBannerDiv) {
+        middleBannerDiv.innerHTML = middleAds.map(ad => `
+            <div class="banner-ad banner-ad-square" onclick="${ad.clickUrl ? `window.open('${ad.clickUrl}', '_blank')` : ''}">
+                <span class="ad-label">Ad</span>
+                <img src="${ad.imageUrl}" alt="${ad.title}" onerror="this.style.display='none'">
+            </div>
+        `).join('');
+    }
+    
+    // Bottom Banner
+    const bottomBannerDiv = document.getElementById('bottomBannerAds');
+    if (bottomBannerDiv) {
+        bottomBannerDiv.innerHTML = bottomAds.map(ad => `
+            <div class="banner-ad banner-ad-top" onclick="${ad.clickUrl ? `window.open('${ad.clickUrl}', '_blank')` : ''}">
+                <span class="ad-label">Ad</span>
+                <img src="${ad.imageUrl}" alt="${ad.title}" onerror="this.style.display='none'">
+            </div>
+        `).join('');
+    }
+}
 
 // Load Shops from Firebase (Real-time)
 function loadShopsFromFirebase() {
@@ -95,24 +146,38 @@ function renderShops() {
         return;
     }
     
-    shopsList.innerHTML = shops.map(shop => `
-        <div class="shop-card" onclick="viewShop('${shop.id}')">
-            <img src="${shop.image}" class="shop-image" alt="${shop.name}" onerror="this.src='https://via.placeholder.com/500'">
-            <div class="shop-info">
-                <div class="shop-name">${shop.name}</div>
-                <div class="shop-details">
-                    <span>⏱️ ${shop.deliveryTime || '30-40 min'}</span>
-                    <span class="rating">⭐ ${shop.rating || '4.0'}</span>
-                </div>
-                <div class="shop-details">
-                    <span>🚚 Delivery: Rs. ${shop.deliveryFee || 150}</span>
-                </div>
-                <div class="shop-tags">
-                    ${(shop.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('')}
+    // Sort shops: Featured shops first
+    const sortedShops = [...shops].sort((a, b) => {
+        if (a.isFeatured && !b.isFeatured) return -1;
+        if (!a.isFeatured && b.isFeatured) return 1;
+        return 0;
+    });
+    
+    shopsList.innerHTML = sortedShops.map(shop => {
+        const featuredBadge = shop.isFeatured ? 
+            '<div style="background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 5px; text-align: center; font-weight: bold; font-size: 12px;">⭐ FEATURED SHOP</div>' : 
+            '';
+        
+        return `
+            <div class="shop-card" onclick="viewShop('${shop.id}')" style="${shop.isFeatured ? 'border: 3px solid #FFD700;' : ''}">
+                ${featuredBadge}
+                <img src="${shop.image}" class="shop-image" alt="${shop.name}" onerror="this.src='https://via.placeholder.com/500'">
+                <div class="shop-info">
+                    <div class="shop-name">${shop.name} ${shop.isFeatured ? '⭐' : ''}</div>
+                    <div class="shop-details">
+                        <span>️ ${shop.deliveryTime || '30-40 min'}</span>
+                        <span class="rating">⭐ ${shop.rating || '4.0'}</span>
+                    </div>
+                    <div class="shop-details">
+                        <span> Delivery: Rs. ${shop.deliveryFee || 150}</span>
+                    </div>
+                    <div class="shop-tags">
+                        ${(shop.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('')}
+                    </div>
                 </div>
             </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 // Render Foods
@@ -134,7 +199,7 @@ function renderFoods() {
                     <div class="food-name">${food.name}</div>
                     <div style="font-size: 12px; color: #666; margin-bottom: 5px;">${shop ? shop.name : ''}</div>
                     <div class="food-price">Rs. ${food.price}</div>
-                    <button class="btn btn-primary" onclick="addToCart('${food.id}')">🛒 Add to Cart</button>
+                    <button class="btn btn-primary" onclick="addToCart('${food.id}')"> Add to Cart</button>
                 </div>
             </div>
         `;
@@ -152,10 +217,10 @@ function viewShop(shopId) {
         <div style="background: white; padding: 20px; border-radius: 15px; margin-bottom: 20px;">
             <img src="${shop.image}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 15px;">
             <h2 style="margin-bottom: 10px;">${shop.name}</h2>
-            <p style="color: #666; margin-bottom: 15px;">⭐ ${shop.rating || '4.0'} | ️ ${shop.deliveryTime || '30-40 min'} | 🚚 Rs. ${shop.deliveryFee || 150}</p>
+            <p style="color: #666; margin-bottom: 15px;">⭐ ${shop.rating || '4.0'} | ⏱️ ${shop.deliveryTime || '30-40 min'} | 🚚 Rs. ${shop.deliveryFee || 150}</p>
             
             <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                <button class="btn btn-whatsapp" onclick="orderWhatsApp('${shop.id}')">💬 WhatsApp Order</button>
+                <button class="btn btn-whatsapp" onclick="orderWhatsApp('${shop.id}')"> WhatsApp Order</button>
                 <button class="btn btn-call" onclick="orderCall()">📞 Call Order</button>
             </div>
             
@@ -402,7 +467,7 @@ function filterFoods(term) {
                     <div class="food-name">${food.name}</div>
                     <div style="font-size: 12px; color: #666; margin-bottom: 5px;">${shop ? shop.name : ''}</div>
                     <div class="food-price">Rs. ${food.price}</div>
-                    <button class="btn btn-primary" onclick="addToCart('${food.id}')">🛒 Add</button>
+                    <button class="btn btn-primary" onclick="addToCart('${food.id}')"> Add</button>
                 </div>
             </div>
         `;
