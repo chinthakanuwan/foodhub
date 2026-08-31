@@ -1,0 +1,22 @@
+{
+  "name": "FoodHub - ආහාර Delivery",
+  "short_name": "FoodHub",
+  "description": "Order food from your favorite shops",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#f5f5f5",
+  "theme_color": "#FF6B6B",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/1011/1011264.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/1011/1011264.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
