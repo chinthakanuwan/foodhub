@@ -61,7 +61,7 @@
 <body>
     <div class="header">
         <h1>🍔 FoodHub</h1>
-        <p>ඔබේ ආහාර delivery partner</p>
+        <p>ඔබේ හාර delivery partner</p>
     </div>
 
     <div class="search-bar">
@@ -71,12 +71,12 @@
     <div class="tabs">
         <div class="tab active" onclick="switchTab('shops')"> Shops</div>
         <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
-        <div class="tab" onclick="switchTab('orders')">📦 Orders</div>
+        <div class="tab" onclick="switchTab('orders')"> Orders</div>
     </div>
 
     <div id="shopsTab" class="container">
         <div class="ad-banner">
-            <h3> විශේෂ දීමනාව!</h3>
+            <h3>🎉 විශේෂ දීමනාව!</h3>
             <p>පළමු order එකට 20% වට්ටමක්</p>
         </div>
         <div id="shopsList"></div>
@@ -93,21 +93,17 @@
 
     <div class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('shops')">
-            <span class="icon"></span>
+            <span class="icon">🏪</span>
             <span class="label">Shops</span>
         </div>
         <div class="nav-item" onclick="switchTab('foods')">
-            <span class="icon">🍕</span>
+            <span class="icon"></span>
             <span class="label">Foods</span>
         </div>
         <div class="nav-item cart-icon" onclick="switchTab('orders')">
             <span class="icon">📦</span>
             <span class="label">Cart</span>
             <span class="cart-badge" id="cartCount">0</span>
-        </div>
-        <div class="nav-item" onclick="window.open('admin.html', '_blank')">
-            <span class="icon">⚙️</span>
-            <span class="label">Admin</span>
         </div>
     </div>
 
@@ -123,15 +119,15 @@
             </div>
 
             <div style="margin-bottom: 15px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;">📍 Delivery Address</label>
-                <textarea id="deliveryAddress" rows="2" placeholder="ඔබේ ලිපිනය ඇතුළත් කරන්න..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;"></textarea>
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;"> Delivery Address</label>
+                <textarea id="deliveryAddress" rows="2" placeholder="බේ ලිපිනය ඇතුළත් කරන්න..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;"></textarea>
             </div>
 
             <div style="margin-bottom: 20px;">
                 <label style="font-weight: 600; display: block; margin-bottom: 10px;">💳 Payment Method</label>
                 <div style="display: flex; gap: 10px;">
                     <button onclick="selectPayment('cod')" id="btn-cod" class="pay-btn active">💵 COD</button>
-                    <button onclick="selectPayment('online')" id="btn-online" class="pay-btn">🏦 Online</button>
+                    <button onclick="selectPayment('online')" id="btn-online" class="pay-btn"> Online</button>
                 </div>
             </div>
 
