@@ -2,7 +2,7 @@
   "name": "FoodHub - ආහාර Delivery",
   "short_name": "FoodHub",
   "description": "Order food from your favorite shops",
-  "start_url": "/index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f5f5f5",
   "theme_color": "#FF6B6B",
