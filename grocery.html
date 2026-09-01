@@ -11,50 +11,36 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            padding-bottom: 150px;
         }
-        .container { max-width: 1200px; margin: 0 auto; }
         .header {
             background: white;
+            padding: 15px 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header h1 {
+            color: #667eea;
+            font-size: 24px;
+            text-align: center;
+        }
+        .shop-name {
+            text-align: center;
+            color: #666;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
             padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-        .header h1 { color: #667eea; font-size: 28px; margin-bottom: 10px; }
-        .shop-name-input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #667eea;
-            border-radius: 8px;
-            font-size: 16px;
-            margin-top: 10px;
-        }
-        .controls {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .btn-primary { background: #4CAF50; color: white; }
-        .btn-primary:hover { background: #45a049; transform: translateY(-2px); }
-        .btn-secondary { background: #2196F3; color: white; }
-        .btn-secondary:hover { background: #1976D2; }
-        .btn-danger { background: #f44336; color: white; }
-        .btn-danger:hover { background: #d32f2f; }
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
             margin-bottom: 20px;
         }
         .product-card {
@@ -63,49 +49,123 @@
             overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: all 0.3s;
-            cursor: pointer;
             position: relative;
+            border: 3px solid transparent;
         }
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        .product-card.selected {
+            border-color: #4CAF50;
         }
-        .product-card.selected { border: 3px solid #4CAF50; }
-        .product-image { width: 100%; height: 180px; object-fit: cover; }
-        .product-info { padding: 15px; }
-        .product-name { font-size: 18px; font-weight: bold; color: #333; margin-bottom: 5px; }
-        .product-details {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
+        .product-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
         }
-        .product-price { font-size: 20px; color: #4CAF50; font-weight: bold; }
-        .product-quantity { color: #666; font-size: 14px; }
-        .checkbox-container {
+        .product-info {
+            padding: 12px;
+        }
+        .product-name {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        .product-quantity {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+        .product-price {
+            font-size: 18px;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .checkbox {
             position: absolute;
             top: 10px;
             right: 10px;
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             background: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            z-index: 10;
+            cursor: pointer;
         }
-        .checkbox-container input { width: 20px; height: 20px; cursor: pointer; }
+        .checkbox input {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        .admin-buttons {
+            display: flex;
+            gap: 5px;
+            margin-top: 8px;
+        }
+        .btn-small {
+            flex: 1;
+            padding: 6px;
+            border: none;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-edit {
+            background: #2196F3;
+            color: white;
+        }
+        .btn-delete {
+            background: #f44336;
+            color: white;
+        }
         .cart-summary {
             background: white;
             padding: 20px;
             border-radius: 15px;
-            position: sticky;
-            bottom: 20px;
             box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 800px;
         }
-        .cart-total { font-size: 24px; font-weight: bold; color: #4CAF50; text-align: right; }
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .cart-count {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        .cart-total {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        .btn-confirm {
+            width: 100%;
+            padding: 15px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-confirm:hover {
+            background: #45a049;
+        }
         .modal {
             display: none;
             position: fixed;
@@ -118,7 +178,9 @@
             align-items: center;
             justify-content: center;
         }
-        .modal.active { display: flex; }
+        .modal.active {
+            display: flex;
+        }
         .modal-content {
             background: white;
             padding: 30px;
@@ -128,9 +190,19 @@
             max-height: 90vh;
             overflow-y: auto;
         }
-        .modal-content h2 { margin-bottom: 20px; color: #667eea; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
         .form-group input {
             width: 100%;
             padding: 10px;
@@ -138,63 +210,115 @@
             border-radius: 8px;
             font-size: 16px;
         }
-        .form-group input:focus { outline: none; border-color: #667eea; }
-        .modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
-        .modal-buttons .btn { flex: 1; }
-        .empty-state { text-align: center; padding: 40px; color: white; font-size: 18px; }
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: #4CAF50;
+            color: white;
+        }
+        .btn-danger {
+            background: #f44336;
+            color: white;
+        }
         .back-btn {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 15px;
+            left: 15px;
             background: white;
-            padding: 10px 20px;
+            padding: 8px 15px;
             border-radius: 8px;
             text-decoration: none;
             color: #667eea;
             font-weight: bold;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            z-index: 100;
+            z-index: 101;
+            font-size: 14px;
         }
-        @media (max-width: 768px) {
-            .products-grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
-            .controls { flex-direction: column; }
-            .btn { width: 100%; }
+        .admin-toggle {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: #2196F3;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 101;
+            font-size: 14px;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: white;
+            font-size: 16px;
+            grid-column: 1 / -1;
+        }
+        @media (max-width: 600px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .product-image {
+                height: 120px;
+            }
+            .product-name {
+                font-size: 12px;
+            }
+            .product-price {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
 <body>
     <a href="index.html" class="back-btn">🏠 Home</a>
-    <div class="container">
-        <div class="header">
-            <h1>🛒 FoodHub Grocery Shop</h1>
-            <input type="text" class="shop-name-input" id="shopName" placeholder="යාගේ කඩේ නම මෙතන දාන්න..." value="මගේ Grocery කඩේ">
-        </div>
-        <div class="controls">
-            <button class="btn btn-primary" onclick="openAddModal()">➕ නව Product එකක් Add කරන්න</button>
-            <button class="btn btn-secondary" onclick="clearSelection()">🔄 Selection Clear කරන්න</button>
-            <button class="btn btn-danger" onclick="resetAll()">🗑️ සියල්ල Reset කරන්න</button>
-        </div>
-        <div class="products-grid" id="productsGrid"></div>
-        <div class="cart-summary">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div><h3>️ තෝරාගත් භාණ්ඩ: <span id="selectedCount">0</span></h3></div>
-                <div class="cart-total">මුළු මුදල: Rs. <span id="totalAmount">0</span></div>
-            </div>
-            <button class="btn btn-primary" style="width: 100%; margin-top: 15px; padding: 15px;" onclick="confirmOrder()">
-                ✅ Order එක Confirm කරන්න
-            </button>
-        </div>
+    <button class="admin-toggle" onclick="toggleAdminMode()" id="adminToggle">👤 Admin</button>
+    
+    <div class="header">
+        <h1> FoodHub Grocery</h1>
+        <div class="shop-name" id="shopNameDisplay">මගේ Grocery කඩේ</div>
     </div>
+
+    <div class="container">
+        <div class="products-grid" id="productsGrid"></div>
+    </div>
+
+    <div class="cart-summary">
+        <div class="cart-header">
+            <div class="cart-count">තෝරාගත් භාණ්ඩ: <span id="selectedCount">0</span></div>
+            <div class="cart-total">Rs. <span id="totalAmount">0</span></div>
+        </div>
+        <button class="btn-confirm" onclick="confirmOrder()">
+            <span>✓</span>
+            <span>Order එක Confirm කරන්න</span>
+        </button>
+    </div>
+
+    <!-- Add/Edit Product Modal (Admin Only) -->
     <div class="modal" id="productModal">
         <div class="modal-content">
             <h2 id="modalTitle">නව Product එකක් Add කරන්න</h2>
             <div class="form-group">
                 <label>Product එකේ නම:</label>
-                <input type="text" id="productName" placeholder="උදා: සීනි">
+                <input type="text" id="productName" placeholder="දා: සීනි">
             </div>
             <div class="form-group">
                 <label>ප්‍රමාණය:</label>
-                <input type="text" id="productQuantity" placeholder="උදා: 1kg">
+                <input type="text" id="productQuantity" placeholder="දා: 1kg">
             </div>
             <div class="form-group">
                 <label>මිල (Rs.):</label>
@@ -210,13 +334,14 @@
             </div>
         </div>
     </div>
+
     <script>
         const defaultProducts = [
             { id: 1, name: 'සීනි (Sugar)', quantity: '1kg', price: 280, image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400', selected: false },
             { id: 2, name: 'පරිප්පු (Dhal)', quantity: '1kg', price: 450, image: 'https://images.unsplash.com/photo-1585996923984-3872e1e5f780?w=400', selected: false },
             { id: 3, name: 'බිත්තර (Eggs)', quantity: '10pcs', price: 350, image: 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=400', selected: false },
-            { id: 4, name: 'කිරි පිටි (Milk Powder)', quantity: '400g', price: 850, image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400', selected: false },
-            { id: 5, name: 'සුදු හාල් (White Rice)', quantity: '1kg', price: 220, image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400', selected: false },
+            { id: 4, name: 'කිරි පිටි (Milk Powder)', quantity: '400g', price: 650, image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400', selected: false },
+            { id: 5, name: 'සුදු හාල් (Rice)', quantity: '1kg', price: 220, image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400', selected: false },
             { id: 6, name: 'පොල් තෙල් (Coconut Oil)', quantity: '1L', price: 650, image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400', selected: false },
             { id: 7, name: 'තේ (Tea)', quantity: '500g', price: 650, image: 'https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=400', selected: false },
             { id: 8, name: 'කෝපි (Coffee)', quantity: '200g', price: 550, image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400', selected: false },
@@ -232,30 +357,13 @@
             { id: 18, name: 'බටර් (Butter)', quantity: '200g', price: 450, image: 'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=400', selected: false },
             { id: 19, name: 'චීස් (Cheese)', quantity: '250g', price: 650, image: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400', selected: false },
             { id: 20, name: 'යෝගට් (Yogurt)', quantity: '500ml', price: 350, image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400', selected: false },
-            { id: 21, name: 'ජස් (Juice)', quantity: '1L', price: 280, image: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=400', selected: false },
-            { id: 22, name: 'බිස්කට් (Biscuits)', quantity: '200g', price: 150, image: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400', selected: false },
-            { id: 23, name: 'චොකලට් (Chocolate)', quantity: '100g', price: 200, image: 'https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=400', selected: false },
-            { id: 24, name: 'නඩ්ල්ස් (Noodles)', quantity: '1 pack', price: 80, image: 'https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=400', selected: false },
-            { id: 25, name: 'කෙචප් (Ketchup)', quantity: '300ml', price: 250, image: 'https://images.unsplash.com/photo-1472476443507-c7a5948772fc?w=400', selected: false },
-            { id: 26, name: 'මේයොනීස් (Mayonnaise)', quantity: '250ml', price: 320, image: 'https://images.unsplash.com/photo-1587496679742-bda0e99b7b5f?w=400', selected: false },
-            { id: 27, name: 'සෝයා සෝස් (Soy Sauce)', quantity: '200ml', price: 180, image: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=400', selected: false },
-            { id: 28, name: 'විනාකිරි (Vinegar)', quantity: '500ml', price: 120, image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400', selected: false },
-            { id: 29, name: 'කරාබු නැටි (Cloves)', quantity: '50g', price: 350, image: 'https://images.unsplash.com/photo-1599909533730-f8b80c2c2f1d?w=400', selected: false },
-            { id: 30, name: 'කරුවල් (Cinnamon)', quantity: '100g', price: 450, image: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=400', selected: false },
-            { id: 31, name: 'ගම්මිරිස් (Black Pepper)', quantity: '100g', price: 380, image: 'https://images.unsplash.com/photo-1599909533730-f8b80c2c2f1d?w=400', selected: false },
-            { id: 32, name: 'සුදුළණු (Garlic)', quantity: '250g', price: 200, image: 'https://images.unsplash.com/photo-1540148426945-6cf22a6b2571?w=400', selected: false },
-            { id: 33, name: 'ළණු (Onions)', quantity: '1kg', price: 350, image: 'https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=400', selected: false },
-            { id: 34, name: 'තක්කාලි (Tomatoes)', quantity: '1kg', price: 280, image: 'https://images.unsplash.com/photo-1546470427-e26264c9c6ab?w=400', selected: false },
-            { id: 35, name: 'අල (Potatoes)', quantity: '1kg', price: 320, image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=400', selected: false },
-            { id: 36, name: 'කැරට් (Carrots)', quantity: '500g', price: 180, image: 'https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=400', selected: false },
-            { id: 37, name: 'බෙංගල (Beans)', quantity: '500g', price: 150, image: 'https://images.unsplash.com/photo-1567375698348-5d9d5ae4c3b5?w=400', selected: false },
-            { id: 38, name: 'මාළු (Fish)', quantity: '1kg', price: 800, image: 'https://images.unsplash.com/photo-1534604973900-c43ab4c2e0ab?w=400', selected: false },
-            { id: 39, name: 'කුකුළු මස් (Chicken)', quantity: '1kg', price: 950, image: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=400', selected: false },
-            { id: 40, name: 'එළවළු තෙල් (Vegetable Oil)', quantity: '1L', price: 550, image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400', selected: false }
+            { id: 21, name: 'කුකුළු මස් (Chicken)', quantity: '1kg', price: 950, image: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=400', selected: false },
+            { id: 22, name: 'එළවළු තෙල් (Vegetable Oil)', quantity: '1L', price: 550, image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400', selected: false }
         ];
 
         let products = [];
         let editingId = null;
+        let isAdminMode = false;
 
         function loadProducts() {
             const saved = localStorage.getItem('foodhub_grocery_products');
@@ -274,29 +382,35 @@
 
         function renderProducts() {
             const grid = document.getElementById('productsGrid');
+            
             if (products.length === 0) {
-                grid.innerHTML = '<div class="empty-state">කිසිම product එකක් නැහැ. "Add කරන්න" button එක ඔබන්න.</div>';
+                grid.innerHTML = '<div class="empty-state">කිසිම product එකක් නැහැ</div>';
+                updateCart();
                 return;
             }
+
             grid.innerHTML = products.map(product => `
-                <div class="product-card ${product.selected ? 'selected' : ''}" onclick="toggleProduct(${product.id})">
-                    <div class="checkbox-container">
-                        <input type="checkbox" ${product.selected ? 'checked' : ''} onclick="event.stopPropagation(); toggleProduct(${product.id})">
+                <div class="product-card ${product.selected ? 'selected' : ''}">
+                    <div class="checkbox">
+                        <input type="checkbox" ${product.selected ? 'checked' : ''} 
+                               onchange="toggleProduct(${product.id})">
                     </div>
-                    <img src="${product.image}" alt="${product.name}" class="product-image" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+                    <img src="${product.image}" alt="${product.name}" class="product-image" 
+                         onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
                     <div class="product-info">
                         <div class="product-name">${product.name}</div>
-                        <div class="product-details">
-                            <span class="product-quantity">${product.quantity}</span>
-                            <span class="product-price">Rs. ${product.price}</span>
-                        </div>
-                        <div style="margin-top: 10px; display: flex; gap: 5px;">
-                            <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 12px;" onclick="event.stopPropagation(); editProduct(${product.id})">️ Edit</button>
-                            <button class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;" onclick="event.stopPropagation(); deleteProduct(${product.id})">🗑️ Delete</button>
-                        </div>
+                        <div class="product-quantity">${product.quantity}</div>
+                        <div class="product-price">Rs. ${product.price}</div>
+                        ${isAdminMode ? `
+                            <div class="admin-buttons">
+                                <button class="btn-small btn-edit" onclick="editProduct(${product.id})">✏️ Edit</button>
+                                <button class="btn-small btn-delete" onclick="deleteProduct(${product.id})">🗑️ Delete</button>
+                            </div>
+                        ` : ''}
                     </div>
                 </div>
             `).join('');
+
             updateCart();
         }
 
@@ -316,6 +430,17 @@
             document.getElementById('totalAmount').textContent = total.toLocaleString();
         }
 
+        function toggleAdminMode() {
+            isAdminMode = !isAdminMode;
+            document.getElementById('adminToggle').textContent = isAdminMode ? '🔒 Admin ON' : '👤 Admin';
+            document.getElementById('adminToggle').style.background = isAdminMode ? '#f44336' : '#2196F3';
+            renderProducts();
+            
+            if (isAdminMode) {
+                alert('Admin Mode: දැන් ඔයාට products edit/delete කරන්න පුළුවන්');
+            }
+        }
+
         function openAddModal() {
             editingId = null;
             document.getElementById('modalTitle').textContent = 'නව Product එකක් Add කරන්න';
@@ -327,6 +452,10 @@
         }
 
         function editProduct(id) {
+            if (!isAdminMode) {
+                alert('Admin mode enable කරන්න!');
+                return;
+            }
             const product = products.find(p => p.id === id);
             if (product) {
                 editingId = id;
@@ -340,6 +469,11 @@
         }
 
         function saveProduct() {
+            if (!isAdminMode) {
+                alert('Admin mode enable කරන්න!');
+                return;
+            }
+
             const name = document.getElementById('productName').value.trim();
             const quantity = document.getElementById('productQuantity').value.trim();
             const price = parseFloat(document.getElementById('productPrice').value);
@@ -376,6 +510,10 @@
         }
 
         function deleteProduct(id) {
+            if (!isAdminMode) {
+                alert('Admin mode enable කරන්න!');
+                return;
+            }
             if (confirm('මේ product එක delete කරන්න ඕනද?')) {
                 products = products.filter(p => p.id !== id);
                 saveProducts();
@@ -387,19 +525,6 @@
             document.getElementById('productModal').classList.remove('active');
         }
 
-        function clearSelection() {
-            products.forEach(p => p.selected = false);
-            saveProducts();
-            renderProducts();
-        }
-
-        function resetAll() {
-            if (confirm('සියලු data reset කරන්න නද?')) {
-                localStorage.removeItem('foodhub_grocery_products');
-                loadProducts();
-            }
-        }
-
         function confirmOrder() {
             const selected = products.filter(p => p.selected);
             if (selected.length === 0) {
@@ -407,16 +532,15 @@
                 return;
             }
 
-            const shopName = document.getElementById('shopName').value;
             const total = selected.reduce((sum, p) => sum + p.price, 0);
             
-            let orderDetails = `🛒 *FoodHub Grocery Order*\n\n`;
-            orderDetails += `📍 *Shop:* ${shopName}\n\n`;
-            orderDetails += `*Selected Items:*\n`;
+            let orderDetails = ` *FoodHub Grocery Order*\n\n`;
+            orderDetails += `📍 *Selected Items:*\n`;
             selected.forEach(p => {
                 orderDetails += `✓ ${p.name} (${p.quantity}) - Rs. ${p.price}\n`;
             });
-            orderDetails += `\n*Total:* Rs. ${total.toLocaleString()}`;
+            orderDetails += `\n*Total Items:* ${selected.length}`;
+            orderDetails += `\n*Total Amount:* Rs. ${total.toLocaleString()}`;
             orderDetails += `\n\nThank you for your order!`;
             
             alert(orderDetails);
@@ -428,6 +552,7 @@
             }
         });
 
+        // Initialize
         loadProducts();
     </script>
 </body>
