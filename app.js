@@ -89,8 +89,8 @@ function isShopOpen(shop) {
 }
 
 function getShopStatus(shop) {
-    if (isShopOpen(shop)) return { status: 'open', text: '🟢 Open', color: '#4CAF50' };
-    else return { status: 'closed', text: ` Closed (Opens at ${shop.openTime || '09:00'})`, color: '#f44336' };
+    if (isShopOpen(shop)) return { status: 'open', text: ' Open', color: '#4CAF50' };
+    else return { status: 'closed', text: `🔴 Closed (Opens at ${shop.openTime || '09:00'})`, color: '#f44336' };
 }
 
 function renderShops() {
@@ -107,7 +107,7 @@ function renderShops() {
                     <div class="shop-name">${shop.name} ${shop.isFeatured ? '⭐' : ''}</div>
                     <div class="shop-details" style="color: ${shopStatus.color}; font-weight: 600;">
                         <span>${shopStatus.text}</span>
-                        <span>⏱️ ${shop.deliveryTime || '30-40 min'}</span>
+                        <span>️ ${shop.deliveryTime || '30-40 min'}</span>
                     </div>
                     <div class="shop-details"><span>🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'}</span></div>
                     <div class="shop-details"><span>🚚 Delivery: Rs. ${shop.deliveryFee || 150} සිට</span></div>
@@ -264,7 +264,7 @@ function updateCheckoutTotal() {
     const deliveryFee = parseInt(document.getElementById('deliveryZone').value) || 0;
     const grandTotal = foodTotal + deliveryFee;
     const itemsHtml = cart.map(item => `<div style="display:flex; justify-content:space-between; margin-bottom:5px;"><span>${item.name} x${item.quantity}</span><span>Rs. ${item.price * item.quantity}</span></div>`).join('');
-    const deliveryHtml = `<div style="display:flex; justify-content:space-between; margin-top:10px; border-top:1px dashed #ccc; padding-top:5px; color:#FF9800;"><span>🚚 Delivery Fee</span><span>Rs. ${deliveryFee}</span></div>`;
+    const deliveryHtml = `<div style="display:flex; justify-content:space-between; margin-top:10px; border-top:1px dashed #ccc; padding-top:5px; color:#FF9800;"><span> Delivery Fee</span><span>Rs. ${deliveryFee}</span></div>`;
     document.getElementById('checkoutItems').innerHTML = itemsHtml + deliveryHtml;
     document.getElementById('checkoutTotal').textContent = `Rs. ${grandTotal}`;
 }
@@ -301,7 +301,7 @@ function renderOrders() {
     let html = '';
     if (cart.length > 0) {
         const foodTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        html += `<div style="background: #FFF0F0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #FF6B6B;"><h3 style="margin-bottom: 10px;">🛒 Your Cart (${cart.reduce((t,i)=>t+i.quantity,0)} items)</h3>${cart.map(item => `<div style="display:flex; justify-content:space-between; margin-bottom:5px; font-size:14px;"><span>${item.name} x${item.quantity}</span><span>Rs. ${item.price * item.quantity}</span></div>`).join('')}<div style="font-weight:bold; font-size:18px; margin: 15px 0; border-top: 1px dashed #ccc; padding-top: 10px; display:flex; justify-content:space-between;"><span>Food Total:</span><span style="color:#FF6B6B;">Rs. ${foodTotal}</span></div><p style="font-size: 12px; color: #666; margin-bottom: 15px;">* Delivery fee එක checkout එකේදී එකතු වේ.</p><button class="btn btn-primary" onclick="openCheckout()" style="background: #FF6B6B; color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold;">Proceed to Checkout 🛒</button></div>`;
+        html += `<div style="background: #FFF0F0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #FF6B6B;"><h3 style="margin-bottom: 10px;"> Your Cart (${cart.reduce((t,i)=>t+i.quantity,0)} items)</h3>${cart.map(item => `<div style="display:flex; justify-content:space-between; margin-bottom:5px; font-size:14px;"><span>${item.name} x${item.quantity}</span><span>Rs. ${item.price * item.quantity}</span></div>`).join('')}<div style="font-weight:bold; font-size:18px; margin: 15px 0; border-top: 1px dashed #ccc; padding-top: 10px; display:flex; justify-content:space-between;"><span>Food Total:</span><span style="color:#FF6B6B;">Rs. ${foodTotal}</span></div><p style="font-size: 12px; color: #666; margin-bottom: 15px;">* Delivery fee එක checkout එකේදී එකතු වේ.</p><button class="btn btn-primary" onclick="openCheckout()" style="background: #FF6B6B; color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold;">Proceed to Checkout 🛒</button></div>`;
     }
     if (orders.length === 0 && cart.length === 0) html += '<div class="loading">📦 Orders තවම නැහැ</div>';
     else if (orders.length > 0) {
@@ -344,7 +344,7 @@ function filterFoods(term) {
             <div class="food-info">
                 <div class="food-name">${food.name}</div>
                 <div class="food-price">Rs. ${food.price}</div>
-                <button class="btn btn-primary" onclick="addToCart('${food.id}')">🛒 Add</button>
+                <button class="btn btn-primary" onclick="addToCart('${food.id}')"> Add</button>
             </div>
         </div>
     `).join('');
