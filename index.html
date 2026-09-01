@@ -55,6 +55,7 @@
         .cart-badge { position: absolute; top: -5px; right: -5px; background: #FF6B6B; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 12px; }
         .cart-icon { position: relative; }
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; overflow-y: auto; padding: 20px; }
+        .modal-overlay.active { display: flex; }
         .modal-content { background: white; margin: 5% auto; padding: 25px; width: 100%; max-width: 400px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
         .pay-btn { flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; font-weight: 600; font-size: 14px; }
         .pay-btn.active { border-color: #FF6B6B; background: #FFF0F0; color: #FF6B6B; }
@@ -67,6 +68,30 @@
         .product-item { display: flex; justify-content: space-between; padding: 10px; background: white; margin-bottom: 8px; border-radius: 5px; border-left: 3px solid #FF6B6B; }
         .product-item input[type="checkbox"] { margin-right: 10px; }
         .product-item.selected { background: #E8F5E9; border-left-color: #4CAF50; }
+
+        /* --- GROCERY SPECIFIC STYLES --- */
+        .grocery-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .grocery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding-bottom: 160px; }
+        .grocery-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: relative; border: 2px solid transparent; transition: all 0.2s; }
+        .grocery-card.selected { border-color: #4CAF50; background: #F1F8E9; }
+        .grocery-img { width: 100%; height: 110px; object-fit: cover; background: #eee; }
+        .grocery-info { padding: 10px; }
+        .grocery-name { font-size: 13px; font-weight: 600; color: #333; margin-bottom: 4px; line-height: 1.3; }
+        .grocery-qty { font-size: 11px; color: #666; margin-bottom: 6px; }
+        .grocery-price { font-size: 16px; color: #FF6B6B; font-weight: bold; }
+        .grocery-check { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; }
+        .grocery-check input { width: 18px; height: 18px; cursor: pointer; accent-color: #4CAF50; }
+        .admin-btns { display: flex; gap: 5px; margin-top: 8px; }
+        .admin-btn { flex: 1; padding: 6px; border: none; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; }
+        .admin-btn.edit { background: #2196F3; color: white; }
+        .admin-btn.delete { background: #f44336; color: white; }
+        .grocery-cart { position: fixed; bottom: 70px; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -4px 15px rgba(0,0,0,0.1); z-index: 90; border-top-left-radius: 15px; border-top-right-radius: 15px; display: none; }
+        .grocery-cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .grocery-cart-total { font-size: 20px; font-weight: bold; color: #FF6B6B; }
+        .grocery-cart-btn { width: 100%; padding: 14px; background: #4CAF50; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .admin-toggle-btn { background: #666; color: white; border: none; padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .admin-toggle-btn.active { background: #f44336; }
+        .add-grocery-btn { width: 100%; padding: 12px; background: #2196F3; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 15px; display: none; }
     </style>
 </head>
 <body>
@@ -78,9 +103,9 @@
         <input type="text" id="searchInput" placeholder="🔍 Shops හෝ products search කරන්න...">
     </div>
     <div class="tabs">
-        <div class="tab active" onclick="switchTab('shops')"> Shops</div>
-        <div class="tab" onclick="switchTab('grocery')"> Grocery</div>
-        <div class="tab" onclick="switchTab('foods')"> Foods</div>
+        <div class="tab active" onclick="switchTab('shops')">🏪 Shops</div>
+        <div class="tab" onclick="switchTab('grocery')">🛒 Grocery</div>
+        <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
         <div class="tab" onclick="switchTab('orders')">📦 Cart</div>
     </div>
     
@@ -92,9 +117,30 @@
         <div id="shopsList"><div class="loading">⏳ Shops load වෙමින්...</div></div>
     </div>
 
+    <!-- GROCERY TAB INTEGRATED -->
     <div id="groceryTab" class="container hidden">
-        <h2 style="margin-bottom: 15px;">🛒 Grocery Shops</h2>
-        <div id="groceryList"><div class="loading">⏳ Grocery shops load වෙමින්...</div></div>
+        <div class="grocery-header">
+            <h2 style="margin: 0; color: #333;">🛒 Grocery භාණ්ඩ</h2>
+            <button class="admin-toggle-btn" id="adminToggleBtn" onclick="toggleGroceryAdmin()">
+                👤 Admin
+            </button>
+        </div>
+        
+        <button class="add-grocery-btn" id="addGroceryBtn" onclick="openGroceryModal()">➕ අලුත් භාණ්ඩයක් එකතු කරන්න</button>
+        
+        <div class="grocery-grid" id="groceryGrid">
+            <div class="loading">⏳ Grocery භාණ්ඩ load වෙමින්...</div>
+        </div>
+
+        <div class="grocery-cart" id="groceryCart">
+            <div class="grocery-cart-header">
+                <span style="font-weight: 600; color: #333;">තෝරාගත් භාණ්ඩ: <span id="groceryCount">0</span></span>
+                <span class="grocery-cart-total">Rs. <span id="groceryTotal">0</span></span>
+            </div>
+            <button class="grocery-cart-btn" onclick="confirmGroceryOrder()">
+                <span>✅</span> Order එක Confirm කරන්න
+            </button>
+        </div>
     </div>
 
     <div id="foodsTab" class="container hidden">
@@ -106,7 +152,7 @@
     </div>
 
     <div id="ordersTab" class="container hidden">
-        <h2 style="margin-bottom: 15px;">🛒 බේ Cart එක</h2>
+        <h2 style="margin-bottom: 15px;">🛒 ඔබේ Cart එක</h2>
         <div id="ordersList"></div>
     </div>
 
@@ -152,8 +198,8 @@
                 <span id="checkoutTotal" style="color: #FF6B6B;">Rs. 0</span>
             </div>
             <div style="margin-bottom: 15px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 5px;"> Delivery Address</label>
-                <textarea id="deliveryAddress" rows="2" placeholder="බේ ලිපිනය ඇතුළත් කරන්න..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;"></textarea>
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">📍 Delivery Address</label>
+                <textarea id="deliveryAddress" rows="2" placeholder="ඔබේ ලිපිනය ඇතුළත් කරන්න..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;"></textarea>
             </div>
             <div style="margin-bottom: 15px;">
                 <label style="font-weight: 600; display: block; margin-bottom: 5px;">📏 Delivery Distance</label>
@@ -165,7 +211,7 @@
                 </select>
             </div>
             <div style="margin-bottom: 20px;">
-                <label style="font-weight: 600; display: block; margin-bottom: 10px;"> Payment Method</label>
+                <label style="font-weight: 600; display: block; margin-bottom: 10px;">💳 Payment Method</label>
                 <div style="display: flex; gap: 10px;">
                     <button onclick="selectPayment('cod')" id="btn-cod" class="pay-btn active">💵 COD</button>
                     <button onclick="selectPayment('online')" id="btn-online" class="pay-btn">🏦 Online</button>
@@ -186,7 +232,289 @@
         </div>
     </div>
 
+    <!-- Grocery Add/Edit Modal -->
+    <div id="groceryModal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="groceryModalTitle" style="margin-bottom: 20px; color: #333;">නව භාණ්ඩයක් එකතු කරන්න</h2>
+            <div style="margin-bottom: 15px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">භාණ්ඩයේ නම</label>
+                <input type="text" id="gName" class="checkout-select" placeholder="උදා: සීනි">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">ප්‍රමාණය</label>
+                <input type="text" id="gQty" class="checkout-select" placeholder="උදා: 1kg">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">මිල (Rs.)</label>
+                <input type="number" id="gPrice" class="checkout-select" placeholder="උදා: 280">
+            </div>
+            <div style="margin-bottom: 15px;">
+                <label style="font-weight: 600; display: block; margin-bottom: 5px;">Image URL (Optional)</label>
+                <input type="text" id="gImage" class="checkout-select" placeholder="https://...">
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button onclick="closeGroceryModal()" style="flex: 1; padding: 12px; border: none; border-radius: 8px; background: #e0e0e0; cursor: pointer; font-weight: 600;">අවලංගු කරන්න</button>
+                <button onclick="saveGroceryProduct()" style="flex: 2; padding: 12px; border: none; border-radius: 8px; background: #FF6B6B; color: white; cursor: pointer; font-weight: 600;">💾 Save කරන්න</button>
+            </div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
+    
+    <!-- GROCERY MODULE JAVASCRIPT -->
+    <script>
+        // Default Grocery Products (22 Items)
+        const defaultGroceryProducts = [
+            { id: 1, name: 'සීනි (Sugar)', qty: '1kg', price: 280, img: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=400', selected: false },
+            { id: 2, name: 'පරිප්පු (Dhal)', qty: '1kg', price: 450, img: 'https://images.unsplash.com/photo-1585996923984-3872e1e5f780?w=400', selected: false },
+            { id: 3, name: 'බිත්තර (Eggs)', qty: '10pcs', price: 350, img: 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=400', selected: false },
+            { id: 4, name: 'කිරි පිටි (Milk Powder)', qty: '400g', price: 650, img: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=400', selected: false },
+            { id: 5, name: 'සුදු හාල් (Rice)', qty: '1kg', price: 220, img: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400', selected: false },
+            { id: 6, name: 'පොල් තෙල් (Coconut Oil)', qty: '1L', price: 650, img: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400', selected: false },
+            { id: 7, name: 'තේ (Tea)', qty: '500g', price: 650, img: 'https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=400', selected: false },
+            { id: 8, name: 'කෝපි (Coffee)', qty: '200g', price: 550, img: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=400', selected: false },
+            { id: 9, name: 'තිරිඟු පිටි (Wheat Flour)', qty: '1kg', price: 180, img: 'https://images.unsplash.com/photo-1627485937980-221c88ac04f9?w=400', selected: false },
+            { id: 10, name: 'මිරිස් කුඩු (Chili Powder)', qty: '100g', price: 150, img: 'https://images.unsplash.com/photo-1599909533730-f8b80c2c2f1d?w=400', selected: false },
+            { id: 11, name: 'කහ කුඩු (Turmeric)', qty: '100g', price: 120, img: 'https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=400', selected: false },
+            { id: 12, name: 'ලුණු (Salt)', qty: '1kg', price: 80, img: 'https://images.unsplash.com/photo-1518110925495-b3132e1e4b0a?w=400', selected: false },
+            { id: 13, name: 'අත් සබන් (Hand Soap)', qty: '100ml', price: 180, img: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400', selected: false },
+            { id: 14, name: 'පොඩි සබන් (Detergent)', qty: '1kg', price: 450, img: 'https://images.unsplash.com/photo-1583947215259-38e31be8751f?w=400', selected: false },
+            { id: 15, name: 'ටූත්පේස්ට් (Toothpaste)', qty: '100g', price: 250, img: 'https://images.unsplash.com/photo-1559304761-12b78d6b789f?w=400', selected: false },
+            { id: 16, name: 'ෂැම්පු (Shampoo)', qty: '200ml', price: 350, img: 'https://images.unsplash.com/photo-1585232561307-3f1d1c5e4f1a?w=400', selected: false },
+            { id: 17, name: 'බ්‍රෙඩ් (Bread)', qty: '1 loaf', price: 120, img: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400', selected: false },
+            { id: 18, name: 'බටර් (Butter)', qty: '200g', price: 450, img: 'https://images.unsplash.com/photo-1589985270826-4b7bb135bc9d?w=400', selected: false },
+            { id: 19, name: 'චීස් (Cheese)', qty: '250g', price: 650, img: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400', selected: false },
+            { id: 20, name: 'යෝගට් (Yogurt)', qty: '500ml', price: 350, img: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=400', selected: false },
+            { id: 21, name: 'කුකුළු මස් (Chicken)', qty: '1kg', price: 950, img: 'https://images.unsplash.com/photo-1587593810167-a84920ea0781?w=400', selected: false },
+            { id: 22, name: 'එළවළු තෙල් (Veg Oil)', qty: '1L', price: 550, img: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=400', selected: false }
+        ];
+
+        let groceryProducts = [];
+        let isGroceryAdmin = false;
+        let editingGroceryId = null;
+
+        // Load Grocery Data
+        function loadGroceryData() {
+            const saved = localStorage.getItem('foodhub_grocery_data');
+            if (saved) {
+                groceryProducts = JSON.parse(saved);
+            } else {
+                groceryProducts = [...defaultGroceryProducts];
+                saveGroceryData();
+            }
+            renderGroceryGrid();
+        }
+
+        function saveGroceryData() {
+            localStorage.setItem('foodhub_grocery_data', JSON.stringify(groceryProducts));
+        }
+
+        // Render Grocery Grid
+        function renderGroceryGrid() {
+            const grid = document.getElementById('groceryGrid');
+            if (groceryProducts.length === 0) {
+                grid.innerHTML = '<div class="loading">භාණ්ඩ කිසිවක් නැත. Admin mode එකෙන් එකතු කරන්න.</div>';
+                updateGroceryCart();
+                return;
+            }
+
+            grid.innerHTML = groceryProducts.map(product => `
+                <div class="grocery-card ${product.selected ? 'selected' : ''}" onclick="toggleGroceryItem(${product.id})">
+                    <div class="grocery-check">
+                        <input type="checkbox" ${product.selected ? 'checked' : ''} onclick="event.stopPropagation(); toggleGroceryItem(${product.id})">
+                    </div>
+                    <img src="${product.img}" alt="${product.name}" class="grocery-img" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+                    <div class="grocery-info">
+                        <div class="grocery-name">${product.name}</div>
+                        <div class="grocery-qty">${product.qty}</div>
+                        <div class="grocery-price">Rs. ${product.price}</div>
+                        ${isGroceryAdmin ? `
+                            <div class="admin-btns">
+                                <button class="admin-btn edit" onclick="event.stopPropagation(); openGroceryModal(${product.id})">✏️ Edit</button>
+                                <button class="admin-btn delete" onclick="event.stopPropagation(); deleteGroceryProduct(${product.id})">🗑️ Delete</button>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+
+            updateGroceryCart();
+        }
+
+        // Toggle Item Selection
+        function toggleGroceryItem(id) {
+            const product = groceryProducts.find(p => p.id === id);
+            if (product) {
+                product.selected = !product.selected;
+                saveGroceryData();
+                renderGroceryGrid();
+            }
+        }
+
+        // Update Cart Summary
+        function updateGroceryCart() {
+            const selected = groceryProducts.filter(p => p.selected);
+            const total = selected.reduce((sum, p) => sum + p.price, 0);
+            
+            document.getElementById('groceryCount').textContent = selected.length;
+            document.getElementById('groceryTotal').textContent = total.toLocaleString();
+            
+            const cartDiv = document.getElementById('groceryCart');
+            if (selected.length > 0) {
+                cartDiv.style.display = 'block';
+            } else {
+                cartDiv.style.display = 'none';
+            }
+        }
+
+        // Toggle Admin Mode
+        function toggleGroceryAdmin() {
+            isGroceryAdmin = !isGroceryAdmin;
+            const btn = document.getElementById('adminToggleBtn');
+            const addBtn = document.getElementById('addGroceryBtn');
+            
+            if (isGroceryAdmin) {
+                btn.classList.add('active');
+                btn.innerHTML = '🔒 Admin ON';
+                addBtn.style.display = 'block';
+                showToast('Admin Mode: දැන් ඔයාට Edit/Delete කරන්න පුළුවන්');
+            } else {
+                btn.classList.remove('active');
+                btn.innerHTML = '👤 Admin';
+                addBtn.style.display = 'none';
+            }
+            renderGroceryGrid();
+        }
+
+        // Modal Functions
+        function openGroceryModal(id = null) {
+            if (!isGroceryAdmin) {
+                showToast('Admin Mode enable කරන්න!');
+                return;
+            }
+            
+            const modal = document.getElementById('groceryModal');
+            const title = document.getElementById('groceryModalTitle');
+            
+            if (id) {
+                editingGroceryId = id;
+                title.textContent = 'භාණ්ඩය Edit කරන්න';
+                const product = groceryProducts.find(p => p.id === id);
+                document.getElementById('gName').value = product.name;
+                document.getElementById('gQty').value = product.qty;
+                document.getElementById('gPrice').value = product.price;
+                document.getElementById('gImage').value = product.img;
+            } else {
+                editingGroceryId = null;
+                title.textContent = 'නව භාණ්ඩයක් එකතු කරන්න';
+                document.getElementById('gName').value = '';
+                document.getElementById('gQty').value = '';
+                document.getElementById('gPrice').value = '';
+                document.getElementById('gImage').value = '';
+            }
+            
+            modal.classList.add('active');
+        }
+
+        function closeGroceryModal() {
+            document.getElementById('groceryModal').classList.remove('active');
+            editingGroceryId = null;
+        }
+
+        function saveGroceryProduct() {
+            const name = document.getElementById('gName').value.trim();
+            const qty = document.getElementById('gQty').value.trim();
+            const price = parseFloat(document.getElementById('gPrice').value);
+            const img = document.getElementById('gImage').value.trim() || 'https://via.placeholder.com/400x300?text=No+Image';
+
+            if (!name || !qty || isNaN(price)) {
+                showToast('කරුණාකර සියලු තොරතුරු නිවැරදිව පුරවන්න!');
+                return;
+            }
+
+            if (editingGroceryId) {
+                const product = groceryProducts.find(p => p.id === editingGroceryId);
+                if (product) {
+                    product.name = name;
+                    product.qty = qty;
+                    product.price = price;
+                    product.img = img;
+                }
+            } else {
+                const newProduct = {
+                    id: Date.now(),
+                    name: name,
+                    qty: qty,
+                    price: price,
+                    img: img,
+                    selected: false
+                };
+                groceryProducts.push(newProduct);
+            }
+
+            saveGroceryData();
+            renderGroceryGrid();
+            closeGroceryModal();
+            showToast('සාර්ථකව Save විය! ✅');
+        }
+
+        function deleteGroceryProduct(id) {
+            if (!isGroceryAdmin) return;
+            if (confirm('මේ භාණ්ඩය Delete කරන්න ඕනද?')) {
+                groceryProducts = groceryProducts.filter(p => p.id !== id);
+                saveGroceryData();
+                renderGroceryGrid();
+                showToast('Delete විය! 🗑️');
+            }
+        }
+
+        // Confirm Grocery Order
+        function confirmGroceryOrder() {
+            const selected = groceryProducts.filter(p => p.selected);
+            if (selected.length === 0) {
+                showToast('අවම වශයෙන් භාණ්ඩයක් හෝ තෝරන්න!');
+                return;
+            }
+
+            const total = selected.reduce((sum, p) => sum + p.price, 0);
+            
+            let orderMsg = `*🛒 FoodHub Grocery Order*\n\n`;
+            orderMsg += `*භාණ්ඩ:* \n`;
+            selected.forEach(p => {
+                orderMsg += `✓ ${p.name} (${p.qty}) - Rs. ${p.price}\n`;
+            });
+            orderMsg += `\n*මුළු භාණ්ඩ ගණන:* ${selected.length}`;
+            orderMsg += `\n*මුළු මුදල:* Rs. ${total.toLocaleString()}`;
+            orderMsg += `\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
+
+            // WhatsApp Integration (Replace with your number)
+            const phoneNumber = "9477XXXXXXX"; // ඔයාගේ WhatsApp number එක මෙතන දාන්න
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(orderMsg)}`;
+            
+            if (confirm('මෙම order එක WhatsApp හරහා යවන්නද?')) {
+                window.open(whatsappUrl, '_blank');
+            }
+            
+            // Clear selection after order
+            groceryProducts.forEach(p => p.selected = false);
+            saveGroceryData();
+            renderGroceryGrid();
+        }
+
+        // Helper: Toast Notification
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Initialize Grocery on load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadGroceryData();
+        });
+    </script>
     
     <!-- Register Service Worker -->
     <script>
