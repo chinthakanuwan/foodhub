@@ -1,4 +1,3 @@
-// Firebase Configuration
 const firebaseConfig = {
     apiKey: "AIzaSyDduouixF2IW568mND20cfxmnBNxQfRkrg",
     authDomain: "foodhub-app-6632c.firebaseapp.com",
@@ -18,6 +17,15 @@ let orders = JSON.parse(localStorage.getItem('orders')) || [];
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let selectedPaymentMethod = 'cod';
 let currentFilter = null;
+
+// Helper function to handle both Image URLs and Embed Codes
+function getImageHtml(imgData, height = '200px') {
+    if (!imgData) return `<div style="width:100%;height:${height};background:#ddd;display:flex;align-items:center;justify-content:center;color:#999;">No Image</div>`;
+    if (imgData.trim().startsWith('<')) {
+        return `<div style="width:100%;height:${height};overflow:hidden;display:flex;align-items:center;justify-content:center;">${imgData}</div>`;
+    }
+    return `<img src="${imgData}" style="width:100%;height:${height};object-fit:cover;" onerror="this.style.display='none';this.parentElement.innerHTML='<div style=\\'width:100%;height:${height};background:#ddd;display:flex;align-items:center;justify-content:center;color:#999;\\'>No Image</div>'">`;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     loadShopsFromFirebase();
@@ -53,7 +61,6 @@ function switchTab(tab) {
     document.getElementById('shopsTab').classList.add('hidden');
     document.getElementById('foodsTab').classList.add('hidden');
     document.getElementById('ordersTab').classList.add('hidden');
-    
     if (tab === 'shops') {
         document.getElementById('shopsTab').classList.remove('hidden');
         document.querySelectorAll('.tab')[0].classList.add('active');
@@ -71,7 +78,6 @@ function switchTab(tab) {
     }
 }
 
-// Check if shop is open
 function isShopOpen(shop) {
     const now = new Date();
     const currentTime = now.getHours() * 60 + now.getMinutes();
@@ -79,32 +85,31 @@ function isShopOpen(shop) {
     const closeTime = shop.closeTime || '22:00';
     const [openHours, openMinutes] = openTime.split(':').map(Number);
     const [closeHours, closeMinutes] = closeTime.split(':').map(Number);
-    const openMinutesTotal = openHours * 60 + openMinutes;
-    const closeMinutesTotal = closeHours * 60 + closeMinutes;
-    return currentTime >= openMinutesTotal && currentTime <= closeMinutesTotal;
+    return currentTime >= (openHours * 60 + openMinutes) && currentTime <= (closeHours * 60 + closeMinutes);
 }
 
 function getShopStatus(shop) {
-    if (isShopOpen(shop)) return { status: 'open', text: ' Open', color: '#4CAF50' };
-    else return { status: 'closed', text: `🔴 Closed (Opens at ${shop.openTime || '09:00'})`, color: '#f44336' };
+    if (isShopOpen(shop)) return { status: 'open', text: '🟢 Open', color: '#4CAF50' };
+    else return { status: 'closed', text: ` Closed (Opens at ${shop.openTime || '09:00'})`, color: '#f44336' };
 }
 
 function renderShops() {
     const shopsList = document.getElementById('shopsList');
     if (!shopsList) return;
-    if (shops.length === 0) { shopsList.innerHTML = '<div class="loading"> Shops තවම නැහැ</div>'; return; }
+    if (shops.length === 0) { shopsList.innerHTML = '<div class="loading">🏪 Shops තවම නැහැ</div>'; return; }
     const sortedShops = [...shops].sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0));
     shopsList.innerHTML = sortedShops.map(shop => {
         const shopStatus = getShopStatus(shop);
         return `
             <div class="shop-card" onclick="viewShop('${shop.id}')">
-                <img src="${shop.image}" class="shop-image" alt="${shop.name}" onerror="this.src='https://via.placeholder.com/500?text=No+Image'">
+                ${getImageHtml(shop.image, '200px')}
                 <div class="shop-info">
                     <div class="shop-name">${shop.name} ${shop.isFeatured ? '⭐' : ''}</div>
                     <div class="shop-details" style="color: ${shopStatus.color}; font-weight: 600;">
                         <span>${shopStatus.text}</span>
                         <span>⏱️ ${shop.deliveryTime || '30-40 min'}</span>
                     </div>
+                    <div class="shop-details"><span>🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'}</span></div>
                     <div class="shop-details"><span>🚚 Delivery: Rs. ${shop.deliveryFee || 150} සිට</span></div>
                     <div class="shop-tags">${(shop.tags || []).map(tag => `<span class="tag" onclick="event.stopPropagation(); filterByTag('${tag}')">${tag}</span>`).join('')}</div>
                 </div>
@@ -144,12 +149,12 @@ function renderFoods() {
             return categoryMatch || shopTagMatch;
         });
     }
-    if (displayFoods.length === 0) { foodsList.innerHTML = '<div class="loading"> Foods තවම නැහැ</div>'; return; }
+    if (displayFoods.length === 0) { foodsList.innerHTML = '<div class="loading">🍕 Foods තවම නැහැ</div>'; return; }
     foodsList.innerHTML = displayFoods.map(food => {
         const shop = shops.find(s => s.id === food.shopId);
         return `
             <div class="food-card">
-                <img src="${food.image}" class="food-image" alt="${food.name}" onerror="this.src='https://via.placeholder.com/500?text=No+Image'">
+                ${getImageHtml(food.image, '120px')}
                 <div class="food-info">
                     <div class="food-name">${food.name}</div>
                     <div style="font-size: 11px; color: #666; margin-bottom: 5px;">${shop ? shop.name : ''}</div>
@@ -165,15 +170,14 @@ function viewShop(shopId) {
     const shop = shops.find(s => s.id === shopId);
     if (!shop) return;
     if (!isShopOpen(shop)) {
-        const closeTime = shop.closeTime || '22:00';
-        if (!confirm(`⚠️ ${shop.name} is currently CLOSED.\nOpens at ${shop.openTime || '09:00'}, Closes at ${closeTime}.\n\nDo you still want to view?`)) return;
+        if (!confirm(`⚠️ ${shop.name} is currently CLOSED.\nOpens at ${shop.openTime || '09:00'}, Closes at ${shop.closeTime || '22:00'}.\n\nDo you still want to view?`)) return;
     }
     const shopFoods = foods.filter(f => f.shopId === shopId);
     document.getElementById('shopsList').innerHTML = `
         <div style="background: white; padding: 20px; border-radius: 15px; margin-bottom: 20px;">
-            <img src="${shop.image}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 10px; margin-bottom: 15px;" onerror="this.src='https://via.placeholder.com/500'">
+            ${getImageHtml(shop.image, '200px')}
             <h2>${shop.name}</h2>
-            <p style="color: #666; margin-bottom: 15px;">⭐ ${shop.rating || '4.0'} | ⏰ ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'} |  Rs. ${shop.deliveryFee || 150} සිට</p>
+            <p style="color: #666; margin-bottom: 15px;">⭐ ${shop.rating || '4.0'} | 🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'} | 🚚 Rs. ${shop.deliveryFee || 150} සිට</p>
             <div style="display: flex; gap: 10px; margin-bottom: 20px;">
                 <button class="btn btn-whatsapp" onclick="orderWhatsApp('${shop.id}')">💬 WhatsApp</button>
                 <button class="btn btn-call" onclick="orderCall()">📞 Call</button>
@@ -182,11 +186,11 @@ function viewShop(shopId) {
             <div class="food-grid">
                 ${shopFoods.length > 0 ? shopFoods.map(food => `
                     <div class="food-card">
-                        <img src="${food.image}" class="food-image" onerror="this.src='https://via.placeholder.com/500'">
+                        ${getImageHtml(food.image, '120px')}
                         <div class="food-info">
                             <div class="food-name">${food.name}</div>
                             <div class="food-price">Rs. ${food.price}</div>
-                            <button class="btn btn-primary" onclick="addToCart('${food.id}')"> Add</button>
+                            <button class="btn btn-primary" onclick="addToCart('${food.id}')">🛒 Add</button>
                         </div>
                     </div>
                 `).join('') : '<div class="loading" style="grid-column: 1/-1;">මේ shop එකේ foods තවම නැහැ</div>'}
@@ -273,12 +277,12 @@ function confirmOrder() {
     const deliveryFee = parseInt(document.getElementById('deliveryZone').value) || 0;
     const grandTotal = foodTotal + deliveryFee;
     const itemsList = cart.map(item => `${item.name} x${item.quantity}`).join('%0A');
-    let paymentInfo = selectedPaymentMethod === 'cod' ? '*Payment:* 💵 Cash on Delivery' : `*Payment:*  Online%0A*Ref:* ${document.getElementById('transactionId').value.trim()}`;
+    let paymentInfo = selectedPaymentMethod === 'cod' ? '*Payment:* 💵 Cash on Delivery' : `*Payment:* 🏦 Online%0A*Ref:* ${document.getElementById('transactionId').value.trim()}`;
     const order = { items: cart.map(i => i.name).join(', '), foodTotal: foodTotal, deliveryFee: deliveryFee, total: grandTotal, paymentMethod: selectedPaymentMethod, address: address, date: new Date().toISOString(), status: 'Pending' };
     database.ref('orders').push(order).then(() => {
         orders.push({...order, id: Date.now()});
         localStorage.setItem('orders', JSON.stringify(orders));
-        const message = `*🆕 New Order - FoodHub*%0A%0A*Items:*%0A${itemsList}%0A%0A*Food Total:* Rs. ${foodTotal}%0A* Delivery Fee:* Rs. ${deliveryFee}%0A*💰 Grand Total:* Rs. ${grandTotal}%0A%0A${paymentInfo}%0A%0A*📍 Address:*%0A${address}`;
+        const message = `*🆕 New Order - FoodHub*%0A%0A*Items:*%0A${itemsList}%0A%0A*Food Total:* Rs. ${foodTotal}%0A*🚚 Delivery Fee:* Rs. ${deliveryFee}%0A*💰 Grand Total:* Rs. ${grandTotal}%0A%0A${paymentInfo}%0A%0A*📍 Address:*%0A${address}`;
         cart = [];
         localStorage.setItem('cart', JSON.stringify(cart));
         updateCartCount();
@@ -301,7 +305,7 @@ function renderOrders() {
     }
     if (orders.length === 0 && cart.length === 0) html += '<div class="loading">📦 Orders තවම නැහැ</div>';
     else if (orders.length > 0) {
-        html += '<h3 style="margin-bottom: 10px;"> Past Orders</h3>';
+        html += '<h3 style="margin-bottom: 10px;">📜 Past Orders</h3>';
         html += orders.slice().reverse().map(order => `
             <div style="background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
                 <div style="font-weight: bold; margin-bottom: 10px;">Order #${order.id ? order.id.toString().slice(-6) : 'New'}</div>
@@ -323,7 +327,7 @@ function filterShops(term) {
     const filtered = shops.filter(shop => shop.name.toLowerCase().includes(term) || (shop.tags && shop.tags.some(t => t.toLowerCase().includes(term))));
     document.getElementById('shopsList').innerHTML = filtered.map(shop => `
         <div class="shop-card" onclick="viewShop('${shop.id}')">
-            <img src="${shop.image}" class="shop-image" onerror="this.src='https://via.placeholder.com/500'">
+            ${getImageHtml(shop.image, '200px')}
             <div class="shop-info">
                 <div class="shop-name">${shop.name}</div>
                 <div class="shop-tags">${(shop.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
@@ -336,11 +340,11 @@ function filterFoods(term) {
     const filtered = foods.filter(food => food.name.toLowerCase().includes(term));
     document.getElementById('foodsList').innerHTML = filtered.map(food => `
         <div class="food-card">
-            <img src="${food.image}" class="food-image" onerror="this.src='https://via.placeholder.com/500'">
+            ${getImageHtml(food.image, '120px')}
             <div class="food-info">
                 <div class="food-name">${food.name}</div>
                 <div class="food-price">Rs. ${food.price}</div>
-                <button class="btn btn-primary" onclick="addToCart('${food.id}')"> Add</button>
+                <button class="btn btn-primary" onclick="addToCart('${food.id}')">🛒 Add</button>
             </div>
         </div>
     `).join('');
