@@ -13,10 +13,24 @@ const database = firebase.database();
 
 let shops = [];
 let foods = [];
+let groceryItems = [];
 let orders = JSON.parse(localStorage.getItem('orders')) || [];
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let selectedPaymentMethod = 'cod';
 let currentFilter = null;
+let currentShopForProducts = null;
+
+// Sample Grocery Items with Images
+const sampleGroceryItems = [
+    { id: '1', name: 'සීනි (Sugar) 1kg', price: 180, category: 'grocery', image: 'https://images.unsplash.com/photo-1589894117408-6b8915a89915?w=500', unit: '1kg' },
+    { id: '2', name: 'පරිප්පු (Dhal) 1kg', price: 350, category: 'grocery', image: 'https://images.unsplash.com/photo-1587314168485-323f39f5441b?w=500', unit: '1kg' },
+    { id: '3', name: 'කිරි පිටි (Milk Powder) 400g', price: 650, category: 'grocery', image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500', unit: '400g' },
+    { id: '4', name: 'සහල් (Rice) 1kg', price: 220, category: 'grocery', image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500', unit: '1kg' },
+    { id: '5', name: 'තෙල් (Oil) 1L', price: 450, category: 'grocery', image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500', unit: '1L' },
+    { id: '6', name: 'ලුණු (Salt) 500g', price: 80, category: 'grocery', image: 'https://images.unsplash.com/photo-1615485904265-29330f2073bd?w=500', unit: '500g' },
+    { id: '7', name: 'මිරිස් කුඩු (Chili Powder) 100g', price: 150, category: 'grocery', image: 'https://images.unsplash.com/photo-1596040071240-08301a74781c?w=500', unit: '100g' },
+    { id: '8', name: 'කහ කුඩු (Turmeric) 100g', price: 120, category: 'grocery', image: 'https://images.unsplash.com/photo-1615485297392-60cb4549853c?w=500', unit: '100g' },
+];
 
 // Helper function to handle both Image URLs and Embed Codes
 function getImageHtml(imgData, height = '200px') {
@@ -30,12 +44,20 @@ function getImageHtml(imgData, height = '200px') {
 document.addEventListener('DOMContentLoaded', () => {
     loadShopsFromFirebase();
     loadFoodsFromFirebase();
+    loadGroceryItems();
     renderOrders();
     updateCartCount();
     document.getElementById('searchInput').addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase();
-        if (searchTerm) { filterShops(searchTerm); filterFoods(searchTerm); }
-        else { renderShops(); renderFoods(); }
+        if (searchTerm) {
+            filterShops(searchTerm);
+            filterFoods(searchTerm);
+            filterGrocery(searchTerm);
+        } else {
+            renderShops();
+            renderFoods();
+            renderGrocery();
+        }
     });
 });
 
@@ -55,25 +77,48 @@ function loadFoodsFromFirebase() {
     });
 }
 
+function loadGroceryItems() {
+    database.ref('groceryItems').on('value', (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+            groceryItems = Object.keys(data).map(key => ({...data[key], id: key}));
+        } else {
+            groceryItems = [...sampleGroceryItems];
+            // Save sample items to Firebase
+            sampleGroceryItems.forEach(item => {
+                database.ref('groceryItems').child(item.id).set(item);
+            });
+        }
+        renderGrocery();
+    });
+}
+
 function switchTab(tab) {
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     document.getElementById('shopsTab').classList.add('hidden');
+    document.getElementById('groceryTab').classList.add('hidden');
     document.getElementById('foodsTab').classList.add('hidden');
     document.getElementById('ordersTab').classList.add('hidden');
+    
     if (tab === 'shops') {
         document.getElementById('shopsTab').classList.remove('hidden');
         document.querySelectorAll('.tab')[0].classList.add('active');
         document.querySelectorAll('.nav-item')[0].classList.add('active');
-    } else if (tab === 'foods') {
-        document.getElementById('foodsTab').classList.remove('hidden');
+    } else if (tab === 'grocery') {
+        document.getElementById('groceryTab').classList.remove('hidden');
         document.querySelectorAll('.tab')[1].classList.add('active');
         document.querySelectorAll('.nav-item')[1].classList.add('active');
+        renderGrocery();
+    } else if (tab === 'foods') {
+        document.getElementById('foodsTab').classList.remove('hidden');
+        document.querySelectorAll('.tab')[2].classList.add('active');
+        document.querySelectorAll('.nav-item')[2].classList.add('active');
         renderFoods();
     } else if (tab === 'orders') {
         document.getElementById('ordersTab').classList.remove('hidden');
-        document.querySelectorAll('.tab')[2].classList.add('active');
-        document.querySelectorAll('.nav-item')[2].classList.add('active');
+        document.querySelectorAll('.tab')[3].classList.add('active');
+        document.querySelectorAll('.nav-item')[3].classList.add('active');
         renderOrders();
     }
 }
@@ -100,14 +145,15 @@ function renderShops() {
     const sortedShops = [...shops].sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0));
     shopsList.innerHTML = sortedShops.map(shop => {
         const shopStatus = getShopStatus(shop);
+        const isGrocery = shop.category === 'Grocery' || shop.category === 'Supermarket';
         return `
-            <div class="shop-card" onclick="viewShop('${shop.id}')">
+            <div class="shop-card" onclick="${isGrocery ? `viewGroceryShop('${shop.id}')` : `viewShop('${shop.id}')`}">
                 ${getImageHtml(shop.image, '200px')}
                 <div class="shop-info">
-                    <div class="shop-name">${shop.name} ${shop.isFeatured ? '⭐' : ''}</div>
+                    <div class="shop-name">${shop.name} ${shop.isFeatured ? '⭐' : ''} ${isGrocery ? '🛒' : ''}</div>
                     <div class="shop-details" style="color: ${shopStatus.color}; font-weight: 600;">
                         <span>${shopStatus.text}</span>
-                        <span>️ ${shop.deliveryTime || '30-40 min'}</span>
+                        <span>⏱️ ${shop.deliveryTime || '30-40 min'}</span>
                     </div>
                     <div class="shop-details"><span>🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'}</span></div>
                     <div class="shop-details"><span>🚚 Delivery: Rs. ${shop.deliveryFee || 150} සිට</span></div>
@@ -116,6 +162,79 @@ function renderShops() {
             </div>
         `;
     }).join('');
+}
+
+function renderGrocery() {
+    const groceryList = document.getElementById('groceryList');
+    if (!groceryList) return;
+    if (groceryItems.length === 0) { groceryList.innerHTML = '<div class="loading"> Grocery items තවම නැහැ</div>'; return; }
+    
+    groceryList.innerHTML = `
+        <div style="margin-bottom: 20px;">
+            <h3 style="margin-bottom: 15px;"> Available Grocery Items</h3>
+            <div class="food-grid">
+                ${groceryItems.map(item => `
+                    <div class="food-card">
+                        ${getImageHtml(item.image, '120px')}
+                        <div class="food-info">
+                            <div class="food-name">${item.name}</div>
+                            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">${item.unit || ''}</div>
+                            <div class="food-price">Rs. ${item.price}</div>
+                            <button class="btn btn-success" onclick="addToGroceryCart('${item.id}')">🛒 Add to Cart</button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+}
+
+function filterGrocery(term) {
+    const filtered = groceryItems.filter(item => item.name.toLowerCase().includes(term));
+    const groceryList = document.getElementById('groceryList');
+    if (!groceryList) return;
+    
+    groceryList.innerHTML = `
+        <div style="margin-bottom: 20px;">
+            <h3 style="margin-bottom: 15px;"> Search Results: ${term}</h3>
+            <div class="food-grid">
+                ${filtered.map(item => `
+                    <div class="food-card">
+                        ${getImageHtml(item.image, '120px')}
+                        <div class="food-info">
+                            <div class="food-name">${item.name}</div>
+                            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">${item.unit || ''}</div>
+                            <div class="food-price">Rs. ${item.price}</div>
+                            <button class="btn btn-success" onclick="addToGroceryCart('${item.id}')">🛒 Add to Cart</button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        </div>
+    `;
+}
+
+function addToGroceryCart(itemId) {
+    const item = groceryItems.find(i => i.id === itemId);
+    if (!item) return;
+    
+    const existingItem = cart.find(cartItem => cartItem.id === itemId && cartItem.type === 'grocery');
+    if (existingItem) {
+        existingItem.quantity++;
+    } else {
+        cart.push({ 
+            id: itemId, 
+            name: item.name, 
+            price: item.price, 
+            image: item.image, 
+            type: 'grocery',
+            unit: item.unit,
+            quantity: 1 
+        });
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+    showToast(`✅ ${item.name} cart එකට එකතු වුණා!`);
 }
 
 function filterByTag(tag) {
@@ -179,8 +298,10 @@ function viewShop(shopId) {
             <h2>${shop.name}</h2>
             <p style="color: #666; margin-bottom: 15px;">⭐ ${shop.rating || '4.0'} | 🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'} | 🚚 Rs. ${shop.deliveryFee || 150} සිට</p>
             <div style="display: flex; gap: 10px; margin-bottom: 20px;">
-                <button class="btn btn-whatsapp" onclick="orderWhatsApp('${shop.id}')">💬 WhatsApp</button>
+                <button class="btn btn-whatsapp" onclick="orderWhatsApp('${shop.id}')"> WhatsApp</button>
                 <button class="btn btn-call" onclick="orderCall()">📞 Call</button>
+                <button class="btn btn-primary" onclick="showProductList('${shop.id}')">📦 View Products</button>
+                <button class="btn btn-success" onclick="shareShop('${shop.id}')">📱 Share</button>
             </div>
             <h3 style="margin-bottom: 15px;">Menu</h3>
             <div class="food-grid">
@@ -190,7 +311,7 @@ function viewShop(shopId) {
                         <div class="food-info">
                             <div class="food-name">${food.name}</div>
                             <div class="food-price">Rs. ${food.price}</div>
-                            <button class="btn btn-primary" onclick="addToCart('${food.id}')">🛒 Add</button>
+                            <button class="btn btn-primary" onclick="addToCart('${food.id}')"> Add</button>
                         </div>
                     </div>
                 `).join('') : '<div class="loading" style="grid-column: 1/-1;">මේ shop එකේ foods තවම නැහැ</div>'}
@@ -199,6 +320,106 @@ function viewShop(shopId) {
         </div>
     `;
     window.scrollTo(0, 0);
+}
+
+function viewGroceryShop(shopId) {
+    const shop = shops.find(s => s.id === shopId);
+    if (!shop) return;
+    document.getElementById('groceryList').innerHTML = `
+        <div style="background: white; padding: 20px; border-radius: 15px; margin-bottom: 20px;">
+            ${getImageHtml(shop.image, '200px')}
+            <h2>${shop.name} 🛒</h2>
+            <p style="color: #666; margin-bottom: 15px;">🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'} | 🚚 Rs. ${shop.deliveryFee || 150} සිට</p>
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <button class="btn btn-whatsapp" onclick="orderWhatsApp('${shop.id}')">💬 WhatsApp</button>
+                <button class="btn btn-success" onclick="shareShop('${shop.id}')">📱 Share</button>
+            </div>
+            <h3 style="margin-bottom: 15px;"> Grocery Items</h3>
+            <div class="food-grid">
+                ${groceryItems.map(item => `
+                    <div class="food-card">
+                        ${getImageHtml(item.image, '120px')}
+                        <div class="food-info">
+                            <div class="food-name">${item.name}</div>
+                            <div style="font-size: 12px; color: #666; margin-bottom: 5px;">${item.unit || ''}</div>
+                            <div class="food-price">Rs. ${item.price}</div>
+                            <button class="btn btn-success" onclick="addToGroceryCart('${item.id}')">🛒 Add</button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+            <button onclick="switchTab('grocery'); renderGrocery();" class="back-btn">️ Back</button>
+        </div>
+    `;
+    window.scrollTo(0, 0);
+}
+
+function showProductList(shopId) {
+    currentShopForProducts = shops.find(s => s.id === shopId);
+    const shopFoods = foods.filter(f => f.shopId === shopId);
+    const modal = document.getElementById('productListModal');
+    const content = document.getElementById('productListContent');
+    
+    content.innerHTML = shopFoods.map(food => `
+        <div class="product-item">
+            <div>
+                <strong>${food.name}</strong><br>
+                <small>Rs. ${food.price}</small>
+            </div>
+            <div style="color: #666; font-size: 14px;">
+                <input type="checkbox" class="product-checkbox" value="${food.name} - Rs. ${food.price}" data-name="${food.name}" data-price="${food.price}">
+            </div>
+        </div>
+    `).join('');
+    
+    modal.style.display = 'block';
+}
+
+function closeProductList() {
+    document.getElementById('productListModal').style.display = 'none';
+}
+
+function sendProductListWhatsApp() {
+    const checkboxes = document.querySelectorAll('.product-checkbox:checked');
+    if (checkboxes.length === 0) {
+        alert('Please select at least one item');
+        return;
+    }
+    
+    let message = `*Order from ${currentShopForProducts.name}*\n\n*Selected Items:*\n`;
+    let total = 0;
+    
+    checkboxes.forEach(cb => {
+        message += `• ${cb.value}\n`;
+        total += parseFloat(cb.dataset.price);
+    });
+    
+    message += `\n*Total: Rs. ${total}*\n\nPlease confirm my order.`;
+    
+    window.open(`https://wa.me/94766488689?text=${encodeURIComponent(message)}`, '_blank');
+    closeProductList();
+}
+
+function shareShop(shopId) {
+    const shop = shops.find(s => s.id === shopId);
+    const shareText = `Check out ${shop.name} on FoodHub! 🍔\n${shop.tags ? 'Specialties: ' + shop.tags.join(', ') : ''}\nOrder now!`;
+    const shareUrl = window.location.href;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: shop.name,
+            text: shareText,
+            url: shareUrl
+        }).catch(err => console.log('Error sharing:', err));
+    } else {
+        // Fallback - copy to clipboard
+        navigator.clipboard.writeText(`${shareText}\n\n${shareUrl}`)
+            .then(() => alert('✅ Link copied to clipboard! Share on WhatsApp/Facebook'))
+            .catch(() => {
+                // Open WhatsApp directly
+                window.open(`https://wa.me/?text=${encodeURIComponent(shareText + '\n\n' + shareUrl)}`, '_blank');
+            });
+    }
 }
 
 function addToCart(foodId) {
@@ -211,7 +432,7 @@ function addToCart(foodId) {
     }
     const existingItem = cart.find(item => item.id === foodId);
     if (existingItem) existingItem.quantity++;
-    else cart.push({ id: food.id, name: food.name, price: food.price, image: food.image, shopId: food.shopId, quantity: 1 });
+    else cart.push({ id: food.id, name: food.name, price: food.price, image: food.image, shopId: food.shopId, type: 'food', quantity: 1 });
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartCount();
     showToast(`✅ ${food.name} cart එකට එකතු වුණා!`);
@@ -277,12 +498,12 @@ function confirmOrder() {
     const deliveryFee = parseInt(document.getElementById('deliveryZone').value) || 0;
     const grandTotal = foodTotal + deliveryFee;
     const itemsList = cart.map(item => `${item.name} x${item.quantity}`).join('%0A');
-    let paymentInfo = selectedPaymentMethod === 'cod' ? '*Payment:* 💵 Cash on Delivery' : `*Payment:* 🏦 Online%0A*Ref:* ${document.getElementById('transactionId').value.trim()}`;
+    let paymentInfo = selectedPaymentMethod === 'cod' ? '*Payment:* 💵 Cash on Delivery' : `*Payment:*  Online%0A*Ref:* ${document.getElementById('transactionId').value.trim()}`;
     const order = { items: cart.map(i => i.name).join(', '), foodTotal: foodTotal, deliveryFee: deliveryFee, total: grandTotal, paymentMethod: selectedPaymentMethod, address: address, date: new Date().toISOString(), status: 'Pending' };
     database.ref('orders').push(order).then(() => {
         orders.push({...order, id: Date.now()});
         localStorage.setItem('orders', JSON.stringify(orders));
-        const message = `*🆕 New Order - FoodHub*%0A%0A*Items:*%0A${itemsList}%0A%0A*Food Total:* Rs. ${foodTotal}%0A*🚚 Delivery Fee:* Rs. ${deliveryFee}%0A*💰 Grand Total:* Rs. ${grandTotal}%0A%0A${paymentInfo}%0A%0A*📍 Address:*%0A${address}`;
+        const message = `*🆕 New Order - FoodHub*%0A%0A*Items:*%0A${itemsList}%0A%0A*Food Total:* Rs. ${foodTotal}%0A*🚚 Delivery Fee:* Rs. ${deliveryFee}%0A* Grand Total:* Rs. ${grandTotal}%0A%0A${paymentInfo}%0A%0A*📍 Address:*%0A${address}`;
         cart = [];
         localStorage.setItem('cart', JSON.stringify(cart));
         updateCartCount();
@@ -301,7 +522,7 @@ function renderOrders() {
     let html = '';
     if (cart.length > 0) {
         const foodTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        html += `<div style="background: #FFF0F0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #FF6B6B;"><h3 style="margin-bottom: 10px;"> Your Cart (${cart.reduce((t,i)=>t+i.quantity,0)} items)</h3>${cart.map(item => `<div style="display:flex; justify-content:space-between; margin-bottom:5px; font-size:14px;"><span>${item.name} x${item.quantity}</span><span>Rs. ${item.price * item.quantity}</span></div>`).join('')}<div style="font-weight:bold; font-size:18px; margin: 15px 0; border-top: 1px dashed #ccc; padding-top: 10px; display:flex; justify-content:space-between;"><span>Food Total:</span><span style="color:#FF6B6B;">Rs. ${foodTotal}</span></div><p style="font-size: 12px; color: #666; margin-bottom: 15px;">* Delivery fee එක checkout එකේදී එකතු වේ.</p><button class="btn btn-primary" onclick="openCheckout()" style="background: #FF6B6B; color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold;">Proceed to Checkout 🛒</button></div>`;
+        html += `<div style="background: #FFF0F0; padding: 20px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #FF6B6B;"><h3 style="margin-bottom: 10px;">🛒 Your Cart (${cart.reduce((t,i)=>t+i.quantity,0)} items)</h3>${cart.map(item => `<div style="display:flex; justify-content:space-between; margin-bottom:5px; font-size:14px;"><span>${item.name} x${item.quantity}</span><span>Rs. ${item.price * item.quantity}</span></div>`).join('')}<div style="font-weight:bold; font-size:18px; margin: 15px 0; border-top: 1px dashed #ccc; padding-top: 10px; display:flex; justify-content:space-between;"><span>Food Total:</span><span style="color:#FF6B6B;">Rs. ${foodTotal}</span></div><p style="font-size: 12px; color: #666; margin-bottom: 15px;">* Delivery fee එක checkout එකේදී එකතු වේ.</p><button class="btn btn-primary" onclick="openCheckout()" style="background: #FF6B6B; color: white; width: 100%; padding: 15px; border: none; border-radius: 8px; font-size: 16px; font-weight: bold;">Proceed to Checkout 🛒</button></div>`;
     }
     if (orders.length === 0 && cart.length === 0) html += '<div class="loading">📦 Orders තවම නැහැ</div>';
     else if (orders.length > 0) {
