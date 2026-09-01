@@ -6,6 +6,7 @@
     <title>Admin Panel - FoodHub</title>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
@@ -27,6 +28,7 @@
         .btn-success { background: #4CAF50; color: white; }
         .btn-danger { background: #f44336; color: white; }
         .btn-warning { background: #FF9800; color: white; }
+        .btn-info { background: #2196F3; color: white; }
         .image-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin-top: 10px; max-height: 250px; overflow-y: auto; padding: 10px; border: 2px solid #e0e0e0; border-radius: 10px; }
         .gallery-item { cursor: pointer; border: 3px solid transparent; border-radius: 8px; overflow: hidden; transition: all 0.3s; }
         .gallery-item:hover { transform: scale(1.05); border-color: #667eea; }
@@ -36,15 +38,20 @@
         .custom-url-box { margin-top: 15px; padding: 15px; background: #f0f8ff; border-radius: 8px; border: 2px solid #667eea; }
         .custom-url-box label { font-weight: 600; color: #667eea; margin-bottom: 10px; display: block; }
         .order-card { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #667eea; }
+        .order-card.new { border-left-color: #4CAF50; background: #E8F5E9; }
         .order-card.pending { border-left-color: #FF9800; }
         .order-card.delivered { border-left-color: #2196F3; }
+        .order-card.cancelled { border-left-color: #f44336; }
         .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .order-id { font-weight: bold; font-size: 16px; }
         .order-status { padding: 5px 12px; border-radius: 15px; font-size: 12px; font-weight: 600; }
         .status-pending { background: #FFE0B2; color: #E65100; }
+        .status-confirmed { background: #C8E6C9; color: #1B5E20; }
         .status-delivered { background: #BBDEFB; color: #0D47A1; }
+        .status-cancelled { background: #FFCDD2; color: #B71C1C; }
         .order-details { font-size: 14px; color: #666; margin: 10px 0; line-height: 1.8; }
         .order-actions { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+        .order-delivery-info { background: #FFF3E0; padding: 10px; border-radius: 8px; margin-top: 10px; border-left: 3px solid #FF9800; }
         .filter-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .filter-bar select, .filter-bar input { padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; }
         .analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
@@ -60,6 +67,18 @@
         .tab.active { background: #667eea; color: white; }
         .tab:not(.active) { background: #f5f5f5; color: #666; }
         .edit-section { margin-top: 20px; padding: 20px; background: #FFF3CD; border-radius: 10px; border: 2px solid #FFC107; }
+        .feedback-card { background: #f0f8ff; padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 4px solid #667eea; }
+        .feedback-card h4 { margin-bottom: 10px; color: #333; }
+        .feedback-card p { margin: 5px 0; color: #666; }
+        .ad-banner-preview { margin-top: 10px; padding: 10px; background: #f9f9f9; border-radius: 8px; text-align: center; }
+        .ad-banner-preview img { max-width: 100%; max-height: 150px; border-radius: 5px; }
+        .upload-btn { background: #667eea; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer; display: inline-block; margin: 10px 0; }
+        .upload-btn:hover { background: #5568d3; }
+        input[type="file"] { display: none; }
+        .loading-spinner { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,.3); border-radius: 50%; border-top-color: white; animation: spin 1s ease-in-out infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .message-box { background: #E8F5E9; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #4CAF50; }
+        .message-box textarea { width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -68,7 +87,7 @@
             <h1> Admin Login</h1>
             <input type="password" id="adminPassword" placeholder="Enter Password (admin123)">
             <button onclick="login()">Login</button>
-            <p id="loginError" style="color: red; margin-top: 10px; display: none;">❌ Wrong Password!</p>
+            <p id="loginError" style="color: red; margin-top: 10px; display: none;"> Wrong Password!</p>
         </div>
     </div>
 
@@ -80,22 +99,26 @@
         </div>
 
         <div class="section">
-            <h2> Analytics Dashboard</h2>
+            <h2>📊 Analytics Dashboard</h2>
             <div class="analytics-grid">
                 <div class="analytics-card"><h3>📦 Today's Orders</h3><div class="value" id="todayOrders">0</div></div>
                 <div class="analytics-card"><h3>💰 Today's Revenue</h3><div class="value" id="todayRevenue">Rs. 0</div></div>
                 <div class="analytics-card"><h3>📦 Monthly Orders</h3><div class="value" id="monthOrders">0</div></div>
                 <div class="analytics-card"><h3>💰 Monthly Revenue</h3><div class="value" id="monthRevenue">Rs. 0</div></div>
                 <div class="analytics-card"><h3>✅ Delivered</h3><div class="value" id="deliveredOrders">0</div></div>
-                <div class="analytics-card"><h3>⏳ Pending</h3><div class="value" id="pendingOrders">0</div></div>
+                <div class="analytics-card"><h3> Pending</h3><div class="value" id="pendingOrders">0</div></div>
             </div>
         </div>
 
         <div class="section">
             <div class="tabs">
                 <div class="tab active" onclick="switchTab('orders')">📦 Orders</div>
-                <div class="tab" onclick="switchTab('shops')"> Shops</div>
+                <div class="tab" onclick="switchTab('shops')">🏪 Shops</div>
                 <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
+                <div class="tab" onclick="switchTab('grocery')"> Grocery</div>
+                <div class="tab" onclick="switchTab('feedback')"> Feedback</div>
+                <div class="tab" onclick="switchTab('ads')">📢 Advertisements</div>
+                <div class="tab" onclick="switchTab('messages')">📨 Messages</div>
             </div>
 
             <!-- ORDERS TAB -->
@@ -116,7 +139,7 @@
                         <option value="month">This Month</option>
                         <option value="all">All Time</option>
                     </select>
-                    <button class="btn btn-primary" onclick="loadOrders()"> Refresh</button>
+                    <button class="btn btn-primary" onclick="loadOrders()">🔄 Refresh</button>
                 </div>
                 <div id="ordersList"></div>
             </div>
@@ -125,7 +148,7 @@
             <div id="shopsTab" class="hidden">
                 <h2>🏪 Add New Shop</h2>
                 <div class="form-group"><label>Shop Name</label><input type="text" id="shopName" placeholder="e.g., Silvas Family Restaurant"></div>
-                <div class="form-group"><label>Category</label><select id="shopCategory"><option value="Restaurant">️ Restaurant</option><option value="Fast Food">🍔 Fast Food</option><option value="Drinks">🥤 Drinks</option><option value="Flowers">🌹 Flowers</option><option value="Gifts">🎁 Gifts</option><option value="Cakes">🎂 Cakes</option><option value="Bakery"> Bakery</option></select></div>
+                <div class="form-group"><label>Category</label><select id="shopCategory"><option value="Restaurant">️ Restaurant</option><option value="Fast Food">🍔 Fast Food</option><option value="Grocery">🛒 Grocery/Supermarket</option><option value="Drinks"> Drinks</option><option value="Flowers">🌹 Flowers</option><option value="Gifts">🎁 Gifts</option><option value="Cakes">🎂 Cakes</option><option value="Bakery">🥐 Bakery</option></select></div>
                 <div class="form-group"><label>Opening Time</label><input type="time" id="shopOpenTime" value="09:00"></div>
                 <div class="form-group"><label>Closing Time</label><input type="time" id="shopCloseTime" value="22:00"></div>
                 <div class="form-group"><label>Phone Number</label><input type="tel" id="shopPhone" placeholder="0766488689"></div>
@@ -135,12 +158,13 @@
                 <div class="form-group"><label>Tags (comma separated)</label><input type="text" id="shopTags" placeholder="Kottu, Rice & Curry"></div>
                 
                 <div class="form-group">
-                    <label>Select Image from Gallery</label>
-                    <div class="image-gallery" id="shopImageGallery"></div>
-                    <div class="custom-url-box">
-                        <label>Or Enter Custom Image URL / Embed Code:</label>
-                        <input type="text" id="shopCustomImage" placeholder="https://example.com/image.jpg or <iframe>...">
+                    <label>Shop Image</label>
+                    <label class="upload-btn" for="shopFileUpload">📷 Upload from Device</label>
+                    <input type="file" id="shopFileUpload" accept="image/*" onchange="uploadShopImage(this)">
+                    <div style="margin-top: 10px;">
+                        <input type="text" id="shopImageUrl" placeholder="Or enter image URL: https://...">
                     </div>
+                    <div id="shopImagePreview" style="display: none; margin-top: 10px;"></div>
                 </div>
 
                 <div class="form-group"><label><input type="checkbox" id="isFeatured" style="margin-right: 10px;">⭐ Featured Shop</label></div>
@@ -152,7 +176,7 @@
                     <h3 style="margin-bottom: 15px; color: #856404;">✏️ Edit Shop</h3>
                     <div class="form-group"><label>Select Shop to Edit</label><select id="editShopSelect" onchange="loadShopData()"><option value="">-- Select Shop --</option></select></div>
                     <div class="form-group"><label>Shop Name</label><input type="text" id="editShopName"></div>
-                    <div class="form-group"><label>Category</label><select id="editShopCategory"><option value="Restaurant">🍽️ Restaurant</option><option value="Fast Food">🍔 Fast Food</option><option value="Drinks">🥤 Drinks</option><option value="Flowers"> Flowers</option><option value="Gifts"> Gifts</option><option value="Cakes">🎂 Cakes</option><option value="Bakery">🥐 Bakery</option></select></div>
+                    <div class="form-group"><label>Category</label><select id="editShopCategory"><option value="Restaurant">🍽️ Restaurant</option><option value="Fast Food">🍔 Fast Food</option><option value="Grocery"> Grocery</option><option value="Drinks">🥤 Drinks</option><option value="Flowers">🌹 Flowers</option><option value="Gifts">🎁 Gifts</option><option value="Cakes">🎂 Cakes</option><option value="Bakery">🥐 Bakery</option></select></div>
                     <div class="form-group"><label>Opening Time</label><input type="time" id="editShopOpenTime"></div>
                     <div class="form-group"><label>Closing Time</label><input type="time" id="editShopCloseTime"></div>
                     <div class="form-group"><label>Phone Number</label><input type="tel" id="editShopPhone"></div>
@@ -160,10 +184,7 @@
                     <div class="form-group"><label>Delivery Fee (Rs.)</label><input type="number" id="editShopDeliveryFee"></div>
                     <div class="form-group"><label>Rating</label><input type="number" id="editShopRating" step="0.1" min="0" max="5"></div>
                     <div class="form-group"><label>Tags (comma separated)</label><input type="text" id="editShopTags"></div>
-                    <div class="form-group">
-                        <label>Image URL / Embed Code</label>
-                        <input type="text" id="editShopImage" placeholder="https://... or <iframe>...">
-                    </div>
+                    <div class="form-group"><label>Image URL / Embed Code</label><input type="text" id="editShopImage" placeholder="https://... or <iframe>..."></div>
                     <div class="form-group"><label><input type="checkbox" id="editIsFeatured" style="margin-right: 10px;">⭐ Featured Shop</label></div>
                     <button class="btn btn-success" onclick="updateShop()">💾 Update Shop</button>
                     <button class="btn btn-warning" onclick="cancelEdit('shop')">❌ Cancel</button>
@@ -178,17 +199,18 @@
                 <h2>🍕 Add New Food</h2>
                 <div class="form-group"><label>Select Shop</label><select id="foodShop"></select></div>
                 <div class="form-group"><label>Food Name</label><input type="text" id="foodName" placeholder="e.g., Fried Rice"></div>
-                <div class="form-group"><label>Category</label><select id="foodCategory"><option value="Rice">🍚 Rice Dishes</option><option value="Kottu">🍗 Kottu</option><option value="Pizza">🍕 Pizza</option><option value="Burger">🍔 Burgers</option><option value="Drinks">🥤 Drinks</option><option value="Desserts">🍰 Desserts</option><option value="Flowers">🌹 Flowers</option><option value="Cakes"> Cakes</option></select></div>
+                <div class="form-group"><label>Category</label><select id="foodCategory"><option value="Rice">🍚 Rice Dishes</option><option value="Kottu">🍗 Kottu</option><option value="Pizza">🍕 Pizza</option><option value="Burger">🍔 Burgers</option><option value="Drinks">🥤 Drinks</option><option value="Desserts">🍰 Desserts</option><option value="Flowers">🌹 Flowers</option><option value="Cakes">🎂 Cakes</option></select></div>
                 <div class="form-group"><label>Price (Rs.)</label><input type="number" id="foodPrice" placeholder="1200"></div>
                 <div class="form-group"><label>Description</label><textarea id="foodDescription" rows="2" placeholder="Description..."></textarea></div>
                 
                 <div class="form-group">
-                    <label>Select Image from Gallery</label>
-                    <div class="image-gallery" id="foodImageGallery"></div>
-                    <div class="custom-url-box">
-                        <label>Or Enter Custom Image URL / Embed Code:</label>
-                        <input type="text" id="foodCustomImage" placeholder="https://example.com/image.jpg or <iframe>...">
+                    <label>Food Image</label>
+                    <label class="upload-btn" for="foodFileUpload">📷 Upload from Device</label>
+                    <input type="file" id="foodFileUpload" accept="image/*" onchange="uploadFoodImage(this)">
+                    <div style="margin-top: 10px;">
+                        <input type="text" id="foodImageUrl" placeholder="Or enter image URL: https://...">
                     </div>
+                    <div id="foodImagePreview" style="display: none; margin-top: 10px;"></div>
                 </div>
 
                 <button class="btn btn-primary" onclick="saveFood()">💾 Save Food</button>
@@ -199,19 +221,97 @@
                     <h3 style="margin-bottom: 15px; color: #856404;">✏️ Edit Food</h3>
                     <div class="form-group"><label>Select Food to Edit</label><select id="editFoodSelect" onchange="loadFoodData()"><option value="">-- Select Food --</option></select></div>
                     <div class="form-group"><label>Food Name</label><input type="text" id="editFoodName"></div>
-                    <div class="form-group"><label>Category</label><select id="editFoodCategory"><option value="Rice">🍚 Rice</option><option value="Kottu">🍗 Kottu</option><option value="Pizza">🍕 Pizza</option><option value="Burger">🍔 Burger</option><option value="Drinks">🥤 Drinks</option><option value="Desserts">🍰 Desserts</option><option value="Flowers">🌹 Flowers</option><option value="Cakes">🎂 Cakes</option></select></div>
+                    <div class="form-group"><label>Category</label><select id="editFoodCategory"><option value="Rice">🍚 Rice</option><option value="Kottu">🍗 Kottu</option><option value="Pizza">🍕 Pizza</option><option value="Burger">🍔 Burger</option><option value="Drinks">🥤 Drinks</option><option value="Desserts"> Desserts</option><option value="Flowers">🌹 Flowers</option><option value="Cakes">🎂 Cakes</option></select></div>
                     <div class="form-group"><label>Price (Rs.)</label><input type="number" id="editFoodPrice"></div>
                     <div class="form-group"><label>Description</label><textarea id="editFoodDescription" rows="2"></textarea></div>
-                    <div class="form-group">
-                        <label>Image URL / Embed Code</label>
-                        <input type="text" id="editFoodImage" placeholder="https://... or <iframe>...">
-                    </div>
+                    <div class="form-group"><label>Image URL / Embed Code</label><input type="text" id="editFoodImage" placeholder="https://... or <iframe>..."></div>
                     <button class="btn btn-success" onclick="updateFood()">💾 Update Food</button>
                     <button class="btn btn-warning" onclick="cancelEdit('food')">❌ Cancel</button>
                 </div>
 
                 <h3 style="margin-top: 30px;">All Foods</h3>
                 <div class="item-list" id="foodsList"></div>
+            </div>
+
+            <!-- GROCERY TAB -->
+            <div id="groceryTab" class="hidden">
+                <h2>🛒 Add Grocery Item</h2>
+                <div class="form-group"><label>Item Name</label><input type="text" id="groceryName" placeholder="e.g., සීනි (Sugar) 1kg"></div>
+                <div class="form-group"><label>Price (Rs.)</label><input type="number" id="groceryPrice" placeholder="180"></div>
+                <div class="form-group"><label>Unit</label><input type="text" id="groceryUnit" placeholder="1kg, 500g, 1L, etc."></div>
+                <div class="form-group"><label>Category</label><select id="groceryCategory"><option value="Staples">🍚 Staples (Rice, Flour)</option><option value="Spices">️ Spices & Condiments</option><option value="Dairy">🥛 Dairy Products</option><option value="Vegetables"> Vegetables</option><option value="Fruits">🍎 Fruits</option><option value="Snacks">🍿 Snacks</option><option value="Beverages">🥤 Beverages</option><option value="Other">📦 Other</option></select></div>
+                
+                <div class="form-group">
+                    <label>Grocery Item Image</label>
+                    <label class="upload-btn" for="groceryFileUpload">📷 Upload from Device</label>
+                    <input type="file" id="groceryFileUpload" accept="image/*" onchange="uploadGroceryImage(this)">
+                    <div style="margin-top: 10px;">
+                        <input type="text" id="groceryImageUrl" placeholder="Or enter image URL: https://...">
+                    </div>
+                    <div id="groceryImagePreview" style="display: none; margin-top: 10px;"></div>
+                </div>
+
+                <button class="btn btn-primary" onclick="saveGroceryItem()">💾 Save Grocery Item</button>
+                <button class="btn btn-warning" onclick="clearGroceryForm()">🔄 Clear</button>
+
+                <h3 style="margin-top: 30px;">All Grocery Items</h3>
+                <div class="item-list" id="groceryList"></div>
+            </div>
+
+            <!-- FEEDBACK TAB -->
+            <div id="feedbackTab" class="hidden">
+                <h2>💬 Customer Feedback</h2>
+                <div id="feedbackList"></div>
+            </div>
+
+            <!-- ADS TAB -->
+            <div id="adsTab" class="hidden">
+                <h2>📢 Top Banner Advertisement</h2>
+                <div class="form-group">
+                    <label>Ad Title</label>
+                    <input type="text" id="adTitle" placeholder="e.g., Special Offer - 20% Off!">
+                </div>
+                <div class="form-group">
+                    <label>Ad Image</label>
+                    <label class="upload-btn" for="adFileUpload">📷 Upload Banner Image</label>
+                    <input type="file" id="adFileUpload" accept="image/*" onchange="uploadAdImage(this)">
+                    <div style="margin-top: 10px;">
+                        <input type="text" id="adImageUrl" placeholder="Or enter banner URL: https://...">
+                    </div>
+                    <div id="adImagePreview" class="ad-banner-preview" style="display: none;"></div>
+                </div>
+                <div class="form-group">
+                    <label>Click URL (Optional)</label>
+                    <input type="text" id="adClickUrl" placeholder="https://... (Users go here when clicking)">
+                </div>
+                <div class="form-group">
+                    <label>Active</label>
+                    <select id="adActive">
+                        <option value="true">Yes - Show Ad</option>
+                        <option value="false">No - Hide Ad</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="saveAd()">💾 Save Advertisement</button>
+                
+                <h3 style="margin-top: 30px;">Active Advertisements</h3>
+                <div class="item-list" id="adsList"></div>
+            </div>
+
+            <!-- MESSAGES TAB -->
+            <div id="messagesTab" class="hidden">
+                <h2> Send Message to App Users</h2>
+                <div class="message-box">
+                    <h3>📱 Push Notification Message</h3>
+                    <p>Send a message to all users who have installed the app</p>
+                    <textarea id="messageText" rows="4" placeholder="Enter your message here...&#10;&#10;Example:&#10;🎉 Special Offer! Get 20% off on your first order!&#10;Use code: WELCOME20"></textarea>
+                    <div style="margin-top: 15px; display: flex; gap: 10px;">
+                        <button class="btn btn-success" onclick="sendMessage()">📤 Send Message</button>
+                        <button class="btn btn-info" onclick="previewMessage()">👁️ Preview</button>
+                    </div>
+                </div>
+                
+                <h3 style="margin-top: 30px;">📋 Message History</h3>
+                <div id="messageHistory"></div>
             </div>
         </div>
     </div>
@@ -226,41 +326,18 @@
             messagingSenderId: "1025149369233",
             appId: "1:1025149369233:web:245f846d959274ee487830"
         };
+
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-
-        const imageGallery = {
-            restaurants: [
-                { url: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500', name: 'Restaurant' },
-                { url: 'https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?w=500', name: 'Restaurant 2' },
-            ],
-            food: [
-                { url: 'https://images.unsplash.com/photo-1603057196846-221a74961791?w=500', name: 'Kottu' },
-                { url: 'https://images.unsplash.com/photo-1604329760661-54dc45194b33?w=500', name: 'Fried Rice' },
-                { url: 'https://images.unsplash.com/photo-1596797038530-2c107229654b?w=500', name: 'Rice & Curry' },
-                { url: 'https://images.unsplash.com/photo-1513104890138-7c749659a59f?w=500', name: 'Pizza 1' },
-                { url: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500', name: 'Pizza 2' },
-                { url: 'https://images.unsplash.com/photo-1568901346375-23c9450c5840?w=500', name: 'Burger 1' },
-                { url: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=500', name: 'Burger 2' },
-            ],
-            flowers: [
-                { url: 'https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=500', name: 'Flower Bouquet' },
-                { url: 'https://images.unsplash.com/photo-1494972308805-463bc619d34e?w=500', name: 'Red Roses' },
-                { url: 'https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=500', name: 'Mixed Flowers' },
-            ],
-            cakes: [
-                { url: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500', name: 'Chocolate Cake' },
-                { url: 'https://images.unsplash.com/photo-1565958011703-44f5328f6434?w=500', name: 'Birthday Cake' },
-                { url: 'https://images.unsplash.com/photo-1535131749006-b7c522384d8c?w=500', name: 'Cake Slice' },
-            ],
-            general: [
-                { url: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500', name: 'Food Platter' },
-            ]
-        };
+        const storage = firebase.storage();
 
         let shops = [];
         let foods = [];
+        let groceryItems = [];
         let orders = [];
+        let feedbacks = [];
+        let ads = [];
+        let messages = [];
 
         function login() {
             const password = document.getElementById('adminPassword').value;
@@ -286,9 +363,9 @@
 
         function switchTab(tab) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById('ordersTab').classList.add('hidden');
-            document.getElementById('shopsTab').classList.add('hidden');
-            document.getElementById('foodsTab').classList.add('hidden');
+            ['orders', 'shops', 'foods', 'grocery', 'feedback', 'ads', 'messages'].forEach(t => {
+                document.getElementById(t + 'Tab').classList.add('hidden');
+            });
             
             if (tab === 'orders') {
                 document.getElementById('ordersTab').classList.remove('hidden');
@@ -296,49 +373,113 @@
             } else if (tab === 'shops') {
                 document.getElementById('shopsTab').classList.remove('hidden');
                 document.querySelectorAll('.tab')[1].classList.add('active');
-                renderShopImageGallery();
             } else if (tab === 'foods') {
                 document.getElementById('foodsTab').classList.remove('hidden');
                 document.querySelectorAll('.tab')[2].classList.add('active');
-                renderFoodImageGallery();
                 updateShopSelect();
+            } else if (tab === 'grocery') {
+                document.getElementById('groceryTab').classList.remove('hidden');
+                document.querySelectorAll('.tab')[3].classList.add('active');
+            } else if (tab === 'feedback') {
+                document.getElementById('feedbackTab').classList.remove('hidden');
+                document.querySelectorAll('.tab')[4].classList.add('active');
+                loadFeedbacks();
+            } else if (tab === 'ads') {
+                document.getElementById('adsTab').classList.remove('hidden');
+                document.querySelectorAll('.tab')[5].classList.add('active');
+                loadAds();
+            } else if (tab === 'messages') {
+                document.getElementById('messagesTab').classList.remove('hidden');
+                document.querySelectorAll('.tab')[6].classList.add('active');
+                loadMessages();
             }
         }
 
-        function loadData() { loadOrders(); loadShops(); loadFoods(); }
-
-        function renderShopImageGallery() {
-            const gallery = document.getElementById('shopImageGallery');
-            const images = [...imageGallery.restaurants, ...imageGallery.flowers, ...imageGallery.cakes, ...imageGallery.general];
-            gallery.innerHTML = images.map(img => `
-                <div class="gallery-item" onclick="selectShopImage('${img.url}', this)">
-                    <img src="${img.url}" alt="${img.name}"><p>${img.name}</p>
-                </div>
-            `).join('');
+        function loadData() {
+            loadOrders();
+            loadShops();
+            loadFoods();
+            loadGroceryItems();
         }
 
-        function renderFoodImageGallery() {
-            const gallery = document.getElementById('foodImageGallery');
-            const images = [...imageGallery.food, ...imageGallery.flowers, ...imageGallery.cakes, ...imageGallery.general];
-            gallery.innerHTML = images.map(img => `
-                <div class="gallery-item" onclick="selectFoodImage('${img.url}', this)">
-                    <img src="${img.url}" alt="${img.name}"><p>${img.name}</p>
-                </div>
-            `).join('');
+        // Image Upload Functions
+        function uploadShopImage(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const preview = document.getElementById('shopImagePreview');
+            preview.innerHTML = '<div class="loading-spinner"></div><p>Uploading...</p>';
+            preview.style.display = 'block';
+            const filename = `shops/${Date.now()}_${file.name}`;
+            const storageRef = storage.ref(filename);
+            storageRef.put(file).on('state_changed', null, (error) => {
+                alert('❌ Upload failed: ' + error.message);
+                preview.style.display = 'none';
+            }, () => {
+                storageRef.getDownloadURL().then((downloadURL) => {
+                    document.getElementById('shopImageUrl').value = downloadURL;
+                    preview.innerHTML = `<img src="${downloadURL}" style="max-width:100%;max-height:200px;border-radius:8px;"><p style="color:#4CAF50;margin-top:5px;">✅ Uploaded!</p>`;
+                });
+            });
         }
 
-        function selectShopImage(url, el) {
-            document.querySelectorAll('#shopImageGallery .gallery-item').forEach(i => i.classList.remove('selected'));
-            el.classList.add('selected');
-            document.getElementById('shopCustomImage').value = url;
+        function uploadFoodImage(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const preview = document.getElementById('foodImagePreview');
+            preview.innerHTML = '<div class="loading-spinner"></div><p>Uploading...</p>';
+            preview.style.display = 'block';
+            const filename = `foods/${Date.now()}_${file.name}`;
+            const storageRef = storage.ref(filename);
+            storageRef.put(file).on('state_changed', null, (error) => {
+                alert(' Upload failed: ' + error.message);
+                preview.style.display = 'none';
+            }, () => {
+                storageRef.getDownloadURL().then((downloadURL) => {
+                    document.getElementById('foodImageUrl').value = downloadURL;
+                    preview.innerHTML = `<img src="${downloadURL}" style="max-width:100%;max-height:200px;border-radius:8px;"><p style="color:#4CAF50;margin-top:5px;">✅ Uploaded!</p>`;
+                });
+            });
         }
 
-        function selectFoodImage(url, el) {
-            document.querySelectorAll('#foodImageGallery .gallery-item').forEach(i => i.classList.remove('selected'));
-            el.classList.add('selected');
-            document.getElementById('foodCustomImage').value = url;
+        function uploadGroceryImage(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const preview = document.getElementById('groceryImagePreview');
+            preview.innerHTML = '<div class="loading-spinner"></div><p>Uploading...</p>';
+            preview.style.display = 'block';
+            const filename = `grocery/${Date.now()}_${file.name}`;
+            const storageRef = storage.ref(filename);
+            storageRef.put(file).on('state_changed', null, (error) => {
+                alert('❌ Upload failed: ' + error.message);
+                preview.style.display = 'none';
+            }, () => {
+                storageRef.getDownloadURL().then((downloadURL) => {
+                    document.getElementById('groceryImageUrl').value = downloadURL;
+                    preview.innerHTML = `<img src="${downloadURL}" style="max-width:100%;max-height:200px;border-radius:8px;"><p style="color:#4CAF50;margin-top:5px;">✅ Uploaded!</p>`;
+                });
+            });
         }
 
+        function uploadAdImage(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const preview = document.getElementById('adImagePreview');
+            preview.innerHTML = '<div class="loading-spinner"></div><p>Uploading...</p>';
+            preview.style.display = 'block';
+            const filename = `ads/${Date.now()}_${file.name}`;
+            const storageRef = storage.ref(filename);
+            storageRef.put(file).on('state_changed', null, (error) => {
+                alert('❌ Upload failed: ' + error.message);
+                preview.style.display = 'none';
+            }, () => {
+                storageRef.getDownloadURL().then((downloadURL) => {
+                    document.getElementById('adImageUrl').value = downloadURL;
+                    preview.innerHTML = `<img src="${downloadURL}" alt="Ad Preview"><p style="color:#4CAF50;margin-top:5px;">✅ Uploaded!</p>`;
+                });
+            });
+        }
+
+        // Order Management
         function loadOrders() {
             database.ref('orders').orderByChild('date').on('value', (snapshot) => {
                 const data = snapshot.val();
@@ -392,17 +533,23 @@
                         </div>
                         <div class="order-details">
                             <div>📦 Items: ${order.items}</div>
-                            <div>💰 Total: Rs. ${order.total}</div>
-                            <div>💳 Payment: ${order.paymentMethod === 'cod' ? '💵 COD' : '🏦 Online'}</div>
+                            <div>💰 Food Total: Rs. ${order.foodTotal || order.total}</div>
+                            <div>🚚 Delivery Fee: Rs. ${order.deliveryFee || 0}</div>
+                            <div style="font-weight:bold;color:#FF6B6B;">💵 Grand Total: Rs. ${order.total}</div>
+                            <div>💳 Payment: ${order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : ' Online'}</div>
                             <div>📍 Address: ${order.address}</div>
                             <div>🕐 Date: ${date.toLocaleString()}</div>
+                        </div>
+                        <div class="order-delivery-info">
+                            <strong>📋 Delivery Information:</strong><br>
+                            <small>Customer can track their order status. Make sure to update the status as you progress through delivery.</small>
                         </div>
                         <div class="order-actions">
                             <button class="btn btn-success" onclick="updateOrderStatus('${order.id}', 'Confirmed')">✅ Confirm</button>
                             <button class="btn btn-primary" onclick="updateOrderStatus('${order.id}', 'Delivered')">✔️ Delivered</button>
                             <button class="btn btn-warning" onclick="updateOrderStatus('${order.id}', 'Pending')">⏳ Pending</button>
                             <button class="btn btn-danger" onclick="updateOrderStatus('${order.id}', 'Cancelled')">❌ Cancel</button>
-                            <button class="btn btn-primary" onclick="contactCustomer('${order.address}', '${order.items}')">💬 Contact</button>
+                            <button class="btn btn-info" onclick="contactCustomer('${order.address}', '${order.items}')">💬 Contact</button>
                             <button class="btn btn-danger" onclick="deleteOrder('${order.id}')">🗑️ Delete</button>
                         </div>
                     </div>
@@ -425,6 +572,7 @@
             if (confirm('️ Delete this order permanently?')) database.ref('orders').child(orderId).remove().then(() => alert('✅ Order deleted'));
         }
 
+        // Shop Management
         function loadShops() {
             database.ref('shops').on('value', (snapshot) => {
                 const data = snapshot.val();
@@ -436,7 +584,6 @@
         }
 
         function saveShop() {
-            const customImage = document.getElementById('shopCustomImage').value.trim();
             const shop = {
                 name: document.getElementById('shopName').value,
                 category: document.getElementById('shopCategory').value,
@@ -447,7 +594,7 @@
                 deliveryFee: parseInt(document.getElementById('shopDeliveryFee').value) || 150,
                 rating: parseFloat(document.getElementById('shopRating').value) || 4.0,
                 tags: document.getElementById('shopTags').value.split(',').map(t => t.trim()),
-                image: customImage || 'https://via.placeholder.com/500',
+                image: document.getElementById('shopImageUrl').value || 'https://via.placeholder.com/500',
                 isFeatured: document.getElementById('isFeatured').checked,
                 updatedAt: Date.now()
             };
@@ -461,7 +608,7 @@
             list.innerHTML = shops.map(shop => `
                 <div class="item-card">
                     <div class="item-info">
-                        <div style="font-weight:bold;">${shop.name} ${shop.isFeatured ? '⭐' : ''}</div>
+                        <div style="font-weight:bold;">${shop.name} ${shop.isFeatured ? '⭐' : ''} ${shop.category === 'Grocery' ? '🛒' : ''}</div>
                         <div style="font-size:12px;color:#666;">📞 ${shop.phone} | 🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'}</div>
                     </div>
                     <button class="btn btn-danger" onclick="deleteShop('${shop.id}')">🗑️ Delete</button>
@@ -478,11 +625,11 @@
             document.getElementById('shopDeliveryFee').value = '';
             document.getElementById('shopRating').value = '';
             document.getElementById('shopTags').value = '';
-            document.getElementById('shopCustomImage').value = '';
+            document.getElementById('shopImageUrl').value = '';
+            document.getElementById('shopImagePreview').style.display = 'none';
             document.getElementById('isFeatured').checked = false;
             document.getElementById('shopOpenTime').value = '09:00';
             document.getElementById('shopCloseTime').value = '22:00';
-            document.querySelectorAll('#shopImageGallery .gallery-item').forEach(i => i.classList.remove('selected'));
         }
 
         function showEditShopSection() {
@@ -532,6 +679,7 @@
             database.ref('shops').child(shopId).update(updatedData).then(() => { alert('✅ Shop updated!'); cancelEdit('shop'); });
         }
 
+        // Food Management
         function loadFoods() {
             database.ref('foods').on('value', (snapshot) => {
                 const data = snapshot.val();
@@ -546,14 +694,13 @@
         }
 
         function saveFood() {
-            const customImage = document.getElementById('foodCustomImage').value.trim();
             const food = {
                 shopId: document.getElementById('foodShop').value,
                 name: document.getElementById('foodName').value,
                 category: document.getElementById('foodCategory').value,
                 price: parseInt(document.getElementById('foodPrice').value) || 0,
                 description: document.getElementById('foodDescription').value,
-                image: customImage || 'https://via.placeholder.com/500',
+                image: document.getElementById('foodImageUrl').value || 'https://via.placeholder.com/500',
                 updatedAt: Date.now()
             };
             if (!food.name) { alert('Food name එක දෙන්න!'); return; }
@@ -583,8 +730,8 @@
             document.getElementById('foodName').value = '';
             document.getElementById('foodPrice').value = '';
             document.getElementById('foodDescription').value = '';
-            document.getElementById('foodCustomImage').value = '';
-            document.querySelectorAll('#foodImageGallery .gallery-item').forEach(i => i.classList.remove('selected'));
+            document.getElementById('foodImageUrl').value = '';
+            document.getElementById('foodImagePreview').style.display = 'none';
         }
 
         function showEditFoodSection() {
@@ -623,6 +770,175 @@
                 updatedAt: Date.now()
             };
             database.ref('foods').child(foodId).update(updatedData).then(() => { alert('✅ Food updated!'); cancelEdit('food'); });
+        }
+
+        // Grocery Management
+        function loadGroceryItems() {
+            database.ref('groceryItems').on('value', (snapshot) => {
+                const data = snapshot.val();
+                groceryItems = data ? Object.values(data).map((g, i) => ({...g, id: Object.keys(data)[i]})) : [];
+                renderGroceryItems();
+            });
+        }
+
+        function saveGroceryItem() {
+            const item = {
+                name: document.getElementById('groceryName').value,
+                price: parseInt(document.getElementById('groceryPrice').value) || 0,
+                unit: document.getElementById('groceryUnit').value,
+                category: document.getElementById('groceryCategory').value,
+                image: document.getElementById('groceryImageUrl').value || 'https://via.placeholder.com/500',
+                updatedAt: Date.now()
+            };
+            if (!item.name) { alert('Item name එක දෙන්න!'); return; }
+            database.ref('groceryItems').push(item).then(() => { alert('✅ Grocery item added!'); clearGroceryForm(); });
+        }
+
+        function renderGroceryItems() {
+            const list = document.getElementById('groceryList');
+            if (groceryItems.length === 0) { list.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">No grocery items yet</p>'; return; }
+            list.innerHTML = groceryItems.map(item => `
+                <div class="item-card">
+                    <div class="item-info">
+                        <div style="font-weight:bold;">${item.name}</div>
+                        <div style="font-size:12px;color:#666;">${item.unit || ''} | Rs. ${item.price} | ${item.category}</div>
+                    </div>
+                    <button class="btn btn-danger" onclick="deleteGroceryItem('${item.id}')">🗑️ Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteGroceryItem(id) { if (confirm('Delete this item?')) database.ref('groceryItems').child(id).remove(); }
+
+        function clearGroceryForm() {
+            document.getElementById('groceryName').value = '';
+            document.getElementById('groceryPrice').value = '';
+            document.getElementById('groceryUnit').value = '';
+            document.getElementById('groceryImageUrl').value = '';
+            document.getElementById('groceryImagePreview').style.display = 'none';
+        }
+
+        // Feedback Management
+        function loadFeedbacks() {
+            database.ref('feedbacks').orderByChild('date').limitToLast(50).on('value', (snapshot) => {
+                const data = snapshot.val();
+                feedbacks = data ? Object.keys(data).map(key => ({...data[key], id: key})) : [];
+                renderFeedbacks();
+            });
+        }
+
+        function renderFeedbacks() {
+            const list = document.getElementById('feedbackList');
+            if (feedbacks.length === 0) { list.innerHTML = '<p style="text-align:center;color:#999;padding:40px;">No feedback yet</p>'; return; }
+            feedbacks.sort((a, b) => new Date(b.date) - new Date(a.date));
+            list.innerHTML = feedbacks.map(fb => {
+                const date = new Date(fb.date);
+                return `
+                    <div class="feedback-card">
+                        <h4>⭐ Rating: ${fb.rating || 'N/A'}/5 - ${fb.name || 'Anonymous'}</h4>
+                        <p><strong>Message:</strong> ${fb.message}</p>
+                        <p><strong>Date:</strong> ${date.toLocaleString()}</p>
+                        ${fb.email ? `<p><strong>Email:</strong> ${fb.email}</p>` : ''}
+                        ${fb.phone ? `<p><strong>Phone:</strong> ${fb.phone}</p>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Advertisement Management
+        function loadAds() {
+            database.ref('ads').on('value', (snapshot) => {
+                const data = snapshot.val();
+                ads = data ? Object.values(data).map((a, i) => ({...a, id: Object.keys(data)[i]})) : [];
+                renderAds();
+            });
+        }
+
+        function saveAd() {
+            const ad = {
+                title: document.getElementById('adTitle').value,
+                imageUrl: document.getElementById('adImageUrl').value,
+                clickUrl: document.getElementById('adClickUrl').value,
+                active: document.getElementById('adActive').value === 'true',
+                createdAt: Date.now()
+            };
+            if (!ad.title || !ad.imageUrl) { alert('Ad title and image are required!'); return; }
+            database.ref('ads').push(ad).then(() => { alert('✅ Advertisement saved!'); clearAdForm(); });
+        }
+
+        function renderAds() {
+            const list = document.getElementById('adsList');
+            if (ads.length === 0) { list.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">No ads yet</p>'; return; }
+            list.innerHTML = ads.map(ad => `
+                <div class="item-card">
+                    <div class="item-info">
+                        <div style="font-weight:bold;">${ad.title}</div>
+                        <div style="font-size:12px;color:#666;">${ad.active ? '✅ Active' : '❌ Inactive'}</div>
+                        ${ad.imageUrl ? `<div class="ad-banner-preview"><img src="${ad.imageUrl}" alt="Ad"></div>` : ''}
+                    </div>
+                    <button class="btn btn-danger" onclick="deleteAd('${ad.id}')">🗑️ Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteAd(id) { if (confirm('Delete this ad?')) database.ref('ads').child(id).remove(); }
+
+        function clearAdForm() {
+            document.getElementById('adTitle').value = '';
+            document.getElementById('adImageUrl').value = '';
+            document.getElementById('adClickUrl').value = '';
+            document.getElementById('adActive').value = 'true';
+            document.getElementById('adImagePreview').style.display = 'none';
+        }
+
+        // Message Management
+        function loadMessages() {
+            database.ref('messages').orderByChild('sentAt').limitToLast(20).on('value', (snapshot) => {
+                const data = snapshot.val();
+                messages = data ? Object.keys(data).map(key => ({...data[key], id: key})) : [];
+                renderMessages();
+            });
+        }
+
+        function sendMessage() {
+            const messageText = document.getElementById('messageText').value.trim();
+            if (!messageText) { alert('Please enter a message!'); return; }
+            
+            const message = {
+                text: messageText,
+                sentAt: Date.now(),
+                sentBy: 'Admin',
+                type: 'push_notification'
+            };
+            
+            database.ref('messages').push(message).then(() => {
+                alert('✅ Message sent to all users!');
+                document.getElementById('messageText').value = '';
+            }).catch(error => {
+                alert('❌ Error: ' + error.message);
+            });
+        }
+
+        function previewMessage() {
+            const messageText = document.getElementById('messageText').value.trim();
+            if (!messageText) { alert('Please enter a message!'); return; }
+            alert('📱 Message Preview:\n\n' + messageText);
+        }
+
+        function renderMessages() {
+            const list = document.getElementById('messageHistory');
+            if (messages.length === 0) { list.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">No messages sent yet</p>'; return; }
+            messages.sort((a, b) => b.sentAt - a.sentAt);
+            list.innerHTML = messages.map(msg => {
+                const date = new Date(msg.sentAt);
+                return `
+                    <div class="feedback-card" style="border-left-color: #2196F3;">
+                        <p><strong>Message:</strong> ${msg.text}</p>
+                        <p><strong>Sent:</strong> ${date.toLocaleString()}</p>
+                        <p><strong>Type:</strong> ${msg.type || 'Push Notification'}</p>
+                    </div>
+                `;
+            }).join('');
         }
 
         function cancelEdit(type) {
