@@ -79,15 +79,24 @@
         @keyframes spin { to { transform: rotate(360deg); } }
         .message-box { background: #E8F5E9; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #4CAF50; }
         .message-box textarea { width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; margin-top: 10px; }
+        .grocery-card { background: #f0f8ff; border-left: 4px solid #4CAF50; }
+        .grocery-price { color: #4CAF50; font-weight: bold; font-size: 16px; }
+        .grocery-unit { color: #FF9800; font-size: 12px; padding: 2px 8px; background: #FFF3E0; border-radius: 10px; }
+        .search-bar { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; margin-bottom: 15px; }
+        .stats-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+        .stat-badge { padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+        .stat-badge.green { background: #C8E6C9; color: #1B5E20; }
+        .stat-badge.blue { background: #BBDEFB; color: #0D47A1; }
+        .stat-badge.orange { background: #FFE0B2; color: #E65100; }
     </style>
 </head>
 <body>
     <div id="loginScreen">
         <div class="login-box">
-            <h1> Admin Login</h1>
+            <h1>🔐 Admin Login</h1>
             <input type="password" id="adminPassword" placeholder="Enter Password (admin123)">
             <button onclick="login()">Login</button>
-            <p id="loginError" style="color: red; margin-top: 10px; display: none;"> Wrong Password!</p>
+            <p id="loginError" style="color: red; margin-top: 10px; display: none;">❌ Wrong Password!</p>
         </div>
     </div>
 
@@ -95,7 +104,7 @@
         <div class="header">
             <button class="logout-btn" onclick="logout()">🚪 Logout</button>
             <h1>⚙️ FoodHub Admin Panel</h1>
-            <p>Advanced Management System</p>
+            <p>Advanced Management System v2.0</p>
         </div>
 
         <div class="section">
@@ -106,7 +115,7 @@
                 <div class="analytics-card"><h3>📦 Monthly Orders</h3><div class="value" id="monthOrders">0</div></div>
                 <div class="analytics-card"><h3>💰 Monthly Revenue</h3><div class="value" id="monthRevenue">Rs. 0</div></div>
                 <div class="analytics-card"><h3>✅ Delivered</h3><div class="value" id="deliveredOrders">0</div></div>
-                <div class="analytics-card"><h3> Pending</h3><div class="value" id="pendingOrders">0</div></div>
+                <div class="analytics-card"><h3>⏳ Pending</h3><div class="value" id="pendingOrders">0</div></div>
             </div>
         </div>
 
@@ -115,9 +124,9 @@
                 <div class="tab active" onclick="switchTab('orders')">📦 Orders</div>
                 <div class="tab" onclick="switchTab('shops')">🏪 Shops</div>
                 <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
-                <div class="tab" onclick="switchTab('grocery')"> Grocery</div>
-                <div class="tab" onclick="switchTab('feedback')"> Feedback</div>
-                <div class="tab" onclick="switchTab('ads')">📢 Advertisements</div>
+                <div class="tab" onclick="switchTab('grocery')">🛒 Grocery</div>
+                <div class="tab" onclick="switchTab('feedback')">💬 Feedback</div>
+                <div class="tab" onclick="switchTab('ads')">📢 Ads</div>
                 <div class="tab" onclick="switchTab('messages')">📨 Messages</div>
             </div>
 
@@ -148,7 +157,7 @@
             <div id="shopsTab" class="hidden">
                 <h2>🏪 Add New Shop</h2>
                 <div class="form-group"><label>Shop Name</label><input type="text" id="shopName" placeholder="e.g., Silvas Family Restaurant"></div>
-                <div class="form-group"><label>Category</label><select id="shopCategory"><option value="Restaurant">️ Restaurant</option><option value="Fast Food">🍔 Fast Food</option><option value="Grocery">🛒 Grocery/Supermarket</option><option value="Drinks"> Drinks</option><option value="Flowers">🌹 Flowers</option><option value="Gifts">🎁 Gifts</option><option value="Cakes">🎂 Cakes</option><option value="Bakery">🥐 Bakery</option></select></div>
+                <div class="form-group"><label>Category</label><select id="shopCategory"><option value="Restaurant">🍽️ Restaurant</option><option value="Fast Food">🍔 Fast Food</option><option value="Grocery">🛒 Grocery/Supermarket</option><option value="Drinks">🥤 Drinks</option><option value="Flowers">🌹 Flowers</option><option value="Gifts">🎁 Gifts</option><option value="Cakes">🎂 Cakes</option><option value="Bakery">🥐 Bakery</option></select></div>
                 <div class="form-group"><label>Opening Time</label><input type="time" id="shopOpenTime" value="09:00"></div>
                 <div class="form-group"><label>Closing Time</label><input type="time" id="shopCloseTime" value="22:00"></div>
                 <div class="form-group"><label>Phone Number</label><input type="tel" id="shopPhone" placeholder="0766488689"></div>
@@ -176,7 +185,7 @@
                     <h3 style="margin-bottom: 15px; color: #856404;">✏️ Edit Shop</h3>
                     <div class="form-group"><label>Select Shop to Edit</label><select id="editShopSelect" onchange="loadShopData()"><option value="">-- Select Shop --</option></select></div>
                     <div class="form-group"><label>Shop Name</label><input type="text" id="editShopName"></div>
-                    <div class="form-group"><label>Category</label><select id="editShopCategory"><option value="Restaurant">🍽️ Restaurant</option><option value="Fast Food">🍔 Fast Food</option><option value="Grocery"> Grocery</option><option value="Drinks">🥤 Drinks</option><option value="Flowers">🌹 Flowers</option><option value="Gifts">🎁 Gifts</option><option value="Cakes">🎂 Cakes</option><option value="Bakery">🥐 Bakery</option></select></div>
+                    <div class="form-group"><label>Category</label><select id="editShopCategory"><option value="Restaurant">🍽️ Restaurant</option><option value="Fast Food">🍔 Fast Food</option><option value="Grocery">🛒 Grocery</option><option value="Drinks">🥤 Drinks</option><option value="Flowers">🌹 Flowers</option><option value="Gifts">🎁 Gifts</option><option value="Cakes">🎂 Cakes</option><option value="Bakery">🥐 Bakery</option></select></div>
                     <div class="form-group"><label>Opening Time</label><input type="time" id="editShopOpenTime"></div>
                     <div class="form-group"><label>Closing Time</label><input type="time" id="editShopCloseTime"></div>
                     <div class="form-group"><label>Phone Number</label><input type="tel" id="editShopPhone"></div>
@@ -190,7 +199,8 @@
                     <button class="btn btn-warning" onclick="cancelEdit('shop')">❌ Cancel</button>
                 </div>
 
-                <h3 style="margin-top: 30px;">All Shops</h3>
+                <h3 style="margin-top: 30px;">📋 All Shops (<span id="shopCount">0</span>)</h3>
+                <input type="text" class="search-bar" id="shopSearch" placeholder="🔍 Search shops..." oninput="renderShops()">
                 <div class="item-list" id="shopsList"></div>
             </div>
 
@@ -221,7 +231,7 @@
                     <h3 style="margin-bottom: 15px; color: #856404;">✏️ Edit Food</h3>
                     <div class="form-group"><label>Select Food to Edit</label><select id="editFoodSelect" onchange="loadFoodData()"><option value="">-- Select Food --</option></select></div>
                     <div class="form-group"><label>Food Name</label><input type="text" id="editFoodName"></div>
-                    <div class="form-group"><label>Category</label><select id="editFoodCategory"><option value="Rice">🍚 Rice</option><option value="Kottu">🍗 Kottu</option><option value="Pizza">🍕 Pizza</option><option value="Burger">🍔 Burger</option><option value="Drinks">🥤 Drinks</option><option value="Desserts"> Desserts</option><option value="Flowers">🌹 Flowers</option><option value="Cakes">🎂 Cakes</option></select></div>
+                    <div class="form-group"><label>Category</label><select id="editFoodCategory"><option value="Rice">🍚 Rice</option><option value="Kottu">🍗 Kottu</option><option value="Pizza">🍕 Pizza</option><option value="Burger">🍔 Burger</option><option value="Drinks">🥤 Drinks</option><option value="Desserts">🍰 Desserts</option><option value="Flowers">🌹 Flowers</option><option value="Cakes">🎂 Cakes</option></select></div>
                     <div class="form-group"><label>Price (Rs.)</label><input type="number" id="editFoodPrice"></div>
                     <div class="form-group"><label>Description</label><textarea id="editFoodDescription" rows="2"></textarea></div>
                     <div class="form-group"><label>Image URL / Embed Code</label><input type="text" id="editFoodImage" placeholder="https://... or <iframe>..."></div>
@@ -229,17 +239,26 @@
                     <button class="btn btn-warning" onclick="cancelEdit('food')">❌ Cancel</button>
                 </div>
 
-                <h3 style="margin-top: 30px;">All Foods</h3>
+                <h3 style="margin-top: 30px;">📋 All Foods (<span id="foodCount">0</span>)</h3>
+                <input type="text" class="search-bar" id="foodSearch" placeholder="🔍 Search foods..." oninput="renderFoods()">
                 <div class="item-list" id="foodsList"></div>
             </div>
 
-            <!-- GROCERY TAB -->
+            <!-- GROCERY TAB - IMPROVED WITH EDIT -->
             <div id="groceryTab" class="hidden">
                 <h2>🛒 Add Grocery Item</h2>
+                <div class="stats-row">
+                    <span class="stat-badge green">📦 Total Items: <strong id="groceryTotalCount">0</strong></span>
+                    <span class="stat-badge blue">🏷️ Categories: <strong id="groceryCategoryCount">0</strong></span>
+                    <span class="stat-badge orange">💰 Avg Price: Rs. <strong id="groceryAvgPrice">0</strong></span>
+                </div>
+                
                 <div class="form-group"><label>Item Name</label><input type="text" id="groceryName" placeholder="e.g., සීනි (Sugar) 1kg"></div>
                 <div class="form-group"><label>Price (Rs.)</label><input type="number" id="groceryPrice" placeholder="180"></div>
                 <div class="form-group"><label>Unit</label><input type="text" id="groceryUnit" placeholder="1kg, 500g, 1L, etc."></div>
-                <div class="form-group"><label>Category</label><select id="groceryCategory"><option value="Staples">🍚 Staples (Rice, Flour)</option><option value="Spices">️ Spices & Condiments</option><option value="Dairy">🥛 Dairy Products</option><option value="Vegetables"> Vegetables</option><option value="Fruits">🍎 Fruits</option><option value="Snacks">🍿 Snacks</option><option value="Beverages">🥤 Beverages</option><option value="Other">📦 Other</option></select></div>
+                <div class="form-group"><label>Stock Quantity</label><input type="number" id="groceryStock" placeholder="100" value="100"></div>
+                <div class="form-group"><label>Category</label><select id="groceryCategory"><option value="Staples">🍚 Staples (Rice, Flour)</option><option value="Spices">🌶️ Spices & Condiments</option><option value="Dairy">🥛 Dairy Products</option><option value="Vegetables">🥬 Vegetables</option><option value="Fruits">🍎 Fruits</option><option value="Snacks">🍿 Snacks</option><option value="Beverages">🥤 Beverages</option><option value="Other">📦 Other</option></select></div>
+                <div class="form-group"><label>Description (Optional)</label><textarea id="groceryDescription" rows="2" placeholder="Brief description of the item..."></textarea></div>
                 
                 <div class="form-group">
                     <label>Grocery Item Image</label>
@@ -251,10 +270,44 @@
                     <div id="groceryImagePreview" style="display: none; margin-top: 10px;"></div>
                 </div>
 
+                <div class="form-group"><label><input type="checkbox" id="isGroceryAvailable" checked style="margin-right: 10px;">✅ Available for Sale</label></div>
+                
                 <button class="btn btn-primary" onclick="saveGroceryItem()">💾 Save Grocery Item</button>
                 <button class="btn btn-warning" onclick="clearGroceryForm()">🔄 Clear</button>
+                <button class="btn btn-warning" onclick="showEditGrocerySection()" style="margin-top: 10px;">✏️ Edit Grocery Item</button>
 
-                <h3 style="margin-top: 30px;">All Grocery Items</h3>
+                <!-- NEW: EDIT GROCERY SECTION -->
+                <div id="editGrocerySection" class="edit-section hidden">
+                    <h3 style="margin-bottom: 15px; color: #856404;">✏️ Edit Grocery Item</h3>
+                    <div class="form-group"><label>Select Item to Edit</label><select id="editGrocerySelect" onchange="loadGroceryData()"><option value="">-- Select Item --</option></select></div>
+                    <div class="form-group"><label>Item Name</label><input type="text" id="editGroceryName"></div>
+                    <div class="form-group"><label>Price (Rs.)</label><input type="number" id="editGroceryPrice"></div>
+                    <div class="form-group"><label>Unit</label><input type="text" id="editGroceryUnit"></div>
+                    <div class="form-group"><label>Stock Quantity</label><input type="number" id="editGroceryStock"></div>
+                    <div class="form-group"><label>Category</label><select id="editGroceryCategory"><option value="Staples">🍚 Staples</option><option value="Spices">🌶️ Spices</option><option value="Dairy">🥛 Dairy</option><option value="Vegetables">🥬 Vegetables</option><option value="Fruits">🍎 Fruits</option><option value="Snacks">🍿 Snacks</option><option value="Beverages">🥤 Beverages</option><option value="Other">📦 Other</option></select></div>
+                    <div class="form-group"><label>Description</label><textarea id="editGroceryDescription" rows="2"></textarea></div>
+                    <div class="form-group"><label>Image URL</label><input type="text" id="editGroceryImage" placeholder="https://..."></div>
+                    <div class="form-group"><label><input type="checkbox" id="editIsGroceryAvailable" style="margin-right: 10px;">✅ Available for Sale</label></div>
+                    <button class="btn btn-success" onclick="updateGroceryItem()">💾 Update Item</button>
+                    <button class="btn btn-danger" onclick="quickDeleteGrocery()">🗑️ Quick Delete</button>
+                    <button class="btn btn-warning" onclick="cancelEdit('grocery')">❌ Cancel</button>
+                </div>
+
+                <h3 style="margin-top: 30px;">📋 All Grocery Items (<span id="groceryCount">0</span>)</h3>
+                <div class="filter-bar">
+                    <input type="text" class="search-bar" id="grocerySearch" placeholder="🔍 Search grocery items..." oninput="renderGroceryItems()" style="margin-bottom:0;">
+                    <select id="groceryFilterCategory" onchange="renderGroceryItems()" style="padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px;">
+                        <option value="all">All Categories</option>
+                        <option value="Staples">🍚 Staples</option>
+                        <option value="Spices">🌶️ Spices</option>
+                        <option value="Dairy">🥛 Dairy</option>
+                        <option value="Vegetables">🥬 Vegetables</option>
+                        <option value="Fruits">🍎 Fruits</option>
+                        <option value="Snacks">🍿 Snacks</option>
+                        <option value="Beverages">🥤 Beverages</option>
+                        <option value="Other">📦 Other</option>
+                    </select>
+                </div>
                 <div class="item-list" id="groceryList"></div>
             </div>
 
@@ -299,7 +352,7 @@
 
             <!-- MESSAGES TAB -->
             <div id="messagesTab" class="hidden">
-                <h2> Send Message to App Users</h2>
+                <h2>📢 Send Message to App Users</h2>
                 <div class="message-box">
                     <h3>📱 Push Notification Message</h3>
                     <p>Send a message to all users who have installed the app</p>
@@ -347,7 +400,6 @@
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('adminPanel').classList.remove('hidden');
                 loadData();
-                setInterval(loadData, 30000);
                 setTimeout(() => { logout(); alert('Session expired.'); }, 2 * 60 * 60 * 1000);
             } else {
                 document.getElementById('loginError').style.display = 'block';
@@ -367,32 +419,14 @@
                 document.getElementById(t + 'Tab').classList.add('hidden');
             });
             
-            if (tab === 'orders') {
-                document.getElementById('ordersTab').classList.remove('hidden');
-                document.querySelectorAll('.tab')[0].classList.add('active');
-            } else if (tab === 'shops') {
-                document.getElementById('shopsTab').classList.remove('hidden');
-                document.querySelectorAll('.tab')[1].classList.add('active');
-            } else if (tab === 'foods') {
-                document.getElementById('foodsTab').classList.remove('hidden');
-                document.querySelectorAll('.tab')[2].classList.add('active');
-                updateShopSelect();
-            } else if (tab === 'grocery') {
-                document.getElementById('groceryTab').classList.remove('hidden');
-                document.querySelectorAll('.tab')[3].classList.add('active');
-            } else if (tab === 'feedback') {
-                document.getElementById('feedbackTab').classList.remove('hidden');
-                document.querySelectorAll('.tab')[4].classList.add('active');
-                loadFeedbacks();
-            } else if (tab === 'ads') {
-                document.getElementById('adsTab').classList.remove('hidden');
-                document.querySelectorAll('.tab')[5].classList.add('active');
-                loadAds();
-            } else if (tab === 'messages') {
-                document.getElementById('messagesTab').classList.remove('hidden');
-                document.querySelectorAll('.tab')[6].classList.add('active');
-                loadMessages();
-            }
+            const tabs = document.querySelectorAll('.tab');
+            if (tab === 'orders') { document.getElementById('ordersTab').classList.remove('hidden'); tabs[0].classList.add('active'); }
+            else if (tab === 'shops') { document.getElementById('shopsTab').classList.remove('hidden'); tabs[1].classList.add('active'); }
+            else if (tab === 'foods') { document.getElementById('foodsTab').classList.remove('hidden'); tabs[2].classList.add('active'); updateShopSelect(); }
+            else if (tab === 'grocery') { document.getElementById('groceryTab').classList.remove('hidden'); tabs[3].classList.add('active'); }
+            else if (tab === 'feedback') { document.getElementById('feedbackTab').classList.remove('hidden'); tabs[4].classList.add('active'); loadFeedbacks(); }
+            else if (tab === 'ads') { document.getElementById('adsTab').classList.remove('hidden'); tabs[5].classList.add('active'); loadAds(); }
+            else if (tab === 'messages') { document.getElementById('messagesTab').classList.remove('hidden'); tabs[6].classList.add('active'); loadMessages(); }
         }
 
         function loadData() {
@@ -431,7 +465,7 @@
             const filename = `foods/${Date.now()}_${file.name}`;
             const storageRef = storage.ref(filename);
             storageRef.put(file).on('state_changed', null, (error) => {
-                alert(' Upload failed: ' + error.message);
+                alert('❌ Upload failed: ' + error.message);
                 preview.style.display = 'none';
             }, () => {
                 storageRef.getDownloadURL().then((downloadURL) => {
@@ -483,7 +517,7 @@
         function loadOrders() {
             database.ref('orders').orderByChild('date').on('value', (snapshot) => {
                 const data = snapshot.val();
-                orders = data ? Object.keys(data).map(key => ({...data[key], id: key})) : [];
+                orders = data ? Object.entries(data).map(([key, value]) => ({...value, id: key})) : [];
                 updateAnalytics();
                 filterOrders();
             });
@@ -536,7 +570,7 @@
                             <div>💰 Food Total: Rs. ${order.foodTotal || order.total}</div>
                             <div>🚚 Delivery Fee: Rs. ${order.deliveryFee || 0}</div>
                             <div style="font-weight:bold;color:#FF6B6B;">💵 Grand Total: Rs. ${order.total}</div>
-                            <div>💳 Payment: ${order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : ' Online'}</div>
+                            <div>💳 Payment: ${order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '💳 Online'}</div>
                             <div>📍 Address: ${order.address}</div>
                             <div>🕐 Date: ${date.toLocaleString()}</div>
                         </div>
@@ -569,17 +603,18 @@
         }
 
         function deleteOrder(orderId) {
-            if (confirm('️ Delete this order permanently?')) database.ref('orders').child(orderId).remove().then(() => alert('✅ Order deleted'));
+            if (confirm('⚠️ Delete this order permanently?')) database.ref('orders').child(orderId).remove().then(() => alert('✅ Order deleted'));
         }
 
         // Shop Management
         function loadShops() {
             database.ref('shops').on('value', (snapshot) => {
                 const data = snapshot.val();
-                shops = data ? Object.values(data).map((s, i) => ({...s, id: Object.keys(data)[i]})) : [];
+                shops = data ? Object.entries(data).map(([key, value]) => ({ ...value, id: key })) : [];
                 renderShops();
                 updateShopSelect();
                 updateEditShopSelect();
+                document.getElementById('shopCount').textContent = shops.length;
             });
         }
 
@@ -604,12 +639,16 @@
 
         function renderShops() {
             const list = document.getElementById('shopsList');
-            if (shops.length === 0) { list.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">No shops yet</p>'; return; }
-            list.innerHTML = shops.map(shop => `
+            const search = (document.getElementById('shopSearch')?.value || '').toLowerCase();
+            let filtered = shops.filter(s => s.name.toLowerCase().includes(search));
+            
+            if (filtered.length === 0) { list.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">No shops found</p>'; return; }
+            list.innerHTML = filtered.map(shop => `
                 <div class="item-card">
                     <div class="item-info">
                         <div style="font-weight:bold;">${shop.name} ${shop.isFeatured ? '⭐' : ''} ${shop.category === 'Grocery' ? '🛒' : ''}</div>
-                        <div style="font-size:12px;color:#666;">📞 ${shop.phone} | 🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'}</div>
+                        <div style="font-size:12px;color:#666;">📞 ${shop.phone} | 🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'} | ⭐ ${shop.rating}</div>
+                        <div style="font-size:11px;color:#999;margin-top:3px;">${shop.category} | 🚚 ${shop.deliveryTime} | Rs.${shop.deliveryFee}</div>
                     </div>
                     <button class="btn btn-danger" onclick="deleteShop('${shop.id}')">🗑️ Delete</button>
                 </div>
@@ -683,9 +722,10 @@
         function loadFoods() {
             database.ref('foods').on('value', (snapshot) => {
                 const data = snapshot.val();
-                foods = data ? Object.values(data).map((f, i) => ({...f, id: Object.keys(data)[i]})) : [];
+                foods = data ? Object.entries(data).map(([key, value]) => ({ ...value, id: key })) : [];
                 renderFoods();
                 updateEditFoodSelect();
+                document.getElementById('foodCount').textContent = foods.length;
             });
         }
 
@@ -709,16 +749,19 @@
 
         function renderFoods() {
             const list = document.getElementById('foodsList');
-            if (foods.length === 0) { list.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">No foods yet</p>'; return; }
-            list.innerHTML = foods.map(food => {
+            const search = (document.getElementById('foodSearch')?.value || '').toLowerCase();
+            let filtered = foods.filter(f => f.name.toLowerCase().includes(search));
+            
+            if (filtered.length === 0) { list.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">No foods found</p>'; return; }
+            list.innerHTML = filtered.map(food => {
                 const shop = shops.find(s => s.id === food.shopId);
                 return `
                     <div class="item-card">
                         <div class="item-info">
                             <div style="font-weight:bold;">${food.name}</div>
-                            <div style="font-size:12px;color:#666;">${shop ? shop.name : ''} | Rs. ${food.price} | ${food.category}</div>
+                            <div style="font-size:12px;color:#666;">${shop ? shop.name : 'Unknown'} | Rs. ${food.price} | ${food.category}</div>
                         </div>
-                        <button class="btn btn-danger" onclick="deleteFood('${food.id}')">️ Delete</button>
+                        <button class="btn btn-danger" onclick="deleteFood('${food.id}')">🗑️ Delete</button>
                     </div>
                 `;
             }).join('');
@@ -772,13 +815,26 @@
             database.ref('foods').child(foodId).update(updatedData).then(() => { alert('✅ Food updated!'); cancelEdit('food'); });
         }
 
-        // Grocery Management
+        // Grocery Management - IMPROVED WITH EDIT
         function loadGroceryItems() {
             database.ref('groceryItems').on('value', (snapshot) => {
                 const data = snapshot.val();
-                groceryItems = data ? Object.values(data).map((g, i) => ({...g, id: Object.keys(data)[i]})) : [];
+                groceryItems = data ? Object.entries(data).map(([key, value]) => ({ ...value, id: key })) : [];
                 renderGroceryItems();
+                updateEditGrocerySelect();
+                updateGroceryStats();
+                document.getElementById('groceryCount').textContent = groceryItems.length;
             });
+        }
+
+        function updateGroceryStats() {
+            document.getElementById('groceryTotalCount').textContent = groceryItems.length;
+            const categories = [...new Set(groceryItems.map(g => g.category))];
+            document.getElementById('groceryCategoryCount').textContent = categories.length;
+            if (groceryItems.length > 0) {
+                const avgPrice = Math.round(groceryItems.reduce((s, g) => s + (g.price || 0), 0) / groceryItems.length);
+                document.getElementById('groceryAvgPrice').textContent = avgPrice;
+            }
         }
 
         function saveGroceryItem() {
@@ -786,8 +842,11 @@
                 name: document.getElementById('groceryName').value,
                 price: parseInt(document.getElementById('groceryPrice').value) || 0,
                 unit: document.getElementById('groceryUnit').value,
+                stock: parseInt(document.getElementById('groceryStock').value) || 0,
                 category: document.getElementById('groceryCategory').value,
+                description: document.getElementById('groceryDescription').value || '',
                 image: document.getElementById('groceryImageUrl').value || 'https://via.placeholder.com/500',
+                available: document.getElementById('isGroceryAvailable').checked,
                 updatedAt: Date.now()
             };
             if (!item.name) { alert('Item name එක දෙන්න!'); return; }
@@ -796,33 +855,132 @@
 
         function renderGroceryItems() {
             const list = document.getElementById('groceryList');
-            if (groceryItems.length === 0) { list.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">No grocery items yet</p>'; return; }
-            list.innerHTML = groceryItems.map(item => `
-                <div class="item-card">
+            const search = (document.getElementById('grocerySearch')?.value || '').toLowerCase();
+            const categoryFilter = document.getElementById('groceryFilterCategory')?.value || 'all';
+            
+            let filtered = groceryItems.filter(g => {
+                const matchSearch = g.name.toLowerCase().includes(search);
+                const matchCategory = categoryFilter === 'all' || g.category === categoryFilter;
+                return matchSearch && matchCategory;
+            });
+            
+            if (filtered.length === 0) { 
+                list.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">No grocery items found</p>'; 
+                return; 
+            }
+            
+            list.innerHTML = filtered.map(item => `
+                <div class="item-card grocery-card">
                     <div class="item-info">
-                        <div style="font-weight:bold;">${item.name}</div>
-                        <div style="font-size:12px;color:#666;">${item.unit || ''} | Rs. ${item.price} | ${item.category}</div>
+                        <div style="font-weight:bold;font-size:16px;">
+                            ${item.name} 
+                            ${!item.available ? '<span style="color:#f44336;font-size:11px;padding:2px 6px;background:#FFCDD2;border-radius:10px;margin-left:5px;">❌ Unavailable</span>' : '<span style="color:#4CAF50;font-size:11px;padding:2px 6px;background:#C8E6C9;border-radius:10px;margin-left:5px;">✅ Available</span>'}
+                        </div>
+                        <div style="margin-top:5px;">
+                            <span class="grocery-price">Rs. ${item.price}</span>
+                            <span class="grocery-unit">${item.unit || ''}</span>
+                            <span style="font-size:11px;color:#666;margin-left:5px;">${item.category}</span>
+                        </div>
+                        <div style="font-size:11px;color:#999;margin-top:3px;">
+                            📦 Stock: ${item.stock || 'N/A'} units
+                            ${item.description ? ` | 📝 ${item.description}` : ''}
+                        </div>
                     </div>
-                    <button class="btn btn-danger" onclick="deleteGroceryItem('${item.id}')">🗑️ Delete</button>
+                    <div style="display:flex;gap:5px;">
+                        <button class="btn btn-primary" onclick="quickEditGrocery('${item.id}')" style="padding:8px 12px;font-size:12px;">✏️</button>
+                        <button class="btn btn-danger" onclick="deleteGroceryItem('${item.id}')" style="padding:8px 12px;font-size:12px;">🗑️</button>
+                    </div>
                 </div>
             `).join('');
         }
 
-        function deleteGroceryItem(id) { if (confirm('Delete this item?')) database.ref('groceryItems').child(id).remove(); }
+        function deleteGroceryItem(id) { 
+            if (confirm('Delete this grocery item?')) {
+                database.ref('groceryItems').child(id).remove();
+            }
+        }
 
         function clearGroceryForm() {
             document.getElementById('groceryName').value = '';
             document.getElementById('groceryPrice').value = '';
             document.getElementById('groceryUnit').value = '';
+            document.getElementById('groceryStock').value = '100';
+            document.getElementById('groceryDescription').value = '';
             document.getElementById('groceryImageUrl').value = '';
             document.getElementById('groceryImagePreview').style.display = 'none';
+            document.getElementById('isGroceryAvailable').checked = true;
+            document.getElementById('groceryCategory').value = 'Staples';
+        }
+
+        // NEW: Grocery Edit Functions
+        function showEditGrocerySection() {
+            document.getElementById('editGrocerySection').classList.remove('hidden');
+            updateEditGrocerySelect();
+        }
+
+        function updateEditGrocerySelect() {
+            document.getElementById('editGrocerySelect').innerHTML = '<option value="">-- Select Item --</option>' + 
+                groceryItems.map(g => `<option value="${g.id}">${g.name} (${g.category}) - Rs.${g.price}</option>`).join('');
+        }
+
+        function loadGroceryData() {
+            const itemId = document.getElementById('editGrocerySelect').value;
+            if (!itemId) return;
+            const item = groceryItems.find(g => g.id === itemId);
+            if (!item) return;
+            document.getElementById('editGroceryName').value = item.name || '';
+            document.getElementById('editGroceryPrice').value = item.price || 0;
+            document.getElementById('editGroceryUnit').value = item.unit || '';
+            document.getElementById('editGroceryStock').value = item.stock || 0;
+            document.getElementById('editGroceryCategory').value = item.category || 'Staples';
+            document.getElementById('editGroceryDescription').value = item.description || '';
+            document.getElementById('editGroceryImage').value = item.image || '';
+            document.getElementById('editIsGroceryAvailable').checked = item.available !== false;
+        }
+
+        function updateGroceryItem() {
+            const itemId = document.getElementById('editGrocerySelect').value;
+            if (!itemId) { alert('Item එකක් තෝරන්න!'); return; }
+            const updatedData = {
+                name: document.getElementById('editGroceryName').value,
+                price: parseInt(document.getElementById('editGroceryPrice').value) || 0,
+                unit: document.getElementById('editGroceryUnit').value,
+                stock: parseInt(document.getElementById('editGroceryStock').value) || 0,
+                category: document.getElementById('editGroceryCategory').value,
+                description: document.getElementById('editGroceryDescription').value || '',
+                image: document.getElementById('editGroceryImage').value || 'https://via.placeholder.com/500',
+                available: document.getElementById('editIsGroceryAvailable').checked,
+                updatedAt: Date.now()
+            };
+            database.ref('groceryItems').child(itemId).update(updatedData).then(() => { 
+                alert('✅ Grocery item updated!'); 
+                cancelEdit('grocery'); 
+            });
+        }
+
+        function quickEditGrocery(id) {
+            document.getElementById('editGrocerySection').classList.remove('hidden');
+            document.getElementById('editGrocerySelect').value = id;
+            loadGroceryData();
+            document.getElementById('editGrocerySection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function quickDeleteGrocery() {
+            const itemId = document.getElementById('editGrocerySelect').value;
+            if (!itemId) { alert('Item එකක් තෝරන්න!'); return; }
+            if (confirm('Are you sure you want to delete this item?')) {
+                database.ref('groceryItems').child(itemId).remove().then(() => {
+                    alert('✅ Item deleted!');
+                    cancelEdit('grocery');
+                });
+            }
         }
 
         // Feedback Management
         function loadFeedbacks() {
             database.ref('feedbacks').orderByChild('date').limitToLast(50).on('value', (snapshot) => {
                 const data = snapshot.val();
-                feedbacks = data ? Object.keys(data).map(key => ({...data[key], id: key})) : [];
+                feedbacks = data ? Object.entries(data).map(([key, value]) => ({...value, id: key})) : [];
                 renderFeedbacks();
             });
         }
@@ -849,7 +1007,7 @@
         function loadAds() {
             database.ref('ads').on('value', (snapshot) => {
                 const data = snapshot.val();
-                ads = data ? Object.values(data).map((a, i) => ({...a, id: Object.keys(data)[i]})) : [];
+                ads = data ? Object.entries(data).map(([key, value]) => ({...value, id: key})) : [];
                 renderAds();
             });
         }
@@ -895,7 +1053,7 @@
         function loadMessages() {
             database.ref('messages').orderByChild('sentAt').limitToLast(20).on('value', (snapshot) => {
                 const data = snapshot.val();
-                messages = data ? Object.keys(data).map(key => ({...data[key], id: key})) : [];
+                messages = data ? Object.entries(data).map(([key, value]) => ({...value, id: key})) : [];
                 renderMessages();
             });
         }
@@ -945,9 +1103,12 @@
             if (type === 'shop') {
                 document.getElementById('editShopSection').classList.add('hidden');
                 document.getElementById('editShopSelect').value = '';
-            } else {
+            } else if (type === 'food') {
                 document.getElementById('editFoodSection').classList.add('hidden');
                 document.getElementById('editFoodSelect').value = '';
+            } else if (type === 'grocery') {
+                document.getElementById('editGrocerySection').classList.add('hidden');
+                document.getElementById('editGrocerySelect').value = '';
             }
         }
 
