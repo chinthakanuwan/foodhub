@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FoodHub - Setup Data</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1 { color: #667eea; margin-bottom: 20px; }
+        .btn { background: #667eea; color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin: 10px 5px; }
+        .btn:hover { background: #5568d3; }
+        .success { background: #4CAF50; color: white; padding: 15px; border-radius: 8px; margin: 10px 0; display: none; }
+        .log { background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 10px 0; max-height: 400px; overflow-y: auto; font-family: monospace; font-size: 12px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 FoodHub - Setup Sample Data</h1>
+        <p>මේ button ඔබන්න සියල්ලම automatic add වෙයි:</p>
+        
+        <button class="btn" onclick="setupAllData()">✅ Setup All Data (Shops + Foods + Grocery)</button>
+        <button class="btn" onclick="clearAllData()" style="background: #f44336;">🗑️ Clear All Data</button>
+        
+        <div id="success" class="success"></div>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDduouixF2IW568mND20cfxmnBNxQfRkrg",
+            authDomain: "foodhub-app-6632c.firebaseapp.com",
+            databaseURL: "https://foodhub-app-6632c-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "foodhub-app-6632c",
+            storageBucket: "foodhub-app-6632c.appspot.com",
+            messagingSenderId: "1025149369233",
+            appId: "1:1025149369233:web:245f846d959274ee487830"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            logDiv.innerHTML += `<div>${new Date().toLocaleTimeString()}: ${message}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('success');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+        }
+
+        async function setupAllData() {
+            log('Starting data setup...');
+            
+            try {
+                // Setup Shops
+                await setupShops();
+                
+                // Wait for shops to be added
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                // Setup Foods
+                await setupFoods();
+                
+                // Setup Grocery
+                await setupGrocery();
+                
+                showSuccess('✅ සියල්ලම සාර්ථකව add විය! දැන් app එක refresh කරන්න.');
+                log('✅ Setup completed successfully!');
+                
+            } catch (error) {
+                log('❌ Error: ' + error.message);
+                alert('Error: ' + error.message);
+            }
+        }
+
+        async function setupShops() {
+            log('Adding shops...');
+            
+            const shops = [
+                {
+                    name: 'Silvas Family Restaurant',
+                    category: 'Restaurant',
+                    phone: '0766488689',
+                    openTime: '09:00',
+                    closeTime: '22:00',
+                    deliveryTime: '30-40 min',
+                    deliveryFee: 150,
+                    rating: 4.5,
+                    tags: ['Kottu', 'Rice & Curry', 'Fried Rice'],
+                    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=500',
+                    isFeatured: true
+                },
+                {
+                    name: 'Silvas Family Store',
+                    category: 'Grocery',
+                    phone: '0766488689',
+                    openTime: '08:00',
+                    closeTime: '21:00',
+                    deliveryTime: '20-30 min',
+                    deliveryFee: 100,
+                    rating: 4.8,
+                    tags: ['Grocery', 'Supermarket', 'Daily Needs'],
+                    image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=500',
+                    isFeatured: true
+                },
+                {
+                    name: 'Burger King',
+                    category: 'Fast Food',
+                    phone: '0771234567',
+                    openTime: '10:00',
+                    closeTime: '23:00',
+                    deliveryTime: '25-35 min',
+                    deliveryFee: 200,
+                    rating: 4.3,
+                    tags: ['Burgers', 'Chicken Bucket', 'Fast Food'],
+                    image: 'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=500',
+                    isFeatured: false
+                },
+                {
+                    name: 'Pizza Hut',
+                    category: 'Fast Food',
+                    phone: '0772345678',
+                    openTime: '11:00',
+                    closeTime: '23:00',
+                    deliveryTime: '30-40 min',
+                    deliveryFee: 200,
+                    rating: 4.4,
+                    tags: ['Pizza', 'Beverages', 'Fast Food'],
+                    image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500',
+                    isFeatured: false
+                },
+                {
+                    name: 'Fresh Flowers',
+                    category: 'Flowers',
+                    phone: '0773456789',
+                    openTime: '08:00',
+                    closeTime: '20:00',
+                    deliveryTime: '15-25 min',
+                    deliveryFee: 150,
+                    rating: 4.7,
+                    tags: ['Flowers', 'Bouquets', 'Gifts'],
+                    image: 'https://images.unsplash.com/photo-1563241527-3004b7be0290?w=500',
+                    isFeatured: false
+                },
+                {
+                    name: 'Juice Bar',
+                    category: 'Drinks',
+                    phone: '0774567890',
+                    openTime: '07:00',
+                    closeTime: '21:00',
+                    deliveryTime: '15-20 min',
+                    deliveryFee: 100,
+                    rating: 4.6,
+                    tags: ['Fresh Juice', 'Smoothies', 'Beverages'],
+                    image: 'https://images.unsplash.com/photo-1613478223719-20823b9d2db3?w=500',
+                    isFeatured: false
+                }
+            ];
+
+            for (const shop of shops) {
+                await database.ref('shops').push(shop);
+                log(`✅ Added shop: ${shop.name}`);
+            }
+            
+            log(`✅ Total shops added: ${shops.length}`);
+        }
+
+        async function setupFoods() {
+            log('Adding foods...');
+            
+            // Get shops from database
+            const shopsSnapshot = await database.ref('shops').once('value');
+            const shops = shopsSnapshot.val();
+            let shopArray = [];
+            
+            for (let key in shops) {
+                shopArray.push({ id: key, ...shops[key] });
+            }
+            
+            const foodsData = {
+                'Silvas Family Restaurant': [
+                    { name: 'Rice & Curry', price: 350, category: 'Rice', description: 'Traditional Sri Lankan rice and curry' },
+                    { name: 'Mixed Rice', price: 400, category: 'Rice', description: 'Mixed vegetable rice' },
+                    { name: 'Chicken Fried Rice', price: 550, category: 'Rice', description: 'Fried rice with chicken' },
+                    { name: 'Nasi Goreng', price: 500, category: 'Rice', description: 'Indonesian style fried rice' },
+                    { name: 'Kottu', price: 450, category: 'Kottu', description: 'Roti kottu with vegetables' },
+                    { name: 'Fish Rice', price: 600, category: 'Rice', description: 'Rice with fish curry' },
+                    { name: 'Egg Rice', price: 400, category: 'Rice', description: 'Rice with egg curry' },
+                    { name: 'Cheese Kottu', price: 650, category: 'Kottu', description: 'Kottu with cheese' }
+                ],
+                'Burger King': [
+                    { name: 'Chicken Bucket', price: 850, category: 'Burger', description: 'Bucket of chicken pieces' },
+                    { name: 'Beef Burger', price: 450, category: 'Burger', description: 'Beef burger with fries' },
+                    { name: 'Cheese Burger', price: 400, category: 'Burger', description: 'Cheese burger with fries' },
+                    { name: 'Chicken Burger', price: 380, category: 'Burger', description: 'Chicken burger with fries' }
+                ],
+                'Pizza Hut': [
+                    { name: 'Pizza Large', price: 1200, category: 'Pizza', description: 'Large size pizza' },
+                    { name: 'Pizza Medium', price: 850, category: 'Pizza', description: 'Medium size pizza' },
+                    { name: 'Coca Cola', price: 150, category: 'Drinks', description: '330ml can' },
+                    { name: 'Sprite', price: 150, category: 'Drinks', description: '330ml can' }
+                ],
+                'Juice Bar': [
+                    { name: 'Mango Juice', price: 250, category: 'Drinks', description: 'Fresh mango juice' },
+                    { name: 'Passion Juice', price: 250, category: 'Drinks', description: 'Fresh passion fruit juice' },
+                    { name: 'Woodapple Juice', price: 200, category: 'Drinks', description: 'Fresh woodapple juice' },
+                    { name: 'Mixed Fruit Juice', price: 300, category: 'Drinks', description: 'Mixed fruit juice' },
+                    { name: 'Smoothie', price: 350, category: 'Drinks', description: 'Fruit smoothie' }
+                ]
+            };
+
+            let foodCount = 0;
+            
+            for (const [shopName, foods] of Object.entries(foodsData)) {
+                const shop = shopArray.find(s => s.name === shopName);
+                if (shop) {
+                    for (const food of foods) {
+                        await database.ref('foods').push({
+                            shopId: shop.id,
+                            name: food.name,
+                            category: food.category,
+                            price: food.price,
+                            description: food.description,
+                            image: `https://images.unsplash.com/photo-${getFoodImageId(food.category)}?w=500`
+                        });
+                        foodCount++;
+                        log(`✅ Added food: ${food.name} to ${shopName}`);
+                    }
+                }
+            }
+            
+            log(`✅ Total foods added: ${foodCount}`);
+        }
+
+        function getFoodImageId(category) {
+            const images = {
+                'Rice': '1586201375761-83865001e31c',
+                'Kottu': '1603137637444-56d404d75998',
+                'Burger': '1568958143499-9a23f5cf1c7f',
+                'Pizza': '1513104890138-7c749659a591',
+                'Drinks': '1544191694-171fef60a36a'
+            };
+            return images[category] || '1546071491-868a7f5f8a14';
+        }
+
+        async function setupGrocery() {
+            log('Adding grocery items...');
+            
+            const groceryItems = [
+                { name: 'Red Rice', unit: '1kg', price: 220, category: 'Staples' },
+                { name: 'White Rice', unit: '1kg', price: 200, category: 'Staples' },
+                { name: 'Samba Rice', unit: '1kg', price: 250, category: 'Staples' },
+                { name: 'Nadu Rice', unit: '1kg', price: 180, category: 'Staples' },
+                { name: 'Keeri Samba', unit: '1kg', price: 280, category: 'Staples' },
+                { name: 'Keeri Kekulu', unit: '1kg', price: 300, category: 'Staples' },
+                { name: 'Lanka Basmathi', unit: '1kg', price: 350, category: 'Staples' },
+                { name: 'Rosa Kekulu', unit: '1kg', price: 320, category: 'Staples' },
+                { name: 'Parippu', unit: '1kg', price: 450, category: 'Staples' },
+                { name: 'Seeni (Sugar)', unit: '1kg', price: 280, category: 'Staples' },
+                { name: 'Kadala', unit: '500g', price: 180, category: 'Staples' },
+                { name: 'Watana', unit: '500g', price: 200, category: 'Staples' },
+                { name: 'Mun Eta', unit: '500g', price: 150, category: 'Staples' },
+                { name: 'Udu Eta', unit: '500g', price: 160, category: 'Staples' },
+                { name: 'Macaroni', unit: '200g', price: 180, category: 'Staples' },
+                { name: 'Noodles', unit: 'Pack', price: 90, category: 'Staples' },
+                { name: 'Rathu Kawpi', unit: '100g', price: 250, category: 'Beverages' },
+                { name: 'Sudu Kawpi', unit: '100g', price: 300, category: 'Beverages' },
+                { name: 'Rathi Milk Powder', unit: '400g', price: 650, category: 'Dairy' },
+                { name: 'Rathi Milk Powder', unit: '1kg', price: 1250, category: 'Dairy' },
+                { name: 'Maliban Milk Powder', unit: '400g', price: 680, category: 'Dairy' },
+                { name: 'Anchor Milk Powder', unit: '400g', price: 750, category: 'Dairy' },
+                { name: 'Chilly Powder', unit: '100g', price: 180, category: 'Spices' },
+                { name: 'Chilly Pieces', unit: '100g', price: 150, category: 'Spices' },
+                { name: 'Pepper Powder', unit: '100g', price: 280, category: 'Spices' },
+                { name: 'Turmeric', unit: '100g', price: 150, category: 'Spices' },
+                { name: 'Curry Powder', unit: '100g', price: 150, category: 'Spices' },
+                { name: 'Meat Curry Powder', unit: '100g', price: 180, category: 'Spices' },
+                { name: 'Eggs', unit: '10 pcs', price: 180, category: 'Dairy' },
+                { name: 'Coconut Oil', unit: '1L', price: 550, category: 'Other' }
+            ];
+
+            for (const item of groceryItems) {
+                await database.ref('groceryItems').push({
+                    ...item,
+                    stock: 100,
+                    available: true,
+                    image: `https://images.unsplash.com/photo-${getGroceryImageId(item.category)}?w=500`
+                });
+                log(`✅ Added grocery: ${item.name} ${item.unit}`);
+            }
+            
+            log(`✅ Total grocery items added: ${groceryItems.length}`);
+        }
+
+        function getGroceryImageId(category) {
+            const images = {
+                'Staples': '1586201375761-83865001e31c',
+                'Spices': '1596040071240-08301a74781c',
+                'Dairy': '1563636619-e9143da7973b',
+                'Beverages': '1622483767028-3f66f32aef97',
+                'Other': '1583939003579-136eed73459e'
+            };
+            return images[category] || '1589894117408-6b8915a89915';
+        }
+
+        async function clearAllData() {
+            if (confirm('⚠️ බට විශ්වාසද? සියල්ලම delete වෙයි!')) {
+                log('Clearing all data...');
+                
+                await database.ref('shops').remove();
+                log('✅ Shops cleared');
+                
+                await database.ref('foods').remove();
+                log('✅ Foods cleared');
+                
+                await database.ref('groceryItems').remove();
+                log('✅ Grocery items cleared');
+                
+                showSuccess('🗑️ සියල්ලම delete විය!');
+                log('✅ All data cleared');
+            }
+        }
+    </script>
+</body>
+</html>
