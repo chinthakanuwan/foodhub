@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#FF6B6B">
-    <title>FoodHub - ආහාර & Grocery Delivery</title>
+    <title>FoodHub - හාර & Grocery Delivery</title>
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛒</text></svg>">
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -49,9 +49,10 @@
         .food-name, .grocery-name { font-weight: 600; margin-bottom: 4px; font-size: 13px; }
         .food-price, .grocery-price { color: #FF6B6B; font-weight: bold; margin-bottom: 8px; font-size: 13px; }
         .grocery-qty { font-size: 11px; color: #666; margin-bottom: 5px; }
-        .btn { width: 100%; padding: 8px; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: auto; }
+        .btn { width: 100%; padding: 10px; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: auto; }
         .btn-primary { background: #FF6B6B; color: white; }
         .btn-success { background: #4CAF50; color: white; }
+        .btn-whatsapp { background: #25D366; color: white; }
         .cart-badge { position: absolute; top: -3px; right: -3px; background: #FF6B6B; color: white; border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 10px; }
         .cart-icon { position: relative; }
         .loading { text-align: center; padding: 30px; color: #666; }
@@ -65,11 +66,16 @@
         .grocery-cart-btn { width: 100%; padding: 12px; background: #4CAF50; color: white; border: none; border-radius: 8px; font-size: 14px; font-weight: bold; cursor: pointer; }
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; margin-bottom: 4px; font-weight: 600; color: #555; font-size: 13px; }
-        .form-group input, .form-group textarea { width: 100%; padding: 8px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 13px; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 13px; }
         .payment-option { display: flex; gap: 8px; margin-bottom: 12px; }
-        .payment-btn { flex: 1; padding: 10px; border: 2px solid #ddd; border-radius: 6px; background: white; cursor: pointer; font-weight: 600; font-size: 12px; }
+        .payment-btn { flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 6px; background: white; cursor: pointer; font-weight: 600; font-size: 13px; text-align: center; }
         .payment-btn.active { border-color: #FF6B6B; background: #FFF0F0; color: #FF6B6B; }
         .bank-details { background: #FFF3E0; padding: 12px; border-radius: 6px; margin: 12px 0; border-left: 3px solid #FF9800; font-size: 12px; }
+        .checkout-box { background: white; padding: 15px; border-radius: 10px; margin-top: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .order-summary { background: #f9f9f9; padding: 12px; border-radius: 8px; margin-bottom: 15px; }
+        .order-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 13px; }
+        .order-item:last-child { border-bottom: none; }
+        .total-row { display: flex; justify-content: space-between; font-weight: bold; font-size: 16px; margin-top: 10px; padding-top: 10px; border-top: 2px solid #FF6B6B; }
     </style>
 </head>
 <body>
@@ -80,18 +86,18 @@
     </div>
     
     <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="🔍 Shops හෝ products search කරන්න..." oninput="handleSearch()">
+        <input type="text" id="searchInput" placeholder=" Shops හෝ products search කරන්න..." oninput="handleSearch()">
     </div>
     
     <div class="tabs">
         <div class="tab active" onclick="switchTab('shops')"> Shops</div>
-        <div class="tab" onclick="switchTab('grocery')">🛒 Grocery</div>
+        <div class="tab" onclick="switchTab('grocery')"> Grocery</div>
         <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
         <div class="tab" onclick="switchTab('orders')">📦 Cart</div>
     </div>
     
     <div id="shopsTab" class="container">
-        <div class="ad-banner"><h3 style="font-size: 14px; margin-bottom: 5px;"> විශේෂ දීමනාව!</h3><p style="font-size: 12px;">පළමු order එකට 20% වට්ටමක්</p></div>
+        <div class="ad-banner"><h3 style="font-size: 14px; margin-bottom: 5px;">🎉 විශේෂ දීමනාව!</h3><p style="font-size: 12px;">පළමු order එකට 20% වට්ටමක්</p></div>
         <div id="shopsList"><div class="loading">⏳ Shops load වෙමින්...</div></div>
     </div>
 
@@ -100,8 +106,8 @@
             <button class="back-btn" onclick="backToAllGrocery()">⬅️ සියලුම Grocery භාණ්ඩ</button>
             <h2 id="groceryShopName" style="margin-bottom: 12px; color: #333; font-size: 18px;"></h2>
         </div>
-        <h2 id="groceryTitle" style="margin-bottom: 12px; font-size: 18px;">🛒 Grocery භාණ්ඩ</h2>
-        <div class="grocery-grid" id="groceryGrid"><div class="loading">⏳ Grocery භාණ්ඩ load වෙමින්...</div></div>
+        <h2 id="groceryTitle" style="margin-bottom: 12px; font-size: 18px;">🛒 Grocery ාණ්ඩ</h2>
+        <div class="grocery-grid" id="groceryGrid"><div class="loading">⏳ Grocery ාණ්ඩ load වෙමින්...</div></div>
         <div class="grocery-cart" id="groceryCart">
             <div class="grocery-cart-header">
                 <span style="font-weight: 600; font-size: 13px;">තෝරාගත් භාණ්ඩ: <span id="groceryCount">0</span></span>
@@ -122,52 +128,63 @@
     <div id="ordersTab" class="container hidden">
         <h2 style="margin-bottom: 12px; font-size: 18px;">🛒 ඔබේ Cart එක</h2>
         <div id="ordersList"></div>
-        <div id="checkoutSection" style="display: none; margin-top: 15px;">
-            <div style="background: white; padding: 12px; border-radius: 8px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 16px; margin-bottom: 12px; border-bottom: 1px solid #eee; padding-bottom: 8px;">
-                    <span>Total:</span>
-                    <span id="cartTotalDisplay" style="color: #FF6B6B;">Rs. 0</span>
-                </div>
+        
+        <div id="checkoutSection" style="display: none;">
+            <div class="checkout-box">
+                <h3 style="margin-bottom: 15px; font-size: 16px;">📋 Order විස්තර</h3>
+                
+                <div class="order-summary" id="orderSummary"></div>
+                
                 <div class="form-group">
-                    <label>👤 ඔබේ නම</label>
+                    <label>👤 ඔබේ නම *</label>
                     <input type="text" id="customerName" placeholder="Your Name">
                 </div>
+                
                 <div class="form-group">
-                    <label>📞 Phone Number</label>
+                    <label>📞 Phone Number *</label>
                     <input type="tel" id="phoneNumber" placeholder="076 648 8689">
                 </div>
+                
                 <div class="form-group">
-                    <label>📍 Delivery Address</label>
+                    <label> Delivery Address *</label>
                     <textarea id="deliveryAddress" rows="2" placeholder="බේ ලිපිනය..."></textarea>
                 </div>
+                
                 <div class="form-group">
-                    <label>💳 Payment Method</label>
+                    <label>💳 Payment Method *</label>
                     <div class="payment-option">
-                        <button class="payment-btn active" onclick="selectPayment('cod')" id="btn-cod">💵 COD</button>
-                        <button class="payment-btn" onclick="selectPayment('online')" id="btn-online">🏦 Online</button>
+                        <button class="payment-btn active" onclick="selectPayment('cod')" id="btn-cod"> Cash on Delivery</button>
+                        <button class="payment-btn" onclick="selectPayment('online')" id="btn-online">🏦 Online Payment</button>
                     </div>
+                    
                     <div id="onlinePaymentDetails" style="display: none;" class="bank-details">
-                        <strong>BOC Account:</strong><br>
-                        Name: FoodHub Delivery<br>
-                        A/C: 8012345678<br>
-                        eZ Cash: 076-6488689
-                        <div class="form-group" style="margin-top: 8px;">
-                            <label>Transaction ID:</label>
-                            <input type="text" id="transactionId" placeholder="Ref No">
+                        <strong>Bank of Ceylon (BOC) Details:</strong><br><br>
+                        <strong>Account Name:</strong> FoodHub Delivery<br>
+                        <strong>Account Number:</strong> 8012345678<br>
+                        <strong>eZ Cash:</strong> 076-6488689<br><br>
+                        <div class="form-group" style="margin-top: 10px; margin-bottom: 0;">
+                            <label>Transaction ID / Reference Number *</label>
+                            <input type="text" id="transactionId" placeholder="e.g., CMB123456789">
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-primary" onclick="confirmCartOrder()" style="background: #25D366;">📱 WhatsApp එකට යවන්න</button>
-                <button class="btn" onclick="callToOrder()" style="margin-top: 8px; background: #0088cc; color: white;">📞 Call කරන්න</button>
+                
+                <button class="btn btn-whatsapp" onclick="confirmCartOrder()" style="margin-top: 15px; padding: 15px; font-size: 15px;">
+                    📱 WhatsApp එකට Order එක යවන්න
+                </button>
+                
+                <button class="btn" onclick="callToOrder()" style="margin-top: 10px; background: #0088cc; color: white; padding: 12px;">
+                    📞 කෙලින්ම Call කරන්න
+                </button>
             </div>
         </div>
     </div>
 
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('shops')"><span class="icon">🏪</span><span class="label">Shops</span></div>
+        <div class="nav-item active" onclick="switchTab('shops')"><span class="icon"></span><span class="label">Shops</span></div>
         <div class="nav-item" onclick="switchTab('grocery')"><span class="icon">🛒</span><span class="label">Grocery</span></div>
         <div class="nav-item" onclick="switchTab('foods')"><span class="icon">🍕</span><span class="label">Foods</span></div>
-        <div class="nav-item cart-icon" onclick="switchTab('orders')"><span class="icon">📦</span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
+        <div class="nav-item cart-icon" onclick="switchTab('orders')"><span class="icon"></span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
     </div>
 
     <script>
@@ -190,6 +207,7 @@
         let selectedGroceryIds = new Set();
         let currentShopId = null;
         let currentGroceryShopId = null;
+        let selectedPaymentMethod = 'cod';
 
         // 42 Sample Grocery Items
         const sampleGroceryItems = [
@@ -219,13 +237,13 @@
             { id: '24', name: 'ටොමැටෝ සෝස් (Tomato Sauce)', unit: '300ml', price: 180, category: 'Condiments', image: 'https://images.unsplash.com/photo-1571167189043-171f75ae3721?w=500' },
             { id: '25', name: 'චිප්ස් (Chips)', unit: 'Pack', price: 80, category: 'Snacks', image: 'https://images.unsplash.com/photo-1566478989037-e84c6f748f25?w=500' },
             { id: '26', name: 'චොකලට් (Chocolate)', unit: 'Bar', price: 150, category: 'Snacks', image: 'https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=500' },
-            { id: '27', name: 'ජූස් (Juice)', unit: '1L', price: 280, category: 'Beverages', image: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=500' },
+            { id: '27', name: 'ජස් (Juice)', unit: '1L', price: 280, category: 'Beverages', image: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=500' },
             { id: '28', name: 'වාටර් (Water)', unit: '1.5L', price: 80, category: 'Beverages', image: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=500' },
             { id: '29', name: 'නූඩ්ල්ස් (Noodles)', unit: 'Pack', price: 120, category: 'Instant', image: 'https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=500' },
             { id: '30', name: 'පේස්ටා (Pasta)', unit: '500g', price: 280, category: 'Staples', image: 'https://images.unsplash.com/photo-1551183054-bf91ab1f3053?w=500' },
             { id: '31', name: 'කැන්ඩි (Candy)', unit: 'Pack', price: 60, category: 'Snacks', image: 'https://images.unsplash.com/photo-1582058091535-435ac4590799?w=500' },
-            { id: '32', name: 'සබ්බැඳි (Soap)', unit: '100g', price: 95, category: 'Personal', image: 'https://images.unsplash.com/photo-1600857062241-97de8a795b52?w=500' },
-            { id: '33', name: 'ටූත්පේස්ට් (Toothpaste)', unit: '100g', price: 180, category: 'Personal', image: 'https://images.unsplash.com/photo-1559671816-6222e982d963?w=500' },
+            { id: '32', name: 'සබ්බැි (Soap)', unit: '100g', price: 95, category: 'Personal', image: 'https://images.unsplash.com/photo-1600857062241-97de8a795b52?w=500' },
+            { id: '33', name: 'ටත්පේස්ට් (Toothpaste)', unit: '100g', price: 180, category: 'Personal', image: 'https://images.unsplash.com/photo-1559671816-6222e982d963?w=500' },
             { id: '34', name: 'ෂැම්පු (Shampoo)', unit: '200ml', price: 350, category: 'Personal', image: 'https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=500' },
             { id: '35', name: 'කොට්ටේ (Cotton)', unit: 'Pack', price: 85, category: 'Personal', image: 'https://images.unsplash.com/photo-1583939003579-136eed73459e?w=500' },
             { id: '36', name: 'කරපිංචා (Mustard)', unit: '100g', price: 120, category: 'Spices', image: 'https://images.unsplash.com/photo-1615485297392-60cb4549853c?w=500' },
@@ -233,7 +251,7 @@
             { id: '38', name: 'කොකනට් මිල්ක් (Coconut Milk)', unit: '400ml', price: 150, category: 'Cooking', image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500' },
             { id: '39', name: 'රයිස් (Rice) 5kg', unit: '5kg', price: 950, category: 'Staples', image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500' },
             { id: '40', name: 'කිරි පිටි (Milk Powder) 900g', unit: '900g', price: 1250, category: 'Dairy', image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500' },
-            { id: '41', name: 'කැනඩ් ෆිෂ් (Canned Fish)', unit: '155g', price: 280, category: 'Canned', image: 'https://images.unsplash.com/photo-1534939561146-6946c0a9b1d4?w=500' },
+            { id: '41', name: 'කැනඩ් ිෂ් (Canned Fish)', unit: '155g', price: 280, category: 'Canned', image: 'https://images.unsplash.com/photo-1534939561146-6946c0a9b1d4?w=500' },
             { id: '42', name: 'කැනඩ් බීන්ස් (Canned Beans)', unit: '400g', price: 220, category: 'Canned', image: 'https://images.unsplash.com/photo-1589894117408-6b8915a89915?w=500' }
         ];
 
@@ -368,7 +386,7 @@
                         <div class="food-info">
                             <div class="food-name">${food.name}</div>
                             <div class="food-price">Rs. ${food.price}</div>
-                            <button class="btn btn-primary" onclick="addToCart('${food.id}', '${food.name}', ${food.price})"> Add</button>
+                            <button class="btn btn-primary" onclick="addToCart('${food.id}', '${food.name}', ${food.price})">🛒 Add</button>
                         </div>
                     </div>
                 `;
@@ -378,9 +396,6 @@
         function renderGroceryGrid() {
             const grid = document.getElementById('groceryGrid');
             let displayItems = groceryItems;
-            
-            // If viewing a specific grocery shop, show all items (can be filtered later)
-            // For now, show all grocery items
             
             if (displayItems.length === 0) {
                 grid.innerHTML = '<div class="loading">දැනට Grocery භාණ්ඩ කිසිවක් නැත.</div>';
@@ -453,48 +468,43 @@
         function renderOrdersTab() {
             const list = document.getElementById('ordersList');
             const checkoutSection = document.getElementById('checkoutSection');
+            
             if (cart.length === 0) {
-                list.innerHTML = '<div class="loading">🛒 ඔබේ Cart එක හිස්යි</div>';
+                list.innerHTML = '<div class="loading"> ඔබේ Cart එක හිස්යි. Items add කරන්න!</div>';
                 checkoutSection.style.display = 'none';
                 return;
             }
+            
             let total = 0;
-            list.innerHTML = cart.map(item => {
-                total += item.price * item.quantity;
-                return `
-                    <div style="background: white; padding: 12px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
-                        <div>
-                            <div style="font-weight: 600; font-size: 13px;">${item.name}</div>
-                            <div style="font-size: 11px; color: #666;">Rs. ${item.price} x ${item.quantity}</div>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            <button onclick="changeQty('${item.id}', -1)" style="width: 28px; height: 28px; border: 1px solid #ddd; background: white; border-radius: 5px; cursor: pointer; font-size: 14px;">-</button>
-                            <span style="font-weight: 600; font-size: 13px;">${item.quantity}</span>
-                            <button onclick="changeQty('${item.id}', 1)" style="width: 28px; height: 28px; border: 1px solid #ddd; background: white; border-radius: 5px; cursor: pointer; font-size: 14px;">+</button>
-                        </div>
+            let orderSummaryHTML = '';
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                orderSummaryHTML += `
+                    <div class="order-item">
+                        <span>${item.name} x${item.quantity}</span>
+                        <span>Rs. ${itemTotal.toLocaleString()}</span>
                     </div>
                 `;
-            }).join('');
+            });
+            
+            orderSummaryHTML += `
+                <div class="total-row">
+                    <span>Total:</span>
+                    <span>Rs. ${total.toLocaleString()}</span>
+                </div>
+            `;
+            
+            list.innerHTML = '<div style="background: #E8F5E9; padding: 12px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #4CAF50;"><strong>✅ Items තෝරාගෙන ඇත!</strong><br><span style="font-size: 12px;">පහත විස්තර පුරවා WhatsApp එකට යවන්න</span></div>';
+            
+            document.getElementById('orderSummary').innerHTML = orderSummaryHTML;
             document.getElementById('cartTotalDisplay').textContent = 'Rs. ' + total.toLocaleString();
             checkoutSection.style.display = 'block';
         }
 
-        function changeQty(id, change) {
-            const item = cart.find(i => i.id === id);
-            if (item) {
-                item.quantity += change;
-                if (item.quantity <= 0) removeFromCart(id);
-                else { updateCartBadge(); renderOrdersTab(); }
-            }
-        }
-
-        function removeFromCart(id) {
-            cart = cart.filter(i => i.id !== id);
-            updateCartBadge();
-            renderOrdersTab();
-        }
-
         function selectPayment(method) {
+            selectedPaymentMethod = method;
             document.getElementById('btn-cod').classList.toggle('active', method === 'cod');
             document.getElementById('btn-online').classList.toggle('active', method === 'online');
             document.getElementById('onlinePaymentDetails').style.display = method === 'online' ? 'block' : 'none';
@@ -504,27 +514,31 @@
             const name = document.getElementById('customerName').value.trim();
             const phone = document.getElementById('phoneNumber').value.trim();
             const address = document.getElementById('deliveryAddress').value.trim();
-            const paymentMethod = document.getElementById('btn-online').classList.contains('active') ? 'online' : 'cod';
             const transId = document.getElementById('transactionId').value.trim();
 
             if (!name || !phone || !address) {
                 showToast('❌ කරුණාකර නම, දුරකථන අංකය සහ ලිපිනය ඇතුළත් කරන්න!');
                 return;
             }
-            if (paymentMethod === 'online' && !transId) {
+            if (selectedPaymentMethod === 'online' && !transId) {
                 showToast('❌ Online ගෙවීම් සඳහා Transaction ID එක අනිවාර්යයි!');
+                document.getElementById('transactionId').focus();
                 return;
             }
 
             let total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             let itemsList = cart.map(i => `✓ ${i.name} x${i.quantity}`).join('\n');
-            const paymentInfo = paymentMethod === 'cod' ? '💵 Cash on Delivery' : `🏦 Online (Ref: ${transId})`;
+            const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 Cash on Delivery' : `🏦 Online Payment (Ref: ${transId})`;
 
-            const orderMsg = `*🍔 FoodHub New Order*\n\n *Name:* ${name}\n *Phone:* ${phone}\n *Address:* ${address}\n💳 *Payment:* ${paymentInfo}\n\n*Items:*\n${itemsList}\n\n*Total:* Rs. ${total.toLocaleString()}`;
+            const orderMsg = `*🍔 FoodHub New Order*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Address:* ${address}\n💳 *Payment:* ${paymentInfo}\n\n*Items:*\n${itemsList}\n\n*💰 Total:* Rs. ${total.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
             
             window.open(`https://wa.me/94766488689?text=${encodeURIComponent(orderMsg)}`, '_blank');
-            cart = []; updateCartBadge(); renderOrdersTab();
-            showToast('✅ Order එක යවන ලදී!');
+            
+            // Clear cart after sending
+            cart = []; 
+            updateCartBadge(); 
+            renderOrdersTab();
+            showToast('✅ Order එක WhatsApp එකට යවන ලදී!');
         }
 
         function callToOrder() {
