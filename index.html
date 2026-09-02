@@ -3,452 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FoodHub & Grocery</title>
+    <meta name="theme-color" content="#FF6B6B">
+    <title>FoodHub - ආහාර & Grocery Delivery</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛒</text></svg>">
+    
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; padding-bottom: 70px; }
-        
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-        .header h1 { font-size: 24px; margin-bottom: 5px; }
-        .header p { font-size: 14px; opacity: 0.9; }
-        
-        /* Search */
-        .search-container {
-            padding: 15px;
-            background: white;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .search-box {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 25px;
-            font-size: 14px;
-            outline: none;
-        }
-        .search-box:focus { border-color: #ff6b6b; }
-        
-        /* Navigation Tabs */
-        .nav-tabs {
-            display: flex;
-            gap: 10px;
-            padding: 15px;
-            background: white;
-        }
-        .nav-tab {
-            flex: 1;
-            padding: 12px;
-            text-align: center;
-            border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            background: #f5f5f5;
-            color: #666;
-            transition: all 0.3s;
-        }
-        .nav-tab.active {
-            background: #ff6b6b;
-            color: white;
-        }
-        .nav-tab:hover { transform: translateY(-2px); }
-        
-        /* Cart Button */
-        .cart-btn {
-            width: 100%;
-            padding: 12px;
-            background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 10px;
-            margin: 0 15px 15px 15px;
-            text-align: center;
-            cursor: pointer;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        .cart-btn:hover { background: #f9f9f9; }
-        
-        /* Content Sections */
-        .content { padding: 15px; }
-        .section { display: none; }
-        .section.active { display: block; }
-        
-        /* Section Header */
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        .section-header h2 {
-            font-size: 22px;
-            color: #333;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        /* Product Grid */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-        .product-card {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-        .product-card:hover { transform: translateY(-5px); }
-        .product-image {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            background: #f0f0f0;
-        }
-        .product-info {
-            padding: 12px;
-        }
-        .product-name {
-            font-weight: 600;
-            font-size: 16px;
-            margin-bottom: 5px;
-            color: #333;
-        }
-        .product-unit {
-            font-size: 12px;
-            color: #666;
-            margin-bottom: 8px;
-        }
-        .product-price {
-            font-size: 18px;
-            font-weight: bold;
-            color: #ff6b6b;
-        }
-        .add-to-cart-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 30px;
-            height: 30px;
-            background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 5px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-        }
-        .add-to-cart-btn:hover {
-            background: #ff6b6b;
-            color: white;
-            border-color: #ff6b6b;
-        }
-        .product-card { position: relative; }
-        
-        /* Shop Cards */
-        .shop-card {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            gap: 15px;
-            cursor: pointer;
-        }
-        .shop-image {
-            width: 80px;
-            height: 80px;
-            border-radius: 10px;
-            object-fit: cover;
-        }
-        .shop-info { flex: 1; }
-        .shop-name { font-weight: 600; font-size: 16px; margin-bottom: 5px; }
-        .shop-details { font-size: 12px; color: #666; }
-        .shop-rating { color: #FF9800; font-weight: 600; }
-        
-        /* Food Cards */
-        .food-card {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            gap: 15px;
-        }
-        .food-image {
-            width: 100px;
-            height: 100px;
-            border-radius: 10px;
-            object-fit: cover;
-        }
-        .food-info { flex: 1; }
-        .food-name { font-weight: 600; font-size: 16px; margin-bottom: 5px; }
-        .food-price { color: #ff6b6b; font-weight: bold; font-size: 18px; }
-        
-        /* Cart */
-        .cart-item {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        .cart-total {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 15px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .checkout-btn {
-            width: 100%;
-            padding: 15px;
-            background: #ff6b6b;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 15px;
-        }
-        
-        /* Bottom Navigation */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-            z-index: 1000;
-        }
-        .bottom-nav-item {
-            text-align: center;
-            cursor: pointer;
-            padding: 5px 15px;
-            position: relative;
-        }
-        .bottom-nav-item.active { color: #ff6b6b; }
-        .bottom-nav-item .icon { font-size: 24px; }
-        .bottom-nav-item .label { font-size: 12px; margin-top: 3px; }
-        .cart-badge {
-            position: absolute;
-            top: -5px;
-            right: 0;
-            background: #ff6b6b;
-            color: white;
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: #999;
-        }
-        .empty-state .icon { font-size: 60px; margin-bottom: 15px; }
-        
-        /* Loading */
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-        }
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #ff6b6b;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
-        /* Order Form */
-        .order-form {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 15px;
-        }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #555; }
-        .form-group input, .form-group textarea {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-        
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #4CAF50;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-weight: 600;
-            z-index: 2000;
-            display: none;
-            animation: slideUp 0.3s ease;
-        }
-        @keyframes slideUp {
-            from { bottom: 60px; opacity: 0; }
-            to { bottom: 80px; opacity: 1; }
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; padding-bottom: 80px; }
+        .header { background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: white; padding: 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header h1 { font-size: 28px; margin-bottom: 5px; }
+        .search-bar { padding: 15px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .search-bar input { width: 100%; padding: 12px 20px; border: 2px solid #e0e0e0; border-radius: 25px; font-size: 16px; outline: none; }
+        .tabs { display: flex; background: white; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 15px; position: sticky; top: 0; z-index: 50; flex-wrap: wrap; gap: 5px; }
+        .tab { flex: 1; min-width: 80px; padding: 12px; text-align: center; cursor: pointer; border-radius: 10px; margin: 0 5px; font-weight: 600; transition: all 0.3s; font-size: 14px; }
+        .tab.active { background: #FF6B6B; color: white; }
+        .tab:not(.active) { background: #f5f5f5; color: #666; }
+        .container { padding: 15px; }
+        .shop-card { background: white; border-radius: 15px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.3s; }
+        .shop-card:hover { transform: translateY(-5px); }
+        .shop-image { width: 100%; height: 200px; object-fit: cover; background: #ddd; }
+        .shop-info { padding: 15px; }
+        .shop-name { font-size: 20px; font-weight: bold; color: #333; margin-bottom: 8px; }
+        .shop-details { display: flex; justify-content: space-between; color: #666; font-size: 14px; margin-bottom: 10px; }
+        .rating { background: #4CAF50; color: white; padding: 3px 10px; border-radius: 5px; font-weight: bold; }
+        .shop-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+        .tag { background: #FFF3E0; color: #FF9800; padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: all 0.3s; }
+        .tag:hover { background: #FF9800; color: white; }
+        .ad-banner { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 100; }
+        .nav-item { text-align: center; padding: 5px 20px; cursor: pointer; color: #666; }
+        .nav-item.active { color: #FF6B6B; }
+        .nav-item .icon { font-size: 24px; display: block; }
+        .nav-item .label { font-size: 12px; margin-top: 3px; }
+        .hidden { display: none; }
+        .food-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .food-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+        .food-image { width: 100%; height: 120px; object-fit: cover; background: #ddd; }
+        .food-info { padding: 10px; flex: 1; display: flex; flex-direction: column; }
+        .food-name { font-weight: 600; margin-bottom: 5px; font-size: 14px; }
+        .food-price { color: #FF6B6B; font-weight: bold; margin-bottom: 10px; }
+        .btn { width: 100%; padding: 10px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: auto; transition: 0.2s; }
+        .btn:active { transform: scale(0.95); }
+        .btn-primary { background: #FF6B6B; color: white; }
+        .cart-badge { position: absolute; top: -5px; right: -5px; background: #FF6B6B; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+        .cart-icon { position: relative; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; overflow-y: auto; padding: 20px; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { background: white; margin: 5% auto; padding: 25px; width: 100%; max-width: 400px; border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
+        .pay-btn { flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 8px; background: white; cursor: pointer; font-weight: 600; font-size: 14px; }
+        .pay-btn.active { border-color: #FF6B6B; background: #FFF0F0; color: #FF6B6B; }
+        .loading { text-align: center; padding: 40px; color: #666; grid-column: 1/-1; }
+        .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 25px; border-radius: 25px; font-weight: 600; z-index: 2000; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from { bottom: 50px; opacity: 0; } to { bottom: 100px; opacity: 1; } }
+        .checkout-select { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; outline: none; background: white; }
+
+        /* --- GROCERY SPECIFIC STYLES (NO ADMIN) --- */
+        .grocery-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .grocery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding-bottom: 160px; }
+        .grocery-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); position: relative; border: 2px solid transparent; transition: all 0.2s; cursor: pointer; }
+        .grocery-card.selected { border-color: #4CAF50; background: #F1F8E9; }
+        .grocery-img { width: 100%; height: 110px; object-fit: cover; background: #eee; }
+        .grocery-info { padding: 10px; }
+        .grocery-name { font-size: 13px; font-weight: 600; color: #333; margin-bottom: 4px; line-height: 1.3; }
+        .grocery-qty { font-size: 11px; color: #666; margin-bottom: 6px; }
+        .grocery-price { font-size: 16px; color: #FF6B6B; font-weight: bold; }
+        .grocery-check { position: absolute; top: 8px; right: 8px; width: 24px; height: 24px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; }
+        .grocery-check input { width: 18px; height: 18px; cursor: pointer; accent-color: #4CAF50; pointer-events: none; }
+        .grocery-cart { position: fixed; bottom: 70px; left: 0; right: 0; background: white; padding: 15px; box-shadow: 0 -4px 15px rgba(0,0,0,0.1); z-index: 90; border-top-left-radius: 15px; border-top-right-radius: 15px; display: none; }
+        .grocery-cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .grocery-cart-total { font-size: 20px; font-weight: bold; color: #FF6B6B; }
+        .grocery-cart-btn { width: 100%; padding: 14px; background: #4CAF50; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <div class="header">
         <h1>🛒 FoodHub & Grocery</h1>
-        <p>මගේ ආහාර & grocery delivery partner</p>
+        <p>ඔබේ ආහාර & grocery delivery partner</p>
+    </div>
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="🔍 Shops හෝ products search කරන්න..." oninput="handleSearch()">
+    </div>
+    <div class="tabs">
+        <div class="tab active" onclick="switchTab('shops')">🏪 Shops</div>
+        <div class="tab" onclick="switchTab('grocery')">🛒 Grocery</div>
+        <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
+        <div class="tab" onclick="switchTab('orders')">📦 Cart</div>
+    </div>
+    
+    <div id="shopsTab" class="container">
+        <div class="ad-banner">
+            <h3>🎉 විශේෂ දීමනාව!</h3>
+            <p>පළමු order එකට 20% වට්ටමක්</p>
+        </div>
+        <div id="shopsList"><div class="loading">⏳ Shops load වෙමින්...</div></div>
     </div>
 
-    <!-- Search -->
-    <div class="search-container">
-        <input type="text" class="search-box" id="searchBox" placeholder="🔍 Shops හෝ products search කරන්න" oninput="handleSearch()">
-    </div>
-
-    <!-- Navigation Tabs -->
-    <div class="nav-tabs">
-        <div class="nav-tab" onclick="switchTab('shops')">🏪 Shops</div>
-        <div class="nav-tab active" onclick="switchTab('grocery')">🛒 Grocery</div>
-        <div class="nav-tab" onclick="switchTab('foods')">🍕 Foods</div>
-    </div>
-
-    <!-- Cart Button -->
-    <div class="cart-btn" onclick="switchTab('cart')">
-        📦 Cart <span id="cartCount">(0)</span>
-    </div>
-
-    <!-- Content Sections -->
-    <div class="content">
-        <!-- Shops Section -->
-        <div id="shopsSection" class="section">
-            <div class="section-header">
-                <h2>🏪 Shops</h2>
-            </div>
-            <div id="shopsList"></div>
+    <div id="groceryTab" class="container hidden">
+        <div class="grocery-header">
+            <h2 style="margin: 0; color: #333;">🛒 Grocery භාණ්ඩ</h2>
+        </div>
+        <div class="grocery-grid" id="groceryGrid">
+            <div class="loading">⏳ Grocery භාණ්ඩ load වෙමින්...</div>
         </div>
 
-        <!-- Grocery Section -->
-        <div id="grocerySection" class="section active">
-            <div class="section-header">
-                <h2> Grocery භාණ්ඩ</h2>
+        <div class="grocery-cart" id="groceryCart">
+            <div class="grocery-cart-header">
+                <span style="font-weight: 600; color: #333;">තෝරාගත් භාණ්ඩ: <span id="groceryCount">0</span></span>
+                <span class="grocery-cart-total">Rs. <span id="groceryTotal">0</span></span>
             </div>
-            <div id="groceryList"></div>
+            <button class="grocery-cart-btn" onclick="confirmGroceryOrder()">
+                <span>✅</span> Order එක Confirm කරන්න
+            </button>
         </div>
+    </div>
 
-        <!-- Foods Section -->
-        <div id="foodsSection" class="section">
-            <div class="section-header">
-                <h2>🍕 Foods</h2>
-            </div>
-            <div id="foodsList"></div>
-        </div>
+    <div id="foodsTab" class="container hidden">
+        <div class="food-grid" id="foodsList"><div class="loading">⏳ Foods load වෙමින්...</div></div>
+    </div>
 
-        <!-- Cart Section -->
-        <div id="cartSection" class="section">
-            <div class="section-header">
-                <h2>📦 Your Cart</h2>
-            </div>
-            <div id="cartList"></div>
-            <div id="cartTotal" class="cart-total" style="display: none;"></div>
-            <button id="checkoutBtn" class="checkout-btn" style="display: none;" onclick="showCheckout()">Proceed to Checkout</button>
-            
-            <!-- Checkout Form -->
-            <div id="checkoutForm" class="order-form" style="display: none;">
-                <h3 style="margin-bottom: 15px;">Delivery Details</h3>
-                <div class="form-group">
-                    <label>Your Name</label>
-                    <input type="text" id="customerName" placeholder="Enter your name">
+    <div id="ordersTab" class="container hidden">
+        <h2 style="margin-bottom: 15px;">🛒 ඔබේ Cart එක</h2>
+        <div id="ordersList"></div>
+        <div id="checkoutSection" style="display: none; margin-top: 20px;">
+            <div style="background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+                <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 18px; margin-bottom: 15px;">
+                    <span>Total:</span>
+                    <span id="cartTotalDisplay" style="color: #FF6B6B;">Rs. 0</span>
                 </div>
-                <div class="form-group">
-                    <label>Phone Number</label>
-                    <input type="tel" id="customerPhone" placeholder="07X XXXX XXX">
+                <div style="margin-bottom: 15px;">
+                    <label style="font-weight: 600; display: block; margin-bottom: 5px;">📍 Delivery Address</label>
+                    <textarea id="deliveryAddress" rows="2" placeholder="ඔබේ ලිපිනය ඇතුළත් කරන්න..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;"></textarea>
                 </div>
-                <div class="form-group">
-                    <label>Delivery Address</label>
-                    <textarea id="customerAddress" rows="3" placeholder="Enter full address"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Payment Method</label>
-                    <select id="paymentMethod" style="width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px;">
-                        <option value="cod">💵 Cash on Delivery</option>
-                        <option value="online">💳 Online Payment</option>
-                    </select>
-                </div>
-                <button class="checkout-btn" onclick="placeOrder()">Place Order</button>
+                <button class="btn btn-primary" onclick="confirmCartOrder()">✅ Order එක තහවුරු කරන්න</button>
             </div>
         </div>
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast"></div>
-
-    <!-- Bottom Navigation -->
     <div class="bottom-nav">
-        <div class="bottom-nav-item" onclick="switchTab('shops')">
-            <div class="icon">🏪</div>
-            <div class="label">Shops</div>
+        <div class="nav-item active" onclick="switchTab('shops')">
+            <span class="icon">🏪</span>
+            <span class="label">Shops</span>
         </div>
-        <div class="bottom-nav-item active" onclick="switchTab('grocery')">
-            <div class="icon">🛒</div>
-            <div class="label">Grocery</div>
+        <div class="nav-item" onclick="switchTab('grocery')">
+            <span class="icon">🛒</span>
+            <span class="label">Grocery</span>
         </div>
-        <div class="bottom-nav-item" onclick="switchTab('foods')">
-            <div class="icon">🍕</div>
-            <div class="label">Foods</div>
+        <div class="nav-item" onclick="switchTab('foods')">
+            <span class="icon">🍕</span>
+            <span class="label">Foods</span>
         </div>
-        <div class="bottom-nav-item" onclick="switchTab('cart')">
-            <div class="icon"></div>
-            <div class="label">Cart</div>
-            <div class="cart-badge" id="bottomCartBadge" style="display: none;">0</div>
+        <div class="nav-item cart-icon" onclick="switchTab('orders')">
+            <span class="icon">📦</span>
+            <span class="label">Cart</span>
+            <span class="cart-badge" id="cartCount">0</span>
         </div>
     </div>
 
     <script>
-        // Firebase Configuration
+        // ==================== FIREBASE CONFIG ====================
         const firebaseConfig = {
             apiKey: "AIzaSyDduouixF2IW568mND20cfxmnBNxQfRkrg",
             authDomain: "foodhub-app-6632c.firebaseapp.com",
@@ -458,17 +174,17 @@
             messagingSenderId: "1025149369233",
             appId: "1:1025149369233:web:245f846d959274ee487830"
         };
-
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Data
+        // ==================== DATA STATE ====================
         let shops = [];
         let foods = [];
         let groceryItems = [];
-        let cart = [];
+        let cart = []; // For foods/general
+        let selectedGroceryIds = new Set(); // For grocery checkboxes
 
-        // Load Data
+        // ==================== LOAD DATA FROM FIREBASE ====================
         function loadData() {
             loadShops();
             loadFoods();
@@ -495,25 +211,28 @@
             database.ref('groceryItems').on('value', (snapshot) => {
                 const data = snapshot.val();
                 groceryItems = data ? Object.entries(data).map(([key, value]) => ({...value, id: key})) : [];
-                renderGroceryItems();
+                renderGroceryGrid();
             });
         }
 
-        // Render Functions
+        // ==================== RENDER FUNCTIONS ====================
         function renderShops() {
             const list = document.getElementById('shopsList');
             if (shops.length === 0) {
-                list.innerHTML = '<div class="empty-state"><div class="icon">🏪</div><p>No shops available</p></div>';
+                list.innerHTML = '<div class="loading">දැනට Shops කිසිවක් නැත.</div>';
                 return;
             }
             list.innerHTML = shops.map(shop => `
-                <div class="shop-card" onclick="viewShop('${shop.id}')">
-                    <img src="${shop.image || 'https://via.placeholder.com/80'}" class="shop-image" alt="${shop.name}">
+                <div class="shop-card">
+                    <img src="${shop.image || 'https://via.placeholder.com/400x200?text=No+Image'}" class="shop-image" onerror="this.src='https://via.placeholder.com/400x200?text=No+Image'">
                     <div class="shop-info">
                         <div class="shop-name">${shop.name} ${shop.isFeatured ? '⭐' : ''}</div>
-                        <div class="shop-details">📞 ${shop.phone || 'N/A'}</div>
+                        <div class="shop-details">
+                            <span>📞 ${shop.phone || 'N/A'}</span>
+                            <span class="rating">⭐ ${shop.rating || '4.0'}</span>
+                        </div>
                         <div class="shop-details">🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'}</div>
-                        <div class="shop-rating">⭐ ${shop.rating || '4.0'}</div>
+                        ${shop.tags ? `<div class="shop-tags">${shop.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>` : ''}
                     </div>
                 </div>
             `).join('');
@@ -522,261 +241,240 @@
         function renderFoods() {
             const list = document.getElementById('foodsList');
             if (foods.length === 0) {
-                list.innerHTML = '<div class="empty-state"><div class="icon"></div><p>No foods available</p></div>';
+                list.innerHTML = '<div class="loading">දැනට Foods කිසිවක් නැත.</div>';
                 return;
             }
             list.innerHTML = foods.map(food => {
                 const shop = shops.find(s => s.id === food.shopId);
                 return `
                     <div class="food-card">
-                        <img src="${food.image || 'https://via.placeholder.com/100'}" class="food-image" alt="${food.name}">
+                        <img src="${food.image || 'https://via.placeholder.com/400x120?text=No+Image'}" class="food-image" onerror="this.src='https://via.placeholder.com/400x120?text=No+Image'">
                         <div class="food-info">
                             <div class="food-name">${food.name}</div>
-                            <div class="shop-details">${shop ? shop.name : 'Unknown'}</div>
+                            <div style="font-size:12px; color:#666; margin-bottom:5px;">${shop ? shop.name : 'Unknown'}</div>
                             <div class="food-price">Rs. ${food.price}</div>
-                            <button class="btn btn-primary" onclick="addToCart('food', '${food.id}', '${food.name}', ${food.price})" style="margin-top: 10px; padding: 8px 15px; background: #ff6b6b; color: white; border: none; border-radius: 5px; cursor: pointer;">Add to Cart</button>
+                            <button class="btn btn-primary" onclick="addToCart('${food.id}', '${food.name}', ${food.price})">Add to Cart</button>
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
-        function renderGroceryItems() {
-            const list = document.getElementById('groceryList');
-            const availableItems = groceryItems.filter(g => g.available !== false);
+        function renderGroceryGrid() {
+            const grid = document.getElementById('groceryGrid');
+            const availableItems = groceryItems.filter(item => item.available !== false);
             
             if (availableItems.length === 0) {
-                list.innerHTML = '<div class="empty-state"><div class="icon">🛒</div><p>No grocery items available</p></div>';
+                grid.innerHTML = '<div class="loading">දැනට Grocery භාණ්ඩ කිසිවක් නැත.</div>';
+                updateGroceryCart();
                 return;
             }
-            
-            list.innerHTML = '<div class="product-grid">' + availableItems.map(item => `
-                <div class="product-card">
-                    <button class="add-to-cart-btn" onclick="addToCart('grocery', '${item.id}', '${item.name}', ${item.price})">+</button>
-                    <img src="${item.image || 'https://via.placeholder.com/150'}" class="product-image" alt="${item.name}">
-                    <div class="product-info">
-                        <div class="product-name">${item.name}</div>
-                        <div class="product-unit">${item.unit || ''}</div>
-                        <div class="product-price">Rs. ${item.price}</div>
+
+            grid.innerHTML = availableItems.map(product => `
+                <div class="grocery-card ${selectedGroceryIds.has(product.id) ? 'selected' : ''}" onclick="toggleGroceryItem('${product.id}')">
+                    <div class="grocery-check">
+                        <input type="checkbox" ${selectedGroceryIds.has(product.id) ? 'checked' : ''}>
+                    </div>
+                    <img src="${product.image || 'https://via.placeholder.com/400x300?text=No+Image'}" alt="${product.name}" class="grocery-img" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+                    <div class="grocery-info">
+                        <div class="grocery-name">${product.name}</div>
+                        <div class="grocery-qty">${product.unit || ''}</div>
+                        <div class="grocery-price">Rs. ${product.price}</div>
                     </div>
                 </div>
-            `).join('') + '</div>';
+            `).join('');
+
+            updateGroceryCart();
         }
 
-        // Cart Functions
-        function addToCart(type, id, name, price) {
+        // ==================== CART & SELECTION LOGIC ====================
+        function toggleGroceryItem(id) {
+            if (selectedGroceryIds.has(id)) {
+                selectedGroceryIds.delete(id);
+            } else {
+                selectedGroceryIds.add(id);
+            }
+            renderGroceryGrid();
+        }
+
+        function updateGroceryCart() {
+            let total = 0;
+            let count = 0;
+            selectedGroceryIds.forEach(id => {
+                const item = groceryItems.find(g => g.id === id);
+                if (item) {
+                    total += (item.price || 0);
+                    count++;
+                }
+            });
+            
+            document.getElementById('groceryCount').textContent = count;
+            document.getElementById('groceryTotal').textContent = total.toLocaleString();
+            
+            const cartDiv = document.getElementById('groceryCart');
+            cartDiv.style.display = count > 0 ? 'block' : 'none';
+        }
+
+        function addToCart(id, name, price) {
             const existing = cart.find(item => item.id === id);
             if (existing) {
                 existing.quantity++;
             } else {
-                cart.push({ type, id, name, price, quantity: 1 });
+                cart.push({ id, name, price, quantity: 1 });
             }
-            updateCartUI();
-            showToast('✅ Added to cart!');
+            updateCartBadge();
+            showToast('✅ Cart එකට එකතු විය!');
         }
 
-        function removeFromCart(id) {
-            cart = cart.filter(item => item.id !== id);
-            updateCartUI();
-            renderCart();
+        function updateCartBadge() {
+            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = count;
         }
 
-        function updateQuantity(id, change) {
+        function renderOrdersTab() {
+            const list = document.getElementById('ordersList');
+            const checkoutSection = document.getElementById('checkoutSection');
+            
+            if (cart.length === 0) {
+                list.innerHTML = '<div class="loading">🛒 ඔබේ Cart එක හිස්යි</div>';
+                checkoutSection.style.display = 'none';
+                return;
+            }
+
+            let total = 0;
+            list.innerHTML = cart.map(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                return `
+                    <div style="background: white; padding: 15px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-weight: 600;">${item.name}</div>
+                            <div style="font-size: 12px; color: #666;">Rs. ${item.price} x ${item.quantity}</div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <button onclick="changeQty('${item.id}', -1)" style="width: 30px; height: 30px; border: 1px solid #ddd; background: white; border-radius: 5px; cursor: pointer;">-</button>
+                            <span style="font-weight: 600;">${item.quantity}</span>
+                            <button onclick="changeQty('${item.id}', 1)" style="width: 30px; height: 30px; border: 1px solid #ddd; background: white; border-radius: 5px; cursor: pointer;">+</button>
+                            <button onclick="removeFromCart('${item.id}')" style="margin-left: 10px; background: #f44336; color: white; border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer;">🗑️</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('cartTotalDisplay').textContent = 'Rs. ' + total.toLocaleString();
+            checkoutSection.style.display = 'block';
+        }
+
+        function changeQty(id, change) {
             const item = cart.find(i => i.id === id);
             if (item) {
                 item.quantity += change;
                 if (item.quantity <= 0) {
                     removeFromCart(id);
                 } else {
-                    updateCartUI();
-                    renderCart();
+                    updateCartBadge();
+                    renderOrdersTab();
                 }
             }
         }
 
-        function updateCartUI() {
-            const count = cart.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById('cartCount').textContent = `(${count})`;
-            const badge = document.getElementById('bottomCartBadge');
-            if (count > 0) {
-                badge.textContent = count;
-                badge.style.display = 'flex';
-            } else {
-                badge.style.display = 'none';
-            }
+        function removeFromCart(id) {
+            cart = cart.filter(i => i.id !== id);
+            updateCartBadge();
+            renderOrdersTab();
         }
 
-        function renderCart() {
-            const list = document.getElementById('cartList');
-            const totalDiv = document.getElementById('cartTotal');
-            const checkoutBtn = document.getElementById('checkoutBtn');
+        // ==================== ORDER CONFIRMATION ====================
+        function confirmGroceryOrder() {
+            let itemsList = [];
+            let total = 0;
+            selectedGroceryIds.forEach(id => {
+                const item = groceryItems.find(g => g.id === id);
+                if (item) {
+                    itemsList.push(`✓ ${item.name} (${item.unit || ''}) - Rs. ${item.price}`);
+                    total += (item.price || 0);
+                }
+            });
+
+            const orderMsg = `*🛒 FoodHub Grocery Order*\n\n*භාණ්ඩ:*\n${itemsList.join('\n')}\n\n*මුළු මුදල:* Rs. ${total.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
             
-            if (cart.length === 0) {
-                list.innerHTML = '<div class="empty-state"><div class="icon">📦</div><p>Your cart is empty</p></div>';
-                totalDiv.style.display = 'none';
-                checkoutBtn.style.display = 'none';
+            // ඔයාගේ WhatsApp අංකය මෙතනට දාන්න (උදා: 94766488689)
+            const phoneNumber = "94766488689"; 
+            window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(orderMsg)}`, '_blank');
+            
+            // Clear selection
+            selectedGroceryIds.clear();
+            renderGroceryGrid();
+            showToast('✅ WhatsApp එකට යවන ලදී!');
+        }
+
+        function confirmCartOrder() {
+            const address = document.getElementById('deliveryAddress').value.trim();
+            if (!address) {
+                showToast('කරුණාකර Delivery Address එක ඇතුළත් කරන්න!');
                 return;
             }
-            
-            list.innerHTML = cart.map(item => `
-                <div class="cart-item">
-                    <div>
-                        <div style="font-weight: 600;">${item.name}</div>
-                        <div style="font-size: 12px; color: #666;">Rs. ${item.price} each</div>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <button onclick="updateQuantity('${item.id}', -1)" style="width: 30px; height: 30px; border: 1px solid #e0e0e0; background: white; border-radius: 5px; cursor: pointer;">-</button>
-                        <span style="font-weight: 600;">${item.quantity}</span>
-                        <button onclick="updateQuantity('${item.id}', 1)" style="width: 30px; height: 30px; border: 1px solid #e0e0e0; background: white; border-radius: 5px; cursor: pointer;">+</button>
-                        <button onclick="removeFromCart('${item.id}')" style="margin-left: 10px; background: #f44336; color: white; border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer;">🗑️</button>
-                    </div>
-                </div>
-            `).join('');
-            
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            totalDiv.textContent = `Total: Rs. ${total}`;
-            totalDiv.style.display = 'block';
-            checkoutBtn.style.display = 'block';
-        }
 
-        // Checkout
-        function showCheckout() {
-            document.getElementById('checkoutForm').style.display = 'block';
-            document.getElementById('checkoutForm').scrollIntoView({ behavior: 'smooth' });
-        }
+            let total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            let itemsList = cart.map(i => `${i.name} x${i.quantity}`).join(', ');
 
-        function placeOrder() {
-            const name = document.getElementById('customerName').value.trim();
-            const phone = document.getElementById('customerPhone').value.trim();
-            const address = document.getElementById('customerAddress').value.trim();
-            const payment = document.getElementById('paymentMethod').value;
-            
-            if (!name || !phone || !address) {
-                alert('Please fill all fields!');
-                return;
-            }
-            
-            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const order = {
-                customerName: name,
-                customerPhone: phone,
-                address: address,
-                paymentMethod: payment,
-                items: cart,
+                items: itemsList,
                 total: total,
                 deliveryFee: 150,
                 grandTotal: total + 150,
+                address: address,
+                paymentMethod: 'cod',
                 status: 'Pending',
                 date: new Date().toISOString()
             };
-            
+
             database.ref('orders').push(order).then(() => {
-                alert('✅ Order placed successfully!');
+                showToast('✅ Order එක සාර්ථකයි!');
                 cart = [];
-                updateCartUI();
-                renderCart();
-                document.getElementById('checkoutForm').style.display = 'none';
-                document.getElementById('customerName').value = '';
-                document.getElementById('customerPhone').value = '';
-                document.getElementById('customerAddress').value = '';
-                switchTab('grocery');
-            }).catch(error => {
-                alert('❌ Error: ' + error.message);
+                updateCartBadge();
+                renderOrdersTab();
+                document.getElementById('deliveryAddress').value = '';
+                switchTab('shops');
+            }).catch(err => {
+                showToast('❌ Error: ' + err.message);
             });
         }
 
-        // Tab Switching
-        function switchTab(tab) {
-            // Hide all sections
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.bottom-nav-item').forEach(t => t.classList.remove('active'));
+        // ==================== UI HELPERS ====================
+        function switchTab(tabName) {
+            document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             
-            // Show selected section
-            document.getElementById(tab + 'Section').classList.add('active');
+            document.getElementById(tabName + 'Tab').classList.remove('hidden');
             
-            // Update navigation
-            const tabIndex = ['shops', 'grocery', 'foods'].indexOf(tab);
-            if (tabIndex >= 0) {
-                document.querySelectorAll('.nav-tab')[tabIndex].classList.add('active');
-                document.querySelectorAll('.bottom-nav-item')[tabIndex].classList.add('active');
+            const tabs = ['shops', 'grocery', 'foods', 'orders'];
+            const index = tabs.indexOf(tabName);
+            if (index >= 0) {
+                document.querySelectorAll('.tab')[index].classList.add('active');
+                document.querySelectorAll('.nav-item')[index].classList.add('active');
             }
-            
-            if (tab === 'cart') {
-                renderCart();
-                document.querySelectorAll('.bottom-nav-item')[3].classList.add('active');
+
+            if (tabName === 'orders') {
+                renderOrdersTab();
             }
         }
 
-        // Search
         function handleSearch() {
-            const query = document.getElementById('searchBox').value.toLowerCase();
-            if (!query) {
-                renderShops();
-                renderFoods();
-                renderGroceryItems();
-                return;
-            }
-            
-            // Filter and display results
-            const filteredShops = shops.filter(s => s.name.toLowerCase().includes(query));
-            const filteredFoods = foods.filter(f => f.name.toLowerCase().includes(query));
-            const filteredGrocery = groceryItems.filter(g => g.name.toLowerCase().includes(query));
-            
-            // Show results in current active section
-            const activeSection = document.querySelector('.section.active').id;
-            if (activeSection === 'shopsSection') {
-                document.getElementById('shopsList').innerHTML = filteredShops.map(shop => `
-                    <div class="shop-card">
-                        <img src="${shop.image || 'https://via.placeholder.com/80'}" class="shop-image">
-                        <div class="shop-info">
-                            <div class="shop-name">${shop.name}</div>
-                            <div class="shop-details"> ${shop.phone || 'N/A'}</div>
-                        </div>
-                    </div>
-                `).join('') || '<div class="empty-state"><p>No shops found</p></div>';
-            } else if (activeSection === 'foodsSection') {
-                document.getElementById('foodsList').innerHTML = filteredFoods.map(food => `
-                    <div class="food-card">
-                        <img src="${food.image || 'https://via.placeholder.com/100'}" class="food-image">
-                        <div class="food-info">
-                            <div class="food-name">${food.name}</div>
-                            <div class="food-price">Rs. ${food.price}</div>
-                        </div>
-                    </div>
-                `).join('') || '<div class="empty-state"><p>No foods found</p></div>';
-            } else {
-                document.getElementById('groceryList').innerHTML = '<div class="product-grid">' + filteredGrocery.map(item => `
-                    <div class="product-card">
-                        <button class="add-to-cart-btn" onclick="addToCart('grocery', '${item.id}', '${item.name}', ${item.price})">+</button>
-                        <img src="${item.image || 'https://via.placeholder.com/150'}" class="product-image">
-                        <div class="product-info">
-                            <div class="product-name">${item.name}</div>
-                            <div class="product-unit">${item.unit || ''}</div>
-                            <div class="product-price">Rs. ${item.price}</div>
-                        </div>
-                    </div>
-                `).join('') + '</div>' || '<div class="empty-state"><p>No items found</p></div>';
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            // Simple search implementation can be expanded based on active tab
+            if (query.length > 2) {
+                showToast('🔍 Searching for: ' + query);
             }
         }
 
-        // View Shop
-        function viewShop(shopId) {
-            const shop = shops.find(s => s.id === shopId);
-            if (!shop) return;
-            
-            const shopFoods = foods.filter(f => f.shopId === shopId);
-            alert(`🏪 ${shop.name}\n\n ${shop.phone}\n🕐 ${shop.openTime} - ${shop.closeTime}\n⭐ ${shop.rating}\n\nFoods available: ${shopFoods.length}`);
-        }
-
-        // Toast Notification
         function showToast(message) {
-            const toast = document.getElementById('toast');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
             toast.textContent = message;
-            toast.style.display = 'block';
-            setTimeout(() => {
-                toast.style.display = 'none';
-            }, 2000);
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
         }
 
         // Initialize
