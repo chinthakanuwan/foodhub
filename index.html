@@ -86,12 +86,12 @@
 </head>
 <body>
     <div class="header">
-        <h1> FoodHub</h1>
-        <p>ඔබේ ආහාර & grocery delivery partner</p>
+        <h1>🛒 FoodHub</h1>
+        <p>ඔබේ හාර & grocery delivery partner</p>
     </div>
     
     <div class="search-bar">
-        <input type="text" id="searchInput" placeholder=" Shops හෝ products search කරන්න..." oninput="handleSearch()">
+        <input type="text" id="searchInput" placeholder="🔍 Shops හෝ products search කරන්න..." oninput="handleSearch()">
     </div>
     
     <div class="tabs">
@@ -131,11 +131,11 @@
 
     <div id="ordersTab" class="container hidden">
         <h2 style="margin-bottom: 12px; font-size: 18px;">📦 මගේ Orders</h2>
-        <div id="myOrdersList"><div class="loading">⏳ Orders load වෙමින්...</div></div>
+        <div id="myOrdersList"><div class="loading"> Orders load වෙමින්...</div></div>
     </div>
 
     <div id="cartTab" class="container hidden">
-        <h2 style="margin-bottom: 12px; font-size: 18px;">🛒 ඔබේ Cart එක</h2>
+        <h2 style="margin-bottom: 12px; font-size: 18px;">🛒 බේ Cart එක</h2>
         <div id="cartList"></div>
         
         <div id="checkoutSection" class="hidden">
@@ -145,10 +145,10 @@
                 
                 <div class="form-group">
                     <label>👤 ඔබේ නම *</label>
-                    <input type="text" id="customerName" placeholder="ඔබේ සම්පූර්ණ නම">
+                    <input type="text" id="customerName" placeholder="බේ සම්පූර්ණ නම">
                 </div>
                 <div class="form-group">
-                    <label>📞 දුරකන අංකය *</label>
+                    <label>📞 දුරකථන අංකය *</label>
                     <input type="tel" id="phoneNumber" placeholder="07X XXX XXXX">
                 </div>
                 <div class="form-group">
@@ -169,7 +169,7 @@
                         <strong>eZ Cash:</strong> 076-6488689<br><br>
                         <div class="form-group" style="margin-bottom: 0;">
                             <label>Transaction ID / Reference Number *</label>
-                            <input type="text" id="transactionId" placeholder="දා: CMB123456789">
+                            <input type="text" id="transactionId" placeholder="උදා: CMB123456789">
                         </div>
                     </div>
                 </div>
@@ -182,10 +182,10 @@
     </div>
 
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('shops')"><span class="icon">🏪</span><span class="label">Shops</span></div>
+        <div class="nav-item active" onclick="switchTab('shops')"><span class="icon"></span><span class="label">Shops</span></div>
         <div class="nav-item" onclick="switchTab('grocery')"><span class="icon">🛒</span><span class="label">Grocery</span></div>
         <div class="nav-item" onclick="switchTab('cart')"><span class="icon">🛒</span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
-        <div class="nav-item" onclick="switchTab('orders')"><span class="icon"></span><span class="label">Orders</span></div>
+        <div class="nav-item" onclick="switchTab('orders')"><span class="icon">📦</span><span class="label">Orders</span></div>
     </div>
 
     <script>
@@ -208,29 +208,6 @@
         let selectedGroceryIds = new Set();
         let currentShopId = null;
         let selectedPaymentMethod = 'cod';
-
-        const sampleGroceryItems = [
-            { id: '1', name: 'සීනි (Sugar)', unit: '1kg', price: 280, image: 'https://images.unsplash.com/photo-1589894117408-6b8915a89915?w=500' },
-            { id: '2', name: 'පරිප්පු (Dhal)', unit: '1kg', price: 450, image: 'https://images.unsplash.com/photo-1587314168485-323f39f5441b?w=500' },
-            { id: '3', name: 'කිරි පිටි (Milk Powder)', unit: '400g', price: 650, image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500' },
-            { id: '4', name: 'සහල් (Rice)', unit: '1kg', price: 220, image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500' },
-            { id: '5', name: 'තෙල් (Oil)', unit: '1L', price: 550, image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500' },
-            { id: '6', name: 'ලුණු (Salt)', unit: '500g', price: 90, image: 'https://images.unsplash.com/photo-1615485904265-29330f2073bd?w=500' },
-            { id: '7', name: 'මිරිස් කුඩු', unit: '100g', price: 180, image: 'https://images.unsplash.com/photo-1596040071240-08301a74781c?w=500' },
-            { id: '8', name: 'කහ කුඩු', unit: '100g', price: 150, image: 'https://images.unsplash.com/photo-1615485297392-60cb4549853c?w=500' },
-            { id: '9', name: 'කෝපි (Coffee)', unit: '100g', price: 350, image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=500' },
-            { id: '10', name: 'තේ (Tea)', unit: '250g', price: 280, image: 'https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?w=500' },
-            { id: '11', name: 'බිස්කට්', unit: 'Pack', price: 120, image: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=500' },
-            { id: '12', name: 'පාන් (Bread)', unit: 'Loaf', price: 80, image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500' },
-            { id: '13', name: 'බිත්තර (Eggs)', unit: '10 pcs', price: 180, image: 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=500' },
-            { id: '14', name: 'කිරි (Milk)', unit: '1L', price: 180, image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500' },
-            { id: '15', name: 'කොකෝවා', unit: '330ml', price: 120, image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500' },
-            { id: '16', name: 'Sprite', unit: '330ml', price: 120, image: 'https://images.unsplash.com/photo-1624517452488-04869289c4ca?w=500' },
-            { id: '17', name: 'මැගී (Maggi)', unit: 'Pack', price: 90, image: 'https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=500' },
-            { id: '18', name: 'පාන් පිටි (Flour)', unit: '1kg', price: 180, image: 'https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?w=500' },
-            { id: '19', name: 'සම්බාර', unit: '100g', price: 150, image: 'https://images.unsplash.com/photo-1596040071240-08301a74781c?w=500' },
-            { id: '20', name: 'ගම්මිරිස්', unit: '100g', price: 280, image: 'https://images.unsplash.com/photo-1596040071240-08301a74781c?w=500' }
-        ];
 
         document.addEventListener('DOMContentLoaded', () => {
             loadShops();
@@ -257,19 +234,9 @@
         }
 
         function loadGroceryItems() {
-            database.ref('groceryItems').once('value', (snapshot) => {
-                const data = snapshot.val();
-                if (!data || Object.keys(data).length === 0) {
-                    const updates = {};
-                    sampleGroceryItems.forEach(item => {
-                        updates['groceryItems/' + item.id] = item;
-                    });
-                    database.ref().update(updates);
-                }
-            });
             database.ref('groceryItems').on('value', (snapshot) => {
                 const data = snapshot.val();
-                groceryItems = data ? Object.entries(data).map(([key, value]) => ({...value, id: key})) : sampleGroceryItems;
+                groceryItems = data ? Object.entries(data).map(([key, value]) => ({...value, id: key})) : [];
                 renderGroceryGrid();
             });
         }
@@ -434,7 +401,7 @@
             const checkoutSection = document.getElementById('checkoutSection');
             
             if (cart.length === 0) {
-                list.innerHTML = '<div class="loading" style="background: #fff7ed; padding: 30px; border-radius: 12px; border: 2px dashed #fdba74; color: #c2410c; text-align: center;"> ඔබේ Cart එක හිස්යි.<br><br>Foods හෝ Grocery tab එකෙන් items add කරන්න!</div>';
+                list.innerHTML = '<div class="loading" style="background: #fff7ed; padding: 30px; border-radius: 12px; border: 2px dashed #fdba74; color: #c2410c; text-align: center;">🛒 ඔබේ Cart එක හිස්යි.<br><br>Foods හෝ Grocery tab එකෙන් items add කරන්න!</div>';
                 checkoutSection.classList.add('hidden');
                 return;
             }
@@ -499,7 +466,7 @@
             const transId = document.getElementById('transactionId').value.trim();
 
             if (!name || !phone || !address) { showToast('❌ කරුණාකර නම, දුරකථන අංකය සහ ලිපිනය ඇතුළත් කරන්න!'); return; }
-            if (selectedPaymentMethod === 'online' && !transId) { showToast(' Online ගෙවීම් සඳහා Transaction ID එක අනිවාර්යයි!'); return; }
+            if (selectedPaymentMethod === 'online' && !transId) { showToast('❌ Online ගෙවීම් සඳහා Transaction ID එක අනිවාර්යයි!'); return; }
 
             localStorage.setItem('customerPhone', phone);
 
@@ -523,7 +490,7 @@
             };
 
             database.ref('orders').push(order).then(() => {
-                showToast('✅ Order එක සාර්ථකව යවන ලදී!');
+                showToast('✅ Order එක සාර්කව යවන ලදී!');
                 cart = [];
                 saveCart();
                 renderCart();
@@ -559,9 +526,9 @@
                         <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8;">
                             <div>📦 Items: ${order.items}</div>
                             <div>💰 Total: Rs. ${order.grandTotal || order.total}</div>
-                            <div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : ' Online Payment')}</div>
+                            <div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? ' Cash on Delivery' : '🏦 Online Payment')}</div>
                             <div>📍 ${order.address}</div>
-                            <div>🕐 ${date.toLocaleString()}</div>
+                            <div> ${date.toLocaleString()}</div>
                         </div>
                     </div>
                 `;
