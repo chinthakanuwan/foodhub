@@ -43,13 +43,15 @@
         .nav-item .label { font-size: 11px; margin-top: 2px; }
         .hidden { display: none; }
         .food-grid, .grocery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .food-card, .grocery-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: flex; flex-direction: column; position: relative; }
+        .food-card, .grocery-card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,0.1); display: flex; flex-direction: column; position: relative; transition: all 0.3s; border: 2px solid transparent; }
+        .food-card.selected { border-color: #4CAF50; background: #E8F5E9; transform: scale(1.02); }
         .food-image, .grocery-img { width: 100%; height: 100px; object-fit: cover; background: #ddd; }
         .food-info, .grocery-info { padding: 8px; flex: 1; display: flex; flex-direction: column; }
         .food-name, .grocery-name { font-weight: 600; margin-bottom: 4px; font-size: 13px; }
         .food-price, .grocery-price { color: #FF6B6B; font-weight: bold; margin-bottom: 8px; font-size: 13px; }
         .grocery-qty { font-size: 11px; color: #666; margin-bottom: 5px; }
-        .btn { width: 100%; padding: 10px; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: auto; }
+        .btn { width: 100%; padding: 10px; border: none; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: auto; transition: all 0.2s; }
+        .btn:active { transform: scale(0.95); }
         .btn-primary { background: #FF6B6B; color: white; }
         .btn-success { background: #4CAF50; color: white; }
         .btn-whatsapp { background: #25D366; color: white; }
@@ -68,21 +70,30 @@
         .form-group label { display: block; margin-bottom: 4px; font-weight: 600; color: #555; font-size: 13px; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 6px; font-size: 13px; }
         .payment-option { display: flex; gap: 8px; margin-bottom: 12px; }
-        .payment-btn { flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 6px; background: white; cursor: pointer; font-weight: 600; font-size: 13px; text-align: center; }
+        .payment-btn { flex: 1; padding: 12px; border: 2px solid #ddd; border-radius: 6px; background: white; cursor: pointer; font-weight: 600; font-size: 13px; text-align: center; transition: all 0.3s; }
         .payment-btn.active { border-color: #FF6B6B; background: #FFF0F0; color: #FF6B6B; }
-        .bank-details { background: #FFF3E0; padding: 12px; border-radius: 6px; margin: 12px 0; border-left: 3px solid #FF9800; font-size: 12px; }
+        .bank-details { background: #FFF3E0; padding: 12px; border-radius: 6px; margin: 12px 0; border-left: 3px solid #FF9800; font-size: 12px; display: none; }
         .checkout-box { background: white; padding: 15px; border-radius: 10px; margin-top: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .order-summary { background: #f9f9f9; padding: 12px; border-radius: 8px; margin-bottom: 15px; }
         .order-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; font-size: 13px; }
         .order-item:last-child { border-bottom: none; }
         .total-row { display: flex; justify-content: space-between; font-weight: bold; font-size: 16px; margin-top: 10px; padding-top: 10px; border-top: 2px solid #FF6B6B; }
+        .cart-item { background: white; padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+        .cart-item-info { flex: 1; }
+        .cart-item-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+        .cart-item-price { color: #666; font-size: 12px; }
+        .qty-controls { display: flex; align-items: center; gap: 10px; }
+        .qty-btn { width: 32px; height: 32px; border: 1px solid #ddd; background: white; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        .qty-btn:hover { background: #f5f5f5; }
+        .qty-value { font-weight: 600; font-size: 14px; min-width: 30px; text-align: center; }
+        .remove-btn { margin-left: 10px; background: #f44336; color: white; border: none; border-radius: 6px; padding: 8px 12px; cursor: pointer; font-size: 12px; }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>🛒 FoodHub</h1>
-        <p>ඔබේ හාර & grocery delivery partner</p>
-        <a href="#" class="app-download-btn" onclick="showAppDownload(); return false;">📲 Download</a>
+        <p>බේ හාර & grocery delivery partner</p>
+        <a href="#" class="app-download-btn" onclick="showAppDownload(); return false;"> Download</a>
     </div>
     
     <div class="search-bar">
@@ -93,7 +104,7 @@
         <div class="tab active" onclick="switchTab('shops')"> Shops</div>
         <div class="tab" onclick="switchTab('grocery')"> Grocery</div>
         <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
-        <div class="tab" onclick="switchTab('orders')">📦 Cart</div>
+        <div class="tab" onclick="switchTab('orders')">📦 Cart <span id="navCartCount" style="background: #FF6B6B; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-left: 5px;">0</span></div>
     </div>
     
     <div id="shopsTab" class="container">
@@ -103,14 +114,14 @@
 
     <div id="groceryTab" class="container hidden">
         <div id="groceryShopHeader" style="display: none;">
-            <button class="back-btn" onclick="backToAllGrocery()">⬅️ සියලුම Grocery භාණ්ඩ</button>
+            <button class="back-btn" onclick="backToAllGrocery()">⬅️ සියලුම Grocery ාණ්ඩ</button>
             <h2 id="groceryShopName" style="margin-bottom: 12px; color: #333; font-size: 18px;"></h2>
         </div>
-        <h2 id="groceryTitle" style="margin-bottom: 12px; font-size: 18px;">🛒 Grocery ාණ්ඩ</h2>
-        <div class="grocery-grid" id="groceryGrid"><div class="loading">⏳ Grocery ාණ්ඩ load වෙමින්...</div></div>
+        <h2 id="groceryTitle" style="margin-bottom: 12px; font-size: 18px;"> Grocery ාණ්ඩ</h2>
+        <div class="grocery-grid" id="groceryGrid"><div class="loading"> Grocery ාණ්ඩ load වෙමින්...</div></div>
         <div class="grocery-cart" id="groceryCart">
             <div class="grocery-cart-header">
-                <span style="font-weight: 600; font-size: 13px;">තෝරාගත් භාණ්ඩ: <span id="groceryCount">0</span></span>
+                <span style="font-weight: 600; font-size: 13px;">තෝරාගත් ාණ්ඩ: <span id="groceryCount">0</span></span>
                 <span class="grocery-cart-total">Rs. <span id="groceryTotal">0</span></span>
             </div>
             <button class="grocery-cart-btn" onclick="confirmGroceryOrder()">✅ WhatsApp එකට Order කරන්න</button>
@@ -153,11 +164,11 @@
                 <div class="form-group">
                     <label>💳 Payment Method *</label>
                     <div class="payment-option">
-                        <button class="payment-btn active" onclick="selectPayment('cod')" id="btn-cod"> Cash on Delivery</button>
+                        <button class="payment-btn active" onclick="selectPayment('cod')" id="btn-cod">💵 Cash on Delivery</button>
                         <button class="payment-btn" onclick="selectPayment('online')" id="btn-online">🏦 Online Payment</button>
                     </div>
                     
-                    <div id="onlinePaymentDetails" style="display: none;" class="bank-details">
+                    <div id="onlinePaymentDetails" class="bank-details">
                         <strong>Bank of Ceylon (BOC) Details:</strong><br><br>
                         <strong>Account Name:</strong> FoodHub Delivery<br>
                         <strong>Account Number:</strong> 8012345678<br>
@@ -181,10 +192,10 @@
     </div>
 
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('shops')"><span class="icon"></span><span class="label">Shops</span></div>
+        <div class="nav-item active" onclick="switchTab('shops')"><span class="icon">🏪</span><span class="label">Shops</span></div>
         <div class="nav-item" onclick="switchTab('grocery')"><span class="icon">🛒</span><span class="label">Grocery</span></div>
-        <div class="nav-item" onclick="switchTab('foods')"><span class="icon">🍕</span><span class="label">Foods</span></div>
-        <div class="nav-item cart-icon" onclick="switchTab('orders')"><span class="icon"></span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
+        <div class="nav-item" onclick="switchTab('foods')"><span class="icon"></span><span class="label">Foods</span></div>
+        <div class="nav-item cart-icon" onclick="switchTab('orders')"><span class="icon">📦</span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
     </div>
 
     <script>
@@ -208,6 +219,7 @@
         let currentShopId = null;
         let currentGroceryShopId = null;
         let selectedPaymentMethod = 'cod';
+        let selectedFoodId = null;
 
         // 42 Sample Grocery Items
         const sampleGroceryItems = [
@@ -379,18 +391,25 @@
             }
             
             list.innerHTML = displayFoods.map(food => {
+                const isSelected = selectedFoodId === food.id;
                 const shop = shops.find(s => s.id === food.shopId);
                 return `
-                    <div class="food-card">
+                    <div class="food-card ${isSelected ? 'selected' : ''}" onclick="selectFoodItem('${food.id}')">
                         <img src="${food.image || 'https://via.placeholder.com/400x120?text=No+Image'}" class="food-image" onerror="this.src='https://via.placeholder.com/400x120?text=No+Image'">
                         <div class="food-info">
                             <div class="food-name">${food.name}</div>
+                            <div style="font-size: 11px; color: #666; margin-bottom: 5px;">${shop ? shop.name : 'Unknown'}</div>
                             <div class="food-price">Rs. ${food.price}</div>
-                            <button class="btn btn-primary" onclick="addToCart('${food.id}', '${food.name}', ${food.price})">🛒 Add</button>
+                            <button class="btn btn-primary" onclick="event.stopPropagation(); addToCart('${food.id}', '${food.name}', ${food.price})">🛒 Add to Cart</button>
                         </div>
                     </div>
                 `;
             }).join('');
+        }
+
+        function selectFoodItem(foodId) {
+            selectedFoodId = selectedFoodId === foodId ? null : foodId;
+            renderFoods();
         }
 
         function renderGroceryGrid() {
@@ -398,7 +417,7 @@
             let displayItems = groceryItems;
             
             if (displayItems.length === 0) {
-                grid.innerHTML = '<div class="loading">දැනට Grocery භාණ්ඩ කිසිවක් නැත.</div>';
+                grid.innerHTML = '<div class="loading">දැනට Grocery ාණ්ඩ කිසිවක් නැත.</div>';
                 updateGroceryCart();
                 return;
             }
@@ -445,7 +464,7 @@
                 if (item) { itemsList.push(`✓ ${item.name} (${item.unit}) - Rs. ${item.price}`); total += (item.price || 0); }
             });
 
-            const orderMsg = `* FoodHub Grocery Order*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Address:* ${address}\n\n*භාණ්ඩ:*\n${itemsList.join('\n')}\n\n*💰 මුළු මුදල:* Rs. ${total.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
+            const orderMsg = `* FoodHub Grocery Order*\n\n👤 *Name:* ${name}\n *Phone:* ${phone}\n *Address:* ${address}\n\n*භාණ්ඩ:*\n${itemsList.join('\n')}\n\n*💰 මුළු මුදල:* Rs. ${total.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
             
             window.open(`https://wa.me/94766488689?text=${encodeURIComponent(orderMsg)}`, '_blank');
             selectedGroceryIds.clear();
@@ -453,16 +472,33 @@
             showToast('✅ WhatsApp එකට යවන ලදී!');
         }
 
-        function addToCart(id, name, price) {
-            const existing = cart.find(item => item.id === id);
-            if (existing) existing.quantity++;
-            else cart.push({ id, name, price, quantity: 1 });
+        function addToCart(foodId, foodName, foodPrice) {
+            const existingItem = cart.find(item => item.id === foodId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: foodId,
+                    name: foodName,
+                    price: foodPrice,
+                    quantity: 1
+                });
+            }
+            
             updateCartBadge();
             showToast('✅ Cart එකට එකතු විය!');
+            
+            // Auto switch to cart tab after adding
+            setTimeout(() => {
+                switchTab('orders');
+            }, 500);
         }
 
         function updateCartBadge() {
-            document.getElementById('cartCount').textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('cartCount').textContent = totalItems;
+            document.getElementById('navCartCount').textContent = totalItems;
         }
 
         function renderOrdersTab() {
@@ -470,21 +506,38 @@
             const checkoutSection = document.getElementById('checkoutSection');
             
             if (cart.length === 0) {
-                list.innerHTML = '<div class="loading"> ඔබේ Cart එක හිස්යි. Items add කරන්න!</div>';
+                list.innerHTML = '<div class="loading" style="background: #FFF3E0; padding: 20px; border-radius: 10px; border-left: 4px solid #FF9800;">🛒 ඔබේ Cart එක හිස්යි.<br><br>Foods හෝ Grocery tab එකෙන් items add කරන්න!</div>';
                 checkoutSection.style.display = 'none';
                 return;
             }
             
             let total = 0;
             let orderSummaryHTML = '';
+            let cartItemsHTML = '';
             
-            cart.forEach(item => {
+            cart.forEach((item, index) => {
                 const itemTotal = item.price * item.quantity;
                 total += itemTotal;
+                
                 orderSummaryHTML += `
                     <div class="order-item">
                         <span>${item.name} x${item.quantity}</span>
                         <span>Rs. ${itemTotal.toLocaleString()}</span>
+                    </div>
+                `;
+                
+                cartItemsHTML += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">Rs. ${item.price} each</div>
+                        </div>
+                        <div class="qty-controls">
+                            <button class="qty-btn" onclick="changeQty(${index}, -1)">-</button>
+                            <span class="qty-value">${item.quantity}</span>
+                            <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
+                            <button class="remove-btn" onclick="removeFromCart(${index})">🗑️</button>
+                        </div>
                     </div>
                 `;
             });
@@ -496,18 +549,52 @@
                 </div>
             `;
             
-            list.innerHTML = '<div style="background: #E8F5E9; padding: 12px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #4CAF50;"><strong>✅ Items තෝරාගෙන ඇත!</strong><br><span style="font-size: 12px;">පහත විස්තර පුරවා WhatsApp එකට යවන්න</span></div>';
+            list.innerHTML = `
+                <div style="background: #E8F5E9; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #4CAF50;">
+                    <strong style="font-size: 16px;">✅ Items ${cart.length}ක් තෝරාගෙන ඇත!</strong><br>
+                    <span style="font-size: 13px;">පහත විස්තර පුරවා WhatsApp එකට යවන්න</span>
+                </div>
+                ${cartItemsHTML}
+            `;
             
             document.getElementById('orderSummary').innerHTML = orderSummaryHTML;
             document.getElementById('cartTotalDisplay').textContent = 'Rs. ' + total.toLocaleString();
             checkoutSection.style.display = 'block';
         }
 
+        function changeQty(index, change) {
+            cart[index].quantity += change;
+            
+            if (cart[index].quantity <= 0) {
+                cart.splice(index, 1);
+            }
+            
+            updateCartBadge();
+            renderOrdersTab();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartBadge();
+            renderOrdersTab();
+            showToast('❌ Item එක ඉවත් කරන ලදී');
+        }
+
         function selectPayment(method) {
             selectedPaymentMethod = method;
-            document.getElementById('btn-cod').classList.toggle('active', method === 'cod');
-            document.getElementById('btn-online').classList.toggle('active', method === 'online');
-            document.getElementById('onlinePaymentDetails').style.display = method === 'online' ? 'block' : 'none';
+            
+            // Update button styles
+            document.getElementById('btn-cod').classList.remove('active');
+            document.getElementById('btn-online').classList.remove('active');
+            document.getElementById(`btn-${method}`).classList.add('active');
+            
+            // Show/hide bank details
+            const bankDetails = document.getElementById('onlinePaymentDetails');
+            if (method === 'online') {
+                bankDetails.style.display = 'block';
+            } else {
+                bankDetails.style.display = 'none';
+            }
         }
 
         function confirmCartOrder() {
@@ -516,8 +603,20 @@
             const address = document.getElementById('deliveryAddress').value.trim();
             const transId = document.getElementById('transactionId').value.trim();
 
-            if (!name || !phone || !address) {
-                showToast('❌ කරුණාකර නම, දුරකථන අංකය සහ ලිපිනය ඇතුළත් කරන්න!');
+            // Validation
+            if (!name) {
+                showToast('❌ කරුණාකර ඔබේ නම ඇතුළත් කරන්න!');
+                document.getElementById('customerName').focus();
+                return;
+            }
+            if (!phone) {
+                showToast('❌ කරුණාකර දුරකථන අංකය ඇතුළත් කරන්න!');
+                document.getElementById('phoneNumber').focus();
+                return;
+            }
+            if (!address) {
+                showToast('❌ කරුණාකර ලිපිනය ඇතුළත් කරන්න!');
+                document.getElementById('deliveryAddress').focus();
                 return;
             }
             if (selectedPaymentMethod === 'online' && !transId) {
@@ -532,6 +631,7 @@
 
             const orderMsg = `*🍔 FoodHub New Order*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Address:* ${address}\n💳 *Payment:* ${paymentInfo}\n\n*Items:*\n${itemsList}\n\n*💰 Total:* Rs. ${total.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
             
+            // Open WhatsApp
             window.open(`https://wa.me/94766488689?text=${encodeURIComponent(orderMsg)}`, '_blank');
             
             // Clear cart after sending
@@ -546,22 +646,36 @@
         }
 
         function showAppDownload() {
-            showToast('📲 App එක ඉක්මනින්ම!');
+            showToast(' App එක ඉක්මනින්ම!');
         }
 
         function switchTab(tabName) {
+            // Hide all containers
             document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
+            
+            // Remove active class from all tabs
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            
+            // Show selected tab
             document.getElementById(tabName + 'Tab').classList.remove('hidden');
+            
+            // Update tab buttons
             const tabs = ['shops', 'grocery', 'foods', 'orders'];
             const index = tabs.indexOf(tabName);
             if (index >= 0) {
                 document.querySelectorAll('.tab')[index]?.classList.add('active');
                 document.querySelectorAll('.nav-item')[index]?.classList.add('active');
             }
-            if (tabName === 'orders') renderOrdersTab();
-            if (tabName === 'foods') renderFoods();
+            
+            // Render content based on tab
+            if (tabName === 'orders') {
+                renderOrdersTab();
+            } else if (tabName === 'foods') {
+                renderFoods();
+            } else if (tabName === 'grocery') {
+                renderGroceryGrid();
+            }
         }
 
         function handleSearch() {
@@ -570,11 +684,18 @@
         }
 
         function showToast(message) {
+            // Remove existing toast
+            const existingToast = document.querySelector('.toast');
+            if (existingToast) existingToast.remove();
+            
             const toast = document.createElement('div');
             toast.className = 'toast';
             toast.textContent = message;
             document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
+            
+            setTimeout(() => {
+                toast.remove();
+            }, 3000);
         }
     </script>
 </body>
