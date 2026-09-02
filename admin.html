@@ -67,6 +67,7 @@
         .btn-success { background: #4CAF50; color: white; }
         .btn-danger { background: #f44336; color: white; }
         .btn-warning { background: #FF9800; color: white; }
+        .btn-info { background: #2196F3; color: white; }
         .upload-btn { 
             background: #667eea; color: white; padding: 10px 20px; 
             border-radius: 8px; cursor: pointer; display: inline-block; margin: 10px 0; 
@@ -98,10 +99,16 @@
             background: #f9f9f9; padding: 15px; border-radius: 8px; 
             margin-bottom: 15px; border-left: 4px solid #667eea; 
         }
-        .order-card.new { border-left-color: #4CAF50; background: #E8F5E9; }
+        .order-card.new { border-left-color: #4CAF50; background: #E8F5E9; animation: pulse 2s; }
         .order-card.pending { border-left-color: #FF9800; }
         .order-card.delivered { border-left-color: #2196F3; }
         .order-card.cancelled { border-left-color: #f44336; }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+        
         .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .order-id { font-weight: bold; font-size: 16px; }
         .order-status { 
@@ -236,16 +243,34 @@
         .stat-badge.blue { background: #BBDEFB; color: #0D47A1; }
         .stat-badge.orange { background: #FFE0B2; color: #E65100; }
         .stat-badge.purple { background: #E1BEE7; color: #4A148C; }
+        
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            z-index: 10000;
+            animation: slideInRight 0.3s ease;
+        }
+        @keyframes slideInRight {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
     </style>
 </head>
 <body>
     <!-- Login Screen -->
     <div id="loginScreen">
         <div class="login-box">
-            <h1> FoodHub Admin Login</h1>
+            <h1>🔐 FoodHub Admin Login</h1>
             <input type="password" id="adminPassword" placeholder="Enter Password (admin123)">
             <button onclick="login()">Login</button>
-            <p id="loginError" style="color: red; margin-top: 10px; display: none;"> Wrong Password!</p>
+            <p id="loginError" style="color: red; margin-top: 10px; display: none;">❌ Wrong Password!</p>
         </div>
     </div>
 
@@ -253,7 +278,7 @@
     <div id="adminPanel" class="hidden">
         <!-- Header -->
         <div class="header">
-            <button class="logout-btn" onclick="logout()"> Logout</button>
+            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
             <h1>⚙️ FoodHub Admin Panel</h1>
             <p>Complete Management System</p>
         </div>
@@ -283,7 +308,7 @@
                     <div class="value" id="deliveredOrders">0</div>
                 </div>
                 <div class="analytics-card">
-                    <h3>⏳ Pending</h3>
+                    <h3> Pending</h3>
                     <div class="value" id="pendingOrders">0</div>
                 </div>
             </div>
@@ -336,11 +361,11 @@
                     <select id="shopCategory">
                         <option value="Restaurant">🍽️ Restaurant</option>
                         <option value="Fast Food">🍔 Fast Food</option>
-                        <option value="Grocery"> Grocery/Supermarket</option>
-                        <option value="Drinks">🥤 Drinks</option>
-                        <option value="Flowers"> Flowers</option>
+                        <option value="Grocery">🛒 Grocery/Supermarket</option>
+                        <option value="Drinks"> Drinks</option>
+                        <option value="Flowers">🌹 Flowers</option>
                         <option value="Gifts">🎁 Gifts</option>
-                        <option value="Cakes">🎂 Cakes</option>
+                        <option value="Cakes"> Cakes</option>
                         <option value="Bakery">🥐 Bakery</option>
                     </select>
                 </div>
@@ -379,7 +404,7 @@
                     <div style="margin-top: 10px;">
                         <input type="text" id="shopImageUrl" placeholder="Or enter image URL: https://...">
                     </div>
-                    <button class="btn btn-info" onclick="showPhotoGallery('shop')" style="margin-top: 10px;">️ Select from Photo Gallery</button>
+                    <button class="btn btn-info" onclick="showPhotoGallery('shop')" style="margin-top: 10px;">🖼️ Select from Photo Gallery</button>
                     <div id="shopImagePreview" style="display: none; margin-top: 10px;"></div>
                 </div>
                 <div class="form-group">
@@ -420,7 +445,7 @@
                     <div class="form-group"><label>Rating</label><input type="number" id="editShopRating" step="0.1" min="0" max="5"></div>
                     <div class="form-group"><label>Tags (comma separated)</label><input type="text" id="editShopTags"></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editShopImage" placeholder="https://..."></div>
-                    <button class="btn btn-info" onclick="showPhotoGallery('editShop')" style="margin-top: 10px;">️ Select from Photo Gallery</button>
+                    <button class="btn btn-info" onclick="showPhotoGallery('editShop')" style="margin-top: 10px;">🖼️ Select from Photo Gallery</button>
                     <div class="form-group">
                         <label><input type="checkbox" id="editIsFeatured" style="margin-right: 10px;">⭐ Featured/Paid Shop</label>
                     </div>
@@ -445,13 +470,13 @@
                     <label>Category</label>
                     <select id="foodCategory">
                         <option value="Rice">🍚 Rice Dishes</option>
-                        <option value="Kottu">🍗 Kottu</option>
-                        <option value="Pizza"> Pizza</option>
+                        <option value="Kottu"> Kottu</option>
+                        <option value="Pizza">🍕 Pizza</option>
                         <option value="Burger">🍔 Burgers</option>
                         <option value="Drinks">🥤 Drinks</option>
                         <option value="Desserts">🍰 Desserts</option>
-                        <option value="Flowers">🌹 Flowers</option>
-                        <option value="Cakes"> Cakes</option>
+                        <option value="Flowers"> Flowers</option>
+                        <option value="Cakes">🎂 Cakes</option>
                     </select>
                 </div>
                 <div class="form-group"><label>Price (Rs.)</label><input type="number" id="foodPrice" placeholder="1200"></div>
@@ -463,16 +488,16 @@
                     <div style="margin-top: 10px;">
                         <input type="text" id="foodImageUrl" placeholder="Or enter image URL: https://...">
                     </div>
-                    <button class="btn btn-info" onclick="showPhotoGallery('food')" style="margin-top: 10px;">🖼️ Select from Photo Gallery</button>
+                    <button class="btn btn-info" onclick="showPhotoGallery('food')" style="margin-top: 10px;">️ Select from Photo Gallery</button>
                     <div id="foodImagePreview" style="display: none; margin-top: 10px;"></div>
                 </div>
                 <button class="btn btn-primary" onclick="saveFood()">💾 Save Food</button>
-                <button class="btn btn-warning" onclick="clearFoodForm()">🔄 Clear</button>
+                <button class="btn btn-warning" onclick="clearFoodForm()"> Clear</button>
                 <button class="btn btn-warning" onclick="showEditFoodSection()" style="margin-top: 10px;">✏️ Edit Food</button>
 
                 <!-- Edit Food Section -->
                 <div id="editFoodSection" class="edit-section hidden">
-                    <h3 style="margin-bottom: 15px; color: #856404;">️ Edit Food</h3>
+                    <h3 style="margin-bottom: 15px; color: #856404;">✏️ Edit Food</h3>
                     <div class="form-group">
                         <label>Select Food to Edit</label>
                         <select id="editFoodSelect" onchange="loadFoodData()">
@@ -484,13 +509,13 @@
                         <label>Category</label>
                         <select id="editFoodCategory">
                             <option value="Rice">🍚 Rice</option>
-                            <option value="Kottu"> Kottu</option>
+                            <option value="Kottu">🍗 Kottu</option>
                             <option value="Pizza">🍕 Pizza</option>
-                            <option value="Burger"> Burger</option>
+                            <option value="Burger">🍔 Burger</option>
                             <option value="Drinks">🥤 Drinks</option>
                             <option value="Desserts">🍰 Desserts</option>
-                            <option value="Flowers"> Flowers</option>
-                            <option value="Cakes">🎂 Cakes</option>
+                            <option value="Flowers">🌹 Flowers</option>
+                            <option value="Cakes"> Cakes</option>
                         </select>
                     </div>
                     <div class="form-group"><label>Price (Rs.)</label><input type="number" id="editFoodPrice"></div>
@@ -510,7 +535,7 @@
             <div id="groceryTab" class="hidden">
                 <h2>🛒 Grocery Management</h2>
                 <div style="margin-bottom: 20px;">
-                    <span class="stat-badge green">📦 Total: <strong id="groceryTotalCount">0</strong></span>
+                    <span class="stat-badge green"> Total: <strong id="groceryTotalCount">0</strong></span>
                     <span class="stat-badge blue">📂 Categories: <strong id="groceryCategoryCount">0</strong></span>
                     <span class="stat-badge orange">💰 Avg Price: Rs. <strong id="groceryAvgPrice">0</strong></span>
                 </div>
@@ -525,9 +550,9 @@
                     <select id="groceryCategory">
                         <option value="Staples">🍚 Staples (Rice, Flour)</option>
                         <option value="Spices">🌶️ Spices & Condiments</option>
-                        <option value="Dairy">🥛 Dairy Products</option>
+                        <option value="Dairy"> Dairy Products</option>
                         <option value="Vegetables">🥬 Vegetables</option>
-                        <option value="Fruits">🍎 Fruits</option>
+                        <option value="Fruits"> Fruits</option>
                         <option value="Snacks">🍿 Snacks</option>
                         <option value="Beverages">🥤 Beverages</option>
                         <option value="Other">📦 Other</option>
@@ -569,12 +594,12 @@
                         <select id="editGroceryCategory">
                             <option value="Staples">🍚 Staples</option>
                             <option value="Spices">🌶️ Spices</option>
-                            <option value="Dairy"> Dairy</option>
-                            <option value="Vegetables">🥬 Vegetables</option>
+                            <option value="Dairy">🥛 Dairy</option>
+                            <option value="Vegetables"> Vegetables</option>
                             <option value="Fruits">🍎 Fruits</option>
                             <option value="Snacks">🍿 Snacks</option>
                             <option value="Beverages">🥤 Beverages</option>
-                            <option value="Other">📦 Other</option>
+                            <option value="Other"> Other</option>
                         </select>
                     </div>
                     <div class="form-group"><label>Description</label><textarea id="editGroceryDescription" rows="2"></textarea></div>
@@ -609,7 +634,7 @@
             <!-- Photo Gallery Modal -->
             <div id="photoGalleryModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; padding: 20px; overflow-y: auto;">
                 <div style="background: white; padding: 20px; border-radius: 10px; max-width: 800px; margin: 0 auto;">
-                    <h3 style="margin-bottom: 15px;">🖼️ Photo Gallery - Select an Image</h3>
+                    <h3 style="margin-bottom: 15px;">️ Photo Gallery - Select an Image</h3>
                     <div class="photo-gallery" id="galleryContainer"></div>
                     <div style="margin-top: 20px; text-align: right;">
                         <button class="btn btn-warning" onclick="closePhotoGallery()">❌ Cancel</button>
@@ -705,6 +730,7 @@
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('adminPanel').classList.remove('hidden');
                 loadData();
+                requestNotificationPermission();
                 setTimeout(() => { logout(); alert('Session expired (2 hours)'); }, 2 * 60 * 60 * 1000);
             } else {
                 document.getElementById('loginError').style.display = 'block';
@@ -716,6 +742,13 @@
             localStorage.removeItem('adminLoggedIn');
             localStorage.removeItem('loginTime');
             location.reload();
+        }
+
+        // ==================== NOTIFICATION PERMISSION ====================
+        function requestNotificationPermission() {
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
         }
 
         // ==================== TAB SWITCHING ====================
@@ -745,17 +778,23 @@
         // ==================== PHOTO GALLERY FUNCTIONS ====================
         function loadPhotos() {
             const storageRef = storage.ref();
+            
             storageRef.listAll().then(result => {
                 const promises = result.items.map(item => {
                     return item.getDownloadURL().then(url => {
-                        return { name: item.name, url: url };
+                        return { name: item.name, url: url, path: item.fullPath };
+                    }).catch(error => {
+                        console.error('Error getting URL for', item.name, error);
+                        return null;
                     });
                 });
+                
                 return Promise.all(promises);
             }).then(photos => {
-                allPhotos = photos;
+                allPhotos = photos.filter(p => p !== null);
+                console.log('✅ Loaded photos:', allPhotos.length);
             }).catch(error => {
-                console.error('Error loading photos:', error);
+                console.error('❌ Error loading photos:', error);
             });
         }
 
@@ -764,27 +803,36 @@
             const modal = document.getElementById('photoGalleryModal');
             const container = document.getElementById('galleryContainer');
             
-            if (allPhotos.length === 0) {
-                container.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">No photos available. Please upload images first.</p>';
-            } else {
-                container.innerHTML = allPhotos.map((photo, index) => `
-                    <div class="gallery-item" onclick="selectPhoto('${photo.url}', ${index})">
-                        <img src="${photo.url}" alt="${photo.name}">
-                        <p>${photo.name}</p>
-                    </div>
-                `).join('');
-            }
+            // Reload photos
+            loadPhotos();
             
-            modal.classList.remove('hidden');
+            // Wait for photos to load
+            setTimeout(() => {
+                if (allPhotos.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 40px; color: #999;">
+                            <div style="font-size: 48px; margin-bottom: 10px;"></div>
+                            <p>No photos available.</p>
+                            <p style="font-size: 12px; margin-top: 10px;">Please upload images first using "Upload from Device" button.</p>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = allPhotos.map((photo, index) => `
+                        <div class="gallery-item" onclick="selectPhoto('${photo.url}', ${index})">
+                            <img src="${photo.url}" alt="${photo.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖼️</text></svg>'">
+                            <p>${photo.name}</p>
+                        </div>
+                    `).join('');
+                }
+                
+                modal.classList.remove('hidden');
+            }, 1500);
         }
 
         function selectPhoto(url, index) {
-            // Remove previous selections
             document.querySelectorAll('.gallery-item').forEach(item => item.classList.remove('selected'));
-            // Add selection to clicked item
             document.querySelectorAll('.gallery-item')[index].classList.add('selected');
             
-            // Set the URL to the appropriate field
             setTimeout(() => {
                 if (currentGalleryField === 'shop') {
                     document.getElementById('shopImageUrl').value = url;
@@ -852,20 +900,56 @@
                 storageRef.getDownloadURL().then((downloadURL) => {
                     document.getElementById(urlInputId).value = downloadURL;
                     preview.innerHTML = `<img src="${downloadURL}" style="max-width:100%;max-height:200px;border-radius:8px;"><p style="color:#4CAF50;margin-top:5px;">✅ Uploaded!</p>`;
-                    // Reload photos to include new one
-                    loadPhotos();
+                    loadPhotos(); // Reload gallery
                 });
             });
         }
 
         // ==================== ORDER MANAGEMENT ====================
         function loadOrders() {
-            database.ref('orders').orderByChild('date').on('value', (snapshot) => {
+            database.ref('orders').orderByChild('date').limitToLast(50).on('value', (snapshot) => {
                 const data = snapshot.val();
-                orders = data ? Object.entries(data).map(([key, value]) => ({...value, id: key})) : [];
+                orders = data ? Object.entries(data).map(([key, value]) => ({...value, id: key, notified: false})) : [];
                 updateAnalytics();
                 filterOrders();
+                
+                // Check for new orders
+                if (orders.length > 0) {
+                    const latestOrder = orders[orders.length - 1];
+                    const orderTime = new Date(latestOrder.date);
+                    const now = new Date();
+                    const minutesDiff = (now - orderTime) / 1000 / 60;
+                    
+                    if (minutesDiff < 5 && !latestOrder.notified) {
+                        showNotification(`📦 New Order #${latestOrder.id ? latestOrder.id.slice(-6) : 'New'}`, 
+                            `Total: Rs. ${latestOrder.total}`);
+                        latestOrder.notified = true;
+                    }
+                }
+            }, (error) => {
+                console.error('Error loading orders:', error);
+                alert(' Orders load වීමේ ගැටලුවක්!');
             });
+        }
+
+        function showNotification(title, message) {
+            // Browser notification
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification(title, {
+                    body: message,
+                    icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">📦</text></svg>'
+                });
+            }
+            
+            // In-app notification
+            const notifDiv = document.createElement('div');
+            notifDiv.className = 'notification';
+            notifDiv.innerHTML = `<strong>${title}</strong><br>${message}`;
+            document.body.appendChild(notifDiv);
+            
+            setTimeout(() => {
+                notifDiv.remove();
+            }, 5000);
         }
 
         function updateAnalytics() {
@@ -923,10 +1007,10 @@
                             <span class="order-status status-${status}">${o.status || 'Pending'}</span>
                         </div>
                         <div class="order-details">
-                            <div>📦 Items: ${o.items}</div>
+                            <div> Items: ${o.items}</div>
                             <div>💰 Total: Rs. ${o.total}</div>
                             <div>🚚 Delivery: Rs. ${o.deliveryFee || 0}</div>
-                            <div> Payment: ${o.paymentMethod === 'cod' ? '💵 Cash' : '💳 Online'}</div>
+                            <div>💳 Payment: ${o.paymentMethod === 'cod' ? '💵 Cash' : '💳 Online'}</div>
                             <div>📍 Address: ${o.address}</div>
                             <div>🕐 ${date.toLocaleString()}</div>
                         </div>
@@ -1016,7 +1100,7 @@
                 <div class="item-card" style="${shop.isFeatured ? 'background: #FFF9C4; border-left: 4px solid #FFD700;' : ''}">
                     <div class="item-info">
                         <div style="font-weight:bold;">${shop.name} ${shop.isFeatured ? '⭐ <span style="color: #FFD700;">GOLD</span>' : ''}</div>
-                        <div style="font-size:12px;color:#666;">📞 ${shop.phone} | 🕐 ${shop.openTime}-${shop.closeTime} | ⭐ ${shop.rating}</div>
+                        <div style="font-size:12px;color:#666;"> ${shop.phone} | 🕐 ${shop.openTime}-${shop.closeTime} | ⭐ ${shop.rating}</div>
                         <div style="font-size:11px;color:#999;">${shop.category} | Rs.${shop.deliveryFee}</div>
                     </div>
                     <button class="btn btn-danger" onclick="deleteShop('${shop.id}')">🗑️</button>
@@ -1287,11 +1371,11 @@
                             <span class="grocery-unit">${item.unit || ''}</span>
                             <span style="font-size:11px;color:#666;margin-left:5px;">${item.category}</span>
                         </div>
-                        <div style="font-size:11px;color:#999;margin-top:3px;">📦 Stock: ${item.stock || 0}</div>
+                        <div style="font-size:11px;color:#999;margin-top:3px;"> Stock: ${item.stock || 0}</div>
                     </div>
                     <div style="display:flex;gap:5px;">
                         <button class="btn btn-primary" onclick="quickEditGrocery('${item.id}')" style="padding:8px 12px;font-size:12px;">✏️</button>
-                        <button class="btn btn-danger" onclick="deleteGroceryItem('${item.id}')" style="padding:8px 12px;font-size:12px;">🗑️</button>
+                        <button class="btn btn-danger" onclick="deleteGroceryItem('${item.id}')" style="padding:8px 12px;font-size:12px;">️</button>
                     </div>
                 </div>
             `).join('');
@@ -1500,7 +1584,7 @@
         function previewMessage() {
             const text = document.getElementById('messageText').value.trim();
             if (!text) { alert('Enter message!'); return; }
-            alert('📱 Preview:\n\n' + text);
+            alert(' Preview:\n\n' + text);
         }
 
         function renderMessages() {
