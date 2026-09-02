@@ -11,11 +11,10 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
     
     <style>
-        /* ==================== BASE STYLES ==================== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
         
-        /* ==================== LOGIN SCREEN ==================== */
+        /* Login Screen */
         #loginScreen { 
             position: fixed; 
             top: 0; left: 0; 
@@ -56,7 +55,7 @@
             cursor: pointer; 
         }
         
-        /* ==================== HEADER ==================== */
+        /* Header */
         .header { 
             background: linear-gradient(135deg, #667eea, #764ba2); 
             color: white; 
@@ -76,7 +75,7 @@
             cursor: pointer; 
         }
         
-        /* ==================== SECTIONS ==================== */
+        /* Sections */
         .section { 
             background: white; 
             padding: 20px; 
@@ -92,7 +91,7 @@
         }
         h3 { margin: 20px 0 15px 0; color: #555; }
         
-        /* ==================== FORMS ==================== */
+        /* Forms */
         .form-group { margin-bottom: 15px; }
         .form-group label { 
             display: block; 
@@ -110,7 +109,7 @@
             font-size: 14px; 
         }
         
-        /* ==================== BUTTONS ==================== */
+        /* Buttons */
         .btn { 
             padding: 12px 25px; 
             border: none; 
@@ -137,7 +136,7 @@
         }
         input[type="file"] { display: none; }
         
-        /* ==================== ANALYTICS ==================== */
+        /* Analytics */
         .analytics-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
@@ -161,7 +160,7 @@
             font-weight: bold; 
         }
         
-        /* ==================== TABS ==================== */
+        /* Tabs */
         .tabs { 
             display: flex; 
             gap: 10px; 
@@ -179,7 +178,7 @@
         .tab.active { background: #667eea; color: white; }
         .tab:not(.active) { background: #f5f5f5; color: #666; }
         
-        /* ==================== ORDER CARDS ==================== */
+        /* Order Cards */
         .order-card { 
             background: #f9f9f9; 
             padding: 15px; 
@@ -221,7 +220,7 @@
             flex-wrap: wrap; 
         }
         
-        /* ==================== ITEM CARDS ==================== */
+        /* Item Cards */
         .item-list { margin-top: 20px; }
         .item-card { 
             background: #f9f9f9; 
@@ -250,7 +249,7 @@
             border-radius: 10px; 
         }
         
-        /* ==================== EDIT SECTION ==================== */
+        /* Edit Section */
         .edit-section { 
             margin-top: 20px; 
             padding: 20px; 
@@ -259,7 +258,7 @@
             border: 2px solid #FFC107; 
         }
         
-        /* ==================== FEEDBACK & ADS ==================== */
+        /* Feedback & Ads */
         .feedback-card { 
             background: #f0f8ff; 
             padding: 15px; 
@@ -280,7 +279,7 @@
             border-radius: 5px; 
         }
         
-        /* ==================== MESSAGES ==================== */
+        /* Messages */
         .message-box { 
             background: #E8F5E9; 
             padding: 15px; 
@@ -297,7 +296,7 @@
             margin-top: 10px; 
         }
         
-        /* ==================== FILTERS & SEARCH ==================== */
+        /* Filters & Search */
         .filter-bar { 
             display: flex; 
             gap: 10px; 
@@ -320,7 +319,46 @@
             margin-bottom: 15px; 
         }
         
-        /* ==================== UTILITIES ==================== */
+        /* Photo Gallery */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+        }
+        .gallery-item {
+            cursor: pointer;
+            border: 3px solid transparent;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+        .gallery-item.selected {
+            border-color: #4CAF50;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 80px;
+            object-fit: cover;
+        }
+        .gallery-item p {
+            font-size: 10px;
+            text-align: center;
+            padding: 5px;
+            background: #f5f5f5;
+            margin: 0;
+        }
+        
+        /* Utilities */
         .hidden { display: none; }
         .loading-spinner { 
             display: inline-block; 
@@ -349,17 +387,17 @@
     </style>
 </head>
 <body>
-    <!-- ==================== LOGIN SCREEN ==================== -->
+    <!-- Login Screen -->
     <div id="loginScreen">
         <div class="login-box">
             <h1> FoodHub Admin Login</h1>
             <input type="password" id="adminPassword" placeholder="Enter Password (admin123)">
             <button onclick="login()">Login</button>
-            <p id="loginError" style="color: red; margin-top: 10px; display: none;">❌ Wrong Password!</p>
+            <p id="loginError" style="color: red; margin-top: 10px; display: none;"> Wrong Password!</p>
         </div>
     </div>
 
-    <!-- ==================== ADMIN PANEL ==================== -->
+    <!-- Admin Panel -->
     <div id="adminPanel" class="hidden">
         <!-- Header -->
         <div class="header">
@@ -393,7 +431,7 @@
                     <div class="value" id="deliveredOrders">0</div>
                 </div>
                 <div class="analytics-card">
-                    <h3> Pending</h3>
+                    <h3>⏳ Pending</h3>
                     <div class="value" id="pendingOrders">0</div>
                 </div>
             </div>
@@ -413,7 +451,7 @@
 
             <!-- ==================== ORDERS TAB ==================== -->
             <div id="ordersTab">
-                <h2> Order Management</h2>
+                <h2>📦 Order Management</h2>
                 <div class="filter-bar">
                     <select id="filterStatus" onchange="filterOrders()">
                         <option value="all">All Orders</option>
@@ -484,7 +522,7 @@
                 </div>
                 <div class="form-group">
                     <label>Shop Image</label>
-                    <label class="upload-btn" for="shopFileUpload">📷 Upload from Device</label>
+                    <label class="upload-btn" for="shopFileUpload"> Upload from Device</label>
                     <input type="file" id="shopFileUpload" accept="image/*" onchange="uploadShopImage(this)">
                     <div style="margin-top: 10px;">
                         <input type="text" id="shopImageUrl" placeholder="Or enter image URL: https://...">
@@ -495,12 +533,12 @@
                     <label><input type="checkbox" id="isFeatured" style="margin-right: 10px;">⭐ Featured Shop</label>
                 </div>
                 <button class="btn btn-primary" onclick="saveShop()">💾 Save Shop</button>
-                <button class="btn btn-warning" onclick="clearShopForm()"> Clear</button>
+                <button class="btn btn-warning" onclick="clearShopForm()">🔄 Clear</button>
                 <button class="btn btn-warning" onclick="showEditShopSection()" style="margin-top: 10px;">✏️ Edit Shop</button>
 
                 <!-- Edit Shop Section -->
                 <div id="editShopSection" class="edit-section hidden">
-                    <h3 style="margin-bottom: 15px; color: #856404;">✏️ Edit Shop</h3>
+                    <h3 style="margin-bottom: 15px; color: #856404;">️ Edit Shop</h3>
                     <div class="form-group">
                         <label>Select Shop to Edit</label>
                         <select id="editShopSelect" onchange="loadShopData()">
@@ -512,12 +550,12 @@
                         <label>Category</label>
                         <select id="editShopCategory">
                             <option value="Restaurant">🍽️ Restaurant</option>
-                            <option value="Fast Food">🍔 Fast Food</option>
+                            <option value="Fast Food"> Fast Food</option>
                             <option value="Grocery">🛒 Grocery</option>
-                            <option value="Drinks"> Drinks</option>
+                            <option value="Drinks">🥤 Drinks</option>
                             <option value="Flowers">🌹 Flowers</option>
                             <option value="Gifts">🎁 Gifts</option>
-                            <option value="Cakes">🎂 Cakes</option>
+                            <option value="Cakes"> Cakes</option>
                             <option value="Bakery">🥐 Bakery</option>
                         </select>
                     </div>
@@ -532,8 +570,8 @@
                     <div class="form-group">
                         <label><input type="checkbox" id="editIsFeatured" style="margin-right: 10px;">⭐ Featured Shop</label>
                     </div>
-                    <button class="btn btn-success" onclick="updateShop()"> Update Shop</button>
-                    <button class="btn btn-warning" onclick="cancelEdit('shop')"> Cancel</button>
+                    <button class="btn btn-success" onclick="updateShop()">💾 Update Shop</button>
+                    <button class="btn btn-warning" onclick="cancelEdit('shop')">❌ Cancel</button>
                 </div>
 
                 <h3 style="margin-top: 30px;">📋 All Shops (<span id="shopCount">0</span>)</h3>
@@ -543,7 +581,7 @@
 
             <!-- ==================== FOODS TAB ==================== -->
             <div id="foodsTab" class="hidden">
-                <h2>🍕 Add New Food</h2>
+                <h2> Add New Food</h2>
                 <div class="form-group">
                     <label>Select Shop</label>
                     <select id="foodShop"></select>
@@ -590,13 +628,13 @@
                     <div class="form-group">
                         <label>Category</label>
                         <select id="editFoodCategory">
-                            <option value="Rice">🍚 Rice</option>
+                            <option value="Rice"> Rice</option>
                             <option value="Kottu">🍗 Kottu</option>
-                            <option value="Pizza">🍕 Pizza</option>
+                            <option value="Pizza"> Pizza</option>
                             <option value="Burger">🍔 Burger</option>
                             <option value="Drinks">🥤 Drinks</option>
                             <option value="Desserts">🍰 Desserts</option>
-                            <option value="Flowers"> Flowers</option>
+                            <option value="Flowers">🌹 Flowers</option>
                             <option value="Cakes">🎂 Cakes</option>
                         </select>
                     </div>
@@ -604,7 +642,7 @@
                     <div class="form-group"><label>Description</label><textarea id="editFoodDescription" rows="2"></textarea></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editFoodImage" placeholder="https://..."></div>
                     <button class="btn btn-success" onclick="updateFood()">💾 Update Food</button>
-                    <button class="btn btn-warning" onclick="cancelEdit('food')">❌ Cancel</button>
+                    <button class="btn btn-warning" onclick="cancelEdit('food')"> Cancel</button>
                 </div>
 
                 <h3 style="margin-top: 30px;">📋 All Foods (<span id="foodCount">0</span>)</h3>
@@ -617,7 +655,7 @@
                 <h2>🛒 Grocery Management</h2>
                 <div style="margin-bottom: 20px;">
                     <span class="stat-badge green">📦 Total: <strong id="groceryTotalCount">0</strong></span>
-                    <span class="stat-badge blue"> Categories: <strong id="groceryCategoryCount">0</strong></span>
+                    <span class="stat-badge blue">📂 Categories: <strong id="groceryCategoryCount">0</strong></span>
                     <span class="stat-badge orange">💰 Avg Price: Rs. <strong id="groceryAvgPrice">0</strong></span>
                 </div>
 
@@ -634,7 +672,7 @@
                         <option value="Dairy">🥛 Dairy Products</option>
                         <option value="Vegetables">🥬 Vegetables</option>
                         <option value="Fruits">🍎 Fruits</option>
-                        <option value="Snacks">🍿 Snacks</option>
+                        <option value="Snacks"> Snacks</option>
                         <option value="Beverages">🥤 Beverages</option>
                         <option value="Other">📦 Other</option>
                     </select>
@@ -674,12 +712,12 @@
                         <select id="editGroceryCategory">
                             <option value="Staples">🍚 Staples</option>
                             <option value="Spices">🌶️ Spices</option>
-                            <option value="Dairy"> Dairy</option>
-                            <option value="Vegetables">🥬 Vegetables</option>
+                            <option value="Dairy">🥛 Dairy</option>
+                            <option value="Vegetables"> Vegetables</option>
                             <option value="Fruits">🍎 Fruits</option>
                             <option value="Snacks">🍿 Snacks</option>
                             <option value="Beverages">🥤 Beverages</option>
-                            <option value="Other">📦 Other</option>
+                            <option value="Other"> Other</option>
                         </select>
                     </div>
                     <div class="form-group"><label>Description</label><textarea id="editGroceryDescription" rows="2"></textarea></div>
@@ -694,15 +732,15 @@
 
                 <h3 style="margin-top: 30px;">📋 All Grocery Items (<span id="groceryCount">0</span>)</h3>
                 <div class="filter-bar">
-                    <input type="text" class="search-bar" id="grocerySearch" placeholder=" Search items..." oninput="renderGroceryItems()" style="margin-bottom:0; flex:1;">
+                    <input type="text" class="search-bar" id="grocerySearch" placeholder="🔍 Search items..." oninput="renderGroceryItems()" style="margin-bottom:0; flex:1;">
                     <select id="groceryFilterCategory" onchange="renderGroceryItems()">
                         <option value="all">All Categories</option>
                         <option value="Staples">🍚 Staples</option>
                         <option value="Spices">🌶️ Spices</option>
                         <option value="Dairy">🥛 Dairy</option>
-                        <option value="Vegetables"> Vegetables</option>
+                        <option value="Vegetables">🥬 Vegetables</option>
                         <option value="Fruits">🍎 Fruits</option>
-                        <option value="Snacks"> Snacks</option>
+                        <option value="Snacks">🍿 Snacks</option>
                         <option value="Beverages">🥤 Beverages</option>
                         <option value="Other">📦 Other</option>
                     </select>
@@ -718,7 +756,7 @@
 
             <!-- ==================== ADS TAB ==================== -->
             <div id="adsTab" class="hidden">
-                <h2>📢 Advertisement Management</h2>
+                <h2> Advertisement Management</h2>
                 <div class="form-group"><label>Ad Title</label><input type="text" id="adTitle" placeholder="e.g., Special Offer - 20% Off!"></div>
                 <div class="form-group">
                     <label>Ad Image</label>
@@ -737,7 +775,7 @@
                         <option value="false">No - Hide Ad</option>
                     </select>
                 </div>
-                <button class="btn btn-primary" onclick="saveAd()"> Save Ad</button>
+                <button class="btn btn-primary" onclick="saveAd()">💾 Save Ad</button>
                 <h3 style="margin-top: 30px;">Active Advertisements</h3>
                 <div class="item-list" id="adsList"></div>
             </div>
@@ -750,8 +788,8 @@
                     <p>Send notification to all app users</p>
                     <textarea id="messageText" rows="4" placeholder="Enter your message...&#10;&#10;Example:&#10;🎉 Special Offer! Get 20% off!&#10;Use code: WELCOME20"></textarea>
                     <div style="margin-top: 15px; display: flex; gap: 10px;">
-                        <button class="btn btn-success" onclick="sendMessage()">📤 Send</button>
-                        <button class="btn btn-info" onclick="previewMessage()">👁️ Preview</button>
+                        <button class="btn btn-success" onclick="sendMessage()"> Send</button>
+                        <button class="btn btn-info" onclick="previewMessage()">️ Preview</button>
                     </div>
                 </div>
                 <h3 style="margin-top: 30px;">📜 Message History</h3>
@@ -760,7 +798,7 @@
         </div>
     </div>
 
-    <!-- ==================== JAVASCRIPT ==================== -->
+    <!-- JavaScript -->
     <script>
         // Firebase Configuration
         const firebaseConfig = {
@@ -785,52 +823,6 @@
         let feedbacks = [];
         let ads = [];
         let messages = [];
-
-        // 40+ Sample Grocery Items
-        const sampleGroceryItems = [
-            { id: '1', name: 'සීනි (Sugar)', unit: '1kg', price: 280, category: 'Staples', image: 'https://images.unsplash.com/photo-1589894117408-6b8915a89915?w=500', stock: 100, available: true },
-            { id: '2', name: 'පරිප්පු (Dhal)', unit: '1kg', price: 450, category: 'Staples', image: 'https://images.unsplash.com/photo-1587314168485-323f39f5441b?w=500', stock: 100, available: true },
-            { id: '3', name: 'කිරි පිටි (Milk Powder)', unit: '400g', price: 650, category: 'Dairy', image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500', stock: 100, available: true },
-            { id: '4', name: 'සහල් (Rice)', unit: '1kg', price: 220, category: 'Staples', image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500', stock: 100, available: true },
-            { id: '5', name: 'තෙල් (Oil)', unit: '1L', price: 550, category: 'Other', image: 'https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?w=500', stock: 100, available: true },
-            { id: '6', name: 'ලුණු (Salt)', unit: '500g', price: 90, category: 'Spices', image: 'https://images.unsplash.com/photo-1615485904265-29330f2073bd?w=500', stock: 100, available: true },
-            { id: '7', name: 'මිරිස් කුඩු', unit: '100g', price: 180, category: 'Spices', image: 'https://images.unsplash.com/photo-1596040071240-08301a74781c?w=500', stock: 100, available: true },
-            { id: '8', name: 'කහ කුඩු', unit: '100g', price: 150, category: 'Spices', image: 'https://images.unsplash.com/photo-1615485297392-60cb4549853c?w=500', stock: 100, available: true },
-            { id: '9', name: 'කෝපි (Coffee)', unit: '100g', price: 350, category: 'Beverages', image: 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=500', stock: 100, available: true },
-            { id: '10', name: 'තේ (Tea)', unit: '250g', price: 280, category: 'Beverages', image: 'https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?w=500', stock: 100, available: true },
-            { id: '11', name: 'බිස්කට්', unit: 'Pack', price: 120, category: 'Snacks', image: 'https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=500', stock: 100, available: true },
-            { id: '12', name: 'පාන් (Bread)', unit: 'Loaf', price: 80, category: 'Other', image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?w=500', stock: 100, available: true },
-            { id: '13', name: 'බිත්තර (Eggs)', unit: '10 pcs', price: 180, category: 'Dairy', image: 'https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=500', stock: 100, available: true },
-            { id: '14', name: 'කිරි (Milk)', unit: '1L', price: 180, category: 'Dairy', image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500', stock: 100, available: true },
-            { id: '15', name: 'කොකෝවා (Coca-Cola)', unit: '330ml', price: 120, category: 'Beverages', image: 'https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=500', stock: 100, available: true },
-            { id: '16', name: 'Sprite', unit: '330ml', price: 120, category: 'Beverages', image: 'https://images.unsplash.com/photo-1624517452488-04869289c4ca?w=500', stock: 100, available: true },
-            { id: '17', name: 'මැගී (Maggi)', unit: 'Pack', price: 90, category: 'Other', image: 'https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=500', stock: 100, available: true },
-            { id: '18', name: 'පාන් පිටි (Flour)', unit: '1kg', price: 180, category: 'Staples', image: 'https://images.unsplash.com/photo-1627308595229-7830a5c91f9f?w=500', stock: 100, available: true },
-            { id: '19', name: 'සම්බාර (Curry Powder)', unit: '100g', price: 150, category: 'Spices', image: 'https://images.unsplash.com/photo-1596040071240-08301a74781c?w=500', stock: 100, available: true },
-            { id: '20', name: 'ගම්මිරිස් (Pepper)', unit: '100g', price: 280, category: 'Spices', image: 'https://images.unsplash.com/photo-1596040071240-08301a74781c?w=500', stock: 100, available: true },
-            { id: '21', name: 'ටිෂූ පේපර් (Tissue)', unit: 'Pack', price: 150, category: 'Other', image: 'https://images.unsplash.com/photo-1584308666744-23d26a3be0cd?w=500', stock: 100, available: true },
-            { id: '22', name: 'ඩිටර්ජන්ට් (Detergent)', unit: '500g', price: 280, category: 'Other', image: 'https://images.unsplash.com/photo-1583939003579-136eed73459e?w=500', stock: 100, available: true },
-            { id: '23', name: 'සෝයා සෝස් (Soy Sauce)', unit: '250ml', price: 220, category: 'Other', image: 'https://images.unsplash.com/photo-1551650975-8744e71348b3?w=500', stock: 100, available: true },
-            { id: '24', name: 'ටොමැටෝ සෝස් (Tomato Sauce)', unit: '300ml', price: 180, category: 'Other', image: 'https://images.unsplash.com/photo-1571167189043-171f75ae3721?w=500', stock: 100, available: true },
-            { id: '25', name: 'චිප්ස් (Chips)', unit: 'Pack', price: 80, category: 'Snacks', image: 'https://images.unsplash.com/photo-1566478989037-e84c6f748f25?w=500', stock: 100, available: true },
-            { id: '26', name: 'චොකලට් (Chocolate)', unit: 'Bar', price: 150, category: 'Snacks', image: 'https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=500', stock: 100, available: true },
-            { id: '27', name: 'ජූස් (Juice)', unit: '1L', price: 280, category: 'Beverages', image: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=500', stock: 100, available: true },
-            { id: '28', name: 'වාටර් (Water)', unit: '1.5L', price: 80, category: 'Beverages', image: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=500', stock: 100, available: true },
-            { id: '29', name: 'නූඩ්ල්ස් (Noodles)', unit: 'Pack', price: 120, category: 'Other', image: 'https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=500', stock: 100, available: true },
-            { id: '30', name: 'පේස්ටා (Pasta)', unit: '500g', price: 280, category: 'Staples', image: 'https://images.unsplash.com/photo-1551183054-bf91ab1f3053?w=500', stock: 100, available: true },
-            { id: '31', name: 'කැන්ඩි (Candy)', unit: 'Pack', price: 60, category: 'Snacks', image: 'https://images.unsplash.com/photo-1582058091535-435ac4590799?w=500', stock: 100, available: true },
-            { id: '32', name: 'සබ්බැඳි (Soap)', unit: '100g', price: 95, category: 'Other', image: 'https://images.unsplash.com/photo-1600857062241-97de8a795b52?w=500', stock: 100, available: true },
-            { id: '33', name: 'ටූත්පේස්ට් (Toothpaste)', unit: '100g', price: 180, category: 'Other', image: 'https://images.unsplash.com/photo-1559671816-6222e982d963?w=500', stock: 100, available: true },
-            { id: '34', name: 'ැම්පු (Shampoo)', unit: '200ml', price: 350, category: 'Other', image: 'https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=500', stock: 100, available: true },
-            { id: '35', name: 'කොට්ටේ (Cotton)', unit: 'Pack', price: 85, category: 'Other', image: 'https://images.unsplash.com/photo-1583939003579-136eed73459e?w=500', stock: 100, available: true },
-            { id: '36', name: 'කරපිංචා (Mustard)', unit: '100g', price: 120, category: 'Spices', image: 'https://images.unsplash.com/photo-1615485297392-60cb4549853c?w=500', stock: 100, available: true },
-            { id: '37', name: 'මාලු මිරිස් (Fish)', unit: '200g', price: 350, category: 'Other', image: 'https://images.unsplash.com/photo-1534939561146-6946c0a9b1d4?w=500', stock: 100, available: true },
-            { id: '38', name: 'කොකනට් මිල්ක් (Coconut Milk)', unit: '400ml', price: 150, category: 'Dairy', image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500', stock: 100, available: true },
-            { id: '39', name: 'රයිස් (Rice) 5kg', unit: '5kg', price: 950, category: 'Staples', image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500', stock: 100, available: true },
-            { id: '40', name: 'කිරි පිටි (Milk Powder) 900g', unit: '900g', price: 1250, category: 'Dairy', image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500', stock: 100, available: true },
-            { id: '41', name: 'කැනඩ් ෆිෂ් (Canned Fish)', unit: '155g', price: 280, category: 'Other', image: 'https://images.unsplash.com/photo-1534939561146-6946c0a9b1d4?w=500', stock: 100, available: true },
-            { id: '42', name: 'කැනඩ් බීන්ස් (Canned Beans)', unit: '400g', price: 220, category: 'Other', image: 'https://images.unsplash.com/photo-1589894117408-6b8915a89915?w=500', stock: 100, available: true }
-        ];
 
         // ==================== AUTHENTICATION ====================
         function login() {
@@ -1083,7 +1075,7 @@
                         <div style="font-size:12px;color:#666;"> ${shop.phone} | 🕐 ${shop.openTime}-${shop.closeTime} | ⭐ ${shop.rating}</div>
                         <div style="font-size:11px;color:#999;">${shop.category} | Rs.${shop.deliveryFee}</div>
                     </div>
-                    <button class="btn btn-danger" onclick="deleteShop('${shop.id}')">️</button>
+                    <button class="btn btn-danger" onclick="deleteShop('${shop.id}')">🗑️</button>
                 </div>
             `).join('');
         }
@@ -1282,24 +1274,6 @@
 
         // ==================== GROCERY MANAGEMENT ====================
         function loadGroceryItems() {
-            // First, check if grocery items exist in Firebase
-            database.ref('groceryItems').once('value', (snapshot) => {
-                const data = snapshot.val();
-                if (!data || Object.keys(data).length === 0) {
-                    // No items in Firebase - add sample items
-                    const updates = {};
-                    sampleGroceryItems.forEach(item => {
-                        updates['groceryItems/' + item.id] = item;
-                    });
-                    database.ref().update(updates).then(() => {
-                        console.log('✅ 42 sample grocery items added to Firebase');
-                    }).catch(err => {
-                        console.error('Error adding sample items:', err);
-                    });
-                }
-            });
-
-            // Always listen for real-time updates
             database.ref('groceryItems').on('value', (snapshot) => {
                 const data = snapshot.val();
                 groceryItems = data ? Object.entries(data).map(([key, value]) => ({...value, id: key})) : [];
@@ -1373,7 +1347,7 @@
                     </div>
                     <div style="display:flex;gap:5px;">
                         <button class="btn btn-primary" onclick="quickEditGrocery('${item.id}')" style="padding:8px 12px;font-size:12px;">✏️</button>
-                        <button class="btn btn-danger" onclick="deleteGroceryItem('${item.id}')" style="padding:8px 12px;font-size:12px;">🗑️</button>
+                        <button class="btn btn-danger" onclick="deleteGroceryItem('${item.id}')" style="padding:8px 12px;font-size:12px;">️</button>
                     </div>
                 </div>
             `).join('');
@@ -1534,7 +1508,7 @@
                         <div style="font-size:12px;color:#666;">${ad.active ? '✅ Active' : '❌ Inactive'}</div>
                         ${ad.imageUrl ? `<div class="ad-banner-preview"><img src="${ad.imageUrl}"></div>` : ''}
                     </div>
-                    <button class="btn btn-danger" onclick="deleteAd('${ad.id}')">🗑️</button>
+                    <button class="btn btn-danger" onclick="deleteAd('${ad.id}')">️</button>
                 </div>
             `).join('');
         }
@@ -1582,7 +1556,7 @@
         function previewMessage() {
             const text = document.getElementById('messageText').value.trim();
             if (!text) { alert('Enter message!'); return; }
-            alert('📱 Preview:\n\n' + text);
+            alert(' Preview:\n\n' + text);
         }
 
         function renderMessages() {
