@@ -17,7 +17,7 @@
 <body>
     <div class="container">
         <h1>🚀 FoodHub - Setup Sample Data</h1>
-        <p>මේ button ඔබන්න සියල්ලම automatic add වෙයි:</p>
+        <p>මේ button බන්න සියල්ලම automatic add වෙයි:</p>
         
         <button class="btn" onclick="setupAllData()">✅ Setup All Data (Shops + Foods + Grocery)</button>
         <button class="btn" onclick="clearAllData()" style="background: #f44336;">🗑️ Clear All Data</button>
@@ -56,19 +56,12 @@
             log('Starting data setup...');
             
             try {
-                // Setup Shops
                 await setupShops();
-                
-                // Wait for shops to be added
                 await new Promise(resolve => setTimeout(resolve, 2000));
-                
-                // Setup Foods
                 await setupFoods();
-                
-                // Setup Grocery
                 await setupGrocery();
                 
-                showSuccess('✅ සියල්ලම සාර්ථකව add විය! දැන් app එක refresh කරන්න.');
+                showSuccess('✅ සියල්ලම සාර්කව add විය! දැන් app එක refresh කරන්න.');
                 log('✅ Setup completed successfully!');
                 
             } catch (error) {
@@ -172,7 +165,6 @@
         async function setupFoods() {
             log('Adding foods...');
             
-            // Get shops from database
             const shopsSnapshot = await database.ref('shops').once('value');
             const shops = shopsSnapshot.val();
             let shopArray = [];
@@ -242,7 +234,7 @@
                 'Kottu': '1603137637444-56d404d75998',
                 'Burger': '1568958143499-9a23f5cf1c7f',
                 'Pizza': '1513104890138-7c749659a591',
-                'Drinks': '1544191694-171fef60a36a'
+                'Drinks': '1546071491-868a7f5f8a14'
             };
             return images[category] || '1546071491-868a7f5f8a14';
         }
@@ -308,7 +300,7 @@
         }
 
         async function clearAllData() {
-            if (confirm('⚠️ බට විශ්වාසද? සියල්ලම delete වෙයි!')) {
+            if (confirm('⚠️ ඔබට විශ්වාසද? සියල්ලම delete වෙයි!')) {
                 log('Clearing all data...');
                 
                 await database.ref('shops').remove();
