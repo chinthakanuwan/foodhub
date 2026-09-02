@@ -12,26 +12,31 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; padding-bottom: 80px; }
-        .header { background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: white; padding: 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: white; padding: 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: relative; }
         .header h1 { font-size: 28px; margin-bottom: 5px; }
+        .app-download-btn { position: absolute; top: 15px; right: 15px; background: white; color: #FF6B6B; padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,0.2); text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
         .search-bar { padding: 15px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .search-bar input { width: 100%; padding: 12px 20px; border: 2px solid #e0e0e0; border-radius: 25px; font-size: 16px; outline: none; }
         .tabs { display: flex; background: white; padding: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 15px; position: sticky; top: 0; z-index: 50; flex-wrap: wrap; gap: 5px; }
         .tab { flex: 1; min-width: 80px; padding: 12px; text-align: center; cursor: pointer; border-radius: 10px; margin: 0 5px; font-weight: 600; transition: all 0.3s; font-size: 14px; }
         .tab.active { background: #FF6B6B; color: white; }
         .tab:not(.active) { background: #f5f5f5; color: #666; }
+        .ad-banner { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; position: relative; overflow: hidden; }
+        .ad-banner.gold { background: linear-gradient(135deg, #FFD700, #FFA500); }
+        .ad-banner img { max-width: 100%; max-height: 150px; border-radius: 8px; margin-top: 10px; }
         .container { padding: 15px; }
-        .shop-card { background: white; border-radius: 15px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.3s; }
+        .shop-card { background: white; border-radius: 15px; margin-bottom: 20px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.3s; border: 2px solid transparent; }
+        .shop-card.featured { border-color: #FFD700; box-shadow: 0 3px 15px rgba(255, 215, 0, 0.3); }
         .shop-card:hover { transform: translateY(-5px); }
         .shop-image { width: 100%; height: 200px; object-fit: cover; background: #ddd; }
         .shop-info { padding: 15px; }
-        .shop-name { font-size: 20px; font-weight: bold; color: #333; margin-bottom: 8px; }
+        .shop-name { font-size: 20px; font-weight: bold; color: #333; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .gold-badge { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 3px 10px; border-radius: 15px; font-size: 12px; font-weight: bold; }
         .shop-details { display: flex; justify-content: space-between; color: #666; font-size: 14px; margin-bottom: 10px; flex-wrap: wrap; gap: 5px; }
         .rating { background: #4CAF50; color: white; padding: 3px 10px; border-radius: 5px; font-weight: bold; }
         .shop-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
         .tag { background: #FFF3E0; color: #FF9800; padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; transition: all 0.3s; }
         .tag:hover { background: #FF9800; color: white; }
-        .ad-banner { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; }
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 100; }
         .nav-item { text-align: center; padding: 5px 20px; cursor: pointer; color: #666; }
         .nav-item.active { color: #FF6B6B; }
@@ -79,6 +84,7 @@
     <div class="header">
         <h1>🛒 FoodHub & Grocery</h1>
         <p>ඔබේ ආහාර & grocery delivery partner</p>
+        <a href="https://chinthakanuwan.github.io/foodhub/" class="app-download-btn" onclick="showAppDownload()">📲 Download App</a>
     </div>
     <div class="search-bar">
         <input type="text" id="searchInput" placeholder="🔍 Shops හෝ products search කරන්න..." oninput="handleSearch()">
@@ -91,13 +97,13 @@
     </div>
     
     <div id="shopsTab" class="container">
-        <div class="ad-banner"><h3>🎉 විශේෂ දීමනාව!</h3><p>පළමු order එකට 20% වට්ටමක්</p></div>
-        <div id="shopsList"><div class="loading">⏳ Shops load වෙමින්...</div></div>
+        <div id="adBannerContainer"></div>
+        <div id="shopsList"><div class="loading"> Shops load වෙමින්...</div></div>
     </div>
 
     <div id="groceryTab" class="container hidden">
-        <h2 style="margin-bottom: 15px;">🛒 Grocery භාණ්ඩ</h2>
-        <div class="grocery-grid" id="groceryGrid"><div class="loading">⏳ Grocery භාණ්ඩ load වෙමින්...</div></div>
+        <h2 style="margin-bottom: 15px;"> Grocery භාණ්ඩ</h2>
+        <div class="grocery-grid" id="groceryGrid"><div class="loading"> Grocery භාණ්ඩ load වෙමින්...</div></div>
         <div class="grocery-cart" id="groceryCart">
             <div class="grocery-cart-header">
                 <span style="font-weight: 600;">තෝරාගත් භාණ්ඩ: <span id="groceryCount">0</span></span>
@@ -125,7 +131,7 @@
                     <span id="cartTotalDisplay" style="color: #FF6B6B;">Rs. 0</span>
                 </div>
                 <div class="form-group">
-                    <label>👤 ඔබේ නම</label>
+                    <label>👤 බේ නම</label>
                     <input type="text" id="customerName" placeholder="Your Name">
                 </div>
                 <div class="form-group">
@@ -134,10 +140,10 @@
                 </div>
                 <div class="form-group">
                     <label>📍 Delivery Address</label>
-                    <textarea id="deliveryAddress" rows="2" placeholder="බේ ලිපිනය ඇතුළත් කරන්න..."></textarea>
+                    <textarea id="deliveryAddress" rows="2" placeholder="ඔබේ ලිපිනය ඇතුළත් කරන්න..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label>💳 Payment Method</label>
+                    <label> Payment Method</label>
                     <div class="payment-option">
                         <button class="payment-btn active" onclick="selectPayment('cod')" id="btn-cod">💵 Cash on Delivery</button>
                         <button class="payment-btn" onclick="selectPayment('online')" id="btn-online">🏦 Online Payment</button>
@@ -169,7 +175,7 @@
     </div>
 
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('shops')"><span class="icon">🏪</span><span class="label">Shops</span></div>
+        <div class="nav-item active" onclick="switchTab('shops')"><span class="icon"></span><span class="label">Shops</span></div>
         <div class="nav-item" onclick="switchTab('grocery')"><span class="icon">🛒</span><span class="label">Grocery</span></div>
         <div class="nav-item" onclick="switchTab('foods')"><span class="icon">🍕</span><span class="label">Foods</span></div>
         <div class="nav-item cart-icon" onclick="switchTab('orders')"><span class="icon">📦</span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
