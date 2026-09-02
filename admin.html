@@ -14,312 +14,153 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
         
-        /* Login Screen */
         #loginScreen { 
-            position: fixed; 
-            top: 0; left: 0; 
-            width: 100%; height: 100%; 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
             background: linear-gradient(135deg, #667eea, #764ba2); 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            z-index: 9999; 
+            display: flex; justify-content: center; align-items: center; z-index: 9999; 
         }
         .login-box { 
-            background: white; 
-            padding: 40px; 
-            border-radius: 15px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
-            text-align: center; 
-            width: 90%; 
-            max-width: 400px; 
+            background: white; padding: 40px; border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); text-align: center; 
+            width: 90%; max-width: 400px; 
         }
         .login-box h1 { margin-bottom: 30px; color: #333; }
         .login-box input { 
-            width: 100%; 
-            padding: 15px; 
-            border: 2px solid #e0e0e0; 
-            border-radius: 8px; 
-            font-size: 16px; 
-            margin-bottom: 20px; 
+            width: 100%; padding: 15px; border: 2px solid #e0e0e0; 
+            border-radius: 8px; font-size: 16px; margin-bottom: 20px; 
         }
         .login-box button { 
-            width: 100%; 
-            padding: 15px; 
-            background: #667eea; 
-            color: white; 
-            border: none; 
-            border-radius: 8px; 
-            font-size: 16px; 
-            font-weight: 600; 
-            cursor: pointer; 
+            width: 100%; padding: 15px; background: #667eea; color: white; 
+            border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; 
         }
         
-        /* Header */
         .header { 
             background: linear-gradient(135deg, #667eea, #764ba2); 
-            color: white; 
-            padding: 20px; 
-            text-align: center; 
-            position: relative; 
+            color: white; padding: 20px; text-align: center; position: relative; 
         }
         .logout-btn { 
-            position: absolute; 
-            top: 20px; 
-            right: 20px; 
-            background: rgba(255,255,255,0.2); 
-            color: white; 
-            padding: 10px 20px; 
-            border: none; 
-            border-radius: 5px; 
-            cursor: pointer; 
+            position: absolute; top: 20px; right: 20px; 
+            background: rgba(255,255,255,0.2); color: white; 
+            padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; 
         }
         
-        /* Sections */
         .section { 
-            background: white; 
-            padding: 20px; 
-            margin: 20px; 
-            border-radius: 10px; 
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+            background: white; padding: 20px; margin: 20px; 
+            border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
         }
-        h2 { 
-            margin-bottom: 20px; 
-            color: #333; 
-            border-bottom: 2px solid #667eea; 
-            padding-bottom: 10px; 
-        }
+        h2 { margin-bottom: 20px; color: #333; border-bottom: 2px solid #667eea; padding-bottom: 10px; }
         h3 { margin: 20px 0 15px 0; color: #555; }
         
-        /* Forms */
         .form-group { margin-bottom: 15px; }
-        .form-group label { 
-            display: block; 
-            margin-bottom: 5px; 
-            font-weight: 600; 
-            color: #555; 
-        }
-        .form-group input, 
-        .form-group select, 
-        .form-group textarea { 
-            width: 100%; 
-            padding: 10px; 
-            border: 2px solid #e0e0e0; 
-            border-radius: 8px; 
-            font-size: 14px; 
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #555; }
+        .form-group input, .form-group select, .form-group textarea { 
+            width: 100%; padding: 10px; border: 2px solid #e0e0e0; 
+            border-radius: 8px; font-size: 14px; 
         }
         
-        /* Buttons */
         .btn { 
-            padding: 12px 25px; 
-            border: none; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            font-size: 14px; 
-            font-weight: 600; 
-            margin-right: 10px; 
-            margin-bottom: 10px; 
+            padding: 12px 25px; border: none; border-radius: 8px; 
+            cursor: pointer; font-size: 14px; font-weight: 600; 
+            margin-right: 10px; margin-bottom: 10px; 
         }
         .btn-primary { background: #667eea; color: white; }
         .btn-success { background: #4CAF50; color: white; }
         .btn-danger { background: #f44336; color: white; }
         .btn-warning { background: #FF9800; color: white; }
-        .btn-info { background: #2196F3; color: white; }
         .upload-btn { 
-            background: #667eea; 
-            color: white; 
-            padding: 10px 20px; 
-            border-radius: 8px; 
-            cursor: pointer; 
-            display: inline-block; 
-            margin: 10px 0; 
+            background: #667eea; color: white; padding: 10px 20px; 
+            border-radius: 8px; cursor: pointer; display: inline-block; margin: 10px 0; 
         }
         input[type="file"] { display: none; }
         
-        /* Analytics */
         .analytics-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-            gap: 15px; 
-            margin-bottom: 20px; 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 15px; margin-bottom: 20px; 
         }
         .analytics-card { 
             background: linear-gradient(135deg, #667eea, #764ba2); 
-            color: white; 
-            padding: 15px; 
-            border-radius: 10px; 
-            text-align: center; 
+            color: white; padding: 15px; border-radius: 10px; text-align: center; 
         }
-        .analytics-card h3 { 
-            font-size: 13px; 
-            margin-bottom: 5px; 
-            opacity: 0.9; 
-        }
-        .analytics-card .value { 
-            font-size: 24px; 
-            font-weight: bold; 
-        }
+        .analytics-card h3 { font-size: 13px; margin-bottom: 5px; opacity: 0.9; }
+        .analytics-card .value { font-size: 24px; font-weight: bold; }
         
-        /* Tabs */
         .tabs { 
-            display: flex; 
-            gap: 10px; 
-            margin-bottom: 20px; 
-            border-bottom: 2px solid #e0e0e0; 
-            padding-bottom: 10px; 
-            flex-wrap: wrap; 
+            display: flex; gap: 10px; margin-bottom: 20px; 
+            border-bottom: 2px solid #e0e0e0; padding-bottom: 10px; flex-wrap: wrap; 
         }
         .tab { 
-            padding: 10px 20px; 
-            cursor: pointer; 
-            border-radius: 8px; 
-            font-weight: 600; 
+            padding: 10px 20px; cursor: pointer; border-radius: 8px; font-weight: 600; 
         }
         .tab.active { background: #667eea; color: white; }
         .tab:not(.active) { background: #f5f5f5; color: #666; }
         
-        /* Order Cards */
         .order-card { 
-            background: #f9f9f9; 
-            padding: 15px; 
-            border-radius: 8px; 
-            margin-bottom: 15px; 
-            border-left: 4px solid #667eea; 
+            background: #f9f9f9; padding: 15px; border-radius: 8px; 
+            margin-bottom: 15px; border-left: 4px solid #667eea; 
         }
         .order-card.new { border-left-color: #4CAF50; background: #E8F5E9; }
         .order-card.pending { border-left-color: #FF9800; }
         .order-card.delivered { border-left-color: #2196F3; }
         .order-card.cancelled { border-left-color: #f44336; }
-        .order-header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            margin-bottom: 10px; 
-        }
+        .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .order-id { font-weight: bold; font-size: 16px; }
         .order-status { 
-            padding: 5px 12px; 
-            border-radius: 15px; 
-            font-size: 12px; 
-            font-weight: 600; 
+            padding: 5px 12px; border-radius: 15px; font-size: 12px; font-weight: 600; 
         }
         .status-pending { background: #FFE0B2; color: #E65100; }
         .status-confirmed { background: #C8E6C9; color: #1B5E20; }
         .status-delivered { background: #BBDEFB; color: #0D47A1; }
         .status-cancelled { background: #FFCDD2; color: #B71C1C; }
-        .order-details { 
-            font-size: 14px; 
-            color: #666; 
-            margin: 10px 0; 
-            line-height: 1.8; 
-        }
-        .order-actions { 
-            display: flex; 
-            gap: 10px; 
-            margin-top: 15px; 
-            flex-wrap: wrap; 
-        }
+        .order-details { font-size: 14px; color: #666; margin: 10px 0; line-height: 1.8; }
+        .order-actions { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
         
-        /* Item Cards */
         .item-list { margin-top: 20px; }
         .item-card { 
-            background: #f9f9f9; 
-            padding: 15px; 
-            border-radius: 8px; 
-            margin-bottom: 10px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
+            background: #f9f9f9; padding: 15px; border-radius: 8px; 
+            margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; 
         }
         .item-info { flex: 1; }
-        .grocery-card { 
-            background: #f0f8ff; 
-            border-left: 4px solid #4CAF50; 
-        }
-        .grocery-price { 
-            color: #4CAF50; 
-            font-weight: bold; 
-            font-size: 16px; 
-        }
+        .grocery-card { background: #f0f8ff; border-left: 4px solid #4CAF50; }
+        .grocery-price { color: #4CAF50; font-weight: bold; font-size: 16px; }
         .grocery-unit { 
-            color: #FF9800; 
-            font-size: 12px; 
-            padding: 2px 8px; 
-            background: #FFF3E0; 
-            border-radius: 10px; 
+            color: #FF9800; font-size: 12px; padding: 2px 8px; 
+            background: #FFF3E0; border-radius: 10px; 
         }
         
-        /* Edit Section */
         .edit-section { 
-            margin-top: 20px; 
-            padding: 20px; 
-            background: #FFF3CD; 
-            border-radius: 10px; 
-            border: 2px solid #FFC107; 
+            margin-top: 20px; padding: 20px; background: #FFF3CD; 
+            border-radius: 10px; border: 2px solid #FFC107; 
         }
         
-        /* Feedback & Ads */
         .feedback-card { 
-            background: #f0f8ff; 
-            padding: 15px; 
-            border-radius: 8px; 
-            margin-bottom: 10px; 
-            border-left: 4px solid #667eea; 
+            background: #f0f8ff; padding: 15px; border-radius: 8px; 
+            margin-bottom: 10px; border-left: 4px solid #667eea; 
         }
         .ad-banner-preview { 
-            margin-top: 10px; 
-            padding: 10px; 
-            background: #f9f9f9; 
-            border-radius: 8px; 
-            text-align: center; 
+            margin-top: 10px; padding: 10px; background: #f9f9f9; 
+            border-radius: 8px; text-align: center; 
         }
-        .ad-banner-preview img { 
-            max-width: 100%; 
-            max-height: 150px; 
-            border-radius: 5px; 
-        }
+        .ad-banner-preview img { max-width: 100%; max-height: 150px; border-radius: 5px; }
         
-        /* Messages */
         .message-box { 
-            background: #E8F5E9; 
-            padding: 15px; 
-            border-radius: 8px; 
-            margin: 15px 0; 
-            border-left: 4px solid #4CAF50; 
+            background: #E8F5E9; padding: 15px; border-radius: 8px; 
+            margin: 15px 0; border-left: 4px solid #4CAF50; 
         }
         .message-box textarea { 
-            width: 100%; 
-            padding: 10px; 
-            border: 2px solid #e0e0e0; 
-            border-radius: 8px; 
-            font-size: 14px; 
-            margin-top: 10px; 
+            width: 100%; padding: 10px; border: 2px solid #e0e0e0; 
+            border-radius: 8px; font-size: 14px; margin-top: 10px; 
         }
         
-        /* Filters & Search */
-        .filter-bar { 
-            display: flex; 
-            gap: 10px; 
-            margin-bottom: 20px; 
-            flex-wrap: wrap; 
-        }
-        .filter-bar select, 
-        .filter-bar input { 
-            padding: 10px; 
-            border: 2px solid #e0e0e0; 
-            border-radius: 8px; 
-            font-size: 14px; 
+        .filter-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .filter-bar select, .filter-bar input { 
+            padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; 
         }
         .search-bar { 
-            width: 100%; 
-            padding: 12px; 
-            border: 2px solid #e0e0e0; 
-            border-radius: 8px; 
-            font-size: 14px; 
-            margin-bottom: 15px; 
+            width: 100%; padding: 12px; border: 2px solid #e0e0e0; 
+            border-radius: 8px; font-size: 14px; margin-bottom: 15px; 
         }
         
-        /* Photo Gallery */
+        /* Photo Gallery Styles */
         .photo-gallery {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -330,6 +171,7 @@
             padding: 10px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
+            background: #fafafa;
         }
         .gallery-item {
             cursor: pointer;
@@ -337,13 +179,31 @@
             border-radius: 8px;
             overflow: hidden;
             transition: all 0.3s;
+            position: relative;
         }
         .gallery-item:hover {
             transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         .gallery-item.selected {
             border-color: #4CAF50;
             box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+        }
+        .gallery-item.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #4CAF50;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
         }
         .gallery-item img {
             width: 100%;
@@ -356,34 +216,26 @@
             padding: 5px;
             background: #f5f5f5;
             margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
-        /* Utilities */
         .hidden { display: none; }
         .loading-spinner { 
-            display: inline-block; 
-            width: 20px; 
-            height: 20px; 
-            border: 3px solid rgba(255,255,255,.3); 
-            border-radius: 50%; 
-            border-top-color: white; 
-            animation: spin 1s ease-in-out infinite; 
+            display: inline-block; width: 20px; height: 20px; 
+            border: 3px solid rgba(255,255,255,.3); border-radius: 50%; 
+            border-top-color: white; animation: spin 1s ease-in-out infinite; 
         }
-        @keyframes spin { 
-            to { transform: rotate(360deg); } 
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
         .stat-badge { 
-            padding: 8px 15px; 
-            border-radius: 20px; 
-            font-size: 12px; 
-            font-weight: 600; 
-            display: inline-block; 
-            margin-right: 10px; 
-            margin-bottom: 10px; 
+            padding: 8px 15px; border-radius: 20px; font-size: 12px; 
+            font-weight: 600; display: inline-block; margin-right: 10px; margin-bottom: 10px; 
         }
         .stat-badge.green { background: #C8E6C9; color: #1B5E20; }
         .stat-badge.blue { background: #BBDEFB; color: #0D47A1; }
         .stat-badge.orange { background: #FFE0B2; color: #E65100; }
+        .stat-badge.purple { background: #E1BEE7; color: #4A148C; }
     </style>
 </head>
 <body>
@@ -401,7 +253,7 @@
     <div id="adminPanel" class="hidden">
         <!-- Header -->
         <div class="header">
-            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+            <button class="logout-btn" onclick="logout()"> Logout</button>
             <h1>⚙️ FoodHub Admin Panel</h1>
             <p>Complete Management System</p>
         </div>
@@ -484,9 +336,9 @@
                     <select id="shopCategory">
                         <option value="Restaurant">🍽️ Restaurant</option>
                         <option value="Fast Food">🍔 Fast Food</option>
-                        <option value="Grocery">🛒 Grocery/Supermarket</option>
+                        <option value="Grocery"> Grocery/Supermarket</option>
                         <option value="Drinks">🥤 Drinks</option>
-                        <option value="Flowers">🌹 Flowers</option>
+                        <option value="Flowers"> Flowers</option>
                         <option value="Gifts">🎁 Gifts</option>
                         <option value="Cakes">🎂 Cakes</option>
                         <option value="Bakery">🥐 Bakery</option>
@@ -522,15 +374,16 @@
                 </div>
                 <div class="form-group">
                     <label>Shop Image</label>
-                    <label class="upload-btn" for="shopFileUpload"> Upload from Device</label>
+                    <label class="upload-btn" for="shopFileUpload">📷 Upload from Device</label>
                     <input type="file" id="shopFileUpload" accept="image/*" onchange="uploadShopImage(this)">
                     <div style="margin-top: 10px;">
                         <input type="text" id="shopImageUrl" placeholder="Or enter image URL: https://...">
                     </div>
+                    <button class="btn btn-info" onclick="showPhotoGallery('shop')" style="margin-top: 10px;">️ Select from Photo Gallery</button>
                     <div id="shopImagePreview" style="display: none; margin-top: 10px;"></div>
                 </div>
                 <div class="form-group">
-                    <label><input type="checkbox" id="isFeatured" style="margin-right: 10px;">⭐ Featured Shop</label>
+                    <label><input type="checkbox" id="isFeatured" style="margin-right: 10px;">⭐ Featured/Paid Shop (Highlight & Show on Top)</label>
                 </div>
                 <button class="btn btn-primary" onclick="saveShop()">💾 Save Shop</button>
                 <button class="btn btn-warning" onclick="clearShopForm()">🔄 Clear</button>
@@ -538,7 +391,7 @@
 
                 <!-- Edit Shop Section -->
                 <div id="editShopSection" class="edit-section hidden">
-                    <h3 style="margin-bottom: 15px; color: #856404;">️ Edit Shop</h3>
+                    <h3 style="margin-bottom: 15px; color: #856404;">✏️ Edit Shop</h3>
                     <div class="form-group">
                         <label>Select Shop to Edit</label>
                         <select id="editShopSelect" onchange="loadShopData()">
@@ -550,12 +403,12 @@
                         <label>Category</label>
                         <select id="editShopCategory">
                             <option value="Restaurant">🍽️ Restaurant</option>
-                            <option value="Fast Food"> Fast Food</option>
-                            <option value="Grocery">🛒 Grocery</option>
+                            <option value="Fast Food">🍔 Fast Food</option>
+                            <option value="Grocery"> Grocery</option>
                             <option value="Drinks">🥤 Drinks</option>
                             <option value="Flowers">🌹 Flowers</option>
                             <option value="Gifts">🎁 Gifts</option>
-                            <option value="Cakes"> Cakes</option>
+                            <option value="Cakes">🎂 Cakes</option>
                             <option value="Bakery">🥐 Bakery</option>
                         </select>
                     </div>
@@ -567,8 +420,9 @@
                     <div class="form-group"><label>Rating</label><input type="number" id="editShopRating" step="0.1" min="0" max="5"></div>
                     <div class="form-group"><label>Tags (comma separated)</label><input type="text" id="editShopTags"></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editShopImage" placeholder="https://..."></div>
+                    <button class="btn btn-info" onclick="showPhotoGallery('editShop')" style="margin-top: 10px;">️ Select from Photo Gallery</button>
                     <div class="form-group">
-                        <label><input type="checkbox" id="editIsFeatured" style="margin-right: 10px;">⭐ Featured Shop</label>
+                        <label><input type="checkbox" id="editIsFeatured" style="margin-right: 10px;">⭐ Featured/Paid Shop</label>
                     </div>
                     <button class="btn btn-success" onclick="updateShop()">💾 Update Shop</button>
                     <button class="btn btn-warning" onclick="cancelEdit('shop')">❌ Cancel</button>
@@ -581,7 +435,7 @@
 
             <!-- ==================== FOODS TAB ==================== -->
             <div id="foodsTab" class="hidden">
-                <h2> Add New Food</h2>
+                <h2>🍕 Add New Food</h2>
                 <div class="form-group">
                     <label>Select Shop</label>
                     <select id="foodShop"></select>
@@ -592,12 +446,12 @@
                     <select id="foodCategory">
                         <option value="Rice">🍚 Rice Dishes</option>
                         <option value="Kottu">🍗 Kottu</option>
-                        <option value="Pizza">🍕 Pizza</option>
+                        <option value="Pizza"> Pizza</option>
                         <option value="Burger">🍔 Burgers</option>
                         <option value="Drinks">🥤 Drinks</option>
                         <option value="Desserts">🍰 Desserts</option>
-                        <option value="Flowers"> Flowers</option>
-                        <option value="Cakes">🎂 Cakes</option>
+                        <option value="Flowers">🌹 Flowers</option>
+                        <option value="Cakes"> Cakes</option>
                     </select>
                 </div>
                 <div class="form-group"><label>Price (Rs.)</label><input type="number" id="foodPrice" placeholder="1200"></div>
@@ -609,6 +463,7 @@
                     <div style="margin-top: 10px;">
                         <input type="text" id="foodImageUrl" placeholder="Or enter image URL: https://...">
                     </div>
+                    <button class="btn btn-info" onclick="showPhotoGallery('food')" style="margin-top: 10px;">🖼️ Select from Photo Gallery</button>
                     <div id="foodImagePreview" style="display: none; margin-top: 10px;"></div>
                 </div>
                 <button class="btn btn-primary" onclick="saveFood()">💾 Save Food</button>
@@ -617,7 +472,7 @@
 
                 <!-- Edit Food Section -->
                 <div id="editFoodSection" class="edit-section hidden">
-                    <h3 style="margin-bottom: 15px; color: #856404;">✏️ Edit Food</h3>
+                    <h3 style="margin-bottom: 15px; color: #856404;">️ Edit Food</h3>
                     <div class="form-group">
                         <label>Select Food to Edit</label>
                         <select id="editFoodSelect" onchange="loadFoodData()">
@@ -628,21 +483,22 @@
                     <div class="form-group">
                         <label>Category</label>
                         <select id="editFoodCategory">
-                            <option value="Rice"> Rice</option>
-                            <option value="Kottu">🍗 Kottu</option>
-                            <option value="Pizza"> Pizza</option>
-                            <option value="Burger">🍔 Burger</option>
+                            <option value="Rice">🍚 Rice</option>
+                            <option value="Kottu"> Kottu</option>
+                            <option value="Pizza">🍕 Pizza</option>
+                            <option value="Burger"> Burger</option>
                             <option value="Drinks">🥤 Drinks</option>
                             <option value="Desserts">🍰 Desserts</option>
-                            <option value="Flowers">🌹 Flowers</option>
+                            <option value="Flowers"> Flowers</option>
                             <option value="Cakes">🎂 Cakes</option>
                         </select>
                     </div>
                     <div class="form-group"><label>Price (Rs.)</label><input type="number" id="editFoodPrice"></div>
                     <div class="form-group"><label>Description</label><textarea id="editFoodDescription" rows="2"></textarea></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editFoodImage" placeholder="https://..."></div>
+                    <button class="btn btn-info" onclick="showPhotoGallery('editFood')" style="margin-top: 10px;">🖼️ Select from Photo Gallery</button>
                     <button class="btn btn-success" onclick="updateFood()">💾 Update Food</button>
-                    <button class="btn btn-warning" onclick="cancelEdit('food')"> Cancel</button>
+                    <button class="btn btn-warning" onclick="cancelEdit('food')">❌ Cancel</button>
                 </div>
 
                 <h3 style="margin-top: 30px;">📋 All Foods (<span id="foodCount">0</span>)</h3>
@@ -667,12 +523,12 @@
                 <div class="form-group">
                     <label>Category</label>
                     <select id="groceryCategory">
-                        <option value="Staples"> Staples (Rice, Flour)</option>
+                        <option value="Staples">🍚 Staples (Rice, Flour)</option>
                         <option value="Spices">🌶️ Spices & Condiments</option>
                         <option value="Dairy">🥛 Dairy Products</option>
                         <option value="Vegetables">🥬 Vegetables</option>
                         <option value="Fruits">🍎 Fruits</option>
-                        <option value="Snacks"> Snacks</option>
+                        <option value="Snacks">🍿 Snacks</option>
                         <option value="Beverages">🥤 Beverages</option>
                         <option value="Other">📦 Other</option>
                     </select>
@@ -685,6 +541,7 @@
                     <div style="margin-top: 10px;">
                         <input type="text" id="groceryImageUrl" placeholder="Or enter image URL: https://...">
                     </div>
+                    <button class="btn btn-info" onclick="showPhotoGallery('grocery')" style="margin-top: 10px;">🖼️ Select from Photo Gallery</button>
                     <div id="groceryImagePreview" style="display: none; margin-top: 10px;"></div>
                 </div>
                 <div class="form-group">
@@ -712,16 +569,17 @@
                         <select id="editGroceryCategory">
                             <option value="Staples">🍚 Staples</option>
                             <option value="Spices">🌶️ Spices</option>
-                            <option value="Dairy">🥛 Dairy</option>
-                            <option value="Vegetables"> Vegetables</option>
+                            <option value="Dairy"> Dairy</option>
+                            <option value="Vegetables">🥬 Vegetables</option>
                             <option value="Fruits">🍎 Fruits</option>
                             <option value="Snacks">🍿 Snacks</option>
                             <option value="Beverages">🥤 Beverages</option>
-                            <option value="Other"> Other</option>
+                            <option value="Other">📦 Other</option>
                         </select>
                     </div>
                     <div class="form-group"><label>Description</label><textarea id="editGroceryDescription" rows="2"></textarea></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editGroceryImage" placeholder="https://..."></div>
+                    <button class="btn btn-info" onclick="showPhotoGallery('editGrocery')" style="margin-top: 10px;">🖼️ Select from Photo Gallery</button>
                     <div class="form-group">
                         <label><input type="checkbox" id="editIsGroceryAvailable" style="margin-right: 10px;">✅ Available for Sale</label>
                     </div>
@@ -741,11 +599,22 @@
                         <option value="Vegetables">🥬 Vegetables</option>
                         <option value="Fruits">🍎 Fruits</option>
                         <option value="Snacks">🍿 Snacks</option>
-                        <option value="Beverages">🥤 Beverages</option>
+                        <option value="Beverages"> Beverages</option>
                         <option value="Other">📦 Other</option>
                     </select>
                 </div>
                 <div class="item-list" id="groceryList"></div>
+            </div>
+
+            <!-- Photo Gallery Modal -->
+            <div id="photoGalleryModal" class="hidden" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; padding: 20px; overflow-y: auto;">
+                <div style="background: white; padding: 20px; border-radius: 10px; max-width: 800px; margin: 0 auto;">
+                    <h3 style="margin-bottom: 15px;">🖼️ Photo Gallery - Select an Image</h3>
+                    <div class="photo-gallery" id="galleryContainer"></div>
+                    <div style="margin-top: 20px; text-align: right;">
+                        <button class="btn btn-warning" onclick="closePhotoGallery()">❌ Cancel</button>
+                    </div>
+                </div>
             </div>
 
             <!-- ==================== FEEDBACK TAB ==================== -->
@@ -756,7 +625,7 @@
 
             <!-- ==================== ADS TAB ==================== -->
             <div id="adsTab" class="hidden">
-                <h2> Advertisement Management</h2>
+                <h2>📢 Advertisement Management</h2>
                 <div class="form-group"><label>Ad Title</label><input type="text" id="adTitle" placeholder="e.g., Special Offer - 20% Off!"></div>
                 <div class="form-group">
                     <label>Ad Image</label>
@@ -765,6 +634,7 @@
                     <div style="margin-top: 10px;">
                         <input type="text" id="adImageUrl" placeholder="Or enter URL: https://...">
                     </div>
+                    <button class="btn btn-info" onclick="showPhotoGallery('ad')" style="margin-top: 10px;">️ Select from Photo Gallery</button>
                     <div id="adImagePreview" class="ad-banner-preview" style="display: none;"></div>
                 </div>
                 <div class="form-group"><label>Click URL (Optional)</label><input type="text" id="adClickUrl" placeholder="https://..."></div>
@@ -788,7 +658,7 @@
                     <p>Send notification to all app users</p>
                     <textarea id="messageText" rows="4" placeholder="Enter your message...&#10;&#10;Example:&#10;🎉 Special Offer! Get 20% off!&#10;Use code: WELCOME20"></textarea>
                     <div style="margin-top: 15px; display: flex; gap: 10px;">
-                        <button class="btn btn-success" onclick="sendMessage()"> Send</button>
+                        <button class="btn btn-success" onclick="sendMessage()">📤 Send</button>
                         <button class="btn btn-info" onclick="previewMessage()">️ Preview</button>
                     </div>
                 </div>
@@ -823,6 +693,8 @@
         let feedbacks = [];
         let ads = [];
         let messages = [];
+        let allPhotos = [];
+        let currentGalleryField = '';
 
         // ==================== AUTHENTICATION ====================
         function login() {
@@ -848,22 +720,13 @@
 
         // ==================== TAB SWITCHING ====================
         function switchTab(tabName) {
-            // Hide all tabs
             ['orders', 'shops', 'foods', 'grocery', 'feedback', 'ads', 'messages'].forEach(t => {
                 document.getElementById(t + 'Tab').classList.add('hidden');
             });
-            
-            // Remove active class from all tabs
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            
-            // Show selected tab
             document.getElementById(tabName + 'Tab').classList.remove('hidden');
-            
-            // Add active class to clicked tab
             const tabIndex = ['orders', 'shops', 'foods', 'grocery', 'feedback', 'ads', 'messages'].indexOf(tabName);
             document.querySelectorAll('.tab')[tabIndex].classList.add('active');
-            
-            // Load specific data if needed
             if (tabName === 'feedback') loadFeedbacks();
             if (tabName === 'ads') loadAds();
             if (tabName === 'messages') loadMessages();
@@ -876,6 +739,82 @@
             loadShops();
             loadFoods();
             loadGroceryItems();
+            loadPhotos();
+        }
+
+        // ==================== PHOTO GALLERY FUNCTIONS ====================
+        function loadPhotos() {
+            const storageRef = storage.ref();
+            storageRef.listAll().then(result => {
+                const promises = result.items.map(item => {
+                    return item.getDownloadURL().then(url => {
+                        return { name: item.name, url: url };
+                    });
+                });
+                return Promise.all(promises);
+            }).then(photos => {
+                allPhotos = photos;
+            }).catch(error => {
+                console.error('Error loading photos:', error);
+            });
+        }
+
+        function showPhotoGallery(field) {
+            currentGalleryField = field;
+            const modal = document.getElementById('photoGalleryModal');
+            const container = document.getElementById('galleryContainer');
+            
+            if (allPhotos.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">No photos available. Please upload images first.</p>';
+            } else {
+                container.innerHTML = allPhotos.map((photo, index) => `
+                    <div class="gallery-item" onclick="selectPhoto('${photo.url}', ${index})">
+                        <img src="${photo.url}" alt="${photo.name}">
+                        <p>${photo.name}</p>
+                    </div>
+                `).join('');
+            }
+            
+            modal.classList.remove('hidden');
+        }
+
+        function selectPhoto(url, index) {
+            // Remove previous selections
+            document.querySelectorAll('.gallery-item').forEach(item => item.classList.remove('selected'));
+            // Add selection to clicked item
+            document.querySelectorAll('.gallery-item')[index].classList.add('selected');
+            
+            // Set the URL to the appropriate field
+            setTimeout(() => {
+                if (currentGalleryField === 'shop') {
+                    document.getElementById('shopImageUrl').value = url;
+                    document.getElementById('shopImagePreview').innerHTML = `<img src="${url}" style="max-width:100%;max-height:200px;border-radius:8px;">`;
+                    document.getElementById('shopImagePreview').style.display = 'block';
+                } else if (currentGalleryField === 'editShop') {
+                    document.getElementById('editShopImage').value = url;
+                } else if (currentGalleryField === 'food') {
+                    document.getElementById('foodImageUrl').value = url;
+                    document.getElementById('foodImagePreview').innerHTML = `<img src="${url}" style="max-width:100%;max-height:200px;border-radius:8px;">`;
+                    document.getElementById('foodImagePreview').style.display = 'block';
+                } else if (currentGalleryField === 'editFood') {
+                    document.getElementById('editFoodImage').value = url;
+                } else if (currentGalleryField === 'grocery') {
+                    document.getElementById('groceryImageUrl').value = url;
+                    document.getElementById('groceryImagePreview').innerHTML = `<img src="${url}" style="max-width:100%;max-height:200px;border-radius:8px;">`;
+                    document.getElementById('groceryImagePreview').style.display = 'block';
+                } else if (currentGalleryField === 'editGrocery') {
+                    document.getElementById('editGroceryImage').value = url;
+                } else if (currentGalleryField === 'ad') {
+                    document.getElementById('adImageUrl').value = url;
+                    document.getElementById('adImagePreview').innerHTML = `<img src="${url}" style="max-width:100%;max-height:150px;border-radius:5px;">`;
+                    document.getElementById('adImagePreview').style.display = 'block';
+                }
+                closePhotoGallery();
+            }, 200);
+        }
+
+        function closePhotoGallery() {
+            document.getElementById('photoGalleryModal').classList.add('hidden');
         }
 
         // ==================== IMAGE UPLOAD FUNCTIONS ====================
@@ -913,6 +852,8 @@
                 storageRef.getDownloadURL().then((downloadURL) => {
                     document.getElementById(urlInputId).value = downloadURL;
                     preview.innerHTML = `<img src="${downloadURL}" style="max-width:100%;max-height:200px;border-radius:8px;"><p style="color:#4CAF50;margin-top:5px;">✅ Uploaded!</p>`;
+                    // Reload photos to include new one
+                    loadPhotos();
                 });
             });
         }
@@ -985,7 +926,7 @@
                             <div>📦 Items: ${o.items}</div>
                             <div>💰 Total: Rs. ${o.total}</div>
                             <div>🚚 Delivery: Rs. ${o.deliveryFee || 0}</div>
-                            <div>💳 Payment: ${o.paymentMethod === 'cod' ? '💵 Cash' : '💳 Online'}</div>
+                            <div> Payment: ${o.paymentMethod === 'cod' ? '💵 Cash' : '💳 Online'}</div>
                             <div>📍 Address: ${o.address}</div>
                             <div>🕐 ${date.toLocaleString()}</div>
                         </div>
@@ -1061,7 +1002,10 @@
         function renderShops() {
             const list = document.getElementById('shopsList');
             const search = (document.getElementById('shopSearch')?.value || '').toLowerCase();
-            const filtered = shops.filter(s => s.name.toLowerCase().includes(search));
+            let filtered = shops.filter(s => s.name.toLowerCase().includes(search));
+            
+            // Sort: Featured shops first
+            filtered.sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0));
             
             if (filtered.length === 0) {
                 list.innerHTML = '<p style="text-align:center;color:#999;padding:20px;">No shops found</p>';
@@ -1069,10 +1013,10 @@
             }
             
             list.innerHTML = filtered.map(shop => `
-                <div class="item-card">
+                <div class="item-card" style="${shop.isFeatured ? 'background: #FFF9C4; border-left: 4px solid #FFD700;' : ''}">
                     <div class="item-info">
-                        <div style="font-weight:bold;">${shop.name} ${shop.isFeatured ? '⭐' : ''}</div>
-                        <div style="font-size:12px;color:#666;"> ${shop.phone} | 🕐 ${shop.openTime}-${shop.closeTime} | ⭐ ${shop.rating}</div>
+                        <div style="font-weight:bold;">${shop.name} ${shop.isFeatured ? '⭐ <span style="color: #FFD700;">GOLD</span>' : ''}</div>
+                        <div style="font-size:12px;color:#666;">📞 ${shop.phone} | 🕐 ${shop.openTime}-${shop.closeTime} | ⭐ ${shop.rating}</div>
                         <div style="font-size:11px;color:#999;">${shop.category} | Rs.${shop.deliveryFee}</div>
                     </div>
                     <button class="btn btn-danger" onclick="deleteShop('${shop.id}')">🗑️</button>
@@ -1106,7 +1050,7 @@
         function updateEditShopSelect() {
             document.getElementById('editShopSelect').innerHTML = 
                 '<option value="">-- Select Shop --</option>' + 
-                shops.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+                shops.map(s => `<option value="${s.id}">${s.name} ${s.isFeatured ? '⭐' : ''}</option>`).join('');
         }
 
         function loadShopData() {
@@ -1343,11 +1287,11 @@
                             <span class="grocery-unit">${item.unit || ''}</span>
                             <span style="font-size:11px;color:#666;margin-left:5px;">${item.category}</span>
                         </div>
-                        <div style="font-size:11px;color:#999;margin-top:3px;"> Stock: ${item.stock || 0}</div>
+                        <div style="font-size:11px;color:#999;margin-top:3px;">📦 Stock: ${item.stock || 0}</div>
                     </div>
                     <div style="display:flex;gap:5px;">
                         <button class="btn btn-primary" onclick="quickEditGrocery('${item.id}')" style="padding:8px 12px;font-size:12px;">✏️</button>
-                        <button class="btn btn-danger" onclick="deleteGroceryItem('${item.id}')" style="padding:8px 12px;font-size:12px;">️</button>
+                        <button class="btn btn-danger" onclick="deleteGroceryItem('${item.id}')" style="padding:8px 12px;font-size:12px;">🗑️</button>
                     </div>
                 </div>
             `).join('');
@@ -1508,7 +1452,7 @@
                         <div style="font-size:12px;color:#666;">${ad.active ? '✅ Active' : '❌ Inactive'}</div>
                         ${ad.imageUrl ? `<div class="ad-banner-preview"><img src="${ad.imageUrl}"></div>` : ''}
                     </div>
-                    <button class="btn btn-danger" onclick="deleteAd('${ad.id}')">️</button>
+                    <button class="btn btn-danger" onclick="deleteAd('${ad.id}')">🗑️</button>
                 </div>
             `).join('');
         }
@@ -1556,7 +1500,7 @@
         function previewMessage() {
             const text = document.getElementById('messageText').value.trim();
             if (!text) { alert('Enter message!'); return; }
-            alert(' Preview:\n\n' + text);
+            alert('📱 Preview:\n\n' + text);
         }
 
         function renderMessages() {
