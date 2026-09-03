@@ -11,78 +11,58 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding-bottom: 80px; }
-        
         .header { background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; }
         .header h1 { font-size: 24px; margin-bottom: 5px; }
-        
         .search-bar { padding: 12px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .search-bar input { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 25px; font-size: 14px; }
-        
         .tabs { display: flex; background: white; padding: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 12px; position: sticky; top: 90px; z-index: 90; gap: 6px; }
         .tab { flex: 1; padding: 10px; text-align: center; cursor: pointer; border-radius: 10px; font-weight: 600; font-size: 13px; }
         .tab.active { background: #FF6B6B; color: white; }
         .tab:not(.active) { background: #f0f0f0; color: #666; }
-        
         .container { padding: 12px; }
         .hidden { display: none !important; }
-        
         .shop-card, .food-card, .grocery-card { background: white; border-radius: 12px; margin-bottom: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: pointer; }
         .shop-card.featured { border: 2px solid #FFD700; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3); }
-        
         .shop-image, .food-image, .grocery-img { width: 100%; height: 150px; object-fit: cover; background: #eee; }
         .food-image, .grocery-img { height: 120px; }
-        
         .shop-info, .food-info, .grocery-info { padding: 12px; }
         .shop-name, .food-name, .grocery-name { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
         .gold-badge { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 3px 10px; border-radius: 10px; font-size: 11px; }
-        
         .shop-details { display: flex; justify-content: space-between; color: #666; font-size: 12px; margin: 8px 0; }
         .rating { background: #4CAF50; color: white; padding: 3px 8px; border-radius: 6px; font-weight: 700; }
-        
         .food-grid, .grocery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .food-price, .grocery-price { color: #FF6B6B; font-weight: 800; font-size: 15px; margin: 8px 0; }
-        
         .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
         .btn-primary { background: #FF6B6B; color: white; }
         .btn-success { background: #4CAF50; color: white; }
-        
         .grocery-check { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.2); z-index: 2; }
         .grocery-check input { width: 20px; height: 20px; accent-color: #4CAF50; }
         .grocery-card.selected { border: 2px solid #4CAF50; }
-        
         .grocery-cart { position: fixed; bottom: 70px; left: 12px; right: 12px; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 -4px 20px rgba(0,0,0,0.15); z-index: 90; display: none; }
-        
         .cart-item { background: white; padding: 12px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .qty-controls { display: flex; align-items: center; gap: 8px; background: #f5f5f5; padding: 4px; border-radius: 8px; }
         .qty-btn { width: 30px; height: 30px; border: none; background: white; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: 700; }
-        
         .checkout-box { background: white; padding: 20px; border-radius: 16px; margin-top: 15px; }
         .form-group { margin-bottom: 16px; }
         .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: #475569; font-size: 13px; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 14px; }
-        
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 14px; }
         .payment-option { display: flex; gap: 10px; margin-bottom: 15px; }
         .payment-btn { flex: 1; padding: 14px; border: 2px solid #e2e8f0; border-radius: 10px; background: white; cursor: pointer; font-weight: 700; }
         .payment-btn.active { border-color: #FF6B6B; background: #fff1f2; color: #FF6B6B; }
-        
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0 15px; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); z-index: 100; }
         .nav-item { text-align: center; padding: 5px 15px; cursor: pointer; color: #94a3b8; position: relative; }
         .nav-item.active { color: #FF6B6B; }
         .nav-item .icon { font-size: 22px; display: block; margin-bottom: 2px; }
         .nav-item .label { font-size: 11px; font-weight: 600; }
         .cart-badge { position: absolute; top: -2px; right: 5px; background: #FF6B6B; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; border: 2px solid white; }
-        
         .order-status { padding: 8px 15px; border-radius: 20px; font-weight: 600; font-size: 13px; display: inline-block; margin: 5px 0; }
         .status-pending { background: #FFE0B2; color: #E65100; }
         .status-confirmed { background: #C8E6C9; color: #1B5E20; }
         .status-delivered { background: #BBDEFB; color: #0D47A1; }
         .status-cancelled { background: #FFCDD2; color: #B71C1C; }
-        
         .toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 24px; border-radius: 30px; font-weight: 600; z-index: 2000; animation: slideUp 0.3s ease; }
         @keyframes slideUp { from { bottom: 40px; opacity: 0; } to { bottom: 90px; opacity: 1; } }
-        
         .loading { text-align: center; padding: 40px; color: #94a3b8; }
-        
         .image-container { position: relative; width: 100%; height: 150px; background: #f0f0f0; overflow: hidden; }
         .image-container.food-img-container { height: 120px; }
         .image-container img { width: 100%; height: 100%; object-fit: cover; }
@@ -94,14 +74,12 @@
         <h1>🛒 FoodHub</h1>
         <p>ඔබේ ආහාර & grocery delivery partner</p>
     </div>
-    
     <div class="search-bar">
         <input type="text" id="searchInput" placeholder="🔍 Shops හෝ products search කරන්න..." oninput="handleSearch()">
     </div>
-    
     <div class="tabs">
         <div class="tab active" onclick="switchTab('shops')">🏪 Shops</div>
-        <div class="tab" onclick="switchTab('grocery')"> Grocery</div>
+        <div class="tab" onclick="switchTab('grocery')">🛒 Grocery</div>
         <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
         <div class="tab" onclick="switchTab('orders')">📦 My Orders</div>
     </div>
@@ -122,7 +100,7 @@
                 <span>තෝරාගත් භාණ්ඩ: <span id="groceryCount">0</span></span>
                 <span style="font-size: 18px; color: #FF6B6B; font-weight: 800;">Rs. <span id="groceryTotal">0</span></span>
             </div>
-            <button class="btn btn-success" onclick="addGroceryToCart()"> Cart එකට Add කරන්න</button>
+            <button class="btn btn-success" onclick="addGroceryToCart()">🛒 Cart එකට Add කරන්න</button>
         </div>
     </div>
 
@@ -135,32 +113,20 @@
     </div>
 
     <div id="ordersTab" class="container hidden">
-        <h2 style="margin-bottom: 12px; font-size: 18px;"> මගේ Orders</h2>
+        <h2 style="margin-bottom: 12px; font-size: 18px;">📦 මගේ Orders</h2>
         <div id="myOrdersList"><div class="loading">⏳ Orders load වෙමින්...</div></div>
     </div>
 
     <div id="cartTab" class="container hidden">
-        <h2 style="margin-bottom: 12px; font-size: 18px;"> ඔබේ Cart එක</h2>
+        <h2 style="margin-bottom: 12px; font-size: 18px;">🛒 ඔබේ Cart එක</h2>
         <div id="cartList"></div>
-        
         <div id="checkoutSection" class="hidden">
             <div class="checkout-box">
                 <h3 style="margin-bottom: 15px; font-size: 18px;">📋 Order විස්තර</h3>
                 <div id="orderSummary" style="background: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 20px;"></div>
-                
-                <div class="form-group">
-                    <label>👤 බේ නම *</label>
-                    <input type="text" id="customerName" placeholder="බේ සම්පූර්ණ නම">
-                </div>
-                <div class="form-group">
-                    <label> දුරකථන අංකය *</label>
-                    <input type="tel" id="phoneNumber" placeholder="07X XXX XXXX">
-                </div>
-                <div class="form-group">
-                    <label>📍 Delivery ලිපිනය *</label>
-                    <textarea id="deliveryAddress" rows="3" placeholder="නිවසේ ලිපිනය..."></textarea>
-                </div>
-                
+                <div class="form-group"><label>👤 ඔබේ නම *</label><input type="text" id="customerName" placeholder="ඔබේ සම්පූර්ණ නම"></div>
+                <div class="form-group"><label>📞 දුරකථන අංකය *</label><input type="tel" id="phoneNumber" placeholder="07X XXX XXXX"></div>
+                <div class="form-group"><label>📍 Delivery ලිපිනය *</label><textarea id="deliveryAddress" rows="3" placeholder="නිවසේ ලිපිනය..."></textarea></div>
                 <div class="form-group">
                     <label>💳 ගෙවීම් ක්‍රමය *</label>
                     <div class="payment-option">
@@ -172,16 +138,10 @@
                         <strong>Account Name:</strong> FoodHub Delivery<br>
                         <strong>Account Number:</strong> 8012345678<br>
                         <strong>eZ Cash:</strong> 076-6488689<br><br>
-                        <div class="form-group" style="margin-bottom: 0;">
-                            <label>Transaction ID / Reference Number *</label>
-                            <input type="text" id="transactionId" placeholder="උදා: CMB123456789">
-                        </div>
+                        <div class="form-group" style="margin-bottom: 0;"><label>Transaction ID / Reference Number *</label><input type="text" id="transactionId" placeholder="උදා: CMB123456789"></div>
                     </div>
                 </div>
-                
-                <button class="btn btn-success" onclick="confirmCartOrder()" style="padding: 15px; font-size: 16px;">
-                    📱 Order එක යවන්න
-                </button>
+                <button class="btn btn-success" onclick="confirmCartOrder()" style="padding: 15px; font-size: 16px;">📱 Order එක යවන්න</button>
             </div>
         </div>
     </div>
@@ -189,7 +149,7 @@
     <div class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('shops')"><span class="icon">🏪</span><span class="label">Shops</span></div>
         <div class="nav-item" onclick="switchTab('grocery')"><span class="icon">🛒</span><span class="label">Grocery</span></div>
-        <div class="nav-item" onclick="switchTab('cart')"><span class="icon"></span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
+        <div class="nav-item" onclick="switchTab('cart')"><span class="icon">🛒</span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
         <div class="nav-item" onclick="switchTab('orders')"><span class="icon">📦</span><span class="label">Orders</span></div>
     </div>
 
@@ -206,200 +166,133 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        let shops = [];
-        let foods = [];
-        let groceryItems = [];
-        let cart = JSON.parse(localStorage.getItem('foodhub_cart')) || [];
-        let selectedGroceryIds = new Set();
-        let currentShopId = null;
-        let selectedPaymentMethod = 'cod';
-
-        // Shop-specific placeholder images
-        const shopPlaceholders = {
-            'Silvas Family Restaurant': 'https://via.placeholder.com/500x300/FF6B6B/FFFFFF?text=Silvas+Restaurant',
-            'Silvas Family Store': 'https://via.placeholder.com/500x300/8BC34A/FFFFFF?text=Grocery+Store',
-            'Burger King': 'https://via.placeholder.com/500x300/f44336/FFFFFF?text=Burger+King',
-            'Pizza Hut': 'https://via.placeholder.com/500x300/FF9800/FFFFFF?text=Pizza+Hut',
-            'Fresh Flowers': 'https://via.placeholder.com/500x300/4CAF50/FFFFFF?text=Fresh+Flowers',
-            'Juice Bar': 'https://via.placeholder.com/500x300/2196F3/FFFFFF?text=Juice+Bar'
-        };
+        let shops = [], foods = [], groceryItems = [], cart = JSON.parse(localStorage.getItem('foodhub_cart')) || [];
+        let selectedGroceryIds = new Set(), currentShopId = null, selectedPaymentMethod = 'cod';
 
         document.addEventListener('DOMContentLoaded', () => {
-            loadShops();
-            loadFoods();
-            loadGroceryItems();
-            loadMyOrders();
-            updateCartBadge();
+            loadShops(); loadFoods(); loadGroceryItems(); loadMyOrders(); updateCartBadge();
         });
 
         function loadShops() {
             database.ref('shops').on('value', (snapshot) => {
-                const data = snapshot.val();
-                console.log('Shops data:', data);
-                shops = data ? Object.entries(data).map(([key, value]) => ({...value, id: key})) : [];
-                console.log('Processed shops:', shops);
+                shops = snapshot.val() ? Object.entries(snapshot.val()).map(([key, value]) => ({...value, id: key})) : [];
                 renderShops();
-            }, (error) => {
-                console.error('Error loading shops:', error);
-                document.getElementById('shopsList').innerHTML = '<div class="loading">Error loading shops. Please check Firebase connection.</div>';
             });
         }
 
         function loadFoods() {
             database.ref('foods').on('value', (snapshot) => {
-                const data = snapshot.val();
-                foods = data ? Object.entries(data).map(([key, value]) => ({...value, id: key})) : [];
+                foods = snapshot.val() ? Object.entries(snapshot.val()).map(([key, value]) => ({...value, id: key})) : [];
                 if (currentShopId) renderFoods();
             });
         }
 
         function loadGroceryItems() {
             database.ref('groceryItems').on('value', (snapshot) => {
-                const data = snapshot.val();
-                groceryItems = data ? Object.entries(data).map(([key, value]) => ({...value, id: key})) : [];
+                groceryItems = snapshot.val() ? Object.entries(snapshot.val()).map(([key, value]) => ({...value, id: key})) : [];
                 renderGroceryGrid();
             });
         }
 
         function loadMyOrders() {
             const phone = localStorage.getItem('customerPhone') || '';
-            if (!phone) {
-                document.getElementById('myOrdersList').innerHTML = '<div class="loading">Orders බලන්න පළමුව order එකක් තබන්න</div>';
-                return;
-            }
-            
+            if (!phone) { document.getElementById('myOrdersList').innerHTML = '<div class="loading">Orders බලන්න පළමුව order එකක් තබන්න</div>'; return; }
             database.ref('orders').orderByChild('phone').equalTo(phone).on('value', (snapshot) => {
-                const data = snapshot.val();
-                const orders = data ? Object.entries(data).map(([key, value]) => ({...value, id: key})) : [];
+                const orders = snapshot.val() ? Object.entries(snapshot.val()).map(([key, value]) => ({...value, id: key})) : [];
                 renderMyOrders(orders);
             });
         }
 
         function renderShops() {
             const list = document.getElementById('shopsList');
-            if (shops.length === 0) { 
-                list.innerHTML = '<div class="loading">දැනට Shops කිසිවක් නැත. Admin panel එකෙන් shops add කරන්න.</div>'; 
-                return; 
-            }
-            
+            if (shops.length === 0) { list.innerHTML = '<div class="loading">දැනට Shops කිසිවක් නැත.</div>'; return; }
             shops.sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0));
-            
             list.innerHTML = shops.map(shop => {
                 const isGrocery = shop.category === 'Grocery' || shop.category === 'Supermarket';
-                const shopImage = shop.image || shopPlaceholders[shop.name] || 'https://via.placeholder.com/500x300?text=' + encodeURIComponent(shop.name);
-                
                 return `
                     <div class="shop-card ${shop.isFeatured ? 'featured' : ''}" onclick="${isGrocery ? `switchTab('grocery')` : `openShopView('${shop.id}')`}">
                         <div class="image-container">
-                            <img src="${shopImage}" class="shop-image" 
-                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${shop.name}'">
+                            <img src="${shop.image || 'https://via.placeholder.com/500x300?text=No+Image'}" class="shop-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${shop.name}'">
                             <div class="image-fallback" style="display:none;">${shop.name}</div>
                         </div>
                         <div class="shop-info">
-                            <div class="shop-name">
-                                ${shop.name} 
-                                ${shop.isFeatured ? '<span class="gold-badge">⭐ GOLD</span>' : ''}
-                                ${isGrocery ? '<span style="background: #4CAF50; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;">🛒 Grocery</span>' : ''}
-                            </div>
-                            <div class="shop-details">
-                                <span>📞 ${shop.phone || 'N/A'}</span>
-                                <span class="rating">⭐ ${shop.rating || '4.0'}</span>
-                            </div>
-                            <div class="shop-details">
-                                <span>🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'}</span>
-                                <span>💰 Rs.${shop.deliveryFee || 150}</span>
-                            </div>
+                            <div class="shop-name">${shop.name} ${shop.isFeatured ? '<span class="gold-badge">⭐ GOLD</span>' : ''} ${isGrocery ? '<span style="background: #4CAF50; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;">🛒 Grocery</span>' : ''}</div>
+                            <div class="shop-details"><span>📞 ${shop.phone || 'N/A'}</span><span class="rating">⭐ ${shop.rating || '4.0'}</span></div>
+                            <div class="shop-details"><span>🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'}</span><span>💰 Rs.${shop.deliveryFee || 150}</span></div>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             }).join('');
         }
 
         function openShopView(shopId) {
             currentShopId = shopId;
             const shop = shops.find(s => s.id === shopId);
-            if (shop) {
-                document.getElementById('currentShopName').textContent = shop.name;
-                document.getElementById('shopViewHeader').classList.remove('hidden');
-            }
+            if (shop) { document.getElementById('currentShopName').textContent = shop.name; document.getElementById('shopViewHeader').classList.remove('hidden'); }
             switchTab('foods');
         }
 
-        function backToShops() {
-            currentShopId = null;
-            document.getElementById('shopViewHeader').classList.add('hidden');
-            switchTab('shops');
-        }
+        function backToShops() { currentShopId = null; document.getElementById('shopViewHeader').classList.add('hidden'); switchTab('shops'); }
 
         function renderFoods() {
             const list = document.getElementById('foodsList');
             let displayFoods = currentShopId ? foods.filter(f => f.shopId === currentShopId) : foods;
-            
-            if (displayFoods.length === 0) { 
-                list.innerHTML = `<div class="loading">${currentShopId ? 'මේ කඩේ Foods තවම නැහැ.' : 'දැනට Foods කිසිවක් නැත.'}</div>`; 
-                return; 
-            }
-            
-            list.innerHTML = displayFoods.map(food => {
-                const foodImage = food.image || 'https://via.placeholder.com/400x120/667eea/FFFFFF?text=' + encodeURIComponent(food.name);
-                
-                return `
-                    <div class="food-card">
-                        <div class="image-container food-img-container">
-                            <img src="${foodImage}" class="food-image" 
-                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${food.name}'">
-                            <div class="image-fallback" style="display:none;">${food.name}</div>
-                        </div>
-                        <div class="food-info">
-                            <div class="food-name">${food.name}</div>
-                            <div class="food-price">Rs. ${food.price}</div>
-                            <button class="btn btn-primary" onclick="addToCart('${food.id}', '${food.name}', ${food.price})">🛒 Add to Cart</button>
-                        </div>
+            if (displayFoods.length === 0) { list.innerHTML = `<div class="loading">${currentShopId ? 'මේ කඩේ Foods තවම නැහැ.' : 'දැනට Foods කිසිවක් නැත.'}</div>`; return; }
+            list.innerHTML = displayFoods.map(food => `
+                <div class="food-card">
+                    <div class="image-container food-img-container">
+                        <img src="${food.image || 'https://via.placeholder.com/400x120?text=No+Image'}" class="food-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${food.name}'">
+                        <div class="image-fallback" style="display:none;">${food.name}</div>
                     </div>
-                `;
-            }).join('');
+                    <div class="food-info">
+                        <div class="food-name">${food.name}</div>
+                        <div class="food-price">Rs. ${food.price}</div>
+                        <button class="btn btn-primary" onclick="addToCart('${food.id}', '${food.name}', ${food.price})">🛒 Add to Cart</button>
+                    </div>
+                </div>`).join('');
         }
 
         function renderGroceryGrid() {
             const grid = document.getElementById('groceryGrid');
-            if (groceryItems.length === 0) {
-                grid.innerHTML = '<div class="loading">දැනට Grocery භාණ්ඩ කිසිවක් නැත.</div>';
-                updateGroceryCart();
-                return;
-            }
+            if (groceryItems.length === 0) { grid.innerHTML = '<div class="loading">දැනට Grocery භාණ්ඩ කිසිවක් නැත.</div>'; updateGroceryCart(); return; }
             
             grid.innerHTML = groceryItems.map(product => {
-                const groceryImage = product.image || 'https://via.placeholder.com/400x300/8BC34A/FFFFFF?text=' + encodeURIComponent(product.name);
+                const showDiscount = product.hasDiscount && product.discountPrice > 0 && product.discountPrice < product.originalPrice;
+                const displayPrice = showDiscount ? product.discountPrice : product.originalPrice;
+                const discountPercent = showDiscount ? Math.round(((product.originalPrice - product.discountPrice) / product.originalPrice) * 100) : 0;
                 
                 return `
-                    <div class="grocery-card ${selectedGroceryIds.has(product.id) ? 'selected' : ''}" onclick="toggleGroceryItem('${product.id}')" style="position: relative;">
-                        <div class="grocery-check"><input type="checkbox" ${selectedGroceryIds.has(product.id) ? 'checked' : ''} onclick="event.stopPropagation()"></div>
-                        <div class="image-container food-img-container">
-                            <img src="${groceryImage}" class="grocery-img" 
-                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${product.name}'">
-                            <div class="image-fallback" style="display:none;">${product.name}</div>
-                        </div>
-                        <div class="grocery-info">
-                            <div class="grocery-name">${product.name}</div>
-                            <div style="font-size: 11px; color: #666; margin-bottom: 4px;">${product.unit || ''}</div>
-                            <div class="grocery-price">Rs. ${product.price}</div>
-                        </div>
+                <div class="grocery-card ${selectedGroceryIds.has(product.id) ? 'selected' : ''}" onclick="toggleGroceryItem('${product.id}')" style="position: relative;">
+                    <div class="grocery-check"><input type="checkbox" ${selectedGroceryIds.has(product.id) ? 'checked' : ''} onclick="event.stopPropagation()"></div>
+                    <div class="image-container food-img-container">
+                        <img src="${product.image || 'https://via.placeholder.com/400x300?text=No+Image'}" class="grocery-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${product.name}'">
+                        <div class="image-fallback" style="display:none;">${product.name}</div>
                     </div>
-                `;
+                    <div class="grocery-info">
+                        <div class="grocery-name">${product.name}</div>
+                        <div style="font-size: 11px; color: #666; margin-bottom: 4px;">${product.unit || ''}</div>
+                        <div style="display: flex; align-items: center; gap: 6px; margin: 8px 0; flex-wrap: wrap;">
+                            ${showDiscount ? `
+                                <div style="background: #f44336; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700;">-${discountPercent}%</div>
+                                <div style="color: #f44336; font-weight: 800; font-size: 16px;">Rs. ${product.discountPrice}</div>
+                                <div style="color: #999; text-decoration: line-through; font-size: 12px;">Rs. ${product.originalPrice}</div>
+                            ` : `
+                                <div style="color: #FF6B6B; font-weight: 800; font-size: 16px;">Rs. ${product.originalPrice}</div>
+                            `}
+                        </div>
+                        ${showDiscount ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">🏷️ Special Offer!</div>' : ''}
+                    </div>
+                </div>`;
             }).join('');
             updateGroceryCart();
         }
 
-        function toggleGroceryItem(id) {
-            selectedGroceryIds.has(id) ? selectedGroceryIds.delete(id) : selectedGroceryIds.add(id);
-            renderGroceryGrid();
-        }
+        function toggleGroceryItem(id) { selectedGroceryIds.has(id) ? selectedGroceryIds.delete(id) : selectedGroceryIds.add(id); renderGroceryGrid(); }
 
         function updateGroceryCart() {
             let total = 0, count = 0;
             selectedGroceryIds.forEach(id => {
                 const item = groceryItems.find(g => g.id === id);
-                if (item) { total += item.price; count++; }
+                if (item) { total += (item.hasDiscount && item.discountPrice > 0 ? item.discountPrice : item.originalPrice); count++; }
             });
             document.getElementById('groceryCount').textContent = count;
             document.getElementById('groceryTotal').textContent = total.toLocaleString();
@@ -410,14 +303,13 @@
             selectedGroceryIds.forEach(id => {
                 const item = groceryItems.find(g => g.id === id);
                 if (item) {
+                    const price = item.hasDiscount && item.discountPrice > 0 ? item.discountPrice : item.originalPrice;
                     const existing = cart.find(c => c.id === id && c.type === 'grocery');
                     if (existing) existing.quantity += 1;
-                    else cart.push({ id: item.id, name: item.name, price: item.price, quantity: 1, type: 'grocery' });
+                    else cart.push({ id: item.id, name: item.name, price: price, quantity: 1, type: 'grocery' });
                 }
             });
-            saveCart();
-            selectedGroceryIds.clear();
-            renderGroceryGrid();
+            saveCart(); selectedGroceryIds.clear(); renderGroceryGrid();
             showToast(`✅ ${document.getElementById('groceryCount').textContent} items Cart එකට එකතු විය!`);
             setTimeout(() => switchTab('cart'), 1000);
         }
@@ -426,77 +318,33 @@
             const existing = cart.find(item => item.id === foodId);
             if (existing) existing.quantity += 1;
             else cart.push({ id: foodId, name: foodName, price: foodPrice, quantity: 1, type: 'food' });
-            saveCart();
-            showToast(`✅ ${foodName} cart එකට එකතු විය!`);
+            saveCart(); showToast(`✅ ${foodName} cart එකට එකතු විය!`);
         }
 
-        function saveCart() {
-            localStorage.setItem('foodhub_cart', JSON.stringify(cart));
-            updateCartBadge();
-            renderCart();
-        }
-
-        function updateCartBadge() {
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            document.getElementById('cartCount').textContent = totalItems;
-        }
+        function saveCart() { localStorage.setItem('foodhub_cart', JSON.stringify(cart)); updateCartBadge(); renderCart(); }
+        function updateCartBadge() { const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0); document.getElementById('cartCount').textContent = totalItems; }
 
         function renderCart() {
             const list = document.getElementById('cartList');
             const checkoutSection = document.getElementById('checkoutSection');
-            
             if (cart.length === 0) {
                 list.innerHTML = '<div class="loading" style="background: #fff7ed; padding: 30px; border-radius: 12px; border: 2px dashed #fdba74; color: #c2410c; text-align: center;">🛒 ඔබේ Cart එක හිස්යි.<br><br>Foods හෝ Grocery tab එකෙන් items add කරන්න!</div>';
-                checkoutSection.classList.add('hidden');
-                return;
+                checkoutSection.classList.add('hidden'); return;
             }
-            
-            let total = 0;
-            let summaryHTML = '';
-            let itemsHTML = '';
-            
+            let total = 0, summaryHTML = '', itemsHTML = '';
             cart.forEach((item, index) => {
-                const itemTotal = item.price * item.quantity;
-                total += itemTotal;
+                const itemTotal = item.price * item.quantity; total += itemTotal;
                 summaryHTML += `<div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #cbd5e1;"><span>${item.name} x${item.quantity}</span><span>Rs. ${itemTotal.toLocaleString()}</span></div>`;
-                
-                itemsHTML += `
-                    <div class="cart-item">
-                        <div style="flex: 1;">
-                            <div style="font-weight: 700; font-size: 14px; margin-bottom: 4px;">${item.name}</div>
-                            <div style="font-size: 12px; color: #666;">Rs. ${item.price} each</div>
-                        </div>
-                        <div class="qty-controls">
-                            <button class="qty-btn" onclick="changeQty(${index}, -1)">−</button>
-                            <span style="font-weight: 700; font-size: 14px; min-width: 24px; text-align: center;">${item.quantity}</span>
-                            <button class="qty-btn" onclick="changeQty(${index}, 1)">+</button>
-                            <button class="btn" onclick="removeFromCart(${index})" style="margin-left: 8px; background: #fee2e2; color: #ef4444; width: 32px; height: 32px; padding: 0;">🗑️</button>
-                        </div>
-                    </div>
-                `;
+                itemsHTML += `<div class="cart-item"><div style="flex: 1;"><div style="font-weight: 700; font-size: 14px; margin-bottom: 4px;">${item.name}</div><div style="font-size: 12px; color: #666;">Rs. ${item.price} each</div></div><div class="qty-controls"><button class="qty-btn" onclick="changeQty(${index}, -1)">−</button><span style="font-weight: 700; font-size: 14px; min-width: 24px; text-align: center;">${item.quantity}</span><button class="qty-btn" onclick="changeQty(${index}, 1)">+</button><button class="btn" onclick="removeFromCart(${index})" style="margin-left: 8px; background: #fee2e2; color: #ef4444; width: 32px; height: 32px; padding: 0;">🗑️</button></div></div>`;
             });
-            
             summaryHTML += `<div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 18px; margin-top: 12px; padding-top: 12px; border-top: 2px solid #e2e8f0;"><span>මුළු එකතුව:</span><span>Rs. ${total.toLocaleString()}</span></div>`;
-            
             list.innerHTML = `<div style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #4CAF50;"><strong style="font-size: 15px; color: #166534;">✅ Items ${cart.length}ක් තෝරාගෙන ඇත!</strong><br><span style="font-size: 12px; color: #15803d;">පහත විස්තර පුරවා Order එක යවන්න</span></div>${itemsHTML}`;
             document.getElementById('orderSummary').innerHTML = summaryHTML;
             checkoutSection.classList.remove('hidden');
         }
 
-        function changeQty(index, change) {
-            cart[index].quantity += change;
-            if (cart[index].quantity <= 0) cart.splice(index, 1);
-            saveCart();
-            renderCart();
-        }
-
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            saveCart();
-            renderCart();
-            showToast('❌ Item එක ඉවත් කරන ලදී');
-        }
-
+        function changeQty(index, change) { cart[index].quantity += change; if (cart[index].quantity <= 0) cart.splice(index, 1); saveCart(); renderCart(); }
+        function removeFromCart(index) { cart.splice(index, 1); saveCart(); renderCart(); showToast('❌ Item එක ඉවත් කරන ලදී'); }
         function selectPayment(method) {
             selectedPaymentMethod = method;
             document.getElementById('btn-cod').classList.toggle('active', method === 'cod');
@@ -509,74 +357,29 @@
             const phone = document.getElementById('phoneNumber').value.trim();
             const address = document.getElementById('deliveryAddress').value.trim();
             const transId = document.getElementById('transactionId').value.trim();
-
-            if (!name || !phone || !address) { showToast('❌ කරුණාකර නම, දුරකන අංකය සහ ලිපිනය ඇතුළත් කරන්න!'); return; }
+            if (!name || !phone || !address) { showToast('❌ කරුණාකර නම, දුරකථන අංකය සහ ලිපිනය ඇතුළත් කරන්න!'); return; }
             if (selectedPaymentMethod === 'online' && !transId) { showToast('❌ Online ගෙවීම් සඳහා Transaction ID එක අනිවාර්යයි!'); return; }
-
             localStorage.setItem('customerPhone', phone);
-
             let total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             let itemsList = cart.map(i => `${i.name} (x${i.quantity})`).join(', ');
             const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 Cash on Delivery (COD)' : `🏦 Online Payment (Ref: ${transId})`;
-
-            const order = {
-                customerName: name,
-                phone: phone,
-                address: address,
-                paymentMethod: selectedPaymentMethod,
-                transactionId: transId,
-                items: itemsList,
-                total: total,
-                deliveryFee: 150,
-                grandTotal: total + 150,
-                status: 'Pending',
-                date: new Date().toISOString(),
-                paymentInfo: paymentInfo
-            };
-
+            const order = { customerName: name, phone: phone, address: address, paymentMethod: selectedPaymentMethod, transactionId: transId, items: itemsList, total: total, deliveryFee: 150, grandTotal: total + 150, status: 'Pending', date: new Date().toISOString(), paymentInfo: paymentInfo };
             database.ref('orders').push(order).then(() => {
                 showToast('✅ Order එක සාර්ථකව යවන ලදී!');
-                cart = [];
-                saveCart();
-                renderCart();
-                document.getElementById('customerName').value = '';
-                document.getElementById('phoneNumber').value = '';
-                document.getElementById('deliveryAddress').value = '';
-                document.getElementById('transactionId').value = '';
+                cart = []; saveCart(); renderCart();
+                document.getElementById('customerName').value = ''; document.getElementById('phoneNumber').value = ''; document.getElementById('deliveryAddress').value = ''; document.getElementById('transactionId').value = '';
                 setTimeout(() => switchTab('orders'), 1500);
-            }).catch(error => {
-                showToast('❌ Order යැවීමේ ගැටලුවක්: ' + error.message);
-            });
+            }).catch(error => { showToast('❌ Order යැවීමේ ගැටලුවක්: ' + error.message); });
         }
 
         function renderMyOrders(orders) {
             const list = document.getElementById('myOrdersList');
-            if (orders.length === 0) {
-                list.innerHTML = '<div class="loading">ඔබ තවම order කිසිවක් තබා නැත.</div>';
-                return;
-            }
-            
+            if (orders.length === 0) { list.innerHTML = '<div class="loading">ඔබ තවම order කිසිවක් තබා නැත.</div>'; return; }
             orders.sort((a, b) => new Date(b.date) - new Date(a.date));
-            
             list.innerHTML = orders.map(order => {
                 const date = new Date(order.date);
                 const statusClass = `status-${order.status ? order.status.toLowerCase() : 'pending'}`;
-                
-                return `
-                    <div class="cart-item" style="flex-direction: column; align-items: flex-start; padding: 15px;">
-                        <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                            <strong style="font-size: 15px;">Order #${order.id ? order.id.slice(-6) : 'New'}</strong>
-                            <span class="order-status ${statusClass}">${order.status || 'Pending'}</span>
-                        </div>
-                        <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8;">
-                            <div> Items: ${order.items}</div>
-                            <div>💰 Total: Rs. ${order.grandTotal || order.total}</div>
-                            <div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')}</div>
-                            <div>📍 ${order.address}</div>
-                            <div>🕐 ${date.toLocaleString()}</div>
-                        </div>
-                    </div>
-                `;
+                return `<div class="cart-item" style="flex-direction: column; align-items: flex-start; padding: 15px;"><div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;"><strong style="font-size: 15px;">Order #${order.id ? order.id.slice(-6) : 'New'}</strong><span class="order-status ${statusClass}">${order.status || 'Pending'}</span></div><div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8;"><div>📦 Items: ${order.items}</div><div>💰 Total: Rs. ${order.grandTotal || order.total}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')}</div><div>📍 ${order.address}</div><div>🕐 ${date.toLocaleString()}</div></div></div>`;
             }).join('');
         }
 
@@ -584,35 +387,21 @@
             document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            
             document.getElementById(tabName + 'Tab').classList.remove('hidden');
-            
             const tabs = ['shops', 'grocery', 'foods', 'orders', 'cart'];
             const index = tabs.indexOf(tabName);
-            if (index >= 0) {
-                document.querySelectorAll('.tab')[index]?.classList.add('active');
-                document.querySelectorAll('.nav-item')[index]?.classList.add('active');
-            }
-            
+            if (index >= 0) { document.querySelectorAll('.tab')[index]?.classList.add('active'); document.querySelectorAll('.nav-item')[index]?.classList.add('active'); }
             if (tabName === 'cart') renderCart();
             else if (tabName === 'foods') renderFoods();
             else if (tabName === 'grocery') renderGroceryGrid();
             else if (tabName === 'orders') loadMyOrders();
         }
 
-        function handleSearch() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            if (query.length > 2) showToast(`🔍 Searching: ${query}`);
-        }
-
+        function handleSearch() { const query = document.getElementById('searchInput').value.toLowerCase(); if (query.length > 2) showToast(`🔍 Searching: ${query}`); }
         function showToast(message) {
-            const existing = document.querySelector('.toast');
-            if (existing) existing.remove();
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
+            const existing = document.querySelector('.toast'); if (existing) existing.remove();
+            const toast = document.createElement('div'); toast.className = 'toast'; toast.textContent = message;
+            document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000);
         }
     </script>
 </body>
