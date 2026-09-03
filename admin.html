@@ -22,11 +22,13 @@
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #555; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; }
-        .btn { padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; margin-right: 10px; margin-bottom: 10px; }
+        .btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; margin-right: 5px; margin-bottom: 10px; }
         .btn-primary { background: #667eea; color: white; }
         .btn-success { background: #4CAF50; color: white; }
         .btn-danger { background: #f44336; color: white; }
         .btn-warning { background: #FF9800; color: white; }
+        .btn-info { background: #2196F3; color: white; }
+        .btn-whatsapp { background: #25D366; color: white; }
         .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #e0e0e0; padding-bottom: 10px; flex-wrap: wrap; }
         .tab { padding: 10px 20px; cursor: pointer; border-radius: 8px; font-weight: 600; }
         .tab.active { background: #667eea; color: white; }
@@ -49,10 +51,12 @@
         .filter-bar select, .filter-bar input { padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; }
         .search-bar { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; margin-bottom: 15px; }
         .hidden { display: none; }
-        .stat-badge { padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: 600; display: inline-block; margin-right: 10px; margin-bottom: 10px; }
-        .stat-badge.green { background: #C8E6C9; color: #1B5E20; }
-        .stat-badge.blue { background: #BBDEFB; color: #0D47A1; }
-        .stat-badge.orange { background: #FFE0B2; color: #E65100; }
+        .analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .analytics-card { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px; border-radius: 10px; text-align: center; }
+        .analytics-card h3 { font-size: 13px; margin-bottom: 5px; opacity: 0.9; }
+        .analytics-card .value { font-size: 24px; font-weight: bold; }
+        .notification-box { background: #E3F2FD; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #2196F3; }
+        .app-link-box { background: #F3E5F5; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #9C27B0; }
     </style>
 </head>
 <body>
@@ -72,17 +76,48 @@
             <p>Complete Management System</p>
         </div>
 
+        <!-- Analytics Dashboard -->
+        <div class="section">
+            <h2>📊 Analytics Dashboard</h2>
+            <div class="analytics-grid">
+                <div class="analytics-card"><h3> Today's Orders</h3><div class="value" id="todayOrders">0</div></div>
+                <div class="analytics-card"><h3>💰 Today's Revenue</h3><div class="value" id="todayRevenue">Rs. 0</div></div>
+                <div class="analytics-card"><h3>📦 Monthly Orders</h3><div class="value" id="monthOrders">0</div></div>
+                <div class="analytics-card"><h3>💰 Monthly Revenue</h3><div class="value" id="monthRevenue">Rs. 0</div></div>
+                <div class="analytics-card"><h3>✅ Delivered</h3><div class="value" id="deliveredOrders">0</div></div>
+                <div class="analytics-card"><h3>⏳ Pending</h3><div class="value" id="pendingOrders">0</div></div>
+            </div>
+        </div>
+
         <div class="section">
             <div class="tabs">
                 <div class="tab active" onclick="switchTab('orders')">📦 Orders</div>
                 <div class="tab" onclick="switchTab('shops')">🏪 Shops</div>
-                <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
+                <div class="tab" onclick="switchTab('foods')"> Foods</div>
                 <div class="tab" onclick="switchTab('grocery')">🛒 Grocery</div>
+                <div class="tab" onclick="switchTab('notifications')">📢 Notifications</div>
             </div>
 
             <!-- ORDERS TAB -->
             <div id="ordersTab">
                 <h2>📦 Order Management</h2>
+                <div class="filter-bar">
+                    <select id="filterStatus" onchange="filterOrders()">
+                        <option value="all">All Orders</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Confirmed">Confirmed</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Cancelled">Cancelled</option>
+                    </select>
+                    <input type="date" id="filterDate" onchange="filterOrders()">
+                    <select id="filterPeriod" onchange="filterOrders()">
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="all">All Time</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="loadOrders()">🔄 Refresh</button>
+                </div>
                 <div id="ordersList"></div>
             </div>
 
@@ -90,13 +125,12 @@
             <div id="shopsTab" class="hidden">
                 <h2>🏪 Add New Shop</h2>
                 <div class="form-group"><label>Shop Name</label><input type="text" id="shopName" placeholder="e.g., Silvas Family Restaurant"></div>
-                <div class="form-group">
-                    <label>Category</label>
+                <div class="form-group"><label>Category</label>
                     <select id="shopCategory">
                         <option value="Restaurant">🍽️ Restaurant</option>
-                        <option value="Fast Food">🍔 Fast Food</option>
+                        <option value="Fast Food"> Fast Food</option>
                         <option value="Grocery">🛒 Grocery/Supermarket</option>
-                        <option value="Drinks">🥤 Drinks</option>
+                        <option value="Drinks"> Drinks</option>
                         <option value="Flowers">🌹 Flowers</option>
                     </select>
                 </div>
@@ -109,7 +143,7 @@
                 <button class="btn btn-warning" onclick="showEditShopSection()">✏️ Edit Shop</button>
 
                 <div id="editShopSection" class="edit-section hidden">
-                    <h3>✏️ Edit Shop</h3>
+                    <h3>️ Edit Shop</h3>
                     <div class="form-group"><label>Select Shop</label><select id="editShopSelect" onchange="loadShopData()"><option value="">-- Select --</option></select></div>
                     <div class="form-group"><label>Shop Name</label><input type="text" id="editShopName"></div>
                     <div class="form-group"><label>Phone</label><input type="tel" id="editShopPhone"></div>
@@ -142,26 +176,21 @@
                     <div class="form-group"><label>Price</label><input type="number" id="editFoodPrice"></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editFoodImage"></div>
                     <button class="btn btn-success" onclick="updateFood()">💾 Update</button>
-                    <button class="btn btn-warning" onclick="cancelEdit('food')">❌ Cancel</button>
+                    <button class="btn btn-warning" onclick="cancelEdit('food')"> Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Foods</h3>
                 <input type="text" class="search-bar" id="foodSearch" placeholder="🔍 Search foods..." oninput="renderFoods()">
                 <div class="item-list" id="foodsList"></div>
             </div>
 
-            <!-- GROCERY TAB (WITH DISCOUNT) -->
+            <!-- GROCERY TAB -->
             <div id="groceryTab" class="hidden">
                 <h2>🛒 Grocery Management</h2>
                 <h3>Add New Item</h3>
                 <div class="form-group"><label>Item Name</label><input type="text" id="groceryName" placeholder="e.g., Red Rice 1kg"></div>
                 <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="groceryOriginalPrice" placeholder="250"></div>
-                <div class="form-group">
-                    <label><input type="checkbox" id="hasDiscount" style="margin-right: 10px;" onchange="toggleDiscountField()"> 🏷️ Special Discount Available</label>
-                </div>
-                <div class="form-group hidden" id="discountPriceGroup">
-                    <label>Discount Price (Rs.)</label>
-                    <input type="number" id="groceryDiscountPrice" placeholder="220">
-                </div>
+                <div class="form-group"><label><input type="checkbox" id="hasDiscount" style="margin-right: 10px;" onchange="toggleDiscountField()"> 🏷️ Special Discount Available</label></div>
+                <div class="form-group hidden" id="discountPriceGroup"><label>Discount Price (Rs.)</label><input type="number" id="groceryDiscountPrice" placeholder="220"></div>
                 <div class="form-group"><label>Unit</label><input type="text" id="groceryUnit" placeholder="1kg, 500g"></div>
                 <div class="form-group"><label>Category</label>
                     <select id="groceryCategory">
@@ -180,23 +209,44 @@
                     <div class="form-group"><label>Select Item</label><select id="editGrocerySelect" onchange="loadGroceryData()"><option value="">-- Select --</option></select></div>
                     <div class="form-group"><label>Item Name</label><input type="text" id="editGroceryName"></div>
                     <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="editGroceryOriginalPrice"></div>
-                    <div class="form-group">
-                        <label><input type="checkbox" id="editHasDiscount" style="margin-right: 10px;" onchange="toggleEditDiscountField()"> 🏷️ Special Discount</label>
-                    </div>
-                    <div class="form-group hidden" id="editDiscountPriceGroup">
-                        <label>Discount Price (Rs.)</label>
-                        <input type="number" id="editGroceryDiscountPrice">
-                    </div>
+                    <div class="form-group"><label><input type="checkbox" id="editHasDiscount" style="margin-right: 10px;" onchange="toggleEditDiscountField()"> ️ Special Discount</label></div>
+                    <div class="form-group hidden" id="editDiscountPriceGroup"><label>Discount Price (Rs.)</label><input type="number" id="editGroceryDiscountPrice"></div>
                     <div class="form-group"><label>Unit</label><input type="text" id="editGroceryUnit"></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editGroceryImage"></div>
                     <button class="btn btn-success" onclick="updateGroceryItem()">💾 Update</button>
                     <button class="btn btn-danger" onclick="quickDeleteGrocery()">🗑️ Delete</button>
                     <button class="btn btn-warning" onclick="cancelEdit('grocery')">❌ Cancel</button>
                 </div>
-
                 <h3 style="margin-top: 30px;">All Grocery Items</h3>
                 <input type="text" class="search-bar" id="grocerySearch" placeholder="🔍 Search items..." oninput="renderGroceryItems()">
                 <div class="item-list" id="groceryList"></div>
+            </div>
+
+            <!-- NOTIFICATIONS TAB -->
+            <div id="notificationsTab" class="hidden">
+                <h2>📢 Customer Notifications</h2>
+                
+                <div class="app-link-box">
+                    <h3>📱 App Install Link</h3>
+                    <p style="margin-bottom: 15px;">Customers ට App එක install කරගන්න link එක යවන්න</p>
+                    <div class="form-group"><label>App URL:</label><input type="text" id="appInstallUrl" value="https://chinthakanuwan.github.io/foodhub/" readonly></div>
+                    <div class="form-group"><label>Customer Phone Number:</label><input type="tel" id="customerPhone" placeholder="0766488689"></div>
+                    <button class="btn btn-whatsapp" onclick="sendAppInstallLink()">📤 Send App Install Link via WhatsApp</button>
+                    <button class="btn btn-info" onclick="copyAppLink()"> Copy App Link</button>
+                </div>
+
+                <div class="notification-box">
+                    <h3>💬 Send WhatsApp Notification</h3>
+                    <p style="margin-bottom: 15px;">Customers ට special offers, promotions, හෝ announcements යවන්න</p>
+                    <div class="form-group"><label>Customer Phone Number:</label><input type="tel" id="notifPhone" placeholder="0766488689"></div>
+                    <div class="form-group"><label>Notification Message:</label><textarea id="notifMessage" rows="4" placeholder="උදා: 🎉 විශේෂ දීමනාව!"></textarea></div>
+                    <button class="btn btn-whatsapp" onclick="sendWhatsAppNotification()">📤 Send via WhatsApp</button>
+                    
+                    <h3 style="margin-top: 20px;">📝 Quick Templates</h3>
+                    <button class="btn btn-info" onclick="useTemplate('welcome')">👋 Welcome Message</button>
+                    <button class="btn btn-info" onclick="useTemplate('offer')">🎉 Special Offer</button>
+                    <button class="btn btn-info" onclick="useTemplate('delivery')">🚚 Delivery Update</button>
+                </div>
             </div>
         </div>
     </div>
@@ -222,90 +272,85 @@
                 document.getElementById('loginScreen').style.display = 'none';
                 document.getElementById('adminPanel').classList.remove('hidden');
                 loadData();
-            } else {
-                document.getElementById('loginError').style.display = 'block';
-            }
+            } else { document.getElementById('loginError').style.display = 'block'; }
         }
-
-        function logout() {
-            localStorage.removeItem('adminLoggedIn');
-            location.reload();
-        }
+        function logout() { localStorage.removeItem('adminLoggedIn'); location.reload(); }
 
         function switchTab(tabName) {
-            ['orders', 'shops', 'foods', 'grocery'].forEach(t => document.getElementById(t + 'Tab').classList.add('hidden'));
+            ['orders', 'shops', 'foods', 'grocery', 'notifications'].forEach(t => document.getElementById(t + 'Tab').classList.add('hidden'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.getElementById(tabName + 'Tab').classList.remove('hidden');
-            const tabs = ['orders', 'shops', 'foods', 'grocery'];
+            const tabs = ['orders', 'shops', 'foods', 'grocery', 'notifications'];
             document.querySelectorAll('.tab')[tabs.indexOf(tabName)].classList.add('active');
             if (tabName === 'shops' || tabName === 'foods') updateSelects();
         }
 
         function loadData() {
-            database.ref('orders').on('value', snap => { orders = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; renderOrders(); });
+            database.ref('orders').on('value', snap => { orders = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; renderOrders(); updateAnalytics(); });
             database.ref('shops').on('value', snap => { shops = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; renderShops(); updateSelects(); });
             database.ref('foods').on('value', snap => { foods = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; renderFoods(); updateSelects(); });
             database.ref('groceryItems').on('value', snap => { groceryItems = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; renderGroceryItems(); });
         }
 
-        function toggleDiscountField() {
-            document.getElementById('discountPriceGroup').classList.toggle('hidden', !document.getElementById('hasDiscount').checked);
+        function updateAnalytics() {
+            const now = new Date();
+            const today = orders.filter(o => new Date(o.date).toDateString() === now.toDateString());
+            const month = orders.filter(o => { const d = new Date(o.date); return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear(); });
+            document.getElementById('todayOrders').textContent = today.length;
+            document.getElementById('todayRevenue').textContent = 'Rs. ' + today.reduce((s, o) => s + (o.total || 0), 0).toLocaleString();
+            document.getElementById('monthOrders').textContent = month.length;
+            document.getElementById('monthRevenue').textContent = 'Rs. ' + month.reduce((s, o) => s + (o.total || 0), 0).toLocaleString();
+            document.getElementById('deliveredOrders').textContent = orders.filter(o => o.status === 'Delivered').length;
+            document.getElementById('pendingOrders').textContent = orders.filter(o => o.status === 'Pending' || !o.status).length;
         }
 
-        function toggleEditDiscountField() {
-            document.getElementById('editDiscountPriceGroup').classList.toggle('hidden', !document.getElementById('editHasDiscount').checked);
+        function toggleDiscountField() { document.getElementById('discountPriceGroup').classList.toggle('hidden', !document.getElementById('hasDiscount').checked); }
+        function toggleEditDiscountField() { document.getElementById('editDiscountPriceGroup').classList.toggle('hidden', !document.getElementById('editHasDiscount').checked); }
+
+        // --- NOTIFICATION FUNCTIONS ---
+        function sendAppInstallLink() {
+            const phone = document.getElementById('customerPhone').value.trim();
+            const appUrl = document.getElementById('appInstallUrl').value;
+            if (!phone) return alert('Enter phone number!');
+            const message = `🛒 FoodHub App එක download කරගන්න! \n\nබේ ආහාර & grocery delivery partner\n\n📱 App Link: ${appUrl}\n\nOrder කරන්න දැන්ම visit කරන්න!`;
+            window.open(`https://wa.me/94${phone.substring(1)}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+        function copyAppLink() { navigator.clipboard.writeText(document.getElementById('appInstallUrl').value).then(() => alert('✅ App link copied!')); }
+        function sendWhatsAppNotification() {
+            const phone = document.getElementById('notifPhone').value.trim();
+            const message = document.getElementById('notifMessage').value.trim();
+            if (!phone || !message) return alert('Enter phone number and message!');
+            window.open(`https://wa.me/94${phone.substring(1)}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+        function useTemplate(type) {
+            const templates = {
+                welcome: '👋 යුබෝවන්! FoodHub App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
+                offer: '🎉 විශේෂ දීමනාව! \n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
+                delivery: ' ඔබේ order එක deliver වෙමින් පවතී!\n\nOrder tracking සඳහා: https://chinthakanuwan.github.io/foodhub/\n\nස්තූතියි! 🙏'
+            };
+            document.getElementById('notifMessage').value = templates[type];
         }
 
         // --- GROCERY FUNCTIONS ---
         function saveGroceryItem() {
             const hasDiscount = document.getElementById('hasDiscount').checked;
-            const item = {
-                name: document.getElementById('groceryName').value,
-                originalPrice: parseInt(document.getElementById('groceryOriginalPrice').value) || 0,
-                hasDiscount: hasDiscount,
-                discountPrice: hasDiscount ? (parseInt(document.getElementById('groceryDiscountPrice').value) || 0) : 0,
-                unit: document.getElementById('groceryUnit').value,
-                category: document.getElementById('groceryCategory').value,
-                image: document.getElementById('groceryImageUrl').value || 'https://via.placeholder.com/500',
-                available: true,
-                updatedAt: Date.now()
-            };
+            const item = { name: document.getElementById('groceryName').value, originalPrice: parseInt(document.getElementById('groceryOriginalPrice').value) || 0, hasDiscount: hasDiscount, discountPrice: hasDiscount ? (parseInt(document.getElementById('groceryDiscountPrice').value) || 0) : 0, unit: document.getElementById('groceryUnit').value, category: document.getElementById('groceryCategory').value, image: document.getElementById('groceryImageUrl').value || 'https://via.placeholder.com/500', available: true, updatedAt: Date.now() };
             if (!item.name) return alert('Enter item name!');
             database.ref('groceryItems').push(item).then(() => { alert('✅ Item added!'); clearGroceryForm(); });
         }
-
         function renderGroceryItems() {
             const list = document.getElementById('groceryList');
             const search = (document.getElementById('grocerySearch')?.value || '').toLowerCase();
             const filtered = groceryItems.filter(g => g.name.toLowerCase().includes(search));
-            
             list.innerHTML = filtered.map(item => {
-                const priceDisplay = item.hasDiscount && item.discountPrice > 0 
-                    ? `<span style="color:#f44336; font-weight:bold;">Rs. ${item.discountPrice}</span> <span style="text-decoration:line-through; color:#999; font-size:12px;">Rs. ${item.originalPrice}</span> <span style="background:#f44336; color:white; padding:2px 6px; border-radius:10px; font-size:10px;">OFFER</span>`
-                    : `<span style="color:#4CAF50; font-weight:bold;">Rs. ${item.originalPrice}</span>`;
-                
-                return `
-                <div class="item-card" style="background: #f0f8ff; border-left: 4px solid #4CAF50;">
-                    <div class="item-info">
-                        <div style="font-weight:bold;">${item.name}</div>
-                        <div style="margin-top:5px;">${priceDisplay} <span style="color:#666; font-size:12px;">| ${item.unit} | ${item.category}</span></div>
-                    </div>
-                    <button class="btn btn-primary" onclick="quickEditGrocery('${item.id}')" style="padding:8px 12px; font-size:12px;">✏️</button>
-                </div>`;
+                const priceDisplay = item.hasDiscount && item.discountPrice > 0 ? `<span style="color:#f44336; font-weight:bold;">Rs. ${item.discountPrice}</span> <span style="text-decoration:line-through; color:#999; font-size:12px;">Rs. ${item.originalPrice}</span> <span style="background:#f44336; color:white; padding:2px 6px; border-radius:10px; font-size:10px;">OFFER</span>` : `<span style="color:#4CAF50; font-weight:bold;">Rs. ${item.originalPrice}</span>`;
+                return `<div class="item-card" style="background: #f0f8ff; border-left: 4px solid #4CAF50;"><div class="item-info"><div style="font-weight:bold;">${item.name}</div><div style="margin-top:5px;">${priceDisplay} <span style="color:#666; font-size:12px;">| ${item.unit} | ${item.category}</span></div></div><button class="btn btn-primary" onclick="quickEditGrocery('${item.id}')" style="padding:8px 12px; font-size:12px;">✏️</button></div>`;
             }).join('');
         }
-
-        function quickEditGrocery(id) {
-            document.getElementById('editGrocerySection').classList.remove('hidden');
-            document.getElementById('editGrocerySelect').value = id;
-            loadGroceryData();
-        }
-
+        function quickEditGrocery(id) { document.getElementById('editGrocerySection').classList.remove('hidden'); document.getElementById('editGrocerySelect').value = id; loadGroceryData(); }
         function loadGroceryData() {
-            const id = document.getElementById('editGrocerySelect').value;
-            if (!id) return;
-            const item = groceryItems.find(g => g.id === id);
-            if (!item) return;
+            const id = document.getElementById('editGrocerySelect').value; if (!id) return;
+            const item = groceryItems.find(g => g.id === id); if (!item) return;
             document.getElementById('editGroceryName').value = item.name || '';
             document.getElementById('editGroceryOriginalPrice').value = item.originalPrice || 0;
             document.getElementById('editHasDiscount').checked = item.hasDiscount || false;
@@ -314,44 +359,22 @@
             document.getElementById('editGroceryImage').value = item.image || '';
             toggleEditDiscountField();
         }
-
         function updateGroceryItem() {
-            const id = document.getElementById('editGrocerySelect').value;
-            if (!id) return alert('Select item!');
+            const id = document.getElementById('editGrocerySelect').value; if (!id) return alert('Select item!');
             const hasDiscount = document.getElementById('editHasDiscount').checked;
-            const data = {
-                name: document.getElementById('editGroceryName').value,
-                originalPrice: parseInt(document.getElementById('editGroceryOriginalPrice').value) || 0,
-                hasDiscount: hasDiscount,
-                discountPrice: hasDiscount ? (parseInt(document.getElementById('editGroceryDiscountPrice').value) || 0) : 0,
-                unit: document.getElementById('editGroceryUnit').value,
-                image: document.getElementById('editGroceryImage').value,
-                updatedAt: Date.now()
-            };
+            const data = { name: document.getElementById('editGroceryName').value, originalPrice: parseInt(document.getElementById('editGroceryOriginalPrice').value) || 0, hasDiscount: hasDiscount, discountPrice: hasDiscount ? (parseInt(document.getElementById('editGroceryDiscountPrice').value) || 0) : 0, unit: document.getElementById('editGroceryUnit').value, image: document.getElementById('editGroceryImage').value, updatedAt: Date.now() };
             database.ref('groceryItems').child(id).update(data).then(() => { alert('✅ Updated!'); cancelEdit('grocery'); });
         }
+        function quickDeleteGrocery() { const id = document.getElementById('editGrocerySelect').value; if (id && confirm('Delete this item?')) { database.ref('groceryItems').child(id).remove().then(() => { alert('✅ Deleted'); cancelEdit('grocery'); }); } }
+        function clearGroceryForm() { ['groceryName', 'groceryOriginalPrice', 'groceryDiscountPrice', 'groceryUnit', 'groceryImageUrl'].forEach(id => document.getElementById(id).value = ''); document.getElementById('hasDiscount').checked = false; toggleDiscountField(); }
 
-        function quickDeleteGrocery() {
-            const id = document.getElementById('editGrocerySelect').value;
-            if (id && confirm('Delete this item?')) {
-                database.ref('groceryItems').child(id).remove().then(() => { alert('✅ Deleted'); cancelEdit('grocery'); });
-            }
-        }
-
-        function clearGroceryForm() {
-            ['groceryName', 'groceryOriginalPrice', 'groceryDiscountPrice', 'groceryUnit', 'groceryImageUrl'].forEach(id => document.getElementById(id).value = '');
-            document.getElementById('hasDiscount').checked = false;
-            toggleDiscountField();
-        }
-
-        // --- OTHER FUNCTIONS (Shops, Foods, Orders) ---
+        // --- OTHER FUNCTIONS ---
         function updateSelects() {
             document.getElementById('foodShop').innerHTML = shops.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
             document.getElementById('editShopSelect').innerHTML = '<option value="">-- Select --</option>' + shops.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
             document.getElementById('editFoodSelect').innerHTML = '<option value="">-- Select --</option>' + foods.map(f => `<option value="${f.id}">${f.name}</option>`).join('');
             document.getElementById('editGrocerySelect').innerHTML = '<option value="">-- Select --</option>' + groceryItems.map(g => `<option value="${g.id}">${g.name}</option>`).join('');
         }
-
         function saveShop() {
             const shop = { name: document.getElementById('shopName').value, category: document.getElementById('shopCategory').value, phone: document.getElementById('shopPhone').value, deliveryFee: parseInt(document.getElementById('shopDeliveryFee').value)||150, rating: parseFloat(document.getElementById('shopRating').value)||4.5, image: document.getElementById('shopImageUrl').value, isFeatured: document.getElementById('isFeatured').checked };
             if(!shop.name) return alert('Enter name!');
@@ -359,50 +382,35 @@
         }
         function renderShops() {
             const search = (document.getElementById('shopSearch')?.value || '').toLowerCase();
-            document.getElementById('shopsList').innerHTML = shops.filter(s => s.name.toLowerCase().includes(search)).map(s => `
-                <div class="item-card" style="${s.isFeatured ? 'background:#FFF9C4; border-left:4px solid #FFD700;' : ''}">
-                    <div class="item-info"><div style="font-weight:bold;">${s.name} ${s.isFeatured?'⭐':''}</div><div style="font-size:12px; color:#666;">${s.category} | Rs.${s.deliveryFee}</div></div>
-                    <button class="btn btn-danger" onclick="database.ref('shops').child('${s.id}').remove()">🗑️</button>
-                </div>`).join('');
+            document.getElementById('shopsList').innerHTML = shops.filter(s => s.name.toLowerCase().includes(search)).map(s => `<div class="item-card" style="${s.isFeatured ? 'background:#FFF9C4; border-left:4px solid #FFD700;' : ''}"><div class="item-info"><div style="font-weight:bold;">${s.name} ${s.isFeatured?'⭐':''}</div><div style="font-size:12px; color:#666;">${s.category} | Rs.${s.deliveryFee}</div></div><button class="btn btn-danger" onclick="database.ref('shops').child('${s.id}').remove()">🗑️</button></div>`).join('');
         }
         function showEditShopSection() { document.getElementById('editShopSection').classList.remove('hidden'); updateSelects(); }
-        function loadShopData() {
-            const s = shops.find(x => x.id === document.getElementById('editShopSelect').value);
-            if(!s) return;
-            document.getElementById('editShopName').value = s.name; document.getElementById('editShopPhone').value = s.phone;
-            document.getElementById('editShopDeliveryFee').value = s.deliveryFee; document.getElementById('editShopRating').value = s.rating;
-            document.getElementById('editShopImage').value = s.image; document.getElementById('editIsFeatured').checked = s.isFeatured;
-        }
-        function updateShop() {
-            const id = document.getElementById('editShopSelect').value;
-            database.ref('shops').child(id).update({ name: document.getElementById('editShopName').value, phone: document.getElementById('editShopPhone').value, deliveryFee: parseInt(document.getElementById('editShopDeliveryFee').value), rating: parseFloat(document.getElementById('editShopRating').value), image: document.getElementById('editShopImage').value, isFeatured: document.getElementById('editIsFeatured').checked }).then(() => { alert('✅ Updated!'); cancelEdit('shop'); });
-        }
+        function loadShopData() { const s = shops.find(x => x.id === document.getElementById('editShopSelect').value); if(!s) return; document.getElementById('editShopName').value = s.name; document.getElementById('editShopPhone').value = s.phone; document.getElementById('editShopDeliveryFee').value = s.deliveryFee; document.getElementById('editShopRating').value = s.rating; document.getElementById('editShopImage').value = s.image; document.getElementById('editIsFeatured').checked = s.isFeatured; }
+        function updateShop() { const id = document.getElementById('editShopSelect').value; database.ref('shops').child(id).update({ name: document.getElementById('editShopName').value, phone: document.getElementById('editShopPhone').value, deliveryFee: parseInt(document.getElementById('editShopDeliveryFee').value), rating: parseFloat(document.getElementById('editShopRating').value), image: document.getElementById('editShopImage').value, isFeatured: document.getElementById('editIsFeatured').checked }).then(() => { alert('✅ Updated!'); cancelEdit('shop'); }); }
 
-        function saveFood() {
-            const food = { shopId: document.getElementById('foodShop').value, name: document.getElementById('foodName').value, price: parseInt(document.getElementById('foodPrice').value)||0, image: document.getElementById('foodImageUrl').value };
-            if(!food.name) return alert('Enter name!');
-            database.ref('foods').push(food).then(() => { alert('✅ Saved!'); document.getElementById('foodName').value=''; });
-        }
-        function renderFoods() {
-            const search = (document.getElementById('foodSearch')?.value || '').toLowerCase();
-            document.getElementById('foodsList').innerHTML = foods.filter(f => f.name.toLowerCase().includes(search)).map(f => {
-                const shop = shops.find(s => s.id === f.shopId);
-                return `<div class="item-card"><div class="item-info"><div style="font-weight:bold;">${f.name}</div><div style="font-size:12px; color:#666;">${shop?shop.name:'Unknown'} | Rs.${f.price}</div></div><button class="btn btn-danger" onclick="database.ref('foods').child('${f.id}').remove()">🗑️</button></div>`;
-            }).join('');
-        }
+        function saveFood() { const food = { shopId: document.getElementById('foodShop').value, name: document.getElementById('foodName').value, price: parseInt(document.getElementById('foodPrice').value)||0, image: document.getElementById('foodImageUrl').value }; if(!food.name) return alert('Enter name!'); database.ref('foods').push(food).then(() => { alert('✅ Saved!'); document.getElementById('foodName').value=''; }); }
+        function renderFoods() { const search = (document.getElementById('foodSearch')?.value || '').toLowerCase(); document.getElementById('foodsList').innerHTML = foods.filter(f => f.name.toLowerCase().includes(search)).map(f => { const shop = shops.find(s => s.id === f.shopId); return `<div class="item-card"><div class="item-info"><div style="font-weight:bold;">${f.name}</div><div style="font-size:12px; color:#666;">${shop?shop.name:'Unknown'} | Rs.${f.price}</div></div><button class="btn btn-danger" onclick="database.ref('foods').child('${f.id}').remove()">🗑️</button></div>`; }).join(''); }
         function showEditFoodSection() { document.getElementById('editFoodSection').classList.remove('hidden'); updateSelects(); }
-        function loadFoodData() {
-            const f = foods.find(x => x.id === document.getElementById('editFoodSelect').value);
-            if(!f) return;
-            document.getElementById('editFoodName').value = f.name; document.getElementById('editFoodPrice').value = f.price; document.getElementById('editFoodImage').value = f.image;
-        }
-        function updateFood() {
-            const id = document.getElementById('editFoodSelect').value;
-            database.ref('foods').child(id).update({ name: document.getElementById('editFoodName').value, price: parseInt(document.getElementById('editFoodPrice').value), image: document.getElementById('editFoodImage').value }).then(() => { alert('✅ Updated!'); cancelEdit('food'); });
-        }
+        function loadFoodData() { const f = foods.find(x => x.id === document.getElementById('editFoodSelect').value); if(!f) return; document.getElementById('editFoodName').value = f.name; document.getElementById('editFoodPrice').value = f.price; document.getElementById('editFoodImage').value = f.image; }
+        function updateFood() { const id = document.getElementById('editFoodSelect').value; database.ref('foods').child(id).update({ name: document.getElementById('editFoodName').value, price: parseInt(document.getElementById('editFoodPrice').value), image: document.getElementById('editFoodImage').value }).then(() => { alert('✅ Updated!'); cancelEdit('food'); }); }
 
-        function renderOrders() {
-            document.getElementById('ordersList').innerHTML = orders.sort((a,b) => new Date(b.date) - new Date(a.date)).map(o => `
+        function loadOrders() { renderOrders(); }
+        function filterOrders() {
+            let filtered = [...orders];
+            const status = document.getElementById('filterStatus').value;
+            const date = document.getElementById('filterDate').value;
+            const period = document.getElementById('filterPeriod').value;
+            const now = new Date();
+            if (status !== 'all') filtered = filtered.filter(o => o.status === status);
+            if (date) filtered = filtered.filter(o => new Date(o.date).toISOString().split('T')[0] === date);
+            if (period === 'today') filtered = filtered.filter(o => new Date(o.date).toDateString() === now.toDateString());
+            else if (period === 'week') filtered = filtered.filter(o => new Date(o.date) >= new Date(now - 7*24*60*60*1000));
+            else if (period === 'month') filtered = filtered.filter(o => { const d = new Date(o.date); return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear(); });
+            renderOrders(filtered);
+        }
+        function renderOrders(list) {
+            const ordersToRender = list || orders;
+            document.getElementById('ordersList').innerHTML = ordersToRender.sort((a,b) => new Date(b.date) - new Date(a.date)).map(o => `
                 <div class="order-card">
                     <div class="order-header"><div class="order-id">Order #${o.id ? o.id.slice(-6) : 'New'}</div><span class="order-status status-${(o.status||'pending').toLowerCase()}">${o.status||'Pending'}</span></div>
                     <div class="order-details">
@@ -415,25 +423,17 @@
                         <button class="btn btn-success" onclick="updateOrderStatus('${o.id}', 'Confirmed')">✅ Confirm</button>
                         <button class="btn btn-primary" onclick="updateOrderStatus('${o.id}', 'Delivered')">✔️ Delivered</button>
                         <button class="btn btn-danger" onclick="updateOrderStatus('${o.id}', 'Cancelled')">❌ Cancel</button>
+                        <button class="btn btn-info" onclick="contactCustomer('${o.phone}')"> Contact</button>
+                        <button class="btn btn-danger" onclick="deleteOrder('${o.id}')">🗑️ Delete</button>
                     </div>
                 </div>`).join('');
         }
-        function updateOrderStatus(id, status) {
-            if(confirm(`Mark as ${status}?`)) database.ref('orders').child(id).update({ status: status }).then(() => alert(`✅ ${status}`));
-        }
+        function updateOrderStatus(id, status) { if(confirm(`Mark as ${status}?`)) database.ref('orders').child(id).update({ status: status }).then(() => alert(`✅ ${status}`)); }
+        function contactCustomer(phone) { window.open(`https://wa.me/94${phone.substring(1)}?text=Hello! Regarding your FoodHub order.`, '_blank'); }
+        function deleteOrder(id) { if (confirm('Delete this order?')) { database.ref('orders').child(id).remove().then(() => alert('✅ Deleted')); } }
+        function cancelEdit(type) { document.getElementById('edit' + type.charAt(0).toUpperCase() + type.slice(1) + 'Section').classList.add('hidden'); document.getElementById('edit' + type.charAt(0).toUpperCase() + type.slice(1) + 'Select').value = ''; }
 
-        function cancelEdit(type) {
-            document.getElementById('edit' + type.charAt(0).toUpperCase() + type.slice(1) + 'Section').classList.add('hidden');
-            document.getElementById('edit' + type.charAt(0).toUpperCase() + type.slice(1) + 'Select').value = '';
-        }
-
-        window.onload = function() {
-            if (localStorage.getItem('adminLoggedIn') === 'true') {
-                document.getElementById('loginScreen').style.display = 'none';
-                document.getElementById('adminPanel').classList.remove('hidden');
-                loadData();
-            }
-        };
+        window.onload = function() { if (localStorage.getItem('adminLoggedIn') === 'true') { document.getElementById('loginScreen').style.display = 'none'; document.getElementById('adminPanel').classList.remove('hidden'); loadData(); } };
     </script>
 </body>
 </html>
