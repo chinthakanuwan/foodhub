@@ -82,12 +82,17 @@
         @keyframes slideUp { from { bottom: 40px; opacity: 0; } to { bottom: 90px; opacity: 1; } }
         
         .loading { text-align: center; padding: 40px; color: #94a3b8; }
+        
+        .image-container { position: relative; width: 100%; height: 150px; background: #f0f0f0; overflow: hidden; }
+        .image-container.food-img-container { height: 120px; }
+        .image-container img { width: 100%; height: 100%; object-fit: cover; }
+        .image-fallback { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-size: 14px; font-weight: 600; text-align: center; padding: 10px; }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>🛒 FoodHub</h1>
-        <p>ඔබේ හාර & grocery delivery partner</p>
+        <p>ඔබේ ආහාර & grocery delivery partner</p>
     </div>
     
     <div class="search-bar">
@@ -96,7 +101,7 @@
     
     <div class="tabs">
         <div class="tab active" onclick="switchTab('shops')">🏪 Shops</div>
-        <div class="tab" onclick="switchTab('grocery')">🛒 Grocery</div>
+        <div class="tab" onclick="switchTab('grocery')"> Grocery</div>
         <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
         <div class="tab" onclick="switchTab('orders')">📦 My Orders</div>
     </div>
@@ -117,7 +122,7 @@
                 <span>තෝරාගත් භාණ්ඩ: <span id="groceryCount">0</span></span>
                 <span style="font-size: 18px; color: #FF6B6B; font-weight: 800;">Rs. <span id="groceryTotal">0</span></span>
             </div>
-            <button class="btn btn-success" onclick="addGroceryToCart()">🛒 Cart එකට Add කරන්න</button>
+            <button class="btn btn-success" onclick="addGroceryToCart()"> Cart එකට Add කරන්න</button>
         </div>
     </div>
 
@@ -126,16 +131,16 @@
             <button class="btn" onclick="backToShops()" style="background: #eee; margin-bottom: 12px;">⬅️ Back to Shops</button>
             <h2 id="currentShopName" style="margin-bottom: 12px; font-size: 18px;"></h2>
         </div>
-        <div class="food-grid" id="foodsList"><div class="loading"> Foods load වෙමින්...</div></div>
+        <div class="food-grid" id="foodsList"><div class="loading">🍕 Foods load වෙමින්...</div></div>
     </div>
 
     <div id="ordersTab" class="container hidden">
-        <h2 style="margin-bottom: 12px; font-size: 18px;">📦 මගේ Orders</h2>
-        <div id="myOrdersList"><div class="loading"> Orders load වෙමින්...</div></div>
+        <h2 style="margin-bottom: 12px; font-size: 18px;"> මගේ Orders</h2>
+        <div id="myOrdersList"><div class="loading">⏳ Orders load වෙමින්...</div></div>
     </div>
 
     <div id="cartTab" class="container hidden">
-        <h2 style="margin-bottom: 12px; font-size: 18px;">🛒 බේ Cart එක</h2>
+        <h2 style="margin-bottom: 12px; font-size: 18px;"> ඔබේ Cart එක</h2>
         <div id="cartList"></div>
         
         <div id="checkoutSection" class="hidden">
@@ -144,11 +149,11 @@
                 <div id="orderSummary" style="background: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 20px;"></div>
                 
                 <div class="form-group">
-                    <label>👤 ඔබේ නම *</label>
+                    <label>👤 බේ නම *</label>
                     <input type="text" id="customerName" placeholder="බේ සම්පූර්ණ නම">
                 </div>
                 <div class="form-group">
-                    <label>📞 දුරකථන අංකය *</label>
+                    <label> දුරකථන අංකය *</label>
                     <input type="tel" id="phoneNumber" placeholder="07X XXX XXXX">
                 </div>
                 <div class="form-group">
@@ -182,9 +187,9 @@
     </div>
 
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('shops')"><span class="icon"></span><span class="label">Shops</span></div>
+        <div class="nav-item active" onclick="switchTab('shops')"><span class="icon">🏪</span><span class="label">Shops</span></div>
         <div class="nav-item" onclick="switchTab('grocery')"><span class="icon">🛒</span><span class="label">Grocery</span></div>
-        <div class="nav-item" onclick="switchTab('cart')"><span class="icon">🛒</span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
+        <div class="nav-item" onclick="switchTab('cart')"><span class="icon"></span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
         <div class="nav-item" onclick="switchTab('orders')"><span class="icon">📦</span><span class="label">Orders</span></div>
     </div>
 
@@ -209,6 +214,16 @@
         let currentShopId = null;
         let selectedPaymentMethod = 'cod';
 
+        // Shop-specific placeholder images
+        const shopPlaceholders = {
+            'Silvas Family Restaurant': 'https://via.placeholder.com/500x300/FF6B6B/FFFFFF?text=Silvas+Restaurant',
+            'Silvas Family Store': 'https://via.placeholder.com/500x300/8BC34A/FFFFFF?text=Grocery+Store',
+            'Burger King': 'https://via.placeholder.com/500x300/f44336/FFFFFF?text=Burger+King',
+            'Pizza Hut': 'https://via.placeholder.com/500x300/FF9800/FFFFFF?text=Pizza+Hut',
+            'Fresh Flowers': 'https://via.placeholder.com/500x300/4CAF50/FFFFFF?text=Fresh+Flowers',
+            'Juice Bar': 'https://via.placeholder.com/500x300/2196F3/FFFFFF?text=Juice+Bar'
+        };
+
         document.addEventListener('DOMContentLoaded', () => {
             loadShops();
             loadFoods();
@@ -220,8 +235,13 @@
         function loadShops() {
             database.ref('shops').on('value', (snapshot) => {
                 const data = snapshot.val();
+                console.log('Shops data:', data);
                 shops = data ? Object.entries(data).map(([key, value]) => ({...value, id: key})) : [];
+                console.log('Processed shops:', shops);
                 renderShops();
+            }, (error) => {
+                console.error('Error loading shops:', error);
+                document.getElementById('shopsList').innerHTML = '<div class="loading">Error loading shops. Please check Firebase connection.</div>';
             });
         }
 
@@ -257,15 +277,24 @@
 
         function renderShops() {
             const list = document.getElementById('shopsList');
-            if (shops.length === 0) { list.innerHTML = '<div class="loading">දැනට Shops කිසිවක් නැත.</div>'; return; }
+            if (shops.length === 0) { 
+                list.innerHTML = '<div class="loading">දැනට Shops කිසිවක් නැත. Admin panel එකෙන් shops add කරන්න.</div>'; 
+                return; 
+            }
             
             shops.sort((a, b) => (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0));
             
             list.innerHTML = shops.map(shop => {
                 const isGrocery = shop.category === 'Grocery' || shop.category === 'Supermarket';
+                const shopImage = shop.image || shopPlaceholders[shop.name] || 'https://via.placeholder.com/500x300?text=' + encodeURIComponent(shop.name);
+                
                 return `
                     <div class="shop-card ${shop.isFeatured ? 'featured' : ''}" onclick="${isGrocery ? `switchTab('grocery')` : `openShopView('${shop.id}')`}">
-                        <img src="${shop.image || 'https://via.placeholder.com/400x200'}" class="shop-image" onerror="this.src='https://via.placeholder.com/400x200?text=No+Image'">
+                        <div class="image-container">
+                            <img src="${shopImage}" class="shop-image" 
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${shop.name}'">
+                            <div class="image-fallback" style="display:none;">${shop.name}</div>
+                        </div>
                         <div class="shop-info">
                             <div class="shop-name">
                                 ${shop.name} 
@@ -311,16 +340,24 @@
                 return; 
             }
             
-            list.innerHTML = displayFoods.map(food => `
-                <div class="food-card">
-                    <img src="${food.image || 'https://via.placeholder.com/400x120'}" class="food-image" onerror="this.src='https://via.placeholder.com/400x120?text=No+Image'">
-                    <div class="food-info">
-                        <div class="food-name">${food.name}</div>
-                        <div class="food-price">Rs. ${food.price}</div>
-                        <button class="btn btn-primary" onclick="addToCart('${food.id}', '${food.name}', ${food.price})">🛒 Add to Cart</button>
+            list.innerHTML = displayFoods.map(food => {
+                const foodImage = food.image || 'https://via.placeholder.com/400x120/667eea/FFFFFF?text=' + encodeURIComponent(food.name);
+                
+                return `
+                    <div class="food-card">
+                        <div class="image-container food-img-container">
+                            <img src="${foodImage}" class="food-image" 
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${food.name}'">
+                            <div class="image-fallback" style="display:none;">${food.name}</div>
+                        </div>
+                        <div class="food-info">
+                            <div class="food-name">${food.name}</div>
+                            <div class="food-price">Rs. ${food.price}</div>
+                            <button class="btn btn-primary" onclick="addToCart('${food.id}', '${food.name}', ${food.price})">🛒 Add to Cart</button>
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function renderGroceryGrid() {
@@ -331,17 +368,25 @@
                 return;
             }
             
-            grid.innerHTML = groceryItems.map(product => `
-                <div class="grocery-card ${selectedGroceryIds.has(product.id) ? 'selected' : ''}" onclick="toggleGroceryItem('${product.id}')" style="position: relative;">
-                    <div class="grocery-check"><input type="checkbox" ${selectedGroceryIds.has(product.id) ? 'checked' : ''} onclick="event.stopPropagation()"></div>
-                    <img src="${product.image || 'https://via.placeholder.com/400x300'}" class="grocery-img" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
-                    <div class="grocery-info">
-                        <div class="grocery-name">${product.name}</div>
-                        <div style="font-size: 11px; color: #666; margin-bottom: 4px;">${product.unit || ''}</div>
-                        <div class="grocery-price">Rs. ${product.price}</div>
+            grid.innerHTML = groceryItems.map(product => {
+                const groceryImage = product.image || 'https://via.placeholder.com/400x300/8BC34A/FFFFFF?text=' + encodeURIComponent(product.name);
+                
+                return `
+                    <div class="grocery-card ${selectedGroceryIds.has(product.id) ? 'selected' : ''}" onclick="toggleGroceryItem('${product.id}')" style="position: relative;">
+                        <div class="grocery-check"><input type="checkbox" ${selectedGroceryIds.has(product.id) ? 'checked' : ''} onclick="event.stopPropagation()"></div>
+                        <div class="image-container food-img-container">
+                            <img src="${groceryImage}" class="grocery-img" 
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${product.name}'">
+                            <div class="image-fallback" style="display:none;">${product.name}</div>
+                        </div>
+                        <div class="grocery-info">
+                            <div class="grocery-name">${product.name}</div>
+                            <div style="font-size: 11px; color: #666; margin-bottom: 4px;">${product.unit || ''}</div>
+                            <div class="grocery-price">Rs. ${product.price}</div>
+                        </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
             updateGroceryCart();
         }
 
@@ -465,7 +510,7 @@
             const address = document.getElementById('deliveryAddress').value.trim();
             const transId = document.getElementById('transactionId').value.trim();
 
-            if (!name || !phone || !address) { showToast('❌ කරුණාකර නම, දුරකථන අංකය සහ ලිපිනය ඇතුළත් කරන්න!'); return; }
+            if (!name || !phone || !address) { showToast('❌ කරුණාකර නම, දුරකන අංකය සහ ලිපිනය ඇතුළත් කරන්න!'); return; }
             if (selectedPaymentMethod === 'online' && !transId) { showToast('❌ Online ගෙවීම් සඳහා Transaction ID එක අනිවාර්යයි!'); return; }
 
             localStorage.setItem('customerPhone', phone);
@@ -490,7 +535,7 @@
             };
 
             database.ref('orders').push(order).then(() => {
-                showToast('✅ Order එක සාර්කව යවන ලදී!');
+                showToast('✅ Order එක සාර්ථකව යවන ලදී!');
                 cart = [];
                 saveCart();
                 renderCart();
@@ -524,11 +569,11 @@
                             <span class="order-status ${statusClass}">${order.status || 'Pending'}</span>
                         </div>
                         <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8;">
-                            <div>📦 Items: ${order.items}</div>
+                            <div> Items: ${order.items}</div>
                             <div>💰 Total: Rs. ${order.grandTotal || order.total}</div>
-                            <div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? ' Cash on Delivery' : '🏦 Online Payment')}</div>
+                            <div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')}</div>
                             <div>📍 ${order.address}</div>
-                            <div> ${date.toLocaleString()}</div>
+                            <div>🕐 ${date.toLocaleString()}</div>
                         </div>
                     </div>
                 `;
