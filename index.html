@@ -79,55 +79,13 @@
         .status-delivered { background: #BBDEFB; color: #0D47A1; }
         .status-cancelled { background: #FFCDD2; color: #B71C1C; }
         
-        .tracking-timeline {
-            background: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin: 15px 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .tracking-timeline h3 {
-            margin-bottom: 15px;
-            color: #333;
-            font-size: 16px;
-        }
-        .timeline-item {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-            position: relative;
-        }
-        .timeline-item:not(:last-child)::before {
-            content: '';
-            position: absolute;
-            left: 15px;
-            top: 35px;
-            height: calc(100% - 20px);
-            width: 2px;
-            background: #e2e8f0;
-        }
-        .timeline-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 12px;
-            font-weight: bold;
-            font-size: 14px;
-            z-index: 1;
-            background: #e2e8f0;
-            color: #94a3b8;
-        }
-        .timeline-item.active .timeline-icon {
-            background: #4CAF50;
-            color: white;
-        }
-        .timeline-item.completed .timeline-icon {
-            background: #2196F3;
-            color: white;
-        }
+        .tracking-timeline { background: white; padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .tracking-timeline h3 { margin-bottom: 15px; color: #333; font-size: 16px; }
+        .timeline-item { display: flex; align-items: center; margin-bottom: 15px; position: relative; }
+        .timeline-item:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 35px; height: calc(100% - 20px); width: 2px; background: #e2e8f0; }
+        .timeline-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; font-weight: bold; font-size: 14px; z-index: 1; background: #e2e8f0; color: #94a3b8; }
+        .timeline-item.active .timeline-icon { background: #4CAF50; color: white; }
+        .timeline-item.completed .timeline-icon { background: #2196F3; color: white; }
         .timeline-content { flex: 1; }
         .timeline-title { font-weight: 600; color: #333; font-size: 14px; }
         .timeline-desc { font-size: 12px; color: #666; margin-top: 2px; }
@@ -143,46 +101,22 @@
         .image-container img { width: 100%; height: 100%; object-fit: cover; }
         .image-fallback { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-size: 14px; font-weight: 600; text-align: center; padding: 10px; }
         
-        .delivery-info {
-            background: #f0f9ff;
-            padding: 12px;
-            border-radius: 10px;
-            margin-top: 10px;
-            border-left: 4px solid #0284c7;
-            font-size: 13px;
-        }
-        .zone-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 10px;
-            font-weight: 700;
-            margin-left: 5px;
-        }
+        .delivery-info { background: #f0f9ff; padding: 12px; border-radius: 10px; margin-top: 10px; border-left: 4px solid #0284c7; font-size: 13px; }
+        .zone-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; margin-left: 5px; }
         .zone-1 { background: #C8E6C9; color: #1B5E20; }
         .zone-2 { background: #FFF9C4; color: #F57F17; }
         .zone-3 { background: #FFE0B2; color: #E65100; }
         .zone-4 { background: #FFCDD2; color: #B71C1C; }
         .zone-5 { background: #E1BEE7; color: #4A148C; }
         
-        .developer-credit {
-            text-align: center;
-            padding: 20px 10px 80px 10px;
-            color: #888;
-            font-size: 12px;
-            background: #f5f5f5;
-            border-top: 1px solid #eee;
-            margin-top: 20px;
-        }
-        .developer-credit strong {
-            color: #FF6B6B;
-        }
+        .developer-credit { text-align: center; padding: 20px 10px 80px 10px; color: #888; font-size: 12px; background: #f5f5f5; border-top: 1px solid #eee; margin-top: 20px; }
+        .developer-credit strong { color: #FF6B6B; }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>🛒 FoodHub</h1>
-        <p>ඔබේ හාර & grocery delivery partner</p>
+        <p>ඔබේ ආහාර & grocery delivery partner</p>
     </div>
     
     <div class="search-bar">
@@ -239,7 +173,7 @@
 
     <div id="ordersTab" class="container hidden">
         <h2 style="margin-bottom: 12px; font-size: 18px;">📦 මගේ Orders</h2>
-        <div id="myOrdersList"><div class="loading"> Orders load වෙමින්...</div></div>
+        <div id="myOrdersList"><div class="loading">⏳ Orders load වෙමින්...</div></div>
     </div>
 
     <div id="cartTab" class="container hidden">
@@ -252,8 +186,8 @@
                 <div id="orderSummary" style="background: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 20px;"></div>
                 
                 <div class="form-group">
-                    <label>👤 බේ නම *</label>
-                    <input type="text" id="customerName" placeholder="බේ සම්පූර්ණ නම">
+                    <label>👤 ඔබේ නම *</label>
+                    <input type="text" id="customerName" placeholder="ඔබේ සම්පූර්ණ නම">
                 </div>
                 <div class="form-group">
                     <label>📞 දුරකථන අංකය *</label>
@@ -268,13 +202,11 @@
                     <label>📍 ඔබේ ප්‍රදේශය තෝරන්න *</label>
                     <select id="deliveryArea" onchange="calculateDeliveryFee()">
                         <option value="">-- ප්‍රදේශය තෝරන්න --</option>
-                        
-                        <optgroup label=" Zone 1 - 0-2 km (Rs. 100)">
+                        <optgroup label="🟢 Zone 1 - 0-2 km (Rs. 100)">
                             <option value="raddolugama" data-fee="100" data-zone="1" data-distance="0.4">රද්දොලුගම (Raddolugama)</option>
                             <option value="bathalawatta" data-fee="100" data-zone="1" data-distance="0.4">බතලවත්ත</option>
                             <option value="galla" data-fee="100" data-zone="1" data-distance="0.4">ගල්ල</option>
                         </optgroup>
-                        
                         <optgroup label="🟡 Zone 2 - 2-3 km (Rs. 150)">
                             <option value="kuswala" data-fee="150" data-zone="2" data-distance="1.5">කුස්වෙල</option>
                             <option value="palliya-handiya" data-fee="150" data-zone="2" data-distance="1.8">පල්ලිය හංදිය</option>
@@ -284,21 +216,18 @@
                             <option value="gurugewatta" data-fee="150" data-zone="2" data-distance="2.8">ගුරුගෙවත්ත</option>
                             <option value="muthuwadiya-handiya" data-fee="150" data-zone="2" data-distance="3.0">මතුවාඩිය හංදිය</option>
                         </optgroup>
-                        
                         <optgroup label="🟠 Zone 3 - 3-5 km (Rs. 200)">
                             <option value="kotugoda" data-fee="200" data-zone="3" data-distance="4.0">කොටුගොඩ</option>
                             <option value="averiwatta" data-fee="200" data-zone="3" data-distance="4.5">ඇවරිවත්ත</option>
                             <option value="amandoluwa" data-fee="200" data-zone="3" data-distance="4.6">අමන්දොලුව</option>
                             <option value="udammita" data-fee="200" data-zone="3" data-distance="4.7">උදම් මිට</option>
                         </optgroup>
-                        
-                        <optgroup label=" Zone 4 - 5-6 km (Rs. 250)">
+                        <optgroup label="🔴 Zone 4 - 5-6 km (Rs. 250)">
                             <option value="seeduwa" data-fee="250" data-zone="4" data-distance="5.1">සීදුව</option>
                             <option value="leenage-mulla" data-fee="250" data-zone="4" data-distance="5.5">ලීනගේ මුල්ල</option>
                             <option value="opatha" data-fee="250" data-zone="4" data-distance="5.6">ඔපාත</option>
                             <option value="katunayake" data-fee="250" data-zone="4" data-distance="5.9">කටුනායක</option>
                         </optgroup>
-                        
                         <optgroup label="🟣 Zone 5 - 6-8 km (Rs. 300)">
                             <option value="nadagamulla" data-fee="300" data-zone="5" data-distance="7.0">නදගමුව</option>
                             <option value="negombo" data-fee="300" data-zone="5" data-distance="8.0+">නැගොම්බෝ</option>
@@ -333,11 +262,11 @@
                 
                 <div style="background: #f0f9ff; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #0284c7;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span> Items Total:</span>
+                        <span>🛒 Items Total:</span>
                         <span style="font-weight: 600;">Rs. <span id="itemsTotal">0</span></span>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span> Delivery Fee:</span>
+                        <span>🚚 Delivery Fee:</span>
                         <span style="font-weight: 600; color: #FF6B6B;">Rs. <span id="deliveryFeeDisplay">0</span></span>
                     </div>
                     <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 18px; margin-top: 12px; padding-top: 12px; border-top: 2px solid #cbd5e1;">
@@ -361,7 +290,6 @@
         <div class="nav-item" onclick="switchTab('orders')"><span class="icon">📦</span><span class="label">Orders</span></div>
     </div>
 
-    <!-- Developer Credit -->
     <div class="developer-credit">
         <p>Developed with ❤️ by <strong>TK Chinthaka Nuwan</strong></p>
         <p style="font-size: 10px; margin-top: 5px; color: #aaa;">© 2024 FoodHub App. All rights reserved.</p>
@@ -437,9 +365,9 @@
                             <div class="image-fallback" style="display:none;">${shop.name}</div>
                         </div>
                         <div class="shop-info">
-                            <div class="shop-name">${shop.name} ${shop.isFeatured ? '<span class="gold-badge">⭐ GOLD</span>' : ''} ${isGrocery ? '<span style="background: #4CAF50; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;"> Grocery</span>' : ''}</div>
-                            <div class="shop-details"><span> ${shop.phone || 'N/A'}</span><span class="rating">⭐ ${shop.rating || '4.0'}</span></div>
-                            <div class="shop-details"><span>🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'}</span><span> Rs.${shop.deliveryFee || 150}</span></div>
+                            <div class="shop-name">${shop.name} ${shop.isFeatured ? '<span class="gold-badge">⭐ GOLD</span>' : ''} ${isGrocery ? '<span style="background: #4CAF50; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;">🛒 Grocery</span>' : ''}</div>
+                            <div class="shop-details"><span>📞 ${shop.phone || 'N/A'}</span><span class="rating">⭐ ${shop.rating || '4.0'}</span></div>
+                            <div class="shop-details"><span>🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'}</span><span>💰 Rs.${shop.deliveryFee || 150}</span></div>
                         </div>
                     </div>`;
             }).join('');
@@ -467,7 +395,7 @@
                     <div class="food-info">
                         <div class="food-name">${food.name}</div>
                         <div class="food-price">Rs. ${food.price}</div>
-                        <button class="btn btn-primary" onclick="addToCart('${food.id}', '${food.name}', ${food.price})"> Add to Cart</button>
+                        <button class="btn btn-primary" onclick="addToCart('${food.id}', '${food.name}', ${food.price})">🛒 Add to Cart</button>
                     </div>
                 </div>`).join('');
         }
@@ -475,12 +403,9 @@
         function renderGroceryGrid() {
             const grid = document.getElementById('groceryGrid');
             if (groceryItems.length === 0) { grid.innerHTML = '<div class="loading">දැනට Grocery භාණ්ඩ කිසිවක් නැත.</div>'; updateGroceryCart(); return; }
-            
             grid.innerHTML = groceryItems.map(product => {
                 const showDiscount = product.hasDiscount && product.discountPrice > 0 && product.discountPrice < product.originalPrice;
-                const displayPrice = showDiscount ? product.discountPrice : product.originalPrice;
                 const discountPercent = showDiscount ? Math.round(((product.originalPrice - product.discountPrice) / product.originalPrice) * 100) : 0;
-                
                 return `
                 <div class="grocery-card ${selectedGroceryIds.has(product.id) ? 'selected' : ''}" onclick="toggleGroceryItem('${product.id}')" style="position: relative;">
                     <div class="grocery-check"><input type="checkbox" ${selectedGroceryIds.has(product.id) ? 'checked' : ''} onclick="event.stopPropagation()"></div>
@@ -510,8 +435,10 @@
         function renderVegetableGrid() {
             const grid = document.getElementById('vegetableGrid');
             if (vegetables.length === 0) { grid.innerHTML = '<div class="loading">දැනට එළවළු කිසිවක් නැත.</div>'; updateVegetableCart(); return; }
-            
-            grid.innerHTML = vegetables.map(veg => `
+            grid.innerHTML = vegetables.map(veg => {
+                const showDiscount = veg.hasDiscount && veg.discountPrice > 0 && veg.discountPrice < veg.originalPrice;
+                const discountPercent = showDiscount ? Math.round(((veg.originalPrice - veg.discountPrice) / veg.originalPrice) * 100) : 0;
+                return `
                 <div class="vegetable-card ${selectedVegetableIds.has(veg.id) ? 'selected' : ''}" onclick="toggleVegetable('${veg.id}')" style="position: relative;">
                     <div class="grocery-check"><input type="checkbox" ${selectedVegetableIds.has(veg.id) ? 'checked' : ''} onclick="event.stopPropagation()"></div>
                     <div class="image-container food-img-container">
@@ -521,10 +448,20 @@
                     <div class="vegetable-info">
                         <div class="vegetable-name">${veg.name}</div>
                         <div style="font-size: 11px; color: #666; margin-bottom: 4px;">${veg.unit || '1 kg'}</div>
-                        <div style="color: #4CAF50; font-weight: 800; font-size: 16px;">Rs. ${veg.price}</div>
-                        ${veg.available === false ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px;">❌ Unavailable</div>' : ''}
+                        <div style="display: flex; align-items: center; gap: 6px; margin: 8px 0; flex-wrap: wrap;">
+                            ${showDiscount ? `
+                                <div style="background: #f44336; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700;">-${discountPercent}%</div>
+                                <div style="color: #f44336; font-weight: 800; font-size: 16px;">Rs. ${veg.discountPrice}</div>
+                                <div style="color: #999; text-decoration: line-through; font-size: 12px;">Rs. ${veg.originalPrice}</div>
+                            ` : `
+                                <div style="color: #4CAF50; font-weight: 800; font-size: 16px;">Rs. ${veg.originalPrice}</div>
+                            `}
+                        </div>
+                        ${veg.available === false ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">❌ Unavailable</div>' : ''}
+                        ${showDiscount ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">🏷️ Special Offer!</div>' : ''}
                     </div>
-                </div>`).join('');
+                </div>`;
+            }).join('');
             updateVegetableCart();
         }
 
@@ -546,7 +483,10 @@
             let total = 0, count = 0;
             selectedVegetableIds.forEach(id => {
                 const item = vegetables.find(v => v.id === id);
-                if (item && item.available !== false) { total += item.price; count++; }
+                if (item && item.available !== false) { 
+                    const price = item.hasDiscount && item.discountPrice > 0 ? item.discountPrice : item.originalPrice;
+                    total += price; count++; 
+                }
             });
             document.getElementById('vegetableCount').textContent = count;
             document.getElementById('vegetableTotal').textContent = total.toLocaleString();
@@ -572,9 +512,10 @@
             selectedVegetableIds.forEach(id => {
                 const item = vegetables.find(v => v.id === id);
                 if (item && item.available !== false) {
+                    const price = item.hasDiscount && item.discountPrice > 0 ? item.discountPrice : item.originalPrice;
                     const existing = cart.find(c => c.id === id && c.type === 'vegetable');
                     if (existing) existing.quantity += 1;
-                    else cart.push({ id: item.id, name: item.name, price: item.price, quantity: 1, type: 'vegetable' });
+                    else cart.push({ id: item.id, name: item.name, price: price, quantity: 1, type: 'vegetable' });
                 }
             });
             saveCart(); selectedVegetableIds.clear(); renderVegetableGrid();
@@ -629,15 +570,12 @@
             const zone = selectedOption.getAttribute('data-zone');
             const distance = selectedOption.getAttribute('data-distance') || '';
             const areaName = selectedOption.text;
-            
             currentDeliveryFee = fee;
-            
             const deliveryInfo = document.getElementById('deliveryInfo');
             const selectedAreaName = document.getElementById('selectedAreaName');
             const zoneBadge = document.getElementById('zoneBadge');
             const zoneFeeDisplay = document.getElementById('zoneFeeDisplay');
             const deliveryFeeDisplay = document.getElementById('deliveryFeeDisplay');
-            
             if (fee > 0) {
                 deliveryInfo.style.display = 'block';
                 selectedAreaName.textContent = areaName;
@@ -649,7 +587,6 @@
                 deliveryInfo.style.display = 'none';
                 deliveryFeeDisplay.textContent = '0';
             }
-            
             const itemsTotal = parseInt(document.getElementById('itemsTotal').textContent.replace(/,/g, '')) || 0;
             const grandTotal = itemsTotal + currentDeliveryFee;
             document.getElementById('grandTotal').textContent = grandTotal.toLocaleString();
@@ -663,125 +600,60 @@
             const selectedOption = areaSelect.options[areaSelect.selectedIndex];
             const area = selectedOption.text;
             const transId = document.getElementById('transactionId').value.trim();
-            
-            if (!name || !phone || !address || !areaSelect.value) { 
-                showToast('❌ කරුණාකර සියලු විස්තර සපුරන්න!'); 
-                return; 
-            }
-            if (selectedPaymentMethod === 'online' && !transId) { 
-                showToast('❌ Online ගෙවීම් සඳහා Transaction ID එක අනිවාර්යයි!'); 
-                return; 
-            }
-
+            if (!name || !phone || !address || !areaSelect.value) { showToast('❌ කරුණාකර සියලු විස්තර සපුරන්න!'); return; }
+            if (selectedPaymentMethod === 'online' && !transId) { showToast('❌ Online ගෙවීම් සඳහා Transaction ID එක අනිවාර්යයි!'); return; }
             localStorage.setItem('customerPhone', phone);
-
             let itemsTotal = parseInt(document.getElementById('itemsTotal').textContent.replace(/,/g, '')) || 0;
             let itemsList = cart.map(i => `${i.name} (x${i.quantity})`).join(', ');
             const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 Cash on Delivery (COD)' : `🏦 Online Payment (Ref: ${transId})`;
             const grandTotal = itemsTotal + currentDeliveryFee;
-
-            const orderMessage = `🛒 *NEW ORDER FROM FoodHub*\n\n` +
-                `👤 *Name:* ${name}\n` +
-                `📞 *Phone:* ${phone}\n` +
-                `📍 *Area:* ${area}\n` +
-                `🏠 *Address:* ${address}\n\n` +
-                `📦 *Items:*\n${itemsList}\n\n` +
-                `💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n` +
-                `🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n` +
-                `💳 *Payment:* ${paymentInfo}\n\n` +
-                `💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\n` +
-                `කරුණාකර මෙම order එක තහවුරු කරන්න.`;
-
-            const order = {
-                customerName: name,
-                phone: phone,
-                address: address,
-                area: area,
-                paymentMethod: selectedPaymentMethod,
-                transactionId: transId,
-                items: itemsList,
-                itemsTotal: itemsTotal,
-                deliveryFee: currentDeliveryFee,
-                grandTotal: grandTotal,
-                status: 'Pending',
-                date: new Date().toISOString(),
-                paymentInfo: paymentInfo
-            };
-
+            const orderMessage = `🛒 *NEW ORDER FROM FoodHub*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Area:* ${area}\n🏠 *Address:* ${address}\n\n📦 *Items:*\n${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
+            const order = { customerName: name, phone: phone, address: address, area: area, paymentMethod: selectedPaymentMethod, transactionId: transId, items: itemsList, itemsTotal: itemsTotal, deliveryFee: currentDeliveryFee, grandTotal: grandTotal, status: 'Pending', date: new Date().toISOString(), paymentInfo: paymentInfo };
             database.ref('orders').push(order).then(() => {
                 const whatsappNumber = '94766488689';
                 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(orderMessage)}`;
                 window.open(whatsappUrl, '_blank');
-                
                 showToast('✅ Order එක WhatsApp එකට යවමින්...');
-                cart = []; 
-                saveCart(); 
-                renderCart();
-                document.getElementById('customerName').value = ''; 
-                document.getElementById('phoneNumber').value = ''; 
-                document.getElementById('deliveryAddress').value = '';
-                document.getElementById('deliveryArea').value = '';
-                document.getElementById('transactionId').value = '';
+                cart = []; saveCart(); renderCart();
+                document.getElementById('customerName').value = ''; document.getElementById('phoneNumber').value = ''; document.getElementById('deliveryAddress').value = ''; document.getElementById('deliveryArea').value = ''; document.getElementById('transactionId').value = '';
                 setTimeout(() => switchTab('orders'), 2000);
-            }).catch(error => {
-                showToast('❌ Order යැවීමේ ගැටලුවක්: ' + error.message);
-            });
+            }).catch(error => { showToast('❌ Order යැවීමේ ගැටලුවක්: ' + error.message); });
         }
 
         function renderMyOrders(orders) {
             const list = document.getElementById('myOrdersList');
-            if (orders.length === 0) { 
-                list.innerHTML = '<div class="loading">බ තවම order කිසිවක් තබා නැත.</div>'; 
-                return; 
-            }
-            
+            if (orders.length === 0) { list.innerHTML = '<div class="loading">ඔබ තවම order කිසිවක් තබා නැත.</div>'; return; }
             orders.sort((a, b) => new Date(b.date) - new Date(a.date));
-            
             list.innerHTML = orders.map(order => {
                 const date = new Date(order.date);
                 const status = order.status || 'Pending';
-                
                 return `
                     <div class="cart-item" style="flex-direction: column; align-items: flex-start; padding: 15px;">
                         <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                             <strong style="font-size: 15px;">Order #${order.id ? order.id.slice(-6) : 'New'}</strong>
                             <span class="order-status status-${status.toLowerCase()}">${status}</span>
                         </div>
-                        
                         <div class="tracking-timeline" style="width: 100%;">
                             <h3>📦 Order Tracking</h3>
-                            
                             <div class="timeline-item ${status === 'Pending' ? 'active' : (['Confirmed', 'Delivered'].includes(status) ? 'completed' : '')}">
                                 <div class="timeline-icon">1</div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">Order Received</div>
-                                    <div class="timeline-desc">ඔබේ order එක ලැබී ඇත</div>
-                                </div>
+                                <div class="timeline-content"><div class="timeline-title">Order Received</div><div class="timeline-desc">ඔබේ order එක ලැබී ඇත</div></div>
                             </div>
-                            
                             <div class="timeline-item ${status === 'Confirmed' ? 'active' : (status === 'Delivered' ? 'completed' : '')}">
                                 <div class="timeline-icon">2</div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">Order Confirmed</div>
-                                    <div class="timeline-desc">Shop එක order එක පිළිගත්තා</div>
-                                </div>
+                                <div class="timeline-content"><div class="timeline-title">Order Confirmed</div><div class="timeline-desc">Shop එක order එක පිළිගත්තා</div></div>
                             </div>
-                            
                             <div class="timeline-item ${status === 'Delivered' ? 'completed' : ''}">
                                 <div class="timeline-icon">3</div>
-                                <div class="timeline-content">
-                                    <div class="timeline-title">Delivered</div>
-                                    <div class="timeline-desc">බට order එක බාර දුන්නා</div>
-                                </div>
+                                <div class="timeline-content"><div class="timeline-title">Delivered</div><div class="timeline-desc">ඔබේ order එක බාර දුන්නා</div></div>
                             </div>
                         </div>
-                        
                         <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;">
                             <div>📦 Items: ${order.items}</div>
                             <div>💰 Total: Rs. ${order.grandTotal || order.total}</div>
                             <div>🚚 Delivery: Rs. ${order.deliveryFee || 0}</div>
                             <div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')}</div>
-                            <div> ${order.address}</div>
+                            <div>📍 ${order.address}</div>
                             <div>🕐 ${date.toLocaleString()}</div>
                         </div>
                     </div>`;
@@ -792,16 +664,13 @@
             document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            
             document.getElementById(tabName + 'Tab').classList.remove('hidden');
-            
             const tabs = ['shops', 'grocery', 'vegetables', 'foods', 'orders', 'cart'];
             const index = tabs.indexOf(tabName);
             if (index >= 0) {
                 document.querySelectorAll('.tab')[index]?.classList.add('active');
                 document.querySelectorAll('.nav-item')[index]?.classList.add('active');
             }
-            
             if (tabName === 'cart') renderCart();
             else if (tabName === 'foods') renderFoods();
             else if (tabName === 'grocery') renderGroceryGrid();
