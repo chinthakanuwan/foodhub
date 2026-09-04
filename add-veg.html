@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Add Vegetables</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 400px; margin: 0 auto; }
+        input { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #4CAF50; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; }
+        button:hover { background: #45a049; }
+        #msg { margin-top: 15px; font-weight: bold; text-align: center; }
+    </style>
+</head>
+<body>
+    <h2>🥬 Vegetable Add Test</h2>
+    <input type="text" id="vName" placeholder="Name (උදා: Carrots / කැරට්)">
+    <input type="number" id="vPrice" placeholder="Original Price (උදා: 180)">
+    <input type="number" id="vDisc" placeholder="Discount Price (Optional, උදා: 150)">
+    <input type="text" id="vUnit" value="1 kg" placeholder="Unit (උදා: 1 kg)">
+    
+    <button onclick="saveVeg()">💾 Save Vegetable</button>
+    <p id="msg"></p>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDduouixF2IW568mND20cfxmnBNxQfRkrg",
+            authDomain: "foodhub-app-6632c.firebaseapp.com",
+            databaseURL: "https://foodhub-app-6632c-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "foodhub-app-6632c",
+            storageBucket: "foodhub-app-6632c.appspot.com",
+            messagingSenderId: "1025149369233",
+            appId: "1:1025149369233:web:245f846d959274ee487830"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        function saveVeg() {
+            const name = document.getElementById('vName').value.trim();
+            const price = parseInt(document.getElementById('vPrice').value) || 0;
+            const disc = parseInt(document.getElementById('vDisc').value) || 0;
+            const unit = document.getElementById('vUnit').value.trim() || '1 kg';
+
+            if (!name || price === 0) {
+                alert("❌ Name සහ Original Price අනිවාර්යයි!");
+                return;
+            }
+
+            const hasDiscount = disc > 0 && disc < price;
+
+            const vegData = {
+                name: name,
+                originalPrice: price,
+                hasDiscount: hasDiscount,
+                discountPrice: hasDiscount ? disc : 0,
+                unit: unit,
+                image: "https://via.placeholder.com/400x300?text=" + encodeURIComponent(name),
+                available: true,
+                createdAt: Date.now()
+            };
+
+            document.getElementById('msg').innerHTML = "⏳ Saving...";
+            document.getElementById('msg').style.color = "blue";
+
+            db.ref('vegetables').push(vegData).then(() => {
+                document.getElementById('msg').innerHTML = "✅ සාර්ථකව Save විය!";
+                document.getElementById('msg').style.color = "green";
+                // Clear form
+                document.getElementById('vName').value = "";
+                document.getElementById('vPrice').value = "";
+                document.getElementById('vDisc').value = "";
+            }).catch(err => {
+                document.getElementById('msg').innerHTML = "❌ Error: " + err.message;
+                document.getElementById('msg').style.color = "red";
+            });
+        }
+    </script>
+</body>
+</html>
