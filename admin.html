@@ -76,7 +76,6 @@
             <p>Complete Management System</p>
         </div>
 
-        <!-- Analytics Dashboard -->
         <div class="section">
             <h2>📊 Analytics Dashboard</h2>
             <div class="analytics-grid">
@@ -130,7 +129,7 @@
                     <select id="shopCategory">
                         <option value="Restaurant">🍽️ Restaurant</option>
                         <option value="Fast Food">🍔 Fast Food</option>
-                        <option value="Grocery">🛒 Grocery/Supermarket</option>
+                        <option value="Grocery"> Grocery/Supermarket</option>
                         <option value="Drinks">🥤 Drinks</option>
                         <option value="Flowers"> Flowers</option>
                     </select>
@@ -152,7 +151,7 @@
                     <div class="form-group"><label>Rating</label><input type="number" id="editShopRating" step="0.1"></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editShopImage"></div>
                     <div class="form-group"><label><input type="checkbox" id="editIsFeatured" style="margin-right: 10px;">⭐ Featured</label></div>
-                    <button class="btn btn-success" onclick="updateShop()"> Update</button>
+                    <button class="btn btn-success" onclick="updateShop()">💾 Update</button>
                     <button class="btn btn-warning" onclick="cancelEdit('shop')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Shops</h3>
@@ -176,7 +175,7 @@
                     <div class="form-group"><label>Food Name</label><input type="text" id="editFoodName"></div>
                     <div class="form-group"><label>Price</label><input type="number" id="editFoodPrice"></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editFoodImage"></div>
-                    <button class="btn btn-success" onclick="updateFood()">💾 Update</button>
+                    <button class="btn btn-success" onclick="updateFood()"> Update</button>
                     <button class="btn btn-warning" onclick="cancelEdit('food')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Foods</h3>
@@ -186,16 +185,16 @@
 
             <!-- GROCERY TAB -->
             <div id="groceryTab" class="hidden">
-                <h2> Grocery Management</h2>
+                <h2>🛒 Grocery Management</h2>
                 <h3>Add New Item</h3>
                 <div class="form-group"><label>Item Name</label><input type="text" id="groceryName" placeholder="e.g., Red Rice 1kg"></div>
                 <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="groceryOriginalPrice" placeholder="250"></div>
-                <div class="form-group"><label><input type="checkbox" id="hasDiscount" style="margin-right: 10px;" onchange="toggleDiscountField()"> 🏷️ Special Discount Available</label></div>
+                <div class="form-group"><label><input type="checkbox" id="hasDiscount" style="margin-right: 10px;" onchange="toggleDiscountField()"> ️ Special Discount Available</label></div>
                 <div class="form-group hidden" id="discountPriceGroup"><label>Discount Price (Rs.)</label><input type="number" id="groceryDiscountPrice" placeholder="220"></div>
                 <div class="form-group"><label>Unit</label><input type="text" id="groceryUnit" placeholder="1kg, 500g"></div>
                 <div class="form-group"><label>Category</label>
                     <select id="groceryCategory">
-                        <option value="Staples">🍚 Staples</option>
+                        <option value="Staples"> Staples</option>
                         <option value="Spices">🌶️ Spices</option>
                         <option value="Dairy">🥛 Dairy</option>
                         <option value="Other">📦 Other</option>
@@ -206,7 +205,7 @@
                 <button class="btn btn-warning" onclick="showEditGrocerySection()">✏️ Edit Item</button>
 
                 <div id="editGrocerySection" class="edit-section hidden">
-                    <h3>️ Edit Grocery Item</h3>
+                    <h3>✏️ Edit Grocery Item</h3>
                     <div class="form-group"><label>Select Item</label><select id="editGrocerySelect" onchange="loadGroceryData()"><option value="">-- Select --</option></select></div>
                     <div class="form-group"><label>Item Name</label><input type="text" id="editGroceryName"></div>
                     <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="editGroceryOriginalPrice"></div>
@@ -223,13 +222,13 @@
                 <div class="item-list" id="groceryList"></div>
             </div>
 
-            <!-- VEGETABLES TAB (WITH DISCOUNT) -->
+            <!-- VEGETABLES TAB -->
             <div id="vegetablesTab" class="hidden">
                 <h2>🥬 Vegetables Management</h2>
                 <h3>Add New Vegetable</h3>
                 <div class="form-group"><label>Vegetable Name</label><input type="text" id="vegetableName" placeholder="e.g., Carrots (කැරට්)"></div>
                 <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="vegetableOriginalPrice" placeholder="180"></div>
-                <div class="form-group"><label><input type="checkbox" id="hasVegetableDiscount" style="margin-right: 10px;" onchange="toggleVegetableDiscountField()"> ️ Special Discount Available</label></div>
+                <div class="form-group"><label><input type="checkbox" id="hasVegetableDiscount" style="margin-right: 10px;" onchange="toggleVegetableDiscountField()"> 🏷️ Special Discount Available</label></div>
                 <div class="form-group hidden" id="vegetableDiscountPriceGroup"><label>Discount Price (Rs.)</label><input type="number" id="vegetableDiscountPrice" placeholder="150"></div>
                 <div class="form-group"><label>Unit</label><input type="text" id="vegetableUnit" placeholder="1 kg" value="1 kg"></div>
                 <div class="form-group"><label>Image URL</label><input type="text" id="vegetableImageUrl" placeholder="https://..."></div>
@@ -261,8 +260,8 @@
                 <h2>📢 Customer Notifications</h2>
                 
                 <div class="app-link-box">
-                    <h3>📱 App Install Link</h3>
-                    <p style="margin-bottom: 15px;">Customers ට App එක install කරගන්න link එක යවන්න</p>
+                    <h3> App Install Link</h3>
+                    <p style="margin-bottom: 15px;">Customers  App එක install කරගන්න link එක යවන්න</p>
                     <div class="form-group"><label>App URL:</label><input type="text" id="appInstallUrl" value="https://chinthakanuwan.github.io/foodhub/" readonly></div>
                     <div class="form-group"><label>Customer Phone Number:</label><input type="tel" id="customerPhone" placeholder="0766488689"></div>
                     <button class="btn btn-whatsapp" onclick="sendAppInstallLink()">📤 Send App Install Link via WhatsApp</button>
@@ -277,9 +276,9 @@
                     <button class="btn btn-whatsapp" onclick="sendWhatsAppNotification()">📤 Send via WhatsApp</button>
                     
                     <h3 style="margin-top: 20px;">📝 Quick Templates</h3>
-                    <button class="btn btn-info" onclick="useTemplate('welcome')">👋 Welcome Message</button>
+                    <button class="btn btn-info" onclick="useTemplate('welcome')"> Welcome Message</button>
                     <button class="btn btn-info" onclick="useTemplate('offer')"> Special Offer</button>
-                    <button class="btn btn-info" onclick="useTemplate('delivery')"> Delivery Update</button>
+                    <button class="btn btn-info" onclick="useTemplate('delivery')">🚚 Delivery Update</button>
                 </div>
             </div>
         </div>
@@ -341,8 +340,6 @@
 
         function toggleDiscountField() { document.getElementById('discountPriceGroup').classList.toggle('hidden', !document.getElementById('hasDiscount').checked); }
         function toggleEditDiscountField() { document.getElementById('editDiscountPriceGroup').classList.toggle('hidden', !document.getElementById('editHasDiscount').checked); }
-        
-        // Vegetable Discount Toggles
         function toggleVegetableDiscountField() { document.getElementById('vegetableDiscountPriceGroup').classList.toggle('hidden', !document.getElementById('hasVegetableDiscount').checked); }
         function toggleEditVegetableDiscountField() { document.getElementById('editVegetableDiscountPriceGroup').classList.toggle('hidden', !document.getElementById('editHasVegetableDiscount').checked); }
 
@@ -351,7 +348,7 @@
             const phone = document.getElementById('customerPhone').value.trim();
             const appUrl = document.getElementById('appInstallUrl').value;
             if (!phone) return alert('Enter phone number!');
-            const message = `🛒 FoodHub App එක download කරගන්න! \n\nබේ ආහාර & grocery delivery partner\n\n📱 App Link: ${appUrl}\n\nOrder කරන්න දැන්ම visit කරන්න!`;
+            const message = ` FoodHub App එක download කරගන්න! \n\nඔබේ ආහාර & grocery delivery partner\n\n📱 App Link: ${appUrl}\n\nOrder කරන්න දැන්ම visit කරන්න!`;
             window.open(`https://wa.me/94${phone.substring(1)}?text=${encodeURIComponent(message)}`, '_blank');
         }
         function copyAppLink() { navigator.clipboard.writeText(document.getElementById('appInstallUrl').value).then(() => alert('✅ App link copied!')); }
@@ -363,14 +360,14 @@
         }
         function useTemplate(type) {
             const templates = {
-                welcome: '👋 යුබෝවන්! FoodHub App එකට සාදරයෙන් පිළිගනිමු! \n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
-                offer: ' විශේෂ දීමනාව! \n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
-                delivery: '🚚 ඔබේ order එක deliver වෙමින් පවතී!\n\nOrder tracking සඳහා: https://chinthakanuwan.github.io/foodhub/\n\nස්තතියි! 🙏'
+                welcome: '👋 යුබෝවන්! FoodHub App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
+                offer: '🎉 විශේෂ දීමනාව! \n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
+                delivery: '🚚 බේ order එක deliver වෙමින් පවතී!\n\nOrder tracking සඳහා: https://chinthakanuwan.github.io/foodhub/\n\nස්තූතියි! 🙏'
             };
             document.getElementById('notifMessage').value = templates[type];
         }
 
-        // --- VEGETABLE FUNCTIONS (WITH DISCOUNT) ---
+        // --- VEGETABLE FUNCTIONS ---
         function saveVegetable() {
             const hasDiscount = document.getElementById('hasVegetableDiscount').checked;
             const veg = {
@@ -561,13 +558,13 @@
                     <div class="order-details">
                         <div>👤 ${o.customerName} | 📞 ${o.phone}</div>
                         <div>📦 ${o.items}</div>
-                        <div>💰 Total: Rs. ${o.grandTotal || o.total} |  ${o.paymentInfo || o.paymentMethod}</div>
+                        <div>💰 Total: Rs. ${o.grandTotal || o.total} | 💳 ${o.paymentInfo || o.paymentMethod}</div>
                         <div>📍 ${o.address}</div>
                     </div>
                     <div class="order-actions">
                         <button class="btn btn-success" onclick="updateOrderStatus('${o.id}', 'Confirmed')">✅ Confirm</button>
                         <button class="btn btn-primary" onclick="updateOrderStatus('${o.id}', 'Delivered')">✔️ Delivered</button>
-                        <button class="btn btn-danger" onclick="updateOrderStatus('${o.id}', 'Cancelled')"> Cancel</button>
+                        <button class="btn btn-danger" onclick="updateOrderStatus('${o.id}', 'Cancelled')">❌ Cancel</button>
                         <button class="btn btn-info" onclick="contactCustomer('${o.phone}')">💬 Contact</button>
                         <button class="btn btn-danger" onclick="deleteOrder('${o.id}')">🗑️ Delete</button>
                     </div>
