@@ -85,13 +85,13 @@
                 <div class="analytics-card"><h3>📦 Monthly Orders</h3><div class="value" id="monthOrders">0</div></div>
                 <div class="analytics-card"><h3>💰 Monthly Revenue</h3><div class="value" id="monthRevenue">Rs. 0</div></div>
                 <div class="analytics-card"><h3>✅ Delivered</h3><div class="value" id="deliveredOrders">0</div></div>
-                <div class="analytics-card"><h3> Pending</h3><div class="value" id="pendingOrders">0</div></div>
+                <div class="analytics-card"><h3>⏳ Pending</h3><div class="value" id="pendingOrders">0</div></div>
             </div>
         </div>
 
         <div class="section">
             <div class="tabs">
-                <div class="tab active" onclick="switchTab('orders')">📦 Orders</div>
+                <div class="tab active" onclick="switchTab('orders')"> Orders</div>
                 <div class="tab" onclick="switchTab('shops')">🏪 Shops</div>
                 <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
                 <div class="tab" onclick="switchTab('grocery')">🛒 Grocery</div>
@@ -132,7 +132,7 @@
                         <option value="Fast Food">🍔 Fast Food</option>
                         <option value="Grocery">🛒 Grocery/Supermarket</option>
                         <option value="Drinks">🥤 Drinks</option>
-                        <option value="Flowers">🌹 Flowers</option>
+                        <option value="Flowers"> Flowers</option>
                     </select>
                 </div>
                 <div class="form-group"><label>Phone Number</label><input type="tel" id="shopPhone" placeholder="0766488689"></div>
@@ -176,8 +176,8 @@
                     <div class="form-group"><label>Food Name</label><input type="text" id="editFoodName"></div>
                     <div class="form-group"><label>Price</label><input type="number" id="editFoodPrice"></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editFoodImage"></div>
-                    <button class="btn btn-success" onclick="updateFood()"> Update</button>
-                    <button class="btn btn-warning" onclick="cancelEdit('food')"> Cancel</button>
+                    <button class="btn btn-success" onclick="updateFood()">💾 Update</button>
+                    <button class="btn btn-warning" onclick="cancelEdit('food')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Foods</h3>
                 <input type="text" class="search-bar" id="foodSearch" placeholder="🔍 Search foods..." oninput="renderFoods()">
@@ -186,11 +186,11 @@
 
             <!-- GROCERY TAB -->
             <div id="groceryTab" class="hidden">
-                <h2>🛒 Grocery Management</h2>
+                <h2> Grocery Management</h2>
                 <h3>Add New Item</h3>
                 <div class="form-group"><label>Item Name</label><input type="text" id="groceryName" placeholder="e.g., Red Rice 1kg"></div>
                 <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="groceryOriginalPrice" placeholder="250"></div>
-                <div class="form-group"><label><input type="checkbox" id="hasDiscount" style="margin-right: 10px;" onchange="toggleDiscountField()"> ️ Special Discount Available</label></div>
+                <div class="form-group"><label><input type="checkbox" id="hasDiscount" style="margin-right: 10px;" onchange="toggleDiscountField()"> 🏷️ Special Discount Available</label></div>
                 <div class="form-group hidden" id="discountPriceGroup"><label>Discount Price (Rs.)</label><input type="number" id="groceryDiscountPrice" placeholder="220"></div>
                 <div class="form-group"><label>Unit</label><input type="text" id="groceryUnit" placeholder="1kg, 500g"></div>
                 <div class="form-group"><label>Category</label>
@@ -206,7 +206,7 @@
                 <button class="btn btn-warning" onclick="showEditGrocerySection()">✏️ Edit Item</button>
 
                 <div id="editGrocerySection" class="edit-section hidden">
-                    <h3>✏️ Edit Grocery Item</h3>
+                    <h3>️ Edit Grocery Item</h3>
                     <div class="form-group"><label>Select Item</label><select id="editGrocerySelect" onchange="loadGroceryData()"><option value="">-- Select --</option></select></div>
                     <div class="form-group"><label>Item Name</label><input type="text" id="editGroceryName"></div>
                     <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="editGroceryOriginalPrice"></div>
@@ -219,16 +219,18 @@
                     <button class="btn btn-warning" onclick="cancelEdit('grocery')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Grocery Items</h3>
-                <input type="text" class="search-bar" id="grocerySearch" placeholder=" Search items..." oninput="renderGroceryItems()">
+                <input type="text" class="search-bar" id="grocerySearch" placeholder="🔍 Search items..." oninput="renderGroceryItems()">
                 <div class="item-list" id="groceryList"></div>
             </div>
 
-            <!-- VEGETABLES TAB -->
+            <!-- VEGETABLES TAB (WITH DISCOUNT) -->
             <div id="vegetablesTab" class="hidden">
                 <h2>🥬 Vegetables Management</h2>
                 <h3>Add New Vegetable</h3>
                 <div class="form-group"><label>Vegetable Name</label><input type="text" id="vegetableName" placeholder="e.g., Carrots (කැරට්)"></div>
-                <div class="form-group"><label>Price per kg (Rs.)</label><input type="number" id="vegetablePrice" placeholder="180"></div>
+                <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="vegetableOriginalPrice" placeholder="180"></div>
+                <div class="form-group"><label><input type="checkbox" id="hasVegetableDiscount" style="margin-right: 10px;" onchange="toggleVegetableDiscountField()"> ️ Special Discount Available</label></div>
+                <div class="form-group hidden" id="vegetableDiscountPriceGroup"><label>Discount Price (Rs.)</label><input type="number" id="vegetableDiscountPrice" placeholder="150"></div>
                 <div class="form-group"><label>Unit</label><input type="text" id="vegetableUnit" placeholder="1 kg" value="1 kg"></div>
                 <div class="form-group"><label>Image URL</label><input type="text" id="vegetableImageUrl" placeholder="https://..."></div>
                 <div class="form-group"><label><input type="checkbox" id="isVegetableAvailable" checked style="margin-right: 10px;">✅ Available for Sale</label></div>
@@ -239,13 +241,15 @@
                     <h3>✏️ Edit Vegetable</h3>
                     <div class="form-group"><label>Select Vegetable</label><select id="editVegetableSelect" onchange="loadVegetableData()"><option value="">-- Select --</option></select></div>
                     <div class="form-group"><label>Vegetable Name</label><input type="text" id="editVegetableName"></div>
-                    <div class="form-group"><label>Price (Rs.)</label><input type="number" id="editVegetablePrice"></div>
+                    <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="editVegetableOriginalPrice"></div>
+                    <div class="form-group"><label><input type="checkbox" id="editHasVegetableDiscount" style="margin-right: 10px;" onchange="toggleEditVegetableDiscountField()"> 🏷️ Special Discount</label></div>
+                    <div class="form-group hidden" id="editVegetableDiscountPriceGroup"><label>Discount Price (Rs.)</label><input type="number" id="editVegetableDiscountPrice"></div>
                     <div class="form-group"><label>Unit</label><input type="text" id="editVegetableUnit"></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editVegetableImage"></div>
                     <div class="form-group"><label><input type="checkbox" id="editIsVegetableAvailable" style="margin-right: 10px;">✅ Available</label></div>
                     <button class="btn btn-success" onclick="updateVegetable()">💾 Update</button>
                     <button class="btn btn-danger" onclick="quickDeleteVegetable()">🗑️ Delete</button>
-                    <button class="btn btn-warning" onclick="cancelEdit('vegetable')">❌ Cancel</button>
+                    <button class="btn btn-warning" onclick="cancelEdit('vegetable')"> Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Vegetables</h3>
                 <input type="text" class="search-bar" id="vegetableSearch" placeholder="🔍 Search vegetables..." oninput="renderVegetables()">
@@ -262,7 +266,7 @@
                     <div class="form-group"><label>App URL:</label><input type="text" id="appInstallUrl" value="https://chinthakanuwan.github.io/foodhub/" readonly></div>
                     <div class="form-group"><label>Customer Phone Number:</label><input type="tel" id="customerPhone" placeholder="0766488689"></div>
                     <button class="btn btn-whatsapp" onclick="sendAppInstallLink()">📤 Send App Install Link via WhatsApp</button>
-                    <button class="btn btn-info" onclick="copyAppLink()"> Copy App Link</button>
+                    <button class="btn btn-info" onclick="copyAppLink()">📋 Copy App Link</button>
                 </div>
 
                 <div class="notification-box">
@@ -274,8 +278,8 @@
                     
                     <h3 style="margin-top: 20px;">📝 Quick Templates</h3>
                     <button class="btn btn-info" onclick="useTemplate('welcome')">👋 Welcome Message</button>
-                    <button class="btn btn-info" onclick="useTemplate('offer')">🎉 Special Offer</button>
-                    <button class="btn btn-info" onclick="useTemplate('delivery')">🚚 Delivery Update</button>
+                    <button class="btn btn-info" onclick="useTemplate('offer')"> Special Offer</button>
+                    <button class="btn btn-info" onclick="useTemplate('delivery')"> Delivery Update</button>
                 </div>
             </div>
         </div>
@@ -337,13 +341,17 @@
 
         function toggleDiscountField() { document.getElementById('discountPriceGroup').classList.toggle('hidden', !document.getElementById('hasDiscount').checked); }
         function toggleEditDiscountField() { document.getElementById('editDiscountPriceGroup').classList.toggle('hidden', !document.getElementById('editHasDiscount').checked); }
+        
+        // Vegetable Discount Toggles
+        function toggleVegetableDiscountField() { document.getElementById('vegetableDiscountPriceGroup').classList.toggle('hidden', !document.getElementById('hasVegetableDiscount').checked); }
+        function toggleEditVegetableDiscountField() { document.getElementById('editVegetableDiscountPriceGroup').classList.toggle('hidden', !document.getElementById('editHasVegetableDiscount').checked); }
 
         // --- NOTIFICATION FUNCTIONS ---
         function sendAppInstallLink() {
             const phone = document.getElementById('customerPhone').value.trim();
             const appUrl = document.getElementById('appInstallUrl').value;
             if (!phone) return alert('Enter phone number!');
-            const message = ` FoodHub App එක download කරගන්න! \n\nඔබේ ආහාර & grocery delivery partner\n\n📱 App Link: ${appUrl}\n\nOrder කරන්න දැන්ම visit කරන්න!`;
+            const message = `🛒 FoodHub App එක download කරගන්න! \n\nබේ ආහාර & grocery delivery partner\n\n📱 App Link: ${appUrl}\n\nOrder කරන්න දැන්ම visit කරන්න!`;
             window.open(`https://wa.me/94${phone.substring(1)}?text=${encodeURIComponent(message)}`, '_blank');
         }
         function copyAppLink() { navigator.clipboard.writeText(document.getElementById('appInstallUrl').value).then(() => alert('✅ App link copied!')); }
@@ -355,18 +363,21 @@
         }
         function useTemplate(type) {
             const templates = {
-                welcome: '👋 යුබෝවන්! FoodHub App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
+                welcome: '👋 යුබෝවන්! FoodHub App එකට සාදරයෙන් පිළිගනිමු! \n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
                 offer: ' විශේෂ දීමනාව! \n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
-                delivery: '🚚 බේ order එක deliver වෙමින් පවතී!\n\nOrder tracking සඳහා: https://chinthakanuwan.github.io/foodhub/\n\nස්තූතියි! 🙏'
+                delivery: '🚚 ඔබේ order එක deliver වෙමින් පවතී!\n\nOrder tracking සඳහා: https://chinthakanuwan.github.io/foodhub/\n\nස්තතියි! 🙏'
             };
             document.getElementById('notifMessage').value = templates[type];
         }
 
-        // --- VEGETABLE FUNCTIONS ---
+        // --- VEGETABLE FUNCTIONS (WITH DISCOUNT) ---
         function saveVegetable() {
+            const hasDiscount = document.getElementById('hasVegetableDiscount').checked;
             const veg = {
                 name: document.getElementById('vegetableName').value,
-                price: parseInt(document.getElementById('vegetablePrice').value) || 0,
+                originalPrice: parseInt(document.getElementById('vegetableOriginalPrice').value) || 0,
+                hasDiscount: hasDiscount,
+                discountPrice: hasDiscount ? (parseInt(document.getElementById('vegetableDiscountPrice').value) || 0) : 0,
                 unit: document.getElementById('vegetableUnit').value || '1 kg',
                 image: document.getElementById('vegetableImageUrl').value || 'https://via.placeholder.com/500',
                 available: document.getElementById('isVegetableAvailable').checked,
@@ -382,6 +393,11 @@
             const filtered = vegetables.filter(v => v.name.toLowerCase().includes(search));
             
             list.innerHTML = filtered.map(veg => {
+                const showDiscount = veg.hasDiscount && veg.discountPrice > 0 && veg.discountPrice < veg.originalPrice;
+                const priceDisplay = showDiscount 
+                    ? `<span style="color:#f44336; font-weight:bold;">Rs. ${veg.discountPrice}</span> <span style="text-decoration:line-through; color:#999; font-size:12px;">Rs. ${veg.originalPrice}</span> <span style="background:#f44336; color:white; padding:2px 6px; border-radius:10px; font-size:10px;">OFFER</span>`
+                    : `<span style="color:#4CAF50; font-weight:bold;">Rs. ${veg.originalPrice}</span>`;
+                
                 const availabilityBadge = veg.available !== false 
                     ? '<span style="background:#C8E6C9; color:#1B5E20; padding:2px 8px; border-radius:10px; font-size:10px;">✅ Available</span>'
                     : '<span style="background:#FFCDD2; color:#B71C1C; padding:2px 8px; border-radius:10px; font-size:10px;">❌ Unavailable</span>';
@@ -391,7 +407,7 @@
                     <div class="item-info">
                         <div style="font-weight:bold;">${veg.name}</div>
                         <div style="margin-top:5px;">
-                            <span style="color:#4CAF50; font-weight:bold;">Rs. ${veg.price}</span>
+                            ${priceDisplay}
                             <span style="color:#666; font-size:12px; margin-left:10px;">| ${veg.unit}</span>
                             <span style="margin-left:10px;">${availabilityBadge}</span>
                         </div>
@@ -413,18 +429,24 @@
             const veg = vegetables.find(v => v.id === id);
             if (!veg) return;
             document.getElementById('editVegetableName').value = veg.name || '';
-            document.getElementById('editVegetablePrice').value = veg.price || 0;
+            document.getElementById('editVegetableOriginalPrice').value = veg.originalPrice || 0;
+            document.getElementById('editHasVegetableDiscount').checked = veg.hasDiscount || false;
+            document.getElementById('editVegetableDiscountPrice').value = veg.discountPrice || 0;
             document.getElementById('editVegetableUnit').value = veg.unit || '1 kg';
             document.getElementById('editVegetableImage').value = veg.image || '';
             document.getElementById('editIsVegetableAvailable').checked = veg.available !== false;
+            toggleEditVegetableDiscountField();
         }
 
         function updateVegetable() {
             const id = document.getElementById('editVegetableSelect').value;
             if (!id) return alert('Select vegetable!');
+            const hasDiscount = document.getElementById('editHasVegetableDiscount').checked;
             const data = {
                 name: document.getElementById('editVegetableName').value,
-                price: parseInt(document.getElementById('editVegetablePrice').value) || 0,
+                originalPrice: parseInt(document.getElementById('editVegetableOriginalPrice').value) || 0,
+                hasDiscount: hasDiscount,
+                discountPrice: hasDiscount ? (parseInt(document.getElementById('editVegetableDiscountPrice').value) || 0) : 0,
                 unit: document.getElementById('editVegetableUnit').value,
                 image: document.getElementById('editVegetableImage').value,
                 available: document.getElementById('editIsVegetableAvailable').checked,
@@ -441,8 +463,10 @@
         }
 
         function clearVegetableForm() {
-            ['vegetableName', 'vegetablePrice', 'vegetableUnit', 'vegetableImageUrl'].forEach(id => document.getElementById(id).value = '');
+            ['vegetableName', 'vegetableOriginalPrice', 'vegetableDiscountPrice', 'vegetableUnit', 'vegetableImageUrl'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('hasVegetableDiscount').checked = false;
             document.getElementById('isVegetableAvailable').checked = true;
+            toggleVegetableDiscountField();
         }
 
         function showEditVegetableSection() {
@@ -537,13 +561,13 @@
                     <div class="order-details">
                         <div>👤 ${o.customerName} | 📞 ${o.phone}</div>
                         <div>📦 ${o.items}</div>
-                        <div>💰 Total: Rs. ${o.grandTotal || o.total} | 💳 ${o.paymentInfo || o.paymentMethod}</div>
+                        <div>💰 Total: Rs. ${o.grandTotal || o.total} |  ${o.paymentInfo || o.paymentMethod}</div>
                         <div>📍 ${o.address}</div>
                     </div>
                     <div class="order-actions">
                         <button class="btn btn-success" onclick="updateOrderStatus('${o.id}', 'Confirmed')">✅ Confirm</button>
                         <button class="btn btn-primary" onclick="updateOrderStatus('${o.id}', 'Delivered')">✔️ Delivered</button>
-                        <button class="btn btn-danger" onclick="updateOrderStatus('${o.id}', 'Cancelled')">❌ Cancel</button>
+                        <button class="btn btn-danger" onclick="updateOrderStatus('${o.id}', 'Cancelled')"> Cancel</button>
                         <button class="btn btn-info" onclick="contactCustomer('${o.phone}')">💬 Contact</button>
                         <button class="btn btn-danger" onclick="deleteOrder('${o.id}')">🗑️ Delete</button>
                     </div>
