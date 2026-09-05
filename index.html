@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#FF6B6B">
-    <title>FoodHub - Order Food & Grocery</title>
+    <meta name="theme-color" content="#22C55E">
+    <title>Silvas Express - Order Food & Grocery</title>
     <link rel="manifest" href="manifest.json">
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -12,7 +12,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding-bottom: 80px; }
         
-        .header { background: linear-gradient(135deg, #FF6B6B, #FF8E53); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; }
+        .header { background: linear-gradient(135deg, #22C55E, #16A34A); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; }
         .header h1 { font-size: 24px; margin-bottom: 5px; }
         
         .search-bar { padding: 12px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
@@ -20,7 +20,7 @@
         
         .tabs { display: flex; background: white; padding: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 12px; position: sticky; top: 90px; z-index: 90; gap: 6px; flex-wrap: wrap; }
         .tab { flex: 1; min-width: 80px; padding: 10px; text-align: center; cursor: pointer; border-radius: 10px; font-weight: 600; font-size: 13px; }
-        .tab.active { background: #FF6B6B; color: white; }
+        .tab.active { background: #22C55E; color: white; }
         .tab:not(.active) { background: #f0f0f0; color: #666; }
         
         .container { padding: 12px; }
@@ -37,18 +37,18 @@
         .gold-badge { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 3px 10px; border-radius: 10px; font-size: 11px; }
         
         .shop-details { display: flex; justify-content: space-between; color: #666; font-size: 12px; margin: 8px 0; }
-        .rating { background: #4CAF50; color: white; padding: 3px 8px; border-radius: 6px; font-weight: 700; }
+        .rating { background: #22C55E; color: white; padding: 3px 8px; border-radius: 6px; font-weight: 700; }
         
         .food-grid, .grocery-grid, .vegetable-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .food-price, .grocery-price, .vegetable-price { color: #FF6B6B; font-weight: 800; font-size: 15px; margin: 8px 0; }
+        .food-price, .grocery-price, .vegetable-price { color: #16A34A; font-weight: 800; font-size: 15px; margin: 8px 0; }
         
         .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
-        .btn-primary { background: #FF6B6B; color: white; }
-        .btn-success { background: #4CAF50; color: white; }
+        .btn-primary { background: #22C55E; color: white; }
+        .btn-success { background: #16A34A; color: white; }
         
         .grocery-check { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.2); z-index: 2; }
-        .grocery-check input { width: 20px; height: 20px; accent-color: #4CAF50; }
-        .grocery-card.selected, .vegetable-card.selected { border: 2px solid #4CAF50; }
+        .grocery-check input { width: 20px; height: 20px; accent-color: #22C55E; }
+        .grocery-card.selected, .vegetable-card.selected { border: 2px solid #22C55E; }
         
         .grocery-cart { position: fixed; bottom: 70px; left: 12px; right: 12px; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 -4px 20px rgba(0,0,0,0.15); z-index: 90; display: none; }
         
@@ -64,14 +64,14 @@
         
         .payment-option { display: flex; gap: 10px; margin-bottom: 15px; }
         .payment-btn { flex: 1; padding: 14px; border: 2px solid #e2e8f0; border-radius: 10px; background: white; cursor: pointer; font-weight: 700; }
-        .payment-btn.active { border-color: #FF6B6B; background: #fff1f2; color: #FF6B6B; }
+        .payment-btn.active { border-color: #22C55E; background: #f0fdf4; color: #16A34A; }
         
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0 15px; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); z-index: 100; }
         .nav-item { text-align: center; padding: 5px 15px; cursor: pointer; color: #94a3b8; position: relative; }
-        .nav-item.active { color: #FF6B6B; }
+        .nav-item.active { color: #22C55E; }
         .nav-item .icon { font-size: 22px; display: block; margin-bottom: 2px; }
         .nav-item .label { font-size: 11px; font-weight: 600; }
-        .cart-badge { position: absolute; top: -2px; right: 5px; background: #FF6B6B; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; border: 2px solid white; }
+        .cart-badge { position: absolute; top: -2px; right: 5px; background: #22C55E; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; border: 2px solid white; }
         
         .order-status { padding: 8px 15px; border-radius: 20px; font-weight: 600; font-size: 13px; display: inline-block; margin: 5px 0; }
         .status-pending { background: #FFE0B2; color: #E65100; }
@@ -84,12 +84,12 @@
         .timeline-item { display: flex; align-items: center; margin-bottom: 15px; position: relative; }
         .timeline-item:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 35px; height: calc(100% - 20px); width: 2px; background: #e2e8f0; }
         .timeline-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; font-weight: bold; font-size: 14px; z-index: 1; background: #e2e8f0; color: #94a3b8; }
-        .timeline-item.active .timeline-icon { background: #4CAF50; color: white; }
+        .timeline-item.active .timeline-icon { background: #22C55E; color: white; }
         .timeline-item.completed .timeline-icon { background: #2196F3; color: white; }
         .timeline-content { flex: 1; }
         .timeline-title { font-weight: 600; color: #333; font-size: 14px; }
         .timeline-desc { font-size: 12px; color: #666; margin-top: 2px; }
-        .timeline-item.active .timeline-title { color: #4CAF50; }
+        .timeline-item.active .timeline-title { color: #22C55E; }
         
         .toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 24px; border-radius: 30px; font-weight: 600; z-index: 2000; animation: slideUp 0.3s ease; }
         @keyframes slideUp { from { bottom: 40px; opacity: 0; } to { bottom: 90px; opacity: 1; } }
@@ -99,9 +99,9 @@
         .image-container { position: relative; width: 100%; height: 150px; background: #f0f0f0; overflow: hidden; }
         .image-container.food-img-container { height: 120px; }
         .image-container img { width: 100%; height: 100%; object-fit: cover; }
-        .image-fallback { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #667eea, #764ba2); color: white; font-size: 14px; font-weight: 600; text-align: center; padding: 10px; }
+        .image-fallback { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #22C55E, #16A34A); color: white; font-size: 14px; font-weight: 600; text-align: center; padding: 10px; }
         
-        .delivery-info { background: #f0f9ff; padding: 12px; border-radius: 10px; margin-top: 10px; border-left: 4px solid #0284c7; font-size: 13px; }
+        .delivery-info { background: #f0fdf4; padding: 12px; border-radius: 10px; margin-top: 10px; border-left: 4px solid #22C55E; font-size: 13px; }
         .zone-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; margin-left: 5px; }
         .zone-1 { background: #C8E6C9; color: #1B5E20; }
         .zone-2 { background: #FFF9C4; color: #F57F17; }
@@ -110,13 +110,13 @@
         .zone-5 { background: #E1BEE7; color: #4A148C; }
         
         .developer-credit { text-align: center; padding: 20px 10px 80px 10px; color: #888; font-size: 12px; background: #f5f5f5; border-top: 1px solid #eee; margin-top: 20px; }
-        .developer-credit strong { color: #FF6B6B; }
+        .developer-credit strong { color: #22C55E; }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>🛒 FoodHub</h1>
-        <p>ඔබේ ආහාර & grocery delivery partner</p>
+        <h1>🌿 Silvas Express</h1>
+        <p>ඔබේ විශ්වාසවන්ත ආහාර & grocery delivery partner</p>
     </div>
     
     <div class="search-bar">
@@ -132,7 +132,7 @@
     </div>
     
     <div id="shopsTab" class="container">
-        <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: center;">
+        <div style="background: linear-gradient(135deg, #22C55E, #16A34A); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: center;">
             <h3 style="font-size: 16px; margin-bottom: 5px;">🎉 විශේෂ දීමනාව!</h3>
             <p style="font-size: 13px;">පළමු order එකට 20% වට්ටමක්</p>
         </div>
@@ -145,7 +145,7 @@
         <div class="grocery-cart" id="groceryCart">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 600;">
                 <span>තෝරාගත් භාණ්ඩ: <span id="groceryCount">0</span></span>
-                <span style="font-size: 18px; color: #FF6B6B; font-weight: 800;">Rs. <span id="groceryTotal">0</span></span>
+                <span style="font-size: 18px; color: #16A34A; font-weight: 800;">Rs. <span id="groceryTotal">0</span></span>
             </div>
             <button class="btn btn-success" onclick="addGroceryToCart()">🛒 Cart එකට Add කරන්න</button>
         </div>
@@ -157,7 +157,7 @@
         <div class="grocery-cart" id="vegetableCart">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 600;">
                 <span>තෝරාගත් එළවළු: <span id="vegetableCount">0</span></span>
-                <span style="font-size: 18px; color: #FF6B6B; font-weight: 800;">Rs. <span id="vegetableTotal">0</span></span>
+                <span style="font-size: 18px; color: #16A34A; font-weight: 800;">Rs. <span id="vegetableTotal">0</span></span>
             </div>
             <button class="btn btn-success" onclick="addVegetablesToCart()">🛒 Cart එකට Add කරන්න</button>
         </div>
@@ -248,9 +248,9 @@
                         <button class="payment-btn active" onclick="selectPayment('cod')" id="btn-cod">💵 COD</button>
                         <button class="payment-btn" onclick="selectPayment('online')" id="btn-online">🏦 Online</button>
                     </div>
-                    <div id="onlinePaymentDetails" style="display: none; background: #fff7ed; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #f97316;">
+                    <div id="onlinePaymentDetails" style="display: none; background: #f0fdf4; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #22C55E;">
                         <strong>Bank of Ceylon (BOC) විස්තර:</strong><br>
-                        <strong>Account Name:</strong> FoodHub Delivery<br>
+                        <strong>Account Name:</strong> Silvas Express Delivery<br>
                         <strong>Account Number:</strong> 8012345678<br>
                         <strong>eZ Cash:</strong> 076-6488689<br><br>
                         <div class="form-group" style="margin-bottom: 0;">
@@ -260,14 +260,14 @@
                     </div>
                 </div>
                 
-                <div style="background: #f0f9ff; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #0284c7;">
+                <div style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #22C55E;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                         <span>🛒 Items Total:</span>
                         <span style="font-weight: 600;">Rs. <span id="itemsTotal">0</span></span>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                         <span>🚚 Delivery Fee:</span>
-                        <span style="font-weight: 600; color: #FF6B6B;">Rs. <span id="deliveryFeeDisplay">0</span></span>
+                        <span style="font-weight: 600; color: #16A34A;">Rs. <span id="deliveryFeeDisplay">0</span></span>
                     </div>
                     <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 18px; margin-top: 12px; padding-top: 12px; border-top: 2px solid #cbd5e1;">
                         <span>💰 මුළු එකතුව:</span>
@@ -292,7 +292,7 @@
 
     <div class="developer-credit">
         <p>Developed with ❤️ by <strong>TK Chinthaka Nuwan</strong></p>
-        <p style="font-size: 10px; margin-top: 5px; color: #aaa;">© 2024 FoodHub App. All rights reserved.</p>
+        <p style="font-size: 10px; margin-top: 5px; color: #aaa;">© 2024 Silvas Express App. All rights reserved.</p>
     </div>
 
     <script>
@@ -308,7 +308,7 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        let shops = [], foods = [], groceryItems = [], vegetables = [], cart = JSON.parse(localStorage.getItem('foodhub_cart')) || [];
+        let shops = [], foods = [], groceryItems = [], vegetables = [], cart = JSON.parse(localStorage.getItem('silvas_express_cart')) || [];
         let selectedGroceryIds = new Set(), selectedVegetableIds = new Set(), currentShopId = null, selectedPaymentMethod = 'cod', currentDeliveryFee = 0;
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -365,7 +365,7 @@
                             <div class="image-fallback" style="display:none;">${shop.name}</div>
                         </div>
                         <div class="shop-info">
-                            <div class="shop-name">${shop.name} ${shop.isFeatured ? '<span class="gold-badge">⭐ GOLD</span>' : ''} ${isGrocery ? '<span style="background: #4CAF50; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;">🛒 Grocery</span>' : ''}</div>
+                            <div class="shop-name">${shop.name} ${shop.isFeatured ? '<span class="gold-badge">⭐ GOLD</span>' : ''} ${isGrocery ? '<span style="background: #22C55E; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;">🛒 Grocery</span>' : ''}</div>
                             <div class="shop-details"><span>📞 ${shop.phone || 'N/A'}</span><span class="rating">⭐ ${shop.rating || '4.0'}</span></div>
                             <div class="shop-details"><span>🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'}</span><span>💰 Rs.${shop.deliveryFee || 150}</span></div>
                         </div>
@@ -422,7 +422,7 @@
                                 <div style="color: #f44336; font-weight: 800; font-size: 16px;">Rs. ${product.discountPrice}</div>
                                 <div style="color: #999; text-decoration: line-through; font-size: 12px;">Rs. ${product.originalPrice}</div>
                             ` : `
-                                <div style="color: #FF6B6B; font-weight: 800; font-size: 16px;">Rs. ${product.originalPrice}</div>
+                                <div style="color: #16A34A; font-weight: 800; font-size: 16px;">Rs. ${product.originalPrice}</div>
                             `}
                         </div>
                         ${showDiscount ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">🏷️ Special Offer!</div>' : ''}
@@ -454,7 +454,7 @@
                                 <div style="color: #f44336; font-weight: 800; font-size: 16px;">Rs. ${veg.discountPrice}</div>
                                 <div style="color: #999; text-decoration: line-through; font-size: 12px;">Rs. ${veg.originalPrice}</div>
                             ` : `
-                                <div style="color: #4CAF50; font-weight: 800; font-size: 16px;">Rs. ${veg.originalPrice}</div>
+                                <div style="color: #22C55E; font-weight: 800; font-size: 16px;">Rs. ${veg.originalPrice}</div>
                             `}
                         </div>
                         ${veg.available === false ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">❌ Unavailable</div>' : ''}
@@ -530,14 +530,14 @@
             saveCart(); showToast(`✅ ${foodName} cart එකට එකතු විය!`);
         }
 
-        function saveCart() { localStorage.setItem('foodhub_cart', JSON.stringify(cart)); updateCartBadge(); renderCart(); }
+        function saveCart() { localStorage.setItem('silvas_express_cart', JSON.stringify(cart)); updateCartBadge(); renderCart(); }
         function updateCartBadge() { const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0); document.getElementById('cartCount').textContent = totalItems; }
 
         function renderCart() {
             const list = document.getElementById('cartList');
             const checkoutSection = document.getElementById('checkoutSection');
             if (cart.length === 0) {
-                list.innerHTML = '<div class="loading" style="background: #fff7ed; padding: 30px; border-radius: 12px; border: 2px dashed #fdba74; color: #c2410c; text-align: center;">🛒 ඔබේ Cart එක හිස්යි.<br><br>Foods, Grocery හෝ Vegetables tab එකෙන් items add කරන්න!</div>';
+                list.innerHTML = '<div class="loading" style="background: #f0fdf4; padding: 30px; border-radius: 12px; border: 2px dashed #22C55E; color: #166534; text-align: center;">🛒 ඔබේ Cart එක හිස්යි.<br><br>Foods, Grocery හෝ Vegetables tab එකෙන් items add කරන්න!</div>';
                 checkoutSection.classList.add('hidden'); return;
             }
             let total = 0, summaryHTML = '', itemsHTML = '';
@@ -547,7 +547,7 @@
                 itemsHTML += `<div class="cart-item"><div style="flex: 1;"><div style="font-weight: 700; font-size: 14px; margin-bottom: 4px;">${item.name}</div><div style="font-size: 12px; color: #666;">Rs. ${item.price} each</div></div><div class="qty-controls"><button class="qty-btn" onclick="changeQty(${index}, -1)">−</button><span style="font-weight: 700; font-size: 14px; min-width: 24px; text-align: center;">${item.quantity}</span><button class="qty-btn" onclick="changeQty(${index}, 1)">+</button><button class="btn" onclick="removeFromCart(${index})" style="margin-left: 8px; background: #fee2e2; color: #ef4444; width: 32px; height: 32px; padding: 0;">🗑️</button></div></div>`;
             });
             summaryHTML += `<div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 18px; margin-top: 12px; padding-top: 12px; border-top: 2px solid #e2e8f0;"><span>Items Total:</span><span>Rs. ${total.toLocaleString()}</span></div>`;
-            list.innerHTML = `<div style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #4CAF50;"><strong style="font-size: 15px; color: #166534;">✅ Items ${cart.length}ක් තෝරාගෙන ඇත!</strong><br><span style="font-size: 12px; color: #15803d;">පහත විස්තර පුරවා Order එක යවන්න</span></div>${itemsHTML}`;
+            list.innerHTML = `<div style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #22C55E;"><strong style="font-size: 15px; color: #166534;">✅ Items ${cart.length}ක් තෝරාගෙන ඇත!</strong><br><span style="font-size: 12px; color: #15803d;">පහත විස්තර පුරවා Order එක යවන්න</span></div>${itemsHTML}`;
             document.getElementById('orderSummary').innerHTML = summaryHTML;
             document.getElementById('itemsTotal').textContent = total.toLocaleString();
             calculateDeliveryFee();
@@ -607,7 +607,7 @@
             let itemsList = cart.map(i => `${i.name} (x${i.quantity})`).join(', ');
             const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 Cash on Delivery (COD)' : `🏦 Online Payment (Ref: ${transId})`;
             const grandTotal = itemsTotal + currentDeliveryFee;
-            const orderMessage = `🛒 *NEW ORDER FROM FoodHub*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Area:* ${area}\n🏠 *Address:* ${address}\n\n📦 *Items:*\n${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
+            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Area:* ${area}\n🏠 *Address:* ${address}\n\n📦 *Items:*\n${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
             const order = { customerName: name, phone: phone, address: address, area: area, paymentMethod: selectedPaymentMethod, transactionId: transId, items: itemsList, itemsTotal: itemsTotal, deliveryFee: currentDeliveryFee, grandTotal: grandTotal, status: 'Pending', date: new Date().toISOString(), paymentInfo: paymentInfo };
             database.ref('orders').push(order).then(() => {
                 const whatsappNumber = '94766488689';
