@@ -3,37 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FoodHub - Admin Panel</title>
+    <title>Silvas Express - Admin Panel</title>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; }
-        #loginScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; justify-content: center; align-items: center; z-index: 9999; }
+        #loginScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #22C55E, #16A34A); display: flex; justify-content: center; align-items: center; z-index: 9999; }
         .login-box { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); text-align: center; width: 90%; max-width: 400px; }
         .login-box h1 { margin-bottom: 30px; color: #333; }
         .login-box input { width: 100%; padding: 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 16px; margin-bottom: 20px; }
-        .login-box button { width: 100%; padding: 15px; background: #667eea; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; }
-        .header { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; text-align: center; position: relative; }
+        .login-box button { width: 100%; padding: 15px; background: #22C55E; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; }
+        .header { background: linear-gradient(135deg, #22C55E, #16A34A); color: white; padding: 20px; text-align: center; position: relative; }
         .logout-btn { position: absolute; top: 20px; right: 20px; background: rgba(255,255,255,0.2); color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
         .section { background: white; padding: 20px; margin: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h2 { margin-bottom: 20px; color: #333; border-bottom: 2px solid #667eea; padding-bottom: 10px; }
+        h2 { margin-bottom: 20px; color: #333; border-bottom: 2px solid #22C55E; padding-bottom: 10px; }
         h3 { margin: 20px 0 15px 0; color: #555; }
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #555; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; }
         .btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; margin-right: 5px; margin-bottom: 10px; }
-        .btn-primary { background: #667eea; color: white; }
-        .btn-success { background: #4CAF50; color: white; }
+        .btn-primary { background: #22C55E; color: white; }
+        .btn-success { background: #16A34A; color: white; }
         .btn-danger { background: #f44336; color: white; }
         .btn-warning { background: #FF9800; color: white; }
         .btn-info { background: #2196F3; color: white; }
         .btn-whatsapp { background: #25D366; color: white; }
         .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #e0e0e0; padding-bottom: 10px; flex-wrap: wrap; }
         .tab { padding: 10px 20px; cursor: pointer; border-radius: 8px; font-weight: 600; }
-        .tab.active { background: #667eea; color: white; }
+        .tab.active { background: #22C55E; color: white; }
         .tab:not(.active) { background: #f5f5f5; color: #666; }
-        .order-card { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #667eea; }
+        .order-card { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #22C55E; }
         .order-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .order-id { font-weight: bold; font-size: 16px; }
         .order-status { padding: 5px 12px; border-radius: 15px; font-size: 12px; font-weight: 600; }
@@ -46,23 +46,23 @@
         .item-list { margin-top: 20px; }
         .item-card { background: #f9f9f9; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .item-info { flex: 1; }
-        .edit-section { margin-top: 20px; padding: 20px; background: #FFF3CD; border-radius: 10px; border: 2px solid #FFC107; }
+        .edit-section { margin-top: 20px; padding: 20px; background: #F0FDF4; border-radius: 10px; border: 2px solid #22C55E; }
         .filter-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .filter-bar select, .filter-bar input { padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; }
         .search-bar { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; margin-bottom: 15px; }
         .hidden { display: none; }
         .analytics-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .analytics-card { background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 15px; border-radius: 10px; text-align: center; }
+        .analytics-card { background: linear-gradient(135deg, #22C55E, #16A34A); color: white; padding: 15px; border-radius: 10px; text-align: center; }
         .analytics-card h3 { font-size: 13px; margin-bottom: 5px; opacity: 0.9; }
         .analytics-card .value { font-size: 24px; font-weight: bold; }
-        .notification-box { background: #E3F2FD; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #2196F3; }
-        .app-link-box { background: #F3E5F5; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #9C27B0; }
+        .notification-box { background: #F0FDF4; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #22C55E; }
+        .app-link-box { background: #ECFDF5; padding: 20px; border-radius: 10px; margin: 20px 0; border-left: 4px solid #16A34A; }
     </style>
 </head>
 <body>
     <div id="loginScreen">
         <div class="login-box">
-            <h1>🔐 FoodHub Admin Login</h1>
+            <h1>🔐 Silvas Express Admin Login</h1>
             <input type="password" id="adminPassword" placeholder="Enter Password (admin123)">
             <button onclick="login()">Login</button>
             <p id="loginError" style="color: red; margin-top: 10px; display: none;">❌ Wrong Password!</p>
@@ -72,7 +72,7 @@
     <div id="adminPanel" class="hidden">
         <div class="header">
             <button class="logout-btn" onclick="logout()">🚪 Logout</button>
-            <h1>⚙️ FoodHub Admin Panel</h1>
+            <h1>⚙️ Silvas Express Admin Panel</h1>
             <p>Complete Management System</p>
         </div>
 
@@ -90,7 +90,7 @@
 
         <div class="section">
             <div class="tabs">
-                <div class="tab active" onclick="switchTab('orders')"> Orders</div>
+                <div class="tab active" onclick="switchTab('orders')">📦 Orders</div>
                 <div class="tab" onclick="switchTab('shops')">🏪 Shops</div>
                 <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
                 <div class="tab" onclick="switchTab('grocery')">🛒 Grocery</div>
@@ -129,9 +129,9 @@
                     <select id="shopCategory">
                         <option value="Restaurant">🍽️ Restaurant</option>
                         <option value="Fast Food">🍔 Fast Food</option>
-                        <option value="Grocery"> Grocery/Supermarket</option>
+                        <option value="Grocery">🛒 Grocery/Supermarket</option>
                         <option value="Drinks">🥤 Drinks</option>
-                        <option value="Flowers"> Flowers</option>
+                        <option value="Flowers">💐 Flowers</option>
                     </select>
                 </div>
                 <div class="form-group"><label>Phone Number</label><input type="tel" id="shopPhone" placeholder="0766488689"></div>
@@ -175,7 +175,7 @@
                     <div class="form-group"><label>Food Name</label><input type="text" id="editFoodName"></div>
                     <div class="form-group"><label>Price</label><input type="number" id="editFoodPrice"></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editFoodImage"></div>
-                    <button class="btn btn-success" onclick="updateFood()"> Update</button>
+                    <button class="btn btn-success" onclick="updateFood()">💾 Update</button>
                     <button class="btn btn-warning" onclick="cancelEdit('food')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Foods</h3>
@@ -189,12 +189,12 @@
                 <h3>Add New Item</h3>
                 <div class="form-group"><label>Item Name</label><input type="text" id="groceryName" placeholder="e.g., Red Rice 1kg"></div>
                 <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="groceryOriginalPrice" placeholder="250"></div>
-                <div class="form-group"><label><input type="checkbox" id="hasDiscount" style="margin-right: 10px;" onchange="toggleDiscountField()"> ️ Special Discount Available</label></div>
+                <div class="form-group"><label><input type="checkbox" id="hasDiscount" style="margin-right: 10px;" onchange="toggleDiscountField()"> 🏷️ Special Discount Available</label></div>
                 <div class="form-group hidden" id="discountPriceGroup"><label>Discount Price (Rs.)</label><input type="number" id="groceryDiscountPrice" placeholder="220"></div>
                 <div class="form-group"><label>Unit</label><input type="text" id="groceryUnit" placeholder="1kg, 500g"></div>
                 <div class="form-group"><label>Category</label>
                     <select id="groceryCategory">
-                        <option value="Staples"> Staples</option>
+                        <option value="Staples">🌾 Staples</option>
                         <option value="Spices">🌶️ Spices</option>
                         <option value="Dairy">🥛 Dairy</option>
                         <option value="Other">📦 Other</option>
@@ -248,7 +248,7 @@
                     <div class="form-group"><label><input type="checkbox" id="editIsVegetableAvailable" style="margin-right: 10px;">✅ Available</label></div>
                     <button class="btn btn-success" onclick="updateVegetable()">💾 Update</button>
                     <button class="btn btn-danger" onclick="quickDeleteVegetable()">🗑️ Delete</button>
-                    <button class="btn btn-warning" onclick="cancelEdit('vegetable')"> Cancel</button>
+                    <button class="btn btn-warning" onclick="cancelEdit('vegetable')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Vegetables</h3>
                 <input type="text" class="search-bar" id="vegetableSearch" placeholder="🔍 Search vegetables..." oninput="renderVegetables()">
@@ -260,9 +260,9 @@
                 <h2>📢 Customer Notifications</h2>
                 
                 <div class="app-link-box">
-                    <h3> App Install Link</h3>
-                    <p style="margin-bottom: 15px;">Customers  App එක install කරගන්න link එක යවන්න</p>
-                    <div class="form-group"><label>App URL:</label><input type="text" id="appInstallUrl" value="https://chinthakanuwan.github.io/foodhub/" readonly></div>
+                    <h3>📱 App Install Link</h3>
+                    <p style="margin-bottom: 15px;">Customers ට App එක install කරගන්න link එක යවන්න</p>
+                    <div class="form-group"><label>App URL:</label><input type="text" id="appInstallUrl" value="https://chinthakanuwan.github.io/silvas-express/" readonly></div>
                     <div class="form-group"><label>Customer Phone Number:</label><input type="tel" id="customerPhone" placeholder="0766488689"></div>
                     <button class="btn btn-whatsapp" onclick="sendAppInstallLink()">📤 Send App Install Link via WhatsApp</button>
                     <button class="btn btn-info" onclick="copyAppLink()">📋 Copy App Link</button>
@@ -276,8 +276,8 @@
                     <button class="btn btn-whatsapp" onclick="sendWhatsAppNotification()">📤 Send via WhatsApp</button>
                     
                     <h3 style="margin-top: 20px;">📝 Quick Templates</h3>
-                    <button class="btn btn-info" onclick="useTemplate('welcome')"> Welcome Message</button>
-                    <button class="btn btn-info" onclick="useTemplate('offer')"> Special Offer</button>
+                    <button class="btn btn-info" onclick="useTemplate('welcome')">👋 Welcome Message</button>
+                    <button class="btn btn-info" onclick="useTemplate('offer')">🎉 Special Offer</button>
                     <button class="btn btn-info" onclick="useTemplate('delivery')">🚚 Delivery Update</button>
                 </div>
             </div>
@@ -331,9 +331,9 @@
             const today = orders.filter(o => new Date(o.date).toDateString() === now.toDateString());
             const month = orders.filter(o => { const d = new Date(o.date); return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear(); });
             document.getElementById('todayOrders').textContent = today.length;
-            document.getElementById('todayRevenue').textContent = 'Rs. ' + today.reduce((s, o) => s + (o.total || 0), 0).toLocaleString();
+            document.getElementById('todayRevenue').textContent = 'Rs. ' + today.reduce((s, o) => s + (o.grandTotal || o.total || 0), 0).toLocaleString();
             document.getElementById('monthOrders').textContent = month.length;
-            document.getElementById('monthRevenue').textContent = 'Rs. ' + month.reduce((s, o) => s + (o.total || 0), 0).toLocaleString();
+            document.getElementById('monthRevenue').textContent = 'Rs. ' + month.reduce((s, o) => s + (o.grandTotal || o.total || 0), 0).toLocaleString();
             document.getElementById('deliveredOrders').textContent = orders.filter(o => o.status === 'Delivered').length;
             document.getElementById('pendingOrders').textContent = orders.filter(o => o.status === 'Pending' || !o.status).length;
         }
@@ -348,7 +348,7 @@
             const phone = document.getElementById('customerPhone').value.trim();
             const appUrl = document.getElementById('appInstallUrl').value;
             if (!phone) return alert('Enter phone number!');
-            const message = ` FoodHub App එක download කරගන්න! \n\nඔබේ ආහාර & grocery delivery partner\n\n📱 App Link: ${appUrl}\n\nOrder කරන්න දැන්ම visit කරන්න!`;
+            const message = `🌿 Silvas Express App එක download කරගන්න! \n\nඔබේ විශ්වාසවන්ත ආහාර & grocery delivery partner\n\n📱 App Link: ${appUrl}\n\nOrder කරන්න දැන්ම visit කරන්න!`;
             window.open(`https://wa.me/94${phone.substring(1)}?text=${encodeURIComponent(message)}`, '_blank');
         }
         function copyAppLink() { navigator.clipboard.writeText(document.getElementById('appInstallUrl').value).then(() => alert('✅ App link copied!')); }
@@ -360,9 +360,9 @@
         }
         function useTemplate(type) {
             const templates = {
-                welcome: '👋 යුබෝවන්! FoodHub App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
-                offer: '🎉 විශේෂ දීමනාව! \n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
-                delivery: '🚚 බේ order එක deliver වෙමින් පවතී!\n\nOrder tracking සඳහා: https://chinthakanuwan.github.io/foodhub/\n\nස්තූතියි! 🙏'
+                welcome: '👋 ආයුබෝවන්! 🌿 Silvas Express App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/silvas-express/',
+                offer: '🎉 විශේෂ දීමනාව! 🌿\n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://chinthakanuwan.github.io/silvas-express/',
+                delivery: '🚚 ඔබේ order එක deliver වෙමින් පවතී! 🌿\n\nOrder tracking සඳහා: https://chinthakanuwan.github.io/silvas-express/\n\nස්තූතියි! 🙏'
             };
             document.getElementById('notifMessage').value = templates[type];
         }
@@ -393,14 +393,14 @@
                 const showDiscount = veg.hasDiscount && veg.discountPrice > 0 && veg.discountPrice < veg.originalPrice;
                 const priceDisplay = showDiscount 
                     ? `<span style="color:#f44336; font-weight:bold;">Rs. ${veg.discountPrice}</span> <span style="text-decoration:line-through; color:#999; font-size:12px;">Rs. ${veg.originalPrice}</span> <span style="background:#f44336; color:white; padding:2px 6px; border-radius:10px; font-size:10px;">OFFER</span>`
-                    : `<span style="color:#4CAF50; font-weight:bold;">Rs. ${veg.originalPrice}</span>`;
+                    : `<span style="color:#16A34A; font-weight:bold;">Rs. ${veg.originalPrice}</span>`;
                 
                 const availabilityBadge = veg.available !== false 
                     ? '<span style="background:#C8E6C9; color:#1B5E20; padding:2px 8px; border-radius:10px; font-size:10px;">✅ Available</span>'
                     : '<span style="background:#FFCDD2; color:#B71C1C; padding:2px 8px; border-radius:10px; font-size:10px;">❌ Unavailable</span>';
                 
                 return `
-                <div class="item-card" style="background: #E8F5E9; border-left: 4px solid #4CAF50;">
+                <div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;">
                     <div class="item-info">
                         <div style="font-weight:bold;">${veg.name}</div>
                         <div style="margin-top:5px;">
@@ -483,8 +483,8 @@
             const search = (document.getElementById('grocerySearch')?.value || '').toLowerCase();
             const filtered = groceryItems.filter(g => g.name.toLowerCase().includes(search));
             list.innerHTML = filtered.map(item => {
-                const priceDisplay = item.hasDiscount && item.discountPrice > 0 ? `<span style="color:#f44336; font-weight:bold;">Rs. ${item.discountPrice}</span> <span style="text-decoration:line-through; color:#999; font-size:12px;">Rs. ${item.originalPrice}</span> <span style="background:#f44336; color:white; padding:2px 6px; border-radius:10px; font-size:10px;">OFFER</span>` : `<span style="color:#4CAF50; font-weight:bold;">Rs. ${item.originalPrice}</span>`;
-                return `<div class="item-card" style="background: #f0f8ff; border-left: 4px solid #4CAF50;"><div class="item-info"><div style="font-weight:bold;">${item.name}</div><div style="margin-top:5px;">${priceDisplay} <span style="color:#666; font-size:12px;">| ${item.unit} | ${item.category}</span></div></div><button class="btn btn-primary" onclick="quickEditGrocery('${item.id}')" style="padding:8px 12px; font-size:12px;">✏️</button></div>`;
+                const priceDisplay = item.hasDiscount && item.discountPrice > 0 ? `<span style="color:#f44336; font-weight:bold;">Rs. ${item.discountPrice}</span> <span style="text-decoration:line-through; color:#999; font-size:12px;">Rs. ${item.originalPrice}</span> <span style="background:#f44336; color:white; padding:2px 6px; border-radius:10px; font-size:10px;">OFFER</span>` : `<span style="color:#16A34A; font-weight:bold;">Rs. ${item.originalPrice}</span>`;
+                return `<div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${item.name}</div><div style="margin-top:5px;">${priceDisplay} <span style="color:#666; font-size:12px;">| ${item.unit} | ${item.category}</span></div></div><button class="btn btn-primary" onclick="quickEditGrocery('${item.id}')" style="padding:8px 12px; font-size:12px;">✏️</button></div>`;
             }).join('');
         }
         function quickEditGrocery(id) { document.getElementById('editGrocerySection').classList.remove('hidden'); document.getElementById('editGrocerySelect').value = id; loadGroceryData(); }
@@ -524,14 +524,14 @@
         }
         function renderShops() {
             const search = (document.getElementById('shopSearch')?.value || '').toLowerCase();
-            document.getElementById('shopsList').innerHTML = shops.filter(s => s.name.toLowerCase().includes(search)).map(s => `<div class="item-card" style="${s.isFeatured ? 'background:#FFF9C4; border-left:4px solid #FFD700;' : ''}"><div class="item-info"><div style="font-weight:bold;">${s.name} ${s.isFeatured?'⭐':''}</div><div style="font-size:12px; color:#666;">${s.category} | Rs.${s.deliveryFee}</div></div><button class="btn btn-danger" onclick="database.ref('shops').child('${s.id}').remove()">🗑️</button></div>`).join('');
+            document.getElementById('shopsList').innerHTML = shops.filter(s => s.name.toLowerCase().includes(search)).map(s => `<div class="item-card" style="${s.isFeatured ? 'background:#FFF9C4; border-left:4px solid #FFD700;' : 'background:#F0FDF4; border-left:4px solid #22C55E;'}"><div class="item-info"><div style="font-weight:bold;">${s.name} ${s.isFeatured?'⭐':''}</div><div style="font-size:12px; color:#666;">${s.category} | Rs.${s.deliveryFee}</div></div><button class="btn btn-danger" onclick="database.ref('shops').child('${s.id}').remove()">🗑️</button></div>`).join('');
         }
         function showEditShopSection() { document.getElementById('editShopSection').classList.remove('hidden'); updateSelects(); }
         function loadShopData() { const s = shops.find(x => x.id === document.getElementById('editShopSelect').value); if(!s) return; document.getElementById('editShopName').value = s.name; document.getElementById('editShopPhone').value = s.phone; document.getElementById('editShopDeliveryFee').value = s.deliveryFee; document.getElementById('editShopRating').value = s.rating; document.getElementById('editShopImage').value = s.image; document.getElementById('editIsFeatured').checked = s.isFeatured; }
         function updateShop() { const id = document.getElementById('editShopSelect').value; database.ref('shops').child(id).update({ name: document.getElementById('editShopName').value, phone: document.getElementById('editShopPhone').value, deliveryFee: parseInt(document.getElementById('editShopDeliveryFee').value), rating: parseFloat(document.getElementById('editShopRating').value), image: document.getElementById('editShopImage').value, isFeatured: document.getElementById('editIsFeatured').checked }).then(() => { alert('✅ Updated!'); cancelEdit('shop'); }); }
 
         function saveFood() { const food = { shopId: document.getElementById('foodShop').value, name: document.getElementById('foodName').value, price: parseInt(document.getElementById('foodPrice').value)||0, image: document.getElementById('foodImageUrl').value }; if(!food.name) return alert('Enter name!'); database.ref('foods').push(food).then(() => { alert('✅ Saved!'); document.getElementById('foodName').value=''; }); }
-        function renderFoods() { const search = (document.getElementById('foodSearch')?.value || '').toLowerCase(); document.getElementById('foodsList').innerHTML = foods.filter(f => f.name.toLowerCase().includes(search)).map(f => { const shop = shops.find(s => s.id === f.shopId); return `<div class="item-card"><div class="item-info"><div style="font-weight:bold;">${f.name}</div><div style="font-size:12px; color:#666;">${shop?shop.name:'Unknown'} | Rs.${f.price}</div></div><button class="btn btn-danger" onclick="database.ref('foods').child('${f.id}').remove()">🗑️</button></div>`; }).join(''); }
+        function renderFoods() { const search = (document.getElementById('foodSearch')?.value || '').toLowerCase(); document.getElementById('foodsList').innerHTML = foods.filter(f => f.name.toLowerCase().includes(search)).map(f => { const shop = shops.find(s => s.id === f.shopId); return `<div class="item-card" style="background:#F0FDF4; border-left:4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${f.name}</div><div style="font-size:12px; color:#666;">${shop?shop.name:'Unknown'} | Rs.${f.price}</div></div><button class="btn btn-danger" onclick="database.ref('foods').child('${f.id}').remove()">🗑️</button></div>`; }).join(''); }
         function showEditFoodSection() { document.getElementById('editFoodSection').classList.remove('hidden'); updateSelects(); }
         function loadFoodData() { const f = foods.find(x => x.id === document.getElementById('editFoodSelect').value); if(!f) return; document.getElementById('editFoodName').value = f.name; document.getElementById('editFoodPrice').value = f.price; document.getElementById('editFoodImage').value = f.image; }
         function updateFood() { const id = document.getElementById('editFoodSelect').value; database.ref('foods').child(id).update({ name: document.getElementById('editFoodName').value, price: parseInt(document.getElementById('editFoodPrice').value), image: document.getElementById('editFoodImage').value }).then(() => { alert('✅ Updated!'); cancelEdit('food'); }); }
@@ -571,7 +571,7 @@
                 </div>`).join('');
         }
         function updateOrderStatus(id, status) { if(confirm(`Mark as ${status}?`)) database.ref('orders').child(id).update({ status: status }).then(() => alert(`✅ ${status}`)); }
-        function contactCustomer(phone) { window.open(`https://wa.me/94${phone.substring(1)}?text=Hello! Regarding your FoodHub order.`, '_blank'); }
+        function contactCustomer(phone) { window.open(`https://wa.me/94${phone.substring(1)}?text=Hello! Regarding your Silvas Express order.`, '_blank'); }
         function deleteOrder(id) { if (confirm('Delete this order?')) { database.ref('orders').child(id).remove().then(() => alert('✅ Deleted')); } }
         function cancelEdit(type) { document.getElementById('edit' + type.charAt(0).toUpperCase() + type.slice(1) + 'Section').classList.add('hidden'); document.getElementById('edit' + type.charAt(0).toUpperCase() + type.slice(1) + 'Select').value = ''; }
 
