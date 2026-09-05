@@ -131,7 +131,7 @@ function openShopView(shopId) {
     currentShopId = shopId;
     const shop = shops.find(s => s.id === shopId);
     if (shop) {
-        document.getElementById('currentShopName').textContent = shop.name + " 🍽️";
+        document.getElementById('currentShopName').textContent = shop.name + " 🌿";
         document.getElementById('shopViewHeader').style.display = 'block';
     }
     switchTab('foods'); // Automatically switch to foods tab to show this shop's items
@@ -222,7 +222,8 @@ function confirmGroceryOrder() {
         if (item) { itemsList.push(`✓ ${item.name} (${item.unit}) - Rs. ${item.price}`); total += (item.price || 0); }
     });
 
-    const orderMsg = `*🛒 FoodHub Grocery Order*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Address:* ${address}\n\n*භාණ්ඩ:*\n${itemsList.join('\n')}\n\n*💰 මුළු මුදල:* Rs. ${total.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
+    // UPDATED: FoodHub -> Silvas Express
+    const orderMsg = `*🌿 Silvas Express Grocery Order*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Address:* ${address}\n\n*භාණ්ඩ:*\n${itemsList.join('\n')}\n\n*💰 මුළු මුදල:* Rs. ${total.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
     
     window.open(`https://wa.me/94766488689?text=${encodeURIComponent(orderMsg)}`, '_blank');
     selectedGroceryIds.clear();
@@ -310,7 +311,8 @@ function confirmCartOrder() {
     let itemsList = cart.map(i => `✓ ${i.name} x${i.quantity} (Rs. ${i.price * i.quantity})`).join('\n');
     const paymentInfo = paymentMethod === 'cod' ? '💵 Cash on Delivery' : `🏦 Online Payment (Ref: ${transId})`;
 
-    const orderMsg = `*🍔 FoodHub New Order*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Address:* ${address}\n💳 *Payment:* ${paymentInfo}\n\n*භාණ්ඩ:*\n${itemsList}\n\n*💰 මුළු මුදල:* Rs. ${total.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
+    // UPDATED: FoodHub -> Silvas Express
+    const orderMsg = `*🌿 Silvas Express New Order*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Address:* ${address}\n💳 *Payment:* ${paymentInfo}\n\n*භාණ්ඩ:*\n${itemsList}\n\n*💰 මුළු මුදල:* Rs. ${total.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
     
     window.open(`https://wa.me/94766488689?text=${encodeURIComponent(orderMsg)}`, '_blank');
     
@@ -333,17 +335,20 @@ function callToOrder() {
 }
 
 function shareOnWhatsApp() {
-    const text = "🍔 Check out FoodHub! Order delicious food and groceries online. Visit: https://chinthakanuwan.github.io/foodhub/";
+    // UPDATED: FoodHub -> Silvas Express & Link updated
+    const text = "🌿 Check out Silvas Express! Order delicious food and groceries online. Visit: https://chinthakanuwan.github.io/silvas-express/";
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
 }
 
 function shareOnFacebook() {
-    const url = "https://chinthakanuwan.github.io/foodhub/";
+    // UPDATED: Link updated
+    const url = "https://chinthakanuwan.github.io/silvas-express/";
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
 }
 
 function shareOnMessenger() {
-    const url = "https://chinthakanuwan.github.io/foodhub/";
+    // UPDATED: Link updated
+    const url = "https://chinthakanuwan.github.io/silvas-express/";
     window.open(`https://www.facebook.com/dialog/send?link=${encodeURIComponent(url)}&app_id=YOUR_APP_ID`, '_blank'); // Fallback to generic share if no app ID
 }
 
