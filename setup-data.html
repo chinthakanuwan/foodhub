@@ -1,26 +1,29 @@
 <!DOCTYPE html>
-<html>
+<html lang="si">
 <head>
-    <title>FoodHub - Setup Data</title>
+    <title>Silvas Express - Setup Data</title>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h1 { color: #667eea; margin-bottom: 20px; }
-        .btn { background: #667eea; color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin: 10px 5px; }
-        .btn:hover { background: #5568d3; }
-        .success { background: #4CAF50; color: white; padding: 15px; border-radius: 8px; margin: 10px 0; display: none; }
-        .log { background: #f9f9f9; padding: 15px; border-radius: 8px; margin: 10px 0; max-height: 400px; overflow-y: auto; font-family: monospace; font-size: 12px; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; padding: 20px; background: #f0fdf4; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.15); border-top: 4px solid #22C55E; }
+        h1 { color: #16A34A; margin-bottom: 20px; text-align: center; }
+        p { text-align: center; color: #666; margin-bottom: 25px; }
+        .btn { background: #22C55E; color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin: 10px 5px; font-weight: 600; transition: background 0.3s; }
+        .btn:hover { background: #16A34A; }
+        .btn-danger { background: #f44336; }
+        .btn-danger:hover { background: #dc2626; }
+        .success { background: #dcfce7; color: #166534; border: 1px solid #86efac; padding: 15px; border-radius: 8px; margin: 10px 0; display: none; text-align: center; font-weight: 600; }
+        .log { background: #f8fafc; padding: 15px; border-radius: 8px; margin: 10px 0; max-height: 400px; overflow-y: auto; font-family: monospace; font-size: 12px; border: 1px solid #e2e8f0; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🚀 FoodHub - Setup Sample Data</h1>
-        <p>මේ button බන්න සියල්ලම automatic add වෙයි:</p>
+        <h1>🌿 Silvas Express - Setup Sample Data</h1>
+        <p>මේ button ඔබන්න, සියල්ලම automatic ලෙස Database එකට add වෙයි:</p>
         
         <button class="btn" onclick="setupAllData()">✅ Setup All Data (Shops + Foods + Grocery)</button>
-        <button class="btn" onclick="clearAllData()" style="background: #f44336;">🗑️ Clear All Data</button>
+        <button class="btn btn-danger" onclick="clearAllData()">🗑️ Clear All Data</button>
         
         <div id="success" class="success"></div>
         <div id="log" class="log"></div>
@@ -61,7 +64,7 @@
                 await setupFoods();
                 await setupGrocery();
                 
-                showSuccess('✅ සියල්ලම සාර්කව add විය! දැන් app එක refresh කරන්න.');
+                showSuccess('✅ සියල්ලම සාර්ථකව add විය! දැන් Silvas Express app එක refresh කරන්න.');
                 log('✅ Setup completed successfully!');
                 
             } catch (error) {
@@ -300,7 +303,7 @@
         }
 
         async function clearAllData() {
-            if (confirm('⚠️ ඔබට විශ්වාසද? සියල්ලම delete වෙයි!')) {
+            if (confirm('⚠️ ඔබට විශ්වාසද? Database එකේ සියලුම data delete වෙයි!')) {
                 log('Clearing all data...');
                 
                 await database.ref('shops').remove();
