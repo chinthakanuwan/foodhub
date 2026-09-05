@@ -1,29 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="si">
 <head>
-    <title>Add Vegetables - Test</title>
+    <title>Silvas Express - එළවළු එකතු කරන්න</title>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; max-width: 400px; margin: 0 auto; background: #f5f5f5; }
-        .box { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        h2 { color: #4CAF50; text-align: center; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #ddd; border-radius: 5px; box-sizing: border-box; font-size: 14px; }
-        button { width: 100%; padding: 15px; background: #4CAF50; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        button:hover { background: #45a049; }
-        #msg { margin-top: 15px; font-weight: bold; text-align: center; padding: 10px; border-radius: 5px; }
-        .success { background: #C8E6C9; color: #1B5E20; }
-        .error { background: #FFCDD2; color: #B71C1C; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; padding: 20px; max-width: 400px; margin: 0 auto; background: #f0fdf4; }
+        .box { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(34, 197, 94, 0.15); border-top: 4px solid #22C55E; }
+        h2 { color: #16A34A; text-align: center; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; margin: 8px 0; border: 2px solid #e2e8f0; border-radius: 8px; box-sizing: border-box; font-size: 14px; transition: border-color 0.3s; }
+        input:focus { border-color: #22C55E; outline: none; }
+        button { width: 100%; padding: 15px; background: #22C55E; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 15px; transition: background 0.3s; }
+        button:hover { background: #16A34A; }
+        #msg { margin-top: 15px; font-weight: bold; text-align: center; padding: 12px; border-radius: 8px; font-size: 14px; }
+        .success { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+        .error { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
     </style>
 </head>
 <body>
     <div class="box">
-        <h2>🥬 Vegetable Add</h2>
-        <input type="text" id="vName" placeholder="Name (උදා: Carrots)">
-        <input type="number" id="vPrice" placeholder="Original Price (Rs.)">
-        <input type="number" id="vDisc" placeholder="Discount Price (Optional)">
-        <input type="text" id="vUnit" value="1 kg" placeholder="Unit">
-        <button onclick="saveVeg()"> Save to Database</button>
+        <h2>🥬 Silvas Express - එළවළු</h2>
+        <input type="text" id="vName" placeholder="නම (උදා: Carrots / කැරට්)">
+        <input type="number" id="vPrice" placeholder="මුල් මිල (Rs.)">
+        <input type="number" id="vDisc" placeholder="වට්ටම් මිල (අවශ්‍ය නම් පමණක්)">
+        <input type="text" id="vUnit" value="1 kg" placeholder="ඒකකය (Unit)">
+        <button onclick="saveVeg()">💾 Database එකට Save කරන්න</button>
         <div id="msg"></div>
     </div>
 
@@ -48,7 +49,7 @@
             const msgDiv = document.getElementById('msg');
 
             if (!name || price === 0) {
-                msgDiv.innerHTML = "❌ Name සහ Original Price අනිවාර්යයි!";
+                msgDiv.innerHTML = "❌ නම සහ මුල් මිල අනිවාර්යයි!";
                 msgDiv.className = "error";
                 return;
             }
@@ -60,16 +61,16 @@
                 hasDiscount: hasDiscount,
                 discountPrice: hasDiscount ? disc : 0,
                 unit: unit,
-                image: "https://via.placeholder.com/400x300/4CAF50/FFFFFF?text=" + encodeURIComponent(name),
+                image: "https://via.placeholder.com/400x300/22C55E/FFFFFF?text=" + encodeURIComponent(name),
                 available: true,
                 createdAt: Date.now()
             };
 
-            msgDiv.innerHTML = "⏳ Saving...";
+            msgDiv.innerHTML = "⏳ Save වෙමින් පවතී...";
             msgDiv.className = "";
 
             db.ref('vegetables').push(vegData).then(() => {
-                msgDiv.innerHTML = "✅ සාර්කව Save විය! App එක check කරන්න.";
+                msgDiv.innerHTML = "✅ සාර්ථකව Save විය! Silvas Express App එක check කරන්න.";
                 msgDiv.className = "success";
                 document.getElementById('vName').value = "";
                 document.getElementById('vPrice').value = "";
