@@ -91,7 +91,7 @@
         <div class="section">
             <div class="tabs">
                 <div class="tab active" onclick="switchTab('orders')">📦 Orders</div>
-                <div class="tab" onclick="switchTab('shops')">🏪 Shops</div>
+                <div class="tab" onclick="switchTab('shops')"> Shops</div>
                 <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
                 <div class="tab" onclick="switchTab('grocery')">🛒 Grocery</div>
                 <div class="tab" onclick="switchTab('vegetables')">🥬 Vegetables</div>
@@ -128,9 +128,9 @@
                 <div class="form-group"><label>Category</label>
                     <select id="shopCategory">
                         <option value="Restaurant">🍽️ Restaurant</option>
-                        <option value="Fast Food">🍔 Fast Food</option>
+                        <option value="Fast Food"> Fast Food</option>
                         <option value="Grocery">🛒 Grocery/Supermarket</option>
-                        <option value="Drinks">🥤 Drinks</option>
+                        <option value="Drinks"> Drinks</option>
                         <option value="Flowers">💐 Flowers</option>
                     </select>
                 </div>
@@ -139,6 +139,9 @@
                 <div class="form-group"><label>Rating</label><input type="number" id="shopRating" placeholder="4.5" step="0.1" min="0" max="5"></div>
                 <div class="form-group"><label>Image URL</label><input type="text" id="shopImageUrl" placeholder="https://..."></div>
                 <div class="form-group"><label><input type="checkbox" id="isFeatured" style="margin-right: 10px;">⭐ Featured Shop</label></div>
+                <!-- ⭐ අලුත් Display Order Field එක ⭐ -->
+                <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="shopDisplayOrder" placeholder="10" value="10"><small style="color:#666; font-size:12px;">අඩු අංකයක් දැම්මොත් උඩින් පෙන්නනවා.</small></div>
+                
                 <button class="btn btn-primary" onclick="saveShop()">💾 Save Shop</button>
                 <button class="btn btn-warning" onclick="showEditShopSection()">✏️ Edit Shop</button>
 
@@ -151,6 +154,9 @@
                     <div class="form-group"><label>Rating</label><input type="number" id="editShopRating" step="0.1"></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editShopImage"></div>
                     <div class="form-group"><label><input type="checkbox" id="editIsFeatured" style="margin-right: 10px;">⭐ Featured</label></div>
+                    <!-- ⭐ අලුත් Display Order Field එක ⭐ -->
+                    <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="editShopDisplayOrder"></div>
+                    
                     <button class="btn btn-success" onclick="updateShop()">💾 Update</button>
                     <button class="btn btn-warning" onclick="cancelEdit('shop')">❌ Cancel</button>
                 </div>
@@ -166,6 +172,9 @@
                 <div class="form-group"><label>Food Name</label><input type="text" id="foodName" placeholder="e.g., Fried Rice"></div>
                 <div class="form-group"><label>Price (Rs.)</label><input type="number" id="foodPrice" placeholder="1200"></div>
                 <div class="form-group"><label>Image URL</label><input type="text" id="foodImageUrl" placeholder="https://..."></div>
+                <!-- ⭐ අලුත් Display Order Field එක ⭐ -->
+                <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="foodDisplayOrder" placeholder="10" value="10"><small style="color:#666; font-size:12px;">අඩු අංකයක් දැම්මොත් උඩින් පෙන්නනවා.</small></div>
+                
                 <button class="btn btn-primary" onclick="saveFood()">💾 Save Food</button>
                 <button class="btn btn-warning" onclick="showEditFoodSection()">✏️ Edit Food</button>
 
@@ -175,6 +184,9 @@
                     <div class="form-group"><label>Food Name</label><input type="text" id="editFoodName"></div>
                     <div class="form-group"><label>Price</label><input type="number" id="editFoodPrice"></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editFoodImage"></div>
+                    <!-- ⭐ අලුත් Display Order Field එක ⭐ -->
+                    <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="editFoodDisplayOrder"></div>
+                    
                     <button class="btn btn-success" onclick="updateFood()">💾 Update</button>
                     <button class="btn btn-warning" onclick="cancelEdit('food')">❌ Cancel</button>
                 </div>
@@ -201,6 +213,9 @@
                     </select>
                 </div>
                 <div class="form-group"><label>Image URL</label><input type="text" id="groceryImageUrl" placeholder="https://..."></div>
+                <!-- ⭐ අලුත් Display Order Field එක ⭐ -->
+                <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="groceryDisplayOrder" placeholder="10" value="10"><small style="color:#666; font-size:12px;">අඩු අංකයක් දැම්මොත් උඩින් පෙන්නනවා.</small></div>
+                
                 <button class="btn btn-primary" onclick="saveGroceryItem()">💾 Save Item</button>
                 <button class="btn btn-warning" onclick="showEditGrocerySection()">✏️ Edit Item</button>
 
@@ -209,10 +224,13 @@
                     <div class="form-group"><label>Select Item</label><select id="editGrocerySelect" onchange="loadGroceryData()"><option value="">-- Select --</option></select></div>
                     <div class="form-group"><label>Item Name</label><input type="text" id="editGroceryName"></div>
                     <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="editGroceryOriginalPrice"></div>
-                    <div class="form-group"><label><input type="checkbox" id="editHasDiscount" style="margin-right: 10px;" onchange="toggleEditDiscountField()"> 🏷️ Special Discount</label></div>
+                    <div class="form-group"><label><input type="checkbox" id="editHasDiscount" style="margin-right: 10px;" onchange="toggleEditDiscountField()"> ️ Special Discount</label></div>
                     <div class="form-group hidden" id="editDiscountPriceGroup"><label>Discount Price (Rs.)</label><input type="number" id="editGroceryDiscountPrice"></div>
                     <div class="form-group"><label>Unit</label><input type="text" id="editGroceryUnit"></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editGroceryImage"></div>
+                    <!-- ⭐ අලුත් Display Order Field එක ⭐ -->
+                    <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="editGroceryDisplayOrder"></div>
+                    
                     <button class="btn btn-success" onclick="updateGroceryItem()">💾 Update</button>
                     <button class="btn btn-danger" onclick="quickDeleteGrocery()">🗑️ Delete</button>
                     <button class="btn btn-warning" onclick="cancelEdit('grocery')">❌ Cancel</button>
@@ -233,6 +251,9 @@
                 <div class="form-group"><label>Unit</label><input type="text" id="vegetableUnit" placeholder="1 kg" value="1 kg"></div>
                 <div class="form-group"><label>Image URL</label><input type="text" id="vegetableImageUrl" placeholder="https://..."></div>
                 <div class="form-group"><label><input type="checkbox" id="isVegetableAvailable" checked style="margin-right: 10px;">✅ Available for Sale</label></div>
+                <!-- ⭐ අලුත් Display Order Field එක ⭐ -->
+                <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="vegetableDisplayOrder" placeholder="10" value="10"><small style="color:#666; font-size:12px;">අඩු අංකයක් දැම්මොත් උඩින් පෙන්නනවා.</small></div>
+                
                 <button class="btn btn-primary" onclick="saveVegetable()">💾 Save Vegetable</button>
                 <button class="btn btn-warning" onclick="showEditVegetableSection()">✏️ Edit Vegetable</button>
 
@@ -246,6 +267,9 @@
                     <div class="form-group"><label>Unit</label><input type="text" id="editVegetableUnit"></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editVegetableImage"></div>
                     <div class="form-group"><label><input type="checkbox" id="editIsVegetableAvailable" style="margin-right: 10px;">✅ Available</label></div>
+                    <!-- ⭐ අලුත් Display Order Field එක ⭐ -->
+                    <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="editVegetableDisplayOrder"></div>
+                    
                     <button class="btn btn-success" onclick="updateVegetable()">💾 Update</button>
                     <button class="btn btn-danger" onclick="quickDeleteVegetable()">🗑️ Delete</button>
                     <button class="btn btn-warning" onclick="cancelEdit('vegetable')">❌ Cancel</button>
@@ -272,7 +296,7 @@
                     <h3>💬 Send WhatsApp Notification</h3>
                     <p style="margin-bottom: 15px;">Customers ට special offers, promotions, හෝ announcements යවන්න</p>
                     <div class="form-group"><label>Customer Phone Number:</label><input type="tel" id="notifPhone" placeholder="0766488689"></div>
-                    <div class="form-group"><label>Notification Message:</label><textarea id="notifMessage" rows="4" placeholder="උදා: 🎉 විශේෂ දීමනාව!"></textarea></div>
+                    <div class="form-group"><label>Notification Message:</label><textarea id="notifMessage" rows="4" placeholder="උදා: 🎉 විශේ දීමනාව!"></textarea></div>
                     <button class="btn btn-whatsapp" onclick="sendWhatsAppNotification()">📤 Send via WhatsApp</button>
                     
                     <h3 style="margin-top: 20px;">📝 Quick Templates</h3>
@@ -348,7 +372,7 @@
             const phone = document.getElementById('customerPhone').value.trim();
             const appUrl = document.getElementById('appInstallUrl').value;
             if (!phone) return alert('Enter phone number!');
-            const message = `🌿 Silvas Express App එක download කරගන්න! \n\nඔබේ විශ්වාසවන්ත ආහාර & grocery delivery partner\n\n📱 App Link: ${appUrl}\n\nOrder කරන්න දැන්ම visit කරන්න!`;
+            const message = ` Silvas Express App එක download කරගන්න! \n\nඔබේ විශ්වාසවන්ත ආහාර & grocery delivery partner\n\n📱 App Link: ${appUrl}\n\nOrder කරන්න දැන්ම visit කරන්න!`;
             window.open(`https://wa.me/94${phone.substring(1)}?text=${encodeURIComponent(message)}`, '_blank');
         }
         function copyAppLink() { navigator.clipboard.writeText(document.getElementById('appInstallUrl').value).then(() => alert('✅ App link copied!')); }
@@ -361,7 +385,7 @@
         function useTemplate(type) {
             const templates = {
                 welcome: '👋 ආයුබෝවන්! 🌿 Silvas Express App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/silvas-express/',
-                offer: '🎉 විශේෂ දීමනාව! 🌿\n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://chinthakanuwan.github.io/silvas-express/',
+                offer: ' විශේෂ දීමනාව! \n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://chinthakanuwan.github.io/silvas-express/',
                 delivery: '🚚 ඔබේ order එක deliver වෙමින් පවතී! 🌿\n\nOrder tracking සඳහා: https://chinthakanuwan.github.io/silvas-express/\n\nස්තූතියි! 🙏'
             };
             document.getElementById('notifMessage').value = templates[type];
@@ -378,6 +402,7 @@
                 unit: document.getElementById('vegetableUnit').value || '1 kg',
                 image: document.getElementById('vegetableImageUrl').value || 'https://via.placeholder.com/500',
                 available: document.getElementById('isVegetableAvailable').checked,
+                displayOrder: parseInt(document.getElementById('vegetableDisplayOrder').value) || 999,
                 updatedAt: Date.now()
             };
             if (!veg.name) return alert('Enter vegetable name!');
@@ -432,6 +457,7 @@
             document.getElementById('editVegetableUnit').value = veg.unit || '1 kg';
             document.getElementById('editVegetableImage').value = veg.image || '';
             document.getElementById('editIsVegetableAvailable').checked = veg.available !== false;
+            document.getElementById('editVegetableDisplayOrder').value = veg.displayOrder || 999;
             toggleEditVegetableDiscountField();
         }
 
@@ -447,6 +473,7 @@
                 unit: document.getElementById('editVegetableUnit').value,
                 image: document.getElementById('editVegetableImage').value,
                 available: document.getElementById('editIsVegetableAvailable').checked,
+                displayOrder: parseInt(document.getElementById('editVegetableDisplayOrder').value) || 999,
                 updatedAt: Date.now()
             };
             database.ref('vegetables').child(id).update(data).then(() => { alert('✅ Updated!'); cancelEdit('vegetable'); });
@@ -460,9 +487,10 @@
         }
 
         function clearVegetableForm() {
-            ['vegetableName', 'vegetableOriginalPrice', 'vegetableDiscountPrice', 'vegetableUnit', 'vegetableImageUrl'].forEach(id => document.getElementById(id).value = '');
+            ['vegetableName', 'vegetableOriginalPrice', 'vegetableDiscountPrice', 'vegetableUnit', 'vegetableImageUrl', 'vegetableDisplayOrder'].forEach(id => document.getElementById(id).value = '');
             document.getElementById('hasVegetableDiscount').checked = false;
             document.getElementById('isVegetableAvailable').checked = true;
+            document.getElementById('vegetableDisplayOrder').value = '10';
             toggleVegetableDiscountField();
         }
 
@@ -474,7 +502,18 @@
         // --- GROCERY FUNCTIONS ---
         function saveGroceryItem() {
             const hasDiscount = document.getElementById('hasDiscount').checked;
-            const item = { name: document.getElementById('groceryName').value, originalPrice: parseInt(document.getElementById('groceryOriginalPrice').value) || 0, hasDiscount: hasDiscount, discountPrice: hasDiscount ? (parseInt(document.getElementById('groceryDiscountPrice').value) || 0) : 0, unit: document.getElementById('groceryUnit').value, category: document.getElementById('groceryCategory').value, image: document.getElementById('groceryImageUrl').value || 'https://via.placeholder.com/500', available: true, updatedAt: Date.now() };
+            const item = { 
+                name: document.getElementById('groceryName').value, 
+                originalPrice: parseInt(document.getElementById('groceryOriginalPrice').value) || 0, 
+                hasDiscount: hasDiscount, 
+                discountPrice: hasDiscount ? (parseInt(document.getElementById('groceryDiscountPrice').value) || 0) : 0, 
+                unit: document.getElementById('groceryUnit').value, 
+                category: document.getElementById('groceryCategory').value, 
+                image: document.getElementById('groceryImageUrl').value || 'https://via.placeholder.com/500', 
+                available: true, 
+                displayOrder: parseInt(document.getElementById('groceryDisplayOrder').value) || 999,
+                updatedAt: Date.now() 
+            };
             if (!item.name) return alert('Enter item name!');
             database.ref('groceryItems').push(item).then(() => { alert('✅ Item added!'); clearGroceryForm(); });
         }
@@ -497,16 +536,31 @@
             document.getElementById('editGroceryDiscountPrice').value = item.discountPrice || 0;
             document.getElementById('editGroceryUnit').value = item.unit || '';
             document.getElementById('editGroceryImage').value = item.image || '';
+            document.getElementById('editGroceryDisplayOrder').value = item.displayOrder || 999;
             toggleEditDiscountField();
         }
         function updateGroceryItem() {
             const id = document.getElementById('editGrocerySelect').value; if (!id) return alert('Select item!');
             const hasDiscount = document.getElementById('editHasDiscount').checked;
-            const data = { name: document.getElementById('editGroceryName').value, originalPrice: parseInt(document.getElementById('editGroceryOriginalPrice').value) || 0, hasDiscount: hasDiscount, discountPrice: hasDiscount ? (parseInt(document.getElementById('editGroceryDiscountPrice').value) || 0) : 0, unit: document.getElementById('editGroceryUnit').value, image: document.getElementById('editGroceryImage').value, updatedAt: Date.now() };
+            const data = { 
+                name: document.getElementById('editGroceryName').value, 
+                originalPrice: parseInt(document.getElementById('editGroceryOriginalPrice').value) || 0, 
+                hasDiscount: hasDiscount, 
+                discountPrice: hasDiscount ? (parseInt(document.getElementById('editGroceryDiscountPrice').value) || 0) : 0, 
+                unit: document.getElementById('editGroceryUnit').value, 
+                image: document.getElementById('editGroceryImage').value, 
+                displayOrder: parseInt(document.getElementById('editGroceryDisplayOrder').value) || 999,
+                updatedAt: Date.now() 
+            };
             database.ref('groceryItems').child(id).update(data).then(() => { alert('✅ Updated!'); cancelEdit('grocery'); });
         }
         function quickDeleteGrocery() { const id = document.getElementById('editGrocerySelect').value; if (id && confirm('Delete this item?')) { database.ref('groceryItems').child(id).remove().then(() => { alert('✅ Deleted'); cancelEdit('grocery'); }); } }
-        function clearGroceryForm() { ['groceryName', 'groceryOriginalPrice', 'groceryDiscountPrice', 'groceryUnit', 'groceryImageUrl'].forEach(id => document.getElementById(id).value = ''); document.getElementById('hasDiscount').checked = false; toggleDiscountField(); }
+        function clearGroceryForm() { 
+            ['groceryName', 'groceryOriginalPrice', 'groceryDiscountPrice', 'groceryUnit', 'groceryImageUrl', 'groceryDisplayOrder'].forEach(id => document.getElementById(id).value = ''); 
+            document.getElementById('hasDiscount').checked = false; 
+            document.getElementById('groceryDisplayOrder').value = '10';
+            toggleDiscountField(); 
+        }
 
         // --- OTHER FUNCTIONS ---
         function updateSelects() {
@@ -518,23 +572,47 @@
         }
 
         function saveShop() {
-            const shop = { name: document.getElementById('shopName').value, category: document.getElementById('shopCategory').value, phone: document.getElementById('shopPhone').value, deliveryFee: parseInt(document.getElementById('shopDeliveryFee').value)||150, rating: parseFloat(document.getElementById('shopRating').value)||4.5, image: document.getElementById('shopImageUrl').value, isFeatured: document.getElementById('isFeatured').checked };
+            const shop = { 
+                name: document.getElementById('shopName').value, 
+                category: document.getElementById('shopCategory').value, 
+                phone: document.getElementById('shopPhone').value, 
+                deliveryFee: parseInt(document.getElementById('shopDeliveryFee').value)||150, 
+                rating: parseFloat(document.getElementById('shopRating').value)||4.5, 
+                image: document.getElementById('shopImageUrl').value, 
+                isFeatured: document.getElementById('isFeatured').checked,
+                displayOrder: parseInt(document.getElementById('shopDisplayOrder').value) || 999
+            };
             if(!shop.name) return alert('Enter name!');
-            database.ref('shops').push(shop).then(() => { alert('✅ Saved!'); document.getElementById('shopName').value=''; });
+            database.ref('shops').push(shop).then(() => { alert('✅ Saved!'); document.getElementById('shopName').value=''; document.getElementById('shopDisplayOrder').value='10'; });
         }
         function renderShops() {
             const search = (document.getElementById('shopSearch')?.value || '').toLowerCase();
-            document.getElementById('shopsList').innerHTML = shops.filter(s => s.name.toLowerCase().includes(search)).map(s => `<div class="item-card" style="${s.isFeatured ? 'background:#FFF9C4; border-left:4px solid #FFD700;' : 'background:#F0FDF4; border-left:4px solid #22C55E;'}"><div class="item-info"><div style="font-weight:bold;">${s.name} ${s.isFeatured?'⭐':''}</div><div style="font-size:12px; color:#666;">${s.category} | Rs.${s.deliveryFee}</div></div><button class="btn btn-danger" onclick="database.ref('shops').child('${s.id}').remove()">🗑️</button></div>`).join('');
+            const sortedShops = shops.filter(s => s.name.toLowerCase().includes(search)).sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
+            document.getElementById('shopsList').innerHTML = sortedShops.map(s => `<div class="item-card" style="${s.isFeatured ? 'background:#FFF9C4; border-left:4px solid #FFD700;' : 'background:#F0FDF4; border-left:4px solid #22C55E;'}"><div class="item-info"><div style="font-weight:bold;">${s.name} ${s.isFeatured?'⭐':''}</div><div style="font-size:12px; color:#666;">${s.category} | Rs.${s.deliveryFee}</div></div><button class="btn btn-danger" onclick="database.ref('shops').child('${s.id}').remove()">🗑️</button></div>`).join('');
         }
         function showEditShopSection() { document.getElementById('editShopSection').classList.remove('hidden'); updateSelects(); }
-        function loadShopData() { const s = shops.find(x => x.id === document.getElementById('editShopSelect').value); if(!s) return; document.getElementById('editShopName').value = s.name; document.getElementById('editShopPhone').value = s.phone; document.getElementById('editShopDeliveryFee').value = s.deliveryFee; document.getElementById('editShopRating').value = s.rating; document.getElementById('editShopImage').value = s.image; document.getElementById('editIsFeatured').checked = s.isFeatured; }
-        function updateShop() { const id = document.getElementById('editShopSelect').value; database.ref('shops').child(id).update({ name: document.getElementById('editShopName').value, phone: document.getElementById('editShopPhone').value, deliveryFee: parseInt(document.getElementById('editShopDeliveryFee').value), rating: parseFloat(document.getElementById('editShopRating').value), image: document.getElementById('editShopImage').value, isFeatured: document.getElementById('editIsFeatured').checked }).then(() => { alert('✅ Updated!'); cancelEdit('shop'); }); }
+        function loadShopData() { const s = shops.find(x => x.id === document.getElementById('editShopSelect').value); if(!s) return; document.getElementById('editShopName').value = s.name; document.getElementById('editShopPhone').value = s.phone; document.getElementById('editShopDeliveryFee').value = s.deliveryFee; document.getElementById('editShopRating').value = s.rating; document.getElementById('editShopImage').value = s.image; document.getElementById('editIsFeatured').checked = s.isFeatured; document.getElementById('editShopDisplayOrder').value = s.displayOrder || 999; }
+        function updateShop() { const id = document.getElementById('editShopSelect').value; database.ref('shops').child(id).update({ name: document.getElementById('editShopName').value, phone: document.getElementById('editShopPhone').value, deliveryFee: parseInt(document.getElementById('editShopDeliveryFee').value), rating: parseFloat(document.getElementById('editShopRating').value), image: document.getElementById('editShopImage').value, isFeatured: document.getElementById('editIsFeatured').checked, displayOrder: parseInt(document.getElementById('editShopDisplayOrder').value) || 999 }).then(() => { alert('✅ Updated!'); cancelEdit('shop'); }); }
 
-        function saveFood() { const food = { shopId: document.getElementById('foodShop').value, name: document.getElementById('foodName').value, price: parseInt(document.getElementById('foodPrice').value)||0, image: document.getElementById('foodImageUrl').value }; if(!food.name) return alert('Enter name!'); database.ref('foods').push(food).then(() => { alert('✅ Saved!'); document.getElementById('foodName').value=''; }); }
-        function renderFoods() { const search = (document.getElementById('foodSearch')?.value || '').toLowerCase(); document.getElementById('foodsList').innerHTML = foods.filter(f => f.name.toLowerCase().includes(search)).map(f => { const shop = shops.find(s => s.id === f.shopId); return `<div class="item-card" style="background:#F0FDF4; border-left:4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${f.name}</div><div style="font-size:12px; color:#666;">${shop?shop.name:'Unknown'} | Rs.${f.price}</div></div><button class="btn btn-danger" onclick="database.ref('foods').child('${f.id}').remove()">🗑️</button></div>`; }).join(''); }
+        function saveFood() { 
+            const food = { 
+                shopId: document.getElementById('foodShop').value, 
+                name: document.getElementById('foodName').value, 
+                price: parseInt(document.getElementById('foodPrice').value)||0, 
+                image: document.getElementById('foodImageUrl').value,
+                displayOrder: parseInt(document.getElementById('foodDisplayOrder').value) || 999
+            }; 
+            if(!food.name) return alert('Enter name!'); 
+            database.ref('foods').push(food).then(() => { alert('✅ Saved!'); document.getElementById('foodName').value=''; document.getElementById('foodDisplayOrder').value='10'; }); 
+        }
+        function renderFoods() { 
+            const search = (document.getElementById('foodSearch')?.value || '').toLowerCase(); 
+            const sortedFoods = foods.filter(f => f.name.toLowerCase().includes(search)).sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
+            document.getElementById('foodsList').innerHTML = sortedFoods.map(f => { const shop = shops.find(s => s.id === f.shopId); return `<div class="item-card" style="background:#F0FDF4; border-left:4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${f.name}</div><div style="font-size:12px; color:#666;">${shop?shop.name:'Unknown'} | Rs.${f.price}</div></div><button class="btn btn-danger" onclick="database.ref('foods').child('${f.id}').remove()">🗑️</button></div>`; }).join(''); 
+        }
         function showEditFoodSection() { document.getElementById('editFoodSection').classList.remove('hidden'); updateSelects(); }
-        function loadFoodData() { const f = foods.find(x => x.id === document.getElementById('editFoodSelect').value); if(!f) return; document.getElementById('editFoodName').value = f.name; document.getElementById('editFoodPrice').value = f.price; document.getElementById('editFoodImage').value = f.image; }
-        function updateFood() { const id = document.getElementById('editFoodSelect').value; database.ref('foods').child(id).update({ name: document.getElementById('editFoodName').value, price: parseInt(document.getElementById('editFoodPrice').value), image: document.getElementById('editFoodImage').value }).then(() => { alert('✅ Updated!'); cancelEdit('food'); }); }
+        function loadFoodData() { const f = foods.find(x => x.id === document.getElementById('editFoodSelect').value); if(!f) return; document.getElementById('editFoodName').value = f.name; document.getElementById('editFoodPrice').value = f.price; document.getElementById('editFoodImage').value = f.image; document.getElementById('editFoodDisplayOrder').value = f.displayOrder || 999; }
+        function updateFood() { const id = document.getElementById('editFoodSelect').value; database.ref('foods').child(id).update({ name: document.getElementById('editFoodName').value, price: parseInt(document.getElementById('editFoodPrice').value), image: document.getElementById('editFoodImage').value, displayOrder: parseInt(document.getElementById('editFoodDisplayOrder').value) || 999 }).then(() => { alert('✅ Updated!'); cancelEdit('food'); }); }
 
         function loadOrders() { renderOrders(); }
         function filterOrders() {
@@ -556,7 +634,7 @@
                 <div class="order-card">
                     <div class="order-header"><div class="order-id">Order #${o.id ? o.id.slice(-6) : 'New'}</div><span class="order-status status-${(o.status||'pending').toLowerCase()}">${o.status||'Pending'}</span></div>
                     <div class="order-details">
-                        <div>👤 ${o.customerName} | 📞 ${o.phone}</div>
+                        <div>👤 ${o.customerName} |  ${o.phone}</div>
                         <div>📦 ${o.items}</div>
                         <div>💰 Total: Rs. ${o.grandTotal || o.total} | 💳 ${o.paymentInfo || o.paymentMethod}</div>
                         <div>📍 ${o.address}</div>
