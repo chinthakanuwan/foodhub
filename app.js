@@ -16,7 +16,7 @@ let foods = [];
 let groceryItems = [];
 let cart = [];
 let selectedGroceryIds = new Set();
-let currentShopId = null; // To track if we are viewing a specific shop
+let currentShopId = null;
 
 // 42 Sample Grocery Items
 const sampleGroceryItems = [
@@ -46,7 +46,7 @@ const sampleGroceryItems = [
     { id: '24', name: 'ටොමැටෝ සෝස් (Tomato Sauce)', unit: '300ml', price: 180, category: 'Condiments', image: 'https://images.unsplash.com/photo-1571167189043-171f75ae3721?w=500' },
     { id: '25', name: 'චිප්ස් (Chips)', unit: 'Pack', price: 80, category: 'Snacks', image: 'https://images.unsplash.com/photo-1566478989037-e84c6f748f25?w=500' },
     { id: '26', name: 'චොකලට් (Chocolate)', unit: 'Bar', price: 150, category: 'Snacks', image: 'https://images.unsplash.com/photo-1549007994-cb92caebd54b?w=500' },
-    { id: '27', name: 'ජූස් (Juice)', unit: '1L', price: 280, category: 'Beverages', image: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=500' },
+    { id: '27', name: 'ජස් (Juice)', unit: '1L', price: 280, category: 'Beverages', image: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=500' },
     { id: '28', name: 'වාටර් (Water)', unit: '1.5L', price: 80, category: 'Beverages', image: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=500' },
     { id: '29', name: 'නූඩ්ල්ස් (Noodles)', unit: 'Pack', price: 120, category: 'Instant', image: 'https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?w=500' },
     { id: '30', name: 'පේස්ටා (Pasta)', unit: '500g', price: 280, category: 'Staples', image: 'https://images.unsplash.com/photo-1551183054-bf91ab1f3053?w=500' },
@@ -60,7 +60,7 @@ const sampleGroceryItems = [
     { id: '38', name: 'කොකනට් මිල්ක් (Coconut Milk)', unit: '400ml', price: 150, category: 'Cooking', image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500' },
     { id: '39', name: 'රයිස් (Rice) 5kg', unit: '5kg', price: 950, category: 'Staples', image: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500' },
     { id: '40', name: 'කිරි පිටි (Milk Powder) 900g', unit: '900g', price: 1250, category: 'Dairy', image: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?w=500' },
-    { id: '41', name: 'කැනඩ් ෆිෂ් (Canned Fish)', unit: '155g', price: 280, category: 'Canned', image: 'https://images.unsplash.com/photo-1534939561146-6946c0a9b1d4?w=500' },
+    { id: '41', name: 'කැනඩ් ිෂ් (Canned Fish)', unit: '155g', price: 280, category: 'Canned', image: 'https://images.unsplash.com/photo-1534939561146-6946c0a9b1d4?w=500' },
     { id: '42', name: 'කැනඩ් බීන්ස් (Canned Beans)', unit: '400g', price: 220, category: 'Canned', image: 'https://images.unsplash.com/photo-1589894117408-6b8915a89915?w=500' }
 ];
 
@@ -87,11 +87,9 @@ function loadFoods() {
 }
 
 function loadGroceryItems() {
-    // Always start with sample items to guarantee they show up immediately
     groceryItems = [...sampleGroceryItems];
     renderGroceryGrid();
 
-    // Then listen to Firebase for any additional items added via Admin Panel
     database.ref('groceryItems').on('value', (snapshot) => {
         const data = snapshot.val();
         if (data) {
@@ -114,7 +112,11 @@ function loadGroceryItems() {
 function renderShops() {
     const list = document.getElementById('shopsList');
     if (shops.length === 0) { list.innerHTML = '<div class="loading">දැනට Shops කිසිවක් නැත.</div>'; return; }
-    list.innerHTML = shops.map(shop => `
+    
+    //  Display Order එක අනුව Shops Sort කිරීම ⭐
+    const sortedShops = [...shops].sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
+
+    list.innerHTML = sortedShops.map(shop => `
         <div class="shop-card" onclick="openShopView('${shop.id}')">
             <img src="${shop.image || 'https://via.placeholder.com/400x200?text=No+Image'}" class="shop-image" onerror="this.src='https://via.placeholder.com/400x200?text=No+Image'">
             <div class="shop-info">
@@ -134,7 +136,7 @@ function openShopView(shopId) {
         document.getElementById('currentShopName').textContent = shop.name + " 🌿";
         document.getElementById('shopViewHeader').style.display = 'block';
     }
-    switchTab('foods'); // Automatically switch to foods tab to show this shop's items
+    switchTab('foods');
 }
 
 function backToShops() {
@@ -147,7 +149,6 @@ function renderFoods() {
     const list = document.getElementById('foodsList');
     let displayFoods = foods;
     
-    // Filter foods by current shop if viewing a specific shop
     if (currentShopId) {
         displayFoods = foods.filter(f => f.shopId === currentShopId);
     }
@@ -157,6 +158,9 @@ function renderFoods() {
         return; 
     }
     
+    // ⭐ Display Order එක අනුව Foods Sort කිරීම ⭐
+    displayFoods.sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
+
     list.innerHTML = displayFoods.map(food => {
         const shop = shops.find(s => s.id === food.shopId);
         return `
@@ -166,7 +170,7 @@ function renderFoods() {
                     <div class="food-name">${food.name}</div>
                     <div style="font-size:12px; color:#666; margin-bottom:5px;">${shop ? shop.name : 'Unknown'}</div>
                     <div class="food-price">Rs. ${food.price}</div>
-                    <button class="btn btn-primary" onclick="addToCart('${food.id}', '${food.name}', ${food.price})">🛒 Add to Cart</button>
+                    <button class="btn btn-primary" onclick="addToCart('${food.id}', '${food.name}', ${food.price})"> Add to Cart</button>
                 </div>
             </div>
         `;
@@ -180,7 +184,11 @@ function renderGroceryGrid() {
         updateGroceryCart();
         return;
     }
-    grid.innerHTML = groceryItems.map(product => `
+
+    // ⭐ Display Order එක අනුව Grocery Items Sort කිරීම 
+    const sortedGrocery = [...groceryItems].sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
+
+    grid.innerHTML = sortedGrocery.map(product => `
         <div class="grocery-card ${selectedGroceryIds.has(product.id) ? 'selected' : ''}" onclick="toggleGroceryItem('${product.id}')">
             <div class="grocery-check"><input type="checkbox" ${selectedGroceryIds.has(product.id) ? 'checked' : ''}></div>
             <img src="${product.image || 'https://via.placeholder.com/400x300?text=No+Image'}" alt="${product.name}" class="grocery-img" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
@@ -222,7 +230,6 @@ function confirmGroceryOrder() {
         if (item) { itemsList.push(`✓ ${item.name} (${item.unit}) - Rs. ${item.price}`); total += (item.price || 0); }
     });
 
-    // UPDATED: FoodHub -> Silvas Express
     const orderMsg = `*🌿 Silvas Express Grocery Order*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Address:* ${address}\n\n*භාණ්ඩ:*\n${itemsList.join('\n')}\n\n*💰 මුළු මුදල:* Rs. ${total.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
     
     window.open(`https://wa.me/94766488689?text=${encodeURIComponent(orderMsg)}`, '_blank');
@@ -311,12 +318,10 @@ function confirmCartOrder() {
     let itemsList = cart.map(i => `✓ ${i.name} x${i.quantity} (Rs. ${i.price * i.quantity})`).join('\n');
     const paymentInfo = paymentMethod === 'cod' ? '💵 Cash on Delivery' : `🏦 Online Payment (Ref: ${transId})`;
 
-    // UPDATED: FoodHub -> Silvas Express
-    const orderMsg = `*🌿 Silvas Express New Order*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Address:* ${address}\n💳 *Payment:* ${paymentInfo}\n\n*භාණ්ඩ:*\n${itemsList}\n\n*💰 මුළු මුදල:* Rs. ${total.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
+    const orderMsg = `*🌿 Silvas Express New Order*\n\n *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Address:* ${address}\n💳 *Payment:* ${paymentInfo}\n\n*භාණ්ඩ:*\n${itemsList}\n\n*💰 මුළු මුදල:* Rs. ${total.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
     
     window.open(`https://wa.me/94766488689?text=${encodeURIComponent(orderMsg)}`, '_blank');
     
-    // Save to Firebase (Optional, for admin tracking)
     database.ref('orders').push({
         customerName: name, phone, address, paymentMethod, transactionId: transId,
         items: cart.map(i => i.name).join(', '), total, status: 'Pending', date: new Date().toISOString()
@@ -335,21 +340,18 @@ function callToOrder() {
 }
 
 function shareOnWhatsApp() {
-    // UPDATED: FoodHub -> Silvas Express & Link updated
     const text = "🌿 Check out Silvas Express! Order delicious food and groceries online. Visit: https://chinthakanuwan.github.io/silvas-express/";
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
 }
 
 function shareOnFacebook() {
-    // UPDATED: Link updated
     const url = "https://chinthakanuwan.github.io/silvas-express/";
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
 }
 
 function shareOnMessenger() {
-    // UPDATED: Link updated
     const url = "https://chinthakanuwan.github.io/silvas-express/";
-    window.open(`https://www.facebook.com/dialog/send?link=${encodeURIComponent(url)}&app_id=YOUR_APP_ID`, '_blank'); // Fallback to generic share if no app ID
+    window.open(`https://www.facebook.com/dialog/send?link=${encodeURIComponent(url)}&app_id=YOUR_APP_ID`, '_blank');
 }
 
 function switchTab(tabName) {
@@ -364,7 +366,7 @@ function switchTab(tabName) {
         document.querySelectorAll('.nav-item')[index].classList.add('active');
     }
     if (tabName === 'orders') renderOrdersTab();
-    if (tabName === 'foods') renderFoods(); // Re-render to apply shop filter if active
+    if (tabName === 'foods') renderFoods();
 }
 
 function handleSearch() {
