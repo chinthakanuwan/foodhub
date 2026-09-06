@@ -88,7 +88,7 @@
     <!-- LOGIN SCREEN -->
     <div id="loginScreen">
         <div class="login-box">
-            <h1> <span>Silvas Express</span><br>Admin Panel</h1>
+            <h1>🌿 <span>Silvas Express</span><br>Admin Panel</h1>
             <input type="password" id="adminPassword" placeholder="🔒 Password එක ඇතුළත් කරන්න (admin123)">
             <button onclick="login()">🔐 Login</button>
             <p id="loginError" style="color: #f44336; margin-top: 15px; font-weight: 600; display: none;">❌ වැරදි Password එකක්! නැවත උත්සාහ කරන්න.</p>
@@ -100,14 +100,14 @@
     <div id="adminPanel" class="hidden">
         <div class="header">
             <button class="logout-btn" onclick="logout()">🚪 Logout</button>
-            <h1>🌿 Silvas Express Admin Panel</h1>
+            <h1> Silvas Express Admin Panel</h1>
             <p>Complete Management System</p>
         </div>
 
         <div class="section">
             <h2>📊 Analytics Dashboard</h2>
             <div class="analytics-grid">
-                <div class="analytics-card"><h3>📦 Today's Orders</h3><div class="value" id="todayOrders">0</div></div>
+                <div class="analytics-card"><h3> Today's Orders</h3><div class="value" id="todayOrders">0</div></div>
                 <div class="analytics-card"><h3>💰 Today's Revenue</h3><div class="value" id="todayRevenue">Rs. 0</div></div>
                 <div class="analytics-card"><h3>📦 Monthly Orders</h3><div class="value" id="monthOrders">0</div></div>
                 <div class="analytics-card"><h3>💰 Monthly Revenue</h3><div class="value" id="monthRevenue">Rs. 0</div></div>
@@ -120,7 +120,7 @@
             <div class="tabs">
                 <div class="tab active" onclick="switchTab('orders')">📦 Orders</div>
                 <div class="tab" onclick="switchTab('shops')">🏪 Shops</div>
-                <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
+                <div class="tab" onclick="switchTab('foods')"> Foods</div>
                 <div class="tab" onclick="switchTab('grocery')">🛒 Grocery</div>
                 <div class="tab" onclick="switchTab('vegetables')">🥬 Vegetables</div>
                 <div class="tab" onclick="switchTab('customads')">📢 Custom Ads</div>
@@ -131,7 +131,7 @@
 
             <!-- ORDERS TAB -->
             <div id="ordersTab">
-                <h2> Order Management</h2>
+                <h2>📦 Order Management</h2>
                 <div class="filter-bar">
                     <select id="filterStatus" onchange="filterOrders()">
                         <option value="all">All Orders</option>
@@ -159,9 +159,9 @@
                 <div class="form-group"><label>Category</label>
                     <select id="shopCategory">
                         <option value="Restaurant">🍽️ Restaurant</option>
-                        <option value="Fast Food">🍔 Fast Food</option>
+                        <option value="Fast Food"> Fast Food</option>
                         <option value="Grocery">🛒 Grocery/Supermarket</option>
-                        <option value="Drinks">🥤 Drinks</option>
+                        <option value="Drinks"> Drinks</option>
                         <option value="Flowers">💐 Flowers</option>
                     </select>
                 </div>
@@ -185,7 +185,7 @@
                     <div class="form-group"><label><input type="checkbox" id="editIsFeatured" style="margin-right: 10px;">⭐ Featured</label></div>
                     <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="editShopDisplayOrder"></div>
                     <button class="btn btn-success" onclick="updateShop()">💾 Update</button>
-                    <button class="btn btn-warning" onclick="cancelEdit('shop')"> Cancel</button>
+                    <button class="btn btn-warning" onclick="cancelEdit('shop')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Shops</h3>
                 <input type="text" class="search-bar" id="shopSearch" placeholder="🔍 Search shops..." oninput="renderShops()">
@@ -231,19 +231,20 @@
                     <select id="groceryCategory">
                         <option value="Staples">🌾 Staples</option>
                         <option value="Spices">🌶️ Spices</option>
-                        <option value="Dairy">🥛 Dairy</option>
+                        <option value="Dairy"> Dairy</option>
                         <option value="Other">📦 Other</option>
                     </select>
                 </div>
                 <div class="form-group"><label>Image URL</label><input type="text" id="groceryImageUrl" placeholder="https://..."></div>
                 
-                <!-- VARIANTS FIELD -->
+                <!-- VARIANTS FIELD - UPDATED -->
                 <div class="variants-box">
-                    <label>📦 Variants (බර සහ මිල - අවශ්‍ය නම් පමණක්)</label>
-                    <textarea id="groceryVariants" rows="3" placeholder="උදා: 25g:50, 50g:90, 100g:180, 250g:400, 500g:800, 1kg:1500"></textarea>
+                    <label>📦 Variants (බර, සාමාන්‍ය මිල සහ වට්ටම් මිල)</label>
+                    <textarea id="groceryVariants" rows="3" placeholder="දා: 100g:250:220, 500g:1200:1000, 1kg:2400:"></textarea>
                     <small>
-                        💡 <strong>Format:</strong> බර:මිල, බර:මිල (කොමාවෙන් වෙන් කරන්න)<br>
-                        උදා: <code>25g:50, 50g:90, 100g:180, 500g:800, 1kg:1500</code><br>
+                        💡 <strong>Format:</strong> බර:සාමාන්‍යමිල:වට්ටම්මිල (කොමාවෙන් වෙන් කරන්න)<br>
+                        උදා: <code>100g:250:220, 500g:1200:1000, 1kg:2400:</code><br>
+                        ⚠️ වට්ටම් මිල අවශ්‍ය නැත්නම් හිස් තියන්න: <code>100g:250:, 500g:1200:1000</code><br>
                         ⚠️ Variants නැත්නම් හිස් තියන්න.
                     </small>
                 </div>
@@ -263,11 +264,11 @@
                     <div class="form-group"><label>Unit</label><input type="text" id="editGroceryUnit"></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editGroceryImage"></div>
                     
-                    <!-- EDIT VARIANTS FIELD -->
+                    <!-- EDIT VARIANTS FIELD - UPDATED -->
                     <div class="variants-box">
-                        <label> Variants (බර සහ මිල)</label>
-                        <textarea id="editGroceryVariants" rows="3" placeholder="උදා: 25g:50, 50g:90, 100g:180"></textarea>
-                        <small>බර:මිල, බර:මිල ලෙස ටයිප් කරන්න</small>
+                        <label>📦 Variants (බර, සාමාන්ය මිල සහ වට්ටම් මිල)</label>
+                        <textarea id="editGroceryVariants" rows="3" placeholder="උදා: 100g:250:220, 500g:1200:1000"></textarea>
+                        <small>බර:සාමාන්‍යමිල:වට්ටම්මිල ලෙස ටයිප් කරන්න</small>
                     </div>
                     
                     <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="editGroceryDisplayOrder"></div>
@@ -286,12 +287,12 @@
                 <h3>Add New Vegetable</h3>
                 <div class="form-group"><label>Vegetable Name</label><input type="text" id="vegetableName" placeholder="e.g., Carrots (කැරට්)"></div>
                 <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="vegetableOriginalPrice" placeholder="180"></div>
-                <div class="form-group"><label><input type="checkbox" id="hasVegetableDiscount" style="margin-right: 10px;" onchange="toggleVegetableDiscountField()"> 🏷️ Special Discount Available</label></div>
+                <div class="form-group"><label><input type="checkbox" id="hasVegetableDiscount" style="margin-right: 10px;" onchange="toggleVegetableDiscountField()"> ️ Special Discount Available</label></div>
                 <div class="form-group hidden" id="vegetableDiscountPriceGroup"><label>Discount Price (Rs.)</label><input type="number" id="vegetableDiscountPrice" placeholder="150"></div>
                 <div class="form-group"><label>Unit</label><input type="text" id="vegetableUnit" placeholder="1 kg" value="1 kg"></div>
                 <div class="form-group"><label>Image URL</label><input type="text" id="vegetableImageUrl" placeholder="https://..."></div>
                 <div class="form-group"><label><input type="checkbox" id="isVegetableAvailable" checked style="margin-right: 10px;">✅ Available for Sale</label></div>
-                <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="vegetableDisplayOrder" placeholder="10" value="10"><small style="color:#666; font-size:12px;">අඩු අංකයක් දැම්මොත් ඩින් පෙන්නනවා.</small></div>
+                <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="vegetableDisplayOrder" placeholder="10" value="10"><small style="color:#666; font-size:12px;">අඩු අංකයක් දැම්මොත් උඩින් පෙන්නනවා.</small></div>
                 <button class="btn btn-primary" onclick="saveVegetable()">💾 Save Vegetable</button>
                 <button class="btn btn-warning" onclick="showEditVegetableSection()">✏️ Edit Vegetable</button>
 
@@ -311,7 +312,7 @@
                     <button class="btn btn-warning" onclick="cancelEdit('vegetable')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Vegetables</h3>
-                <input type="text" class="search-bar" id="vegetableSearch" placeholder="🔍 Search vegetables..." oninput="renderVegetables()">
+                <input type="text" class="search-bar" id="vegetableSearch" placeholder=" Search vegetables..." oninput="renderVegetables()">
                 <div class="item-list" id="vegetablesList"></div>
             </div>
 
@@ -321,10 +322,10 @@
                 <div class="notification-box">
                     <h3>➕ Add New Custom Ad</h3>
                     <p style="margin-bottom: 15px; font-size: 13px;">පාර්ශවකරුවන්ගේ දැන්වීම් මෙතන add කරන්න. App එකේ උඩින් Carousel එකක් විදිහට පෙන්නනවා.</p>
-                    <div class="form-group"><label>Ad Title (අභ්‍යන්තර ාවිතයට)</label><input type="text" id="adTitle" placeholder="e.g., ABC Restaurant Ad"></div>
+                    <div class="form-group"><label>Ad Title (අභ්යන්තර භාවිතයට)</label><input type="text" id="adTitle" placeholder="e.g., ABC Restaurant Ad"></div>
                     <div class="form-group"><label>Banner Image URL (320x100 px recommended)</label><input type="text" id="adImageUrl" placeholder="https://example.com/banner.jpg"><small style="color: #666; font-size: 12px;">320x100 pixels ප්‍රමාණයේ image එකක් නම් හොඳයි</small></div>
                     <div class="form-group"><label>Click URL (ad එක click කළාම යන්න ඕන තැන)</label><input type="text" id="adClickUrl" placeholder="https://example.com or WhatsApp number"></div>
-                    <div class="form-group"><label>Display Order (පෙන්වන අනුපිළිවෙල)</label><input type="number" id="adDisplayOrder" placeholder="1" value="1"><small style="color: #666; font-size: 12px;">අඩු අංකයක් දැම්මොත් ඩින් පෙන්නනවා</small></div>
+                    <div class="form-group"><label>Display Order (පෙන්වන අනුපිළිවෙල)</label><input type="number" id="adDisplayOrder" placeholder="1" value="1"><small style="color: #666; font-size: 12px;">අඩු අංකයක් දැම්මොත් උඩින් පෙන්නනවා</small></div>
                     <div class="form-group"><label><input type="checkbox" id="adIsActive" checked style="margin-right: 10px;"> ✅ Active (Enable/Disable)</label></div>
                     <button class="btn btn-primary" onclick="saveCustomAd()">💾 Save Custom Ad</button>
                 </div>
@@ -347,7 +348,7 @@
             <div id="googleadsTab" class="hidden">
                 <h2>📊 Google Ads Management</h2>
                 <div class="app-link-box">
-                    <h3>⚙️ AdSense Settings</h3>
+                    <h3>️ AdSense Settings</h3>
                     <p style="margin-bottom: 15px;">යාගේ Google AdSense විස්තර මෙතන දාන්න.</p>
                     <div class="form-group"><label>AdSense Publisher ID</label><input type="text" id="adsPublisherId" placeholder="ca-pub-XXXXXXXXXXXXXXXX"></div>
                     <div class="form-group"><label>Top Banner Ad Slot ID</label><input type="text" id="adsTopSlot" placeholder="1234567890"></div>
@@ -363,16 +364,16 @@
 
             <!-- PROMOTIONS TAB -->
             <div id="promotionsTab" class="hidden">
-                <h2> Promotions & Offers</h2>
+                <h2>🎉 Promotions & Offers</h2>
                 <div class="notification-box">
-                    <h3>📢 Create New Promotion</h3>
+                    <h3> Create New Promotion</h3>
                     <p style="margin-bottom: 15px;">Customers ලාට විශේෂ දීමනා හෝ දැන්වීම් පෙන්වන්න.</p>
                     <div class="form-group"><label>Promo Title</label><input type="text" id="promoTitle" placeholder="e.g., 20% Off on All Foods!"></div>
-                    <div class="form-group"><label>Promo Message</label><textarea id="promoMessage" rows="3" placeholder="e.g., අද බේ සියලුම orders වලට 20% වට්ටමක්!"></textarea></div>
+                    <div class="form-group"><label>Promo Message</label><textarea id="promoMessage" rows="3" placeholder="e.g., අද ඔබේ සියලුම orders වලට 20% වට්ටමක්!"></textarea></div>
                     <div class="form-group"><label>Image URL (Optional)</label><input type="text" id="promoImage" placeholder="https://..."></div>
                     <div class="form-group"><label>Target Phone (Optional - for WhatsApp blast)</label><input type="tel" id="promoPhone" placeholder="0766488689"></div>
                     <button class="btn btn-primary" onclick="savePromotion()">💾 Save Promo to App</button>
-                    <button class="btn btn-whatsapp" onclick="sendPromoWhatsApp()"> Send via WhatsApp</button>
+                    <button class="btn btn-whatsapp" onclick="sendPromoWhatsApp()">📤 Send via WhatsApp</button>
                 </div>
                 <h3>Active Promotions</h3>
                 <div class="item-list" id="promotionsList"></div>
@@ -380,9 +381,9 @@
 
             <!-- NOTIFICATIONS TAB -->
             <div id="notificationsTab" class="hidden">
-                <h2>📱 General Notifications</h2>
+                <h2> General Notifications</h2>
                 <div class="app-link-box">
-                    <h3>📱 App Install Link</h3>
+                    <h3> App Install Link</h3>
                     <div class="form-group"><label>App URL:</label><input type="text" id="appInstallUrl" value="https://chinthakanuwan.github.io/foodhub/" readonly></div>
                     <div class="form-group"><label>Customer Phone Number:</label><input type="tel" id="customerPhone" placeholder="0766488689"></div>
                     <button class="btn btn-whatsapp" onclick="sendAppInstallLink()">📤 Send App Install Link via WhatsApp</button>
@@ -391,12 +392,12 @@
                 <div class="notification-box">
                     <h3>💬 Send WhatsApp Notification</h3>
                     <div class="form-group"><label>Customer Phone Number:</label><input type="tel" id="notifPhone" placeholder="0766488689"></div>
-                    <div class="form-group"><label>Notification Message:</label><textarea id="notifMessage" rows="4" placeholder="උදා:  විශේෂ දීමනාව!"></textarea></div>
-                    <button class="btn btn-whatsapp" onclick="sendWhatsAppNotification()"> Send via WhatsApp</button>
-                    <h3 style="margin-top: 20px;"> Quick Templates</h3>
+                    <div class="form-group"><label>Notification Message:</label><textarea id="notifMessage" rows="4" placeholder="දා: 🎉 විශේෂ දීමනාව!"></textarea></div>
+                    <button class="btn btn-whatsapp" onclick="sendWhatsAppNotification()">📤 Send via WhatsApp</button>
+                    <h3 style="margin-top: 20px;">📝 Quick Templates</h3>
                     <button class="btn btn-info" onclick="useTemplate('welcome')">👋 Welcome</button>
                     <button class="btn btn-info" onclick="useTemplate('offer')">🎉 Special Offer</button>
-                    <button class="btn btn-info" onclick="useTemplate('delivery')"> Delivery</button>
+                    <button class="btn btn-info" onclick="useTemplate('delivery')">🚚 Delivery</button>
                 </div>
             </div>
         </div>
@@ -543,22 +544,34 @@
             document.getElementById('editVegetableDiscountPriceGroup').classList.toggle('hidden', !document.getElementById('editHasVegetableDiscount').checked); 
         }
 
+        // UPDATED: Parse variants with normal price and special price
         function parseVariants(text) {
             let variants = {};
             if (!text) return variants;
             const pairs = text.split(',');
             pairs.forEach(pair => {
-                const [weight, price] = pair.split(':');
-                if (weight && price) {
-                    variants[weight.trim()] = parseInt(price.trim());
+                const parts = pair.split(':');
+                const weight = parts[0]?.trim();
+                const normalPrice = parseInt(parts[1]?.trim()) || 0;
+                const specialPrice = parseInt(parts[2]?.trim()) || 0;
+                
+                if (weight && normalPrice > 0) {
+                    variants[weight] = { 
+                        normalPrice: normalPrice, 
+                        specialPrice: specialPrice > 0 && specialPrice < normalPrice ? specialPrice : 0 
+                    };
                 }
             });
             return variants;
         }
 
+        // UPDATED: Format variants back to text
         function formatVariants(variants) {
             if (!variants || Object.keys(variants).length === 0) return '';
-            return Object.entries(variants).map(([w, p]) => `${w}:${p}`).join(', ');
+            return Object.entries(variants).map(([w, v]) => {
+                const special = v.specialPrice > 0 ? `:${v.specialPrice}` : '';
+                return `${w}:${v.normalPrice}${special}`;
+            }).join(', ');
         }
 
         function updateSelects() {
@@ -718,7 +731,7 @@
             const filtered = groceryItems.filter(g => g.name.toLowerCase().includes(search));
             list.innerHTML = filtered.map(item => {
                 const hasVariants = item.variants && Object.keys(item.variants).length > 0;
-                const variantsDisplay = hasVariants ? `<div style="font-size:11px; color:#22C55E; margin-top:3px;">📦 Variants: ${Object.entries(item.variants).map(([w,p]) => `${w}: Rs.${p}`).join(', ')}</div>` : '';
+                const variantsDisplay = hasVariants ? `<div style="font-size:11px; color:#22C55E; margin-top:3px;">📦 Variants: ${Object.entries(item.variants).map(([w,v]) => `${w}: Rs.${v.normalPrice}${v.specialPrice > 0 ? ' → Rs.' + v.specialPrice : ''}`).join(', ')}</div>` : '';
                 const priceDisplay = item.hasDiscount && item.discountPrice > 0 ? `<span style="color:#f44336; font-weight:bold;">Rs. ${item.discountPrice}</span> <span style="text-decoration:line-through; color:#999; font-size:12px;">Rs. ${item.originalPrice}</span>` : `<span style="color:#16A34A; font-weight:bold;">Rs. ${item.originalPrice}</span>`;
                 return `<div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${item.name}</div><div style="margin-top:5px;">${priceDisplay} <span style="color:#666; font-size:12px;">| ${item.unit} | ${item.category}</span></div>${variantsDisplay}</div><button class="btn btn-primary" onclick="quickEditGrocery('${item.id}')" style="padding:8px 12px; font-size:12px;">✏️</button></div>`;
             }).join('');
@@ -821,7 +834,7 @@
                 const showDiscount = veg.hasDiscount && veg.discountPrice > 0 && veg.discountPrice < veg.originalPrice;
                 const priceDisplay = showDiscount ? `<span style="color:#f44336; font-weight:bold;">Rs. ${veg.discountPrice}</span> <span style="text-decoration:line-through; color:#999; font-size:12px;">Rs. ${veg.originalPrice}</span> <span style="background:#f44336; color:white; padding:2px 6px; border-radius:10px; font-size:10px;">OFFER</span>` : `<span style="color:#16A34A; font-weight:bold;">Rs. ${veg.originalPrice}</span>`;
                 const availabilityBadge = veg.available !== false ? '<span style="background:#C8E6C9; color:#1B5E20; padding:2px 8px; border-radius:10px; font-size:10px;">✅ Available</span>' : '<span style="background:#FFCDD2; color:#B71C1C; padding:2px 8px; border-radius:10px; font-size:10px;">❌ Unavailable</span>';
-                return `<div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${veg.name}</div><div style="margin-top:5px;">${priceDisplay} <span style="color:#666; font-size:12px; margin-left:10px;">| ${veg.unit}</span> <span style="margin-left:10px;">${availabilityBadge}</span></div></div><button class="btn btn-primary" onclick="quickEditVegetable('${veg.id}')" style="padding:8px 12px; font-size:12px;">️</button></div>`;
+                return `<div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${veg.name}</div><div style="margin-top:5px;">${priceDisplay} <span style="color:#666; font-size:12px; margin-left:10px;">| ${veg.unit}</span> <span style="margin-left:10px;">${availabilityBadge}</span></div></div><button class="btn btn-primary" onclick="quickEditVegetable('${veg.id}')" style="padding:8px 12px; font-size:12px;">✏️</button></div>`;
             }).join('');
         }
 
@@ -930,7 +943,7 @@
                     <img src="${ad.imageUrl}" alt="${ad.title}" class="custom-ad-image" onerror="this.src='https://via.placeholder.com/100x100?text=No+Image'">
                     <div class="custom-ad-info">
                         <div style="font-weight:bold; font-size:15px;">${ad.title} <span class="ad-badge ${ad.isActive ? 'ad-active' : 'ad-inactive'}">${ad.isActive ? '✅ Active' : '❌ Inactive'}</span></div>
-                        <div style="font-size:12px; color:#666; margin-top:5px;"> Click URL: <a href="${ad.clickUrl}" target="_blank" style="color:#22C55E;">${ad.clickUrl.substring(0, 40)}${ad.clickUrl.length > 40 ? '...' : ''}</a></div>
+                        <div style="font-size:12px; color:#666; margin-top:5px;">🔗 Click URL: <a href="${ad.clickUrl}" target="_blank" style="color:#22C55E;">${ad.clickUrl.substring(0, 40)}${ad.clickUrl.length > 40 ? '...' : ''}</a></div>
                         <div style="font-size:12px; color:#666; margin-top:3px;">📊 Display Order: ${ad.displayOrder || 999}</div>
                     </div>
                     <div style="display:flex; gap:5px;">
@@ -1008,7 +1021,7 @@
             const phone = document.getElementById('customerPhone').value.trim();
             const appUrl = document.getElementById('appInstallUrl').value;
             if (!phone) return alert('Phone number එක අනිවාර්යයි!');
-            const message = `🌿 Silvas Express App එක download කරගන්න!\n\nඔබේ විශ්වාසවන්ත හාර & grocery delivery partner\n\n App Link: ${appUrl}\n\nOrder කරන්න දැන්ම visit කරන්න!`;
+            const message = `🌿 Silvas Express App එක download කරගන්න!\n\nබේ විශ්වාසවන්ත හාර & grocery delivery partner\n\n📱 App Link: ${appUrl}\n\nOrder කරන්න දැන්ම visit කරන්න!`;
             window.open(`https://wa.me/94${phone.substring(1)}?text=${encodeURIComponent(message)}`, '_blank');
         }
 
@@ -1025,9 +1038,9 @@
 
         function useTemplate(type) {
             const templates = {
-                welcome: '👋 ආයුබෝවන්! 🌿 Silvas Express App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
-                offer: ' විශේෂ දීමනාව! 🌿\n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
-                delivery: '🚚 බේ order එක deliver වෙමින් පවතී! 🌿\n\nOrder tracking සඳහා: https://chinthakanuwan.github.io/foodhub/\n\nස්තූතියි! '
+                welcome: ' ආයුබෝවන්!  Silvas Express App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
+                offer: '🎉 විශේෂ දීමනාව! 🌿\n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
+                delivery: '🚚 ඔබේ order එක deliver වෙමින් පවතී! 🌿\n\nOrder tracking සඳහා: https://chinthakanuwan.github.io/foodhub/\n\nස්තූතියි! 🙏'
             };
             document.getElementById('notifMessage').value = templates[type];
         }
@@ -1064,7 +1077,7 @@
                         <span class="order-status status-${(o.status||'pending').toLowerCase()}">${o.status||'Pending'}</span>
                     </div>
                     <div class="order-details">
-                        <div>👤 ${o.customerName} |  ${o.phone}</div>
+                        <div>👤 ${o.customerName} | 📞 ${o.phone}</div>
                         <div>📦 ${o.items}</div>
                         <div>💰 Total: Rs. ${o.grandTotal || o.total} | 💳 ${o.paymentInfo || o.paymentMethod}</div>
                         <div>📍 ${o.address}</div>
