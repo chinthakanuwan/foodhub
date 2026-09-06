@@ -71,8 +71,8 @@
 
     <div id="adminPanel" class="hidden">
         <div class="header">
-            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
-            <h1>⚙️ Silvas Express Admin Panel</h1>
+            <button class="logout-btn" onclick="logout()"> Logout</button>
+            <h1>️ Silvas Express Admin Panel</h1>
             <p>Complete Management System</p>
         </div>
 
@@ -84,23 +84,25 @@
                 <div class="analytics-card"><h3>📦 Monthly Orders</h3><div class="value" id="monthOrders">0</div></div>
                 <div class="analytics-card"><h3>💰 Monthly Revenue</h3><div class="value" id="monthRevenue">Rs. 0</div></div>
                 <div class="analytics-card"><h3>✅ Delivered</h3><div class="value" id="deliveredOrders">0</div></div>
-                <div class="analytics-card"><h3>⏳ Pending</h3><div class="value" id="pendingOrders">0</div></div>
+                <div class="analytics-card"><h3> Pending</h3><div class="value" id="pendingOrders">0</div></div>
             </div>
         </div>
 
         <div class="section">
             <div class="tabs">
                 <div class="tab active" onclick="switchTab('orders')">📦 Orders</div>
-                <div class="tab" onclick="switchTab('shops')"> Shops</div>
+                <div class="tab" onclick="switchTab('shops')">🏪 Shops</div>
                 <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
                 <div class="tab" onclick="switchTab('grocery')">🛒 Grocery</div>
-                <div class="tab" onclick="switchTab('vegetables')">🥬 Vegetables</div>
-                <div class="tab" onclick="switchTab('notifications')">📢 Notifications</div>
+                <div class="tab" onclick="switchTab('vegetables')"> Vegetables</div>
+                <div class="tab" onclick="switchTab('promotions')"> Promotions</div>
+                <div class="tab" onclick="switchTab('googleads')"> Google Ads</div>
+                <div class="tab" onclick="switchTab('notifications')"> Notifications</div>
             </div>
 
             <!-- ORDERS TAB -->
             <div id="ordersTab">
-                <h2>📦 Order Management</h2>
+                <h2> Order Management</h2>
                 <div class="filter-bar">
                     <select id="filterStatus" onchange="filterOrders()">
                         <option value="all">All Orders</option>
@@ -127,10 +129,10 @@
                 <div class="form-group"><label>Shop Name</label><input type="text" id="shopName" placeholder="e.g., Silvas Family Restaurant"></div>
                 <div class="form-group"><label>Category</label>
                     <select id="shopCategory">
-                        <option value="Restaurant">🍽️ Restaurant</option>
-                        <option value="Fast Food"> Fast Food</option>
+                        <option value="Restaurant">️ Restaurant</option>
+                        <option value="Fast Food">🍔 Fast Food</option>
                         <option value="Grocery">🛒 Grocery/Supermarket</option>
-                        <option value="Drinks"> Drinks</option>
+                        <option value="Drinks">🥤 Drinks</option>
                         <option value="Flowers">💐 Flowers</option>
                     </select>
                 </div>
@@ -139,7 +141,6 @@
                 <div class="form-group"><label>Rating</label><input type="number" id="shopRating" placeholder="4.5" step="0.1" min="0" max="5"></div>
                 <div class="form-group"><label>Image URL</label><input type="text" id="shopImageUrl" placeholder="https://..."></div>
                 <div class="form-group"><label><input type="checkbox" id="isFeatured" style="margin-right: 10px;">⭐ Featured Shop</label></div>
-                <!-- ⭐ අලුත් Display Order Field එක ⭐ -->
                 <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="shopDisplayOrder" placeholder="10" value="10"><small style="color:#666; font-size:12px;">අඩු අංකයක් දැම්මොත් උඩින් පෙන්නනවා.</small></div>
                 
                 <button class="btn btn-primary" onclick="saveShop()">💾 Save Shop</button>
@@ -154,9 +155,7 @@
                     <div class="form-group"><label>Rating</label><input type="number" id="editShopRating" step="0.1"></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editShopImage"></div>
                     <div class="form-group"><label><input type="checkbox" id="editIsFeatured" style="margin-right: 10px;">⭐ Featured</label></div>
-                    <!-- ⭐ අලුත් Display Order Field එක ⭐ -->
                     <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="editShopDisplayOrder"></div>
-                    
                     <button class="btn btn-success" onclick="updateShop()">💾 Update</button>
                     <button class="btn btn-warning" onclick="cancelEdit('shop')">❌ Cancel</button>
                 </div>
@@ -172,7 +171,6 @@
                 <div class="form-group"><label>Food Name</label><input type="text" id="foodName" placeholder="e.g., Fried Rice"></div>
                 <div class="form-group"><label>Price (Rs.)</label><input type="number" id="foodPrice" placeholder="1200"></div>
                 <div class="form-group"><label>Image URL</label><input type="text" id="foodImageUrl" placeholder="https://..."></div>
-                <!-- ⭐ අලුත් Display Order Field එක ⭐ -->
                 <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="foodDisplayOrder" placeholder="10" value="10"><small style="color:#666; font-size:12px;">අඩු අංකයක් දැම්මොත් උඩින් පෙන්නනවා.</small></div>
                 
                 <button class="btn btn-primary" onclick="saveFood()">💾 Save Food</button>
@@ -184,9 +182,7 @@
                     <div class="form-group"><label>Food Name</label><input type="text" id="editFoodName"></div>
                     <div class="form-group"><label>Price</label><input type="number" id="editFoodPrice"></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editFoodImage"></div>
-                    <!-- ⭐ අලුත් Display Order Field එක ⭐ -->
                     <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="editFoodDisplayOrder"></div>
-                    
                     <button class="btn btn-success" onclick="updateFood()">💾 Update</button>
                     <button class="btn btn-warning" onclick="cancelEdit('food')">❌ Cancel</button>
                 </div>
@@ -208,12 +204,11 @@
                     <select id="groceryCategory">
                         <option value="Staples">🌾 Staples</option>
                         <option value="Spices">🌶️ Spices</option>
-                        <option value="Dairy">🥛 Dairy</option>
+                        <option value="Dairy"> Dairy</option>
                         <option value="Other">📦 Other</option>
                     </select>
                 </div>
                 <div class="form-group"><label>Image URL</label><input type="text" id="groceryImageUrl" placeholder="https://..."></div>
-                <!-- ⭐ අලුත් Display Order Field එක ⭐ -->
                 <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="groceryDisplayOrder" placeholder="10" value="10"><small style="color:#666; font-size:12px;">අඩු අංකයක් දැම්මොත් උඩින් පෙන්නනවා.</small></div>
                 
                 <button class="btn btn-primary" onclick="saveGroceryItem()">💾 Save Item</button>
@@ -228,9 +223,7 @@
                     <div class="form-group hidden" id="editDiscountPriceGroup"><label>Discount Price (Rs.)</label><input type="number" id="editGroceryDiscountPrice"></div>
                     <div class="form-group"><label>Unit</label><input type="text" id="editGroceryUnit"></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editGroceryImage"></div>
-                    <!-- ⭐ අලුත් Display Order Field එක ⭐ -->
                     <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="editGroceryDisplayOrder"></div>
-                    
                     <button class="btn btn-success" onclick="updateGroceryItem()">💾 Update</button>
                     <button class="btn btn-danger" onclick="quickDeleteGrocery()">🗑️ Delete</button>
                     <button class="btn btn-warning" onclick="cancelEdit('grocery')">❌ Cancel</button>
@@ -246,12 +239,11 @@
                 <h3>Add New Vegetable</h3>
                 <div class="form-group"><label>Vegetable Name</label><input type="text" id="vegetableName" placeholder="e.g., Carrots (කැරට්)"></div>
                 <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="vegetableOriginalPrice" placeholder="180"></div>
-                <div class="form-group"><label><input type="checkbox" id="hasVegetableDiscount" style="margin-right: 10px;" onchange="toggleVegetableDiscountField()"> 🏷️ Special Discount Available</label></div>
+                <div class="form-group"><label><input type="checkbox" id="hasVegetableDiscount" style="margin-right: 10px;" onchange="toggleVegetableDiscountField()"> ️ Special Discount Available</label></div>
                 <div class="form-group hidden" id="vegetableDiscountPriceGroup"><label>Discount Price (Rs.)</label><input type="number" id="vegetableDiscountPrice" placeholder="150"></div>
                 <div class="form-group"><label>Unit</label><input type="text" id="vegetableUnit" placeholder="1 kg" value="1 kg"></div>
                 <div class="form-group"><label>Image URL</label><input type="text" id="vegetableImageUrl" placeholder="https://..."></div>
                 <div class="form-group"><label><input type="checkbox" id="isVegetableAvailable" checked style="margin-right: 10px;">✅ Available for Sale</label></div>
-                <!-- ⭐ අලුත් Display Order Field එක ⭐ -->
                 <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="vegetableDisplayOrder" placeholder="10" value="10"><small style="color:#666; font-size:12px;">අඩු අංකයක් දැම්මොත් උඩින් පෙන්නනවා.</small></div>
                 
                 <button class="btn btn-primary" onclick="saveVegetable()">💾 Save Vegetable</button>
@@ -267,9 +259,7 @@
                     <div class="form-group"><label>Unit</label><input type="text" id="editVegetableUnit"></div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editVegetableImage"></div>
                     <div class="form-group"><label><input type="checkbox" id="editIsVegetableAvailable" style="margin-right: 10px;">✅ Available</label></div>
-                    <!-- ⭐ අලුත් Display Order Field එක ⭐ -->
                     <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="editVegetableDisplayOrder"></div>
-                    
                     <button class="btn btn-success" onclick="updateVegetable()">💾 Update</button>
                     <button class="btn btn-danger" onclick="quickDeleteVegetable()">🗑️ Delete</button>
                     <button class="btn btn-warning" onclick="cancelEdit('vegetable')">❌ Cancel</button>
@@ -279,30 +269,65 @@
                 <div class="item-list" id="vegetablesList"></div>
             </div>
 
+            <!-- 🌟 NEW: PROMOTIONS TAB 🌟 -->
+            <div id="promotionsTab" class="hidden">
+                <h2>📢 Customer Promotions & Ads</h2>
+                <div class="notification-box">
+                    <h3>🎉 Create New Promotion</h3>
+                    <p style="margin-bottom: 15px;">Customers ලාට විශේෂ දීමනා හෝ දැන්වීම් පෙන්වන්න.</p>
+                    <div class="form-group"><label>Promo Title</label><input type="text" id="promoTitle" placeholder="e.g., 20% Off on All Foods!"></div>
+                    <div class="form-group"><label>Promo Message</label><textarea id="promoMessage" rows="3" placeholder="e.g., අද ඔබේ සියලුම orders වලට 20% වට්ටමක්!"></textarea></div>
+                    <div class="form-group"><label>Image URL (Optional)</label><input type="text" id="promoImage" placeholder="https://..."></div>
+                    <div class="form-group"><label>Target Phone (Optional - for WhatsApp blast)</label><input type="tel" id="promoPhone" placeholder="0766488689"></div>
+                    
+                    <button class="btn btn-primary" onclick="savePromotion()">💾 Save Promo to App</button>
+                    <button class="btn btn-whatsapp" onclick="sendPromoWhatsApp()">📤 Send via WhatsApp</button>
+                </div>
+                <h3>Active Promotions</h3>
+                <div class="item-list" id="promotionsList"></div>
+            </div>
+
+            <!-- 🌟 NEW: GOOGLE ADS TAB 🌟 -->
+            <div id="googleadsTab" class="hidden">
+                <h2>📊 Google Ads Management</h2>
+                <div class="app-link-box">
+                    <h3>⚙️ AdSense Settings</h3>
+                    <p style="margin-bottom: 15px;">යාගේ Google AdSense විස්තර මෙතන දාන්න. මේවා App එකේ Ads පෙන්නවිම පාලනය කරයි.</p>
+                    
+                    <div class="form-group"><label>AdSense Publisher ID</label><input type="text" id="adsPublisherId" placeholder="ca-pub-XXXXXXXXXXXXXXXX"></div>
+                    <div class="form-group"><label>Top Banner Ad Slot ID</label><input type="text" id="adsTopSlot" placeholder="1234567890"></div>
+                    <div class="form-group"><label>Bottom Banner Ad Slot ID</label><input type="text" id="adsBottomSlot" placeholder="0987654321"></div>
+                    <div class="form-group">
+                        <label><input type="checkbox" id="adsEnabled" style="margin-right: 10px;"> ✅ Enable Ads on App</label>
+                    </div>
+                    
+                    <button class="btn btn-success" onclick="saveAdSettings()"> Save Ad Settings</button>
+                </div>
+                <div style="background: #fff7ed; padding: 15px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #f97316;">
+                    <h4>ℹ️ How to use:</h4>
+                    <p style="font-size: 13px; margin-top: 5px;">1. මේ විස්තර save කළාම, ඔයාගේ <code>index.html</code> එකේ AdSense script එක දාන්න නේ.<br>2. Ads පෙන්නන්න නම් "Enable Ads" checkbox එක tick කරන්න.</p>
+                </div>
+            </div>
+
             <!-- NOTIFICATIONS TAB -->
             <div id="notificationsTab" class="hidden">
-                <h2>📢 Customer Notifications</h2>
-                
+                <h2> General Notifications</h2>
                 <div class="app-link-box">
                     <h3>📱 App Install Link</h3>
-                    <p style="margin-bottom: 15px;">Customers ට App එක install කරගන්න link එක යවන්න</p>
                     <div class="form-group"><label>App URL:</label><input type="text" id="appInstallUrl" value="https://chinthakanuwan.github.io/silvas-express/" readonly></div>
                     <div class="form-group"><label>Customer Phone Number:</label><input type="tel" id="customerPhone" placeholder="0766488689"></div>
                     <button class="btn btn-whatsapp" onclick="sendAppInstallLink()">📤 Send App Install Link via WhatsApp</button>
                     <button class="btn btn-info" onclick="copyAppLink()">📋 Copy App Link</button>
                 </div>
-
                 <div class="notification-box">
                     <h3>💬 Send WhatsApp Notification</h3>
-                    <p style="margin-bottom: 15px;">Customers ට special offers, promotions, හෝ announcements යවන්න</p>
                     <div class="form-group"><label>Customer Phone Number:</label><input type="tel" id="notifPhone" placeholder="0766488689"></div>
-                    <div class="form-group"><label>Notification Message:</label><textarea id="notifMessage" rows="4" placeholder="උදා: 🎉 විශේ දීමනාව!"></textarea></div>
+                    <div class="form-group"><label>Notification Message:</label><textarea id="notifMessage" rows="4" placeholder="උදා:  විශේෂ දීමනාව!"></textarea></div>
                     <button class="btn btn-whatsapp" onclick="sendWhatsAppNotification()">📤 Send via WhatsApp</button>
-                    
                     <h3 style="margin-top: 20px;">📝 Quick Templates</h3>
-                    <button class="btn btn-info" onclick="useTemplate('welcome')">👋 Welcome Message</button>
-                    <button class="btn btn-info" onclick="useTemplate('offer')">🎉 Special Offer</button>
-                    <button class="btn btn-info" onclick="useTemplate('delivery')">🚚 Delivery Update</button>
+                    <button class="btn btn-info" onclick="useTemplate('welcome')"> Welcome</button>
+                    <button class="btn btn-info" onclick="useTemplate('offer')"> Offer</button>
+                    <button class="btn btn-info" onclick="useTemplate('delivery')">🚚 Delivery</button>
                 </div>
             </div>
         </div>
@@ -321,7 +346,7 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        let shops = [], foods = [], groceryItems = [], vegetables = [], orders = [];
+        let shops = [], foods = [], groceryItems = [], vegetables = [], orders = [], promotions = [], adSettings = {};
 
         function login() {
             if (document.getElementById('adminPassword').value === 'admin123') {
@@ -334,10 +359,10 @@
         function logout() { localStorage.removeItem('adminLoggedIn'); location.reload(); }
 
         function switchTab(tabName) {
-            ['orders', 'shops', 'foods', 'grocery', 'vegetables', 'notifications'].forEach(t => document.getElementById(t + 'Tab').classList.add('hidden'));
+            ['orders', 'shops', 'foods', 'grocery', 'vegetables', 'promotions', 'googleads', 'notifications'].forEach(t => document.getElementById(t + 'Tab').classList.add('hidden'));
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.getElementById(tabName + 'Tab').classList.remove('hidden');
-            const tabs = ['orders', 'shops', 'foods', 'grocery', 'vegetables', 'notifications'];
+            const tabs = ['orders', 'shops', 'foods', 'grocery', 'vegetables', 'promotions', 'googleads', 'notifications'];
             document.querySelectorAll('.tab')[tabs.indexOf(tabName)].classList.add('active');
             if (tabName === 'shops' || tabName === 'foods') updateSelects();
         }
@@ -348,6 +373,10 @@
             database.ref('foods').on('value', snap => { foods = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; renderFoods(); updateSelects(); });
             database.ref('groceryItems').on('value', snap => { groceryItems = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; renderGroceryItems(); });
             database.ref('vegetables').on('value', snap => { vegetables = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; renderVegetables(); updateSelects(); });
+            
+            // Load Promotions & Ad Settings
+            database.ref('promotions').on('value', snap => { promotions = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; renderPromotions(); });
+            database.ref('settings/ads').on('value', snap => { adSettings = snap.val() || {}; loadAdSettingsToForm(); });
         }
 
         function updateAnalytics() {
@@ -367,12 +396,70 @@
         function toggleVegetableDiscountField() { document.getElementById('vegetableDiscountPriceGroup').classList.toggle('hidden', !document.getElementById('hasVegetableDiscount').checked); }
         function toggleEditVegetableDiscountField() { document.getElementById('editVegetableDiscountPriceGroup').classList.toggle('hidden', !document.getElementById('editHasVegetableDiscount').checked); }
 
+        // --- 🌟 PROMOTIONS FUNCTIONS 🌟 ---
+        function savePromotion() {
+            const title = document.getElementById('promoTitle').value.trim();
+            const message = document.getElementById('promoMessage').value.trim();
+            const image = document.getElementById('promoImage').value.trim();
+            if (!title || !message) return alert('Title සහ Message අනිවාර්යයි!');
+            
+            const promo = { title, message, image, active: true, createdAt: Date.now() };
+            database.ref('promotions').push(promo).then(() => {
+                alert('✅ Promotion එක App එකට Save විය!');
+                document.getElementById('promoTitle').value = '';
+                document.getElementById('promoMessage').value = '';
+                document.getElementById('promoImage').value = '';
+            });
+        }
+
+        function sendPromoWhatsApp() {
+            const phone = document.getElementById('promoPhone').value.trim();
+            const title = document.getElementById('promoTitle').value.trim();
+            const message = document.getElementById('promoMessage').value.trim();
+            if (!phone || !title) return alert('Phone Number සහ Title අනිවාර්යයි!');
+            const text = ` *Silvas Express - ${title}*\n\n${message}\n\nOrder දැන්ම: https://chinthakanuwan.github.io/silvas-express/`;
+            window.open(`https://wa.me/94${phone.substring(1)}?text=${encodeURIComponent(text)}`, '_blank');
+        }
+
+        function renderPromotions() {
+            const list = document.getElementById('promotionsList');
+            if (promotions.length === 0) { list.innerHTML = '<p style="color:#666;">දැනට Promotions කිසිවක් නැත.</p>'; return; }
+            list.innerHTML = promotions.map(p => `
+                <div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;">
+                    <div class="item-info">
+                        <div style="font-weight:bold;"> ${p.title}</div>
+                        <div style="font-size:13px; color:#666; margin-top:5px;">${p.message}</div>
+                    </div>
+                    <button class="btn btn-danger" onclick="database.ref('promotions').child('${p.id}').remove().then(()=>alert('✅ Deleted'))" style="padding:8px 12px; font-size:12px;">️</button>
+                </div>
+            `).join('');
+        }
+
+        // --- 🌟 GOOGLE ADS FUNCTIONS  ---
+        function saveAdSettings() {
+            const settings = {
+                publisherId: document.getElementById('adsPublisherId').value.trim(),
+                topSlot: document.getElementById('adsTopSlot').value.trim(),
+                bottomSlot: document.getElementById('adsBottomSlot').value.trim(),
+                enabled: document.getElementById('adsEnabled').checked
+            };
+            if (!settings.publisherId) return alert('AdSense Publisher ID එක අනිවාර්යයි!');
+            database.ref('settings/ads').set(settings).then(() => alert('✅ Ad Settings Save විය!'));
+        }
+
+        function loadAdSettingsToForm() {
+            document.getElementById('adsPublisherId').value = adSettings.publisherId || '';
+            document.getElementById('adsTopSlot').value = adSettings.topSlot || '';
+            document.getElementById('adsBottomSlot').value = adSettings.bottomSlot || '';
+            document.getElementById('adsEnabled').checked = adSettings.enabled || false;
+        }
+
         // --- NOTIFICATION FUNCTIONS ---
         function sendAppInstallLink() {
             const phone = document.getElementById('customerPhone').value.trim();
             const appUrl = document.getElementById('appInstallUrl').value;
             if (!phone) return alert('Enter phone number!');
-            const message = ` Silvas Express App එක download කරගන්න! \n\nඔබේ විශ්වාසවන්ත ආහාර & grocery delivery partner\n\n📱 App Link: ${appUrl}\n\nOrder කරන්න දැන්ම visit කරන්න!`;
+            const message = `🌿 Silvas Express App එක download කරගන්න! \n\nබේ විශ්වාසවන්ත හාර & grocery delivery partner\n\n📱 App Link: ${appUrl}\n\nOrder කරන්න දැන්ම visit කරන්න!`;
             window.open(`https://wa.me/94${phone.substring(1)}?text=${encodeURIComponent(message)}`, '_blank');
         }
         function copyAppLink() { navigator.clipboard.writeText(document.getElementById('appInstallUrl').value).then(() => alert('✅ App link copied!')); }
@@ -384,8 +471,8 @@
         }
         function useTemplate(type) {
             const templates = {
-                welcome: '👋 ආයුබෝවන්! 🌿 Silvas Express App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/silvas-express/',
-                offer: ' විශේෂ දීමනාව! \n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://chinthakanuwan.github.io/silvas-express/',
+                welcome: ' ආයුබෝවන්!  Silvas Express App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/silvas-express/',
+                offer: '🎉 විශේෂ දීමනාව! 🌿\n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://chinthakanuwan.github.io/silvas-express/',
                 delivery: '🚚 ඔබේ order එක deliver වෙමින් පවතී! 🌿\n\nOrder tracking සඳහා: https://chinthakanuwan.github.io/silvas-express/\n\nස්තූතියි! 🙏'
             };
             document.getElementById('notifMessage').value = templates[type];
@@ -394,126 +481,32 @@
         // --- VEGETABLE FUNCTIONS ---
         function saveVegetable() {
             const hasDiscount = document.getElementById('hasVegetableDiscount').checked;
-            const veg = {
-                name: document.getElementById('vegetableName').value,
-                originalPrice: parseInt(document.getElementById('vegetableOriginalPrice').value) || 0,
-                hasDiscount: hasDiscount,
-                discountPrice: hasDiscount ? (parseInt(document.getElementById('vegetableDiscountPrice').value) || 0) : 0,
-                unit: document.getElementById('vegetableUnit').value || '1 kg',
-                image: document.getElementById('vegetableImageUrl').value || 'https://via.placeholder.com/500',
-                available: document.getElementById('isVegetableAvailable').checked,
-                displayOrder: parseInt(document.getElementById('vegetableDisplayOrder').value) || 999,
-                updatedAt: Date.now()
-            };
+            const veg = { name: document.getElementById('vegetableName').value, originalPrice: parseInt(document.getElementById('vegetableOriginalPrice').value) || 0, hasDiscount: hasDiscount, discountPrice: hasDiscount ? (parseInt(document.getElementById('vegetableDiscountPrice').value) || 0) : 0, unit: document.getElementById('vegetableUnit').value || '1 kg', image: document.getElementById('vegetableImageUrl').value || 'https://via.placeholder.com/500', available: document.getElementById('isVegetableAvailable').checked, displayOrder: parseInt(document.getElementById('vegetableDisplayOrder').value) || 999, updatedAt: Date.now() };
             if (!veg.name) return alert('Enter vegetable name!');
             database.ref('vegetables').push(veg).then(() => { alert('✅ Vegetable added!'); clearVegetableForm(); });
         }
-
         function renderVegetables() {
             const list = document.getElementById('vegetablesList');
             const search = (document.getElementById('vegetableSearch')?.value || '').toLowerCase();
             const filtered = vegetables.filter(v => v.name.toLowerCase().includes(search));
-            
             list.innerHTML = filtered.map(veg => {
                 const showDiscount = veg.hasDiscount && veg.discountPrice > 0 && veg.discountPrice < veg.originalPrice;
-                const priceDisplay = showDiscount 
-                    ? `<span style="color:#f44336; font-weight:bold;">Rs. ${veg.discountPrice}</span> <span style="text-decoration:line-through; color:#999; font-size:12px;">Rs. ${veg.originalPrice}</span> <span style="background:#f44336; color:white; padding:2px 6px; border-radius:10px; font-size:10px;">OFFER</span>`
-                    : `<span style="color:#16A34A; font-weight:bold;">Rs. ${veg.originalPrice}</span>`;
-                
-                const availabilityBadge = veg.available !== false 
-                    ? '<span style="background:#C8E6C9; color:#1B5E20; padding:2px 8px; border-radius:10px; font-size:10px;">✅ Available</span>'
-                    : '<span style="background:#FFCDD2; color:#B71C1C; padding:2px 8px; border-radius:10px; font-size:10px;">❌ Unavailable</span>';
-                
-                return `
-                <div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;">
-                    <div class="item-info">
-                        <div style="font-weight:bold;">${veg.name}</div>
-                        <div style="margin-top:5px;">
-                            ${priceDisplay}
-                            <span style="color:#666; font-size:12px; margin-left:10px;">| ${veg.unit}</span>
-                            <span style="margin-left:10px;">${availabilityBadge}</span>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" onclick="quickEditVegetable('${veg.id}')" style="padding:8px 12px; font-size:12px;">✏️</button>
-                </div>`;
+                const priceDisplay = showDiscount ? `<span style="color:#f44336; font-weight:bold;">Rs. ${veg.discountPrice}</span> <span style="text-decoration:line-through; color:#999; font-size:12px;">Rs. ${veg.originalPrice}</span> <span style="background:#f44336; color:white; padding:2px 6px; border-radius:10px; font-size:10px;">OFFER</span>` : `<span style="color:#16A34A; font-weight:bold;">Rs. ${veg.originalPrice}</span>`;
+                const availabilityBadge = veg.available !== false ? '<span style="background:#C8E6C9; color:#1B5E20; padding:2px 8px; border-radius:10px; font-size:10px;">✅ Available</span>' : '<span style="background:#FFCDD2; color:#B71C1C; padding:2px 8px; border-radius:10px; font-size:10px;">❌ Unavailable</span>';
+                return `<div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${veg.name}</div><div style="margin-top:5px;">${priceDisplay} <span style="color:#666; font-size:12px; margin-left:10px;">| ${veg.unit}</span> <span style="margin-left:10px;">${availabilityBadge}</span></div></div><button class="btn btn-primary" onclick="quickEditVegetable('${veg.id}')" style="padding:8px 12px; font-size:12px;">✏️</button></div>`;
             }).join('');
         }
-
-        function quickEditVegetable(id) {
-            document.getElementById('editVegetableSection').classList.remove('hidden');
-            document.getElementById('editVegetableSelect').value = id;
-            loadVegetableData();
-        }
-
-        function loadVegetableData() {
-            const id = document.getElementById('editVegetableSelect').value;
-            if (!id) return;
-            const veg = vegetables.find(v => v.id === id);
-            if (!veg) return;
-            document.getElementById('editVegetableName').value = veg.name || '';
-            document.getElementById('editVegetableOriginalPrice').value = veg.originalPrice || 0;
-            document.getElementById('editHasVegetableDiscount').checked = veg.hasDiscount || false;
-            document.getElementById('editVegetableDiscountPrice').value = veg.discountPrice || 0;
-            document.getElementById('editVegetableUnit').value = veg.unit || '1 kg';
-            document.getElementById('editVegetableImage').value = veg.image || '';
-            document.getElementById('editIsVegetableAvailable').checked = veg.available !== false;
-            document.getElementById('editVegetableDisplayOrder').value = veg.displayOrder || 999;
-            toggleEditVegetableDiscountField();
-        }
-
-        function updateVegetable() {
-            const id = document.getElementById('editVegetableSelect').value;
-            if (!id) return alert('Select vegetable!');
-            const hasDiscount = document.getElementById('editHasVegetableDiscount').checked;
-            const data = {
-                name: document.getElementById('editVegetableName').value,
-                originalPrice: parseInt(document.getElementById('editVegetableOriginalPrice').value) || 0,
-                hasDiscount: hasDiscount,
-                discountPrice: hasDiscount ? (parseInt(document.getElementById('editVegetableDiscountPrice').value) || 0) : 0,
-                unit: document.getElementById('editVegetableUnit').value,
-                image: document.getElementById('editVegetableImage').value,
-                available: document.getElementById('editIsVegetableAvailable').checked,
-                displayOrder: parseInt(document.getElementById('editVegetableDisplayOrder').value) || 999,
-                updatedAt: Date.now()
-            };
-            database.ref('vegetables').child(id).update(data).then(() => { alert('✅ Updated!'); cancelEdit('vegetable'); });
-        }
-
-        function quickDeleteVegetable() {
-            const id = document.getElementById('editVegetableSelect').value;
-            if (id && confirm('Delete this vegetable?')) {
-                database.ref('vegetables').child(id).remove().then(() => { alert('✅ Deleted'); cancelEdit('vegetable'); });
-            }
-        }
-
-        function clearVegetableForm() {
-            ['vegetableName', 'vegetableOriginalPrice', 'vegetableDiscountPrice', 'vegetableUnit', 'vegetableImageUrl', 'vegetableDisplayOrder'].forEach(id => document.getElementById(id).value = '');
-            document.getElementById('hasVegetableDiscount').checked = false;
-            document.getElementById('isVegetableAvailable').checked = true;
-            document.getElementById('vegetableDisplayOrder').value = '10';
-            toggleVegetableDiscountField();
-        }
-
-        function showEditVegetableSection() {
-            document.getElementById('editVegetableSection').classList.remove('hidden');
-            updateSelects();
-        }
+        function quickEditVegetable(id) { document.getElementById('editVegetableSection').classList.remove('hidden'); document.getElementById('editVegetableSelect').value = id; loadVegetableData(); }
+        function loadVegetableData() { const id = document.getElementById('editVegetableSelect').value; if (!id) return; const veg = vegetables.find(v => v.id === id); if (!veg) return; document.getElementById('editVegetableName').value = veg.name || ''; document.getElementById('editVegetableOriginalPrice').value = veg.originalPrice || 0; document.getElementById('editHasVegetableDiscount').checked = veg.hasDiscount || false; document.getElementById('editVegetableDiscountPrice').value = veg.discountPrice || 0; document.getElementById('editVegetableUnit').value = veg.unit || '1 kg'; document.getElementById('editVegetableImage').value = veg.image || ''; document.getElementById('editIsVegetableAvailable').checked = veg.available !== false; document.getElementById('editVegetableDisplayOrder').value = veg.displayOrder || 999; toggleEditVegetableDiscountField(); }
+        function updateVegetable() { const id = document.getElementById('editVegetableSelect').value; if (!id) return alert('Select vegetable!'); const hasDiscount = document.getElementById('editHasVegetableDiscount').checked; const data = { name: document.getElementById('editVegetableName').value, originalPrice: parseInt(document.getElementById('editVegetableOriginalPrice').value) || 0, hasDiscount: hasDiscount, discountPrice: hasDiscount ? (parseInt(document.getElementById('editVegetableDiscountPrice').value) || 0) : 0, unit: document.getElementById('editVegetableUnit').value, image: document.getElementById('editVegetableImage').value, available: document.getElementById('editIsVegetableAvailable').checked, displayOrder: parseInt(document.getElementById('editVegetableDisplayOrder').value) || 999, updatedAt: Date.now() }; database.ref('vegetables').child(id).update(data).then(() => { alert('✅ Updated!'); cancelEdit('vegetable'); }); }
+        function quickDeleteVegetable() { const id = document.getElementById('editVegetableSelect').value; if (id && confirm('Delete this vegetable?')) { database.ref('vegetables').child(id).remove().then(() => { alert('✅ Deleted'); cancelEdit('vegetable'); }); } }
+        function clearVegetableForm() { ['vegetableName', 'vegetableOriginalPrice', 'vegetableDiscountPrice', 'vegetableUnit', 'vegetableImageUrl', 'vegetableDisplayOrder'].forEach(id => document.getElementById(id).value = ''); document.getElementById('hasVegetableDiscount').checked = false; document.getElementById('isVegetableAvailable').checked = true; document.getElementById('vegetableDisplayOrder').value = '10'; toggleVegetableDiscountField(); }
+        function showEditVegetableSection() { document.getElementById('editVegetableSection').classList.remove('hidden'); updateSelects(); }
 
         // --- GROCERY FUNCTIONS ---
         function saveGroceryItem() {
             const hasDiscount = document.getElementById('hasDiscount').checked;
-            const item = { 
-                name: document.getElementById('groceryName').value, 
-                originalPrice: parseInt(document.getElementById('groceryOriginalPrice').value) || 0, 
-                hasDiscount: hasDiscount, 
-                discountPrice: hasDiscount ? (parseInt(document.getElementById('groceryDiscountPrice').value) || 0) : 0, 
-                unit: document.getElementById('groceryUnit').value, 
-                category: document.getElementById('groceryCategory').value, 
-                image: document.getElementById('groceryImageUrl').value || 'https://via.placeholder.com/500', 
-                available: true, 
-                displayOrder: parseInt(document.getElementById('groceryDisplayOrder').value) || 999,
-                updatedAt: Date.now() 
-            };
+            const item = { name: document.getElementById('groceryName').value, originalPrice: parseInt(document.getElementById('groceryOriginalPrice').value) || 0, hasDiscount: hasDiscount, discountPrice: hasDiscount ? (parseInt(document.getElementById('groceryDiscountPrice').value) || 0) : 0, unit: document.getElementById('groceryUnit').value, category: document.getElementById('groceryCategory').value, image: document.getElementById('groceryImageUrl').value || 'https://via.placeholder.com/500', available: true, displayOrder: parseInt(document.getElementById('groceryDisplayOrder').value) || 999, updatedAt: Date.now() };
             if (!item.name) return alert('Enter item name!');
             database.ref('groceryItems').push(item).then(() => { alert('✅ Item added!'); clearGroceryForm(); });
         }
@@ -527,40 +520,11 @@
             }).join('');
         }
         function quickEditGrocery(id) { document.getElementById('editGrocerySection').classList.remove('hidden'); document.getElementById('editGrocerySelect').value = id; loadGroceryData(); }
-        function loadGroceryData() {
-            const id = document.getElementById('editGrocerySelect').value; if (!id) return;
-            const item = groceryItems.find(g => g.id === id); if (!item) return;
-            document.getElementById('editGroceryName').value = item.name || '';
-            document.getElementById('editGroceryOriginalPrice').value = item.originalPrice || 0;
-            document.getElementById('editHasDiscount').checked = item.hasDiscount || false;
-            document.getElementById('editGroceryDiscountPrice').value = item.discountPrice || 0;
-            document.getElementById('editGroceryUnit').value = item.unit || '';
-            document.getElementById('editGroceryImage').value = item.image || '';
-            document.getElementById('editGroceryDisplayOrder').value = item.displayOrder || 999;
-            toggleEditDiscountField();
-        }
-        function updateGroceryItem() {
-            const id = document.getElementById('editGrocerySelect').value; if (!id) return alert('Select item!');
-            const hasDiscount = document.getElementById('editHasDiscount').checked;
-            const data = { 
-                name: document.getElementById('editGroceryName').value, 
-                originalPrice: parseInt(document.getElementById('editGroceryOriginalPrice').value) || 0, 
-                hasDiscount: hasDiscount, 
-                discountPrice: hasDiscount ? (parseInt(document.getElementById('editGroceryDiscountPrice').value) || 0) : 0, 
-                unit: document.getElementById('editGroceryUnit').value, 
-                image: document.getElementById('editGroceryImage').value, 
-                displayOrder: parseInt(document.getElementById('editGroceryDisplayOrder').value) || 999,
-                updatedAt: Date.now() 
-            };
-            database.ref('groceryItems').child(id).update(data).then(() => { alert('✅ Updated!'); cancelEdit('grocery'); });
-        }
+        function loadGroceryData() { const id = document.getElementById('editGrocerySelect').value; if (!id) return; const item = groceryItems.find(g => g.id === id); if (!item) return; document.getElementById('editGroceryName').value = item.name || ''; document.getElementById('editGroceryOriginalPrice').value = item.originalPrice || 0; document.getElementById('editHasDiscount').checked = item.hasDiscount || false; document.getElementById('editGroceryDiscountPrice').value = item.discountPrice || 0; document.getElementById('editGroceryUnit').value = item.unit || ''; document.getElementById('editGroceryImage').value = item.image || ''; document.getElementById('editGroceryDisplayOrder').value = item.displayOrder || 999; toggleEditDiscountField(); }
+        function updateGroceryItem() { const id = document.getElementById('editGrocerySelect').value; if (!id) return alert('Select item!'); const hasDiscount = document.getElementById('editHasDiscount').checked; const data = { name: document.getElementById('editGroceryName').value, originalPrice: parseInt(document.getElementById('editGroceryOriginalPrice').value) || 0, hasDiscount: hasDiscount, discountPrice: hasDiscount ? (parseInt(document.getElementById('editGroceryDiscountPrice').value) || 0) : 0, unit: document.getElementById('editGroceryUnit').value, image: document.getElementById('editGroceryImage').value, displayOrder: parseInt(document.getElementById('editGroceryDisplayOrder').value) || 999, updatedAt: Date.now() }; database.ref('groceryItems').child(id).update(data).then(() => { alert('✅ Updated!'); cancelEdit('grocery'); }); }
         function quickDeleteGrocery() { const id = document.getElementById('editGrocerySelect').value; if (id && confirm('Delete this item?')) { database.ref('groceryItems').child(id).remove().then(() => { alert('✅ Deleted'); cancelEdit('grocery'); }); } }
-        function clearGroceryForm() { 
-            ['groceryName', 'groceryOriginalPrice', 'groceryDiscountPrice', 'groceryUnit', 'groceryImageUrl', 'groceryDisplayOrder'].forEach(id => document.getElementById(id).value = ''); 
-            document.getElementById('hasDiscount').checked = false; 
-            document.getElementById('groceryDisplayOrder').value = '10';
-            toggleDiscountField(); 
-        }
+        function clearGroceryForm() { ['groceryName', 'groceryOriginalPrice', 'groceryDiscountPrice', 'groceryUnit', 'groceryImageUrl', 'groceryDisplayOrder'].forEach(id => document.getElementById(id).value = ''); document.getElementById('hasDiscount').checked = false; document.getElementById('groceryDisplayOrder').value = '10'; toggleDiscountField(); }
+        function showEditGrocerySection() { document.getElementById('editGrocerySection').classList.remove('hidden'); updateSelects(); }
 
         // --- OTHER FUNCTIONS ---
         function updateSelects() {
@@ -571,83 +535,21 @@
             document.getElementById('editVegetableSelect').innerHTML = '<option value="">-- Select --</option>' + vegetables.map(v => `<option value="${v.id}">${v.name}</option>`).join('');
         }
 
-        function saveShop() {
-            const shop = { 
-                name: document.getElementById('shopName').value, 
-                category: document.getElementById('shopCategory').value, 
-                phone: document.getElementById('shopPhone').value, 
-                deliveryFee: parseInt(document.getElementById('shopDeliveryFee').value)||150, 
-                rating: parseFloat(document.getElementById('shopRating').value)||4.5, 
-                image: document.getElementById('shopImageUrl').value, 
-                isFeatured: document.getElementById('isFeatured').checked,
-                displayOrder: parseInt(document.getElementById('shopDisplayOrder').value) || 999
-            };
-            if(!shop.name) return alert('Enter name!');
-            database.ref('shops').push(shop).then(() => { alert('✅ Saved!'); document.getElementById('shopName').value=''; document.getElementById('shopDisplayOrder').value='10'; });
-        }
-        function renderShops() {
-            const search = (document.getElementById('shopSearch')?.value || '').toLowerCase();
-            const sortedShops = shops.filter(s => s.name.toLowerCase().includes(search)).sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
-            document.getElementById('shopsList').innerHTML = sortedShops.map(s => `<div class="item-card" style="${s.isFeatured ? 'background:#FFF9C4; border-left:4px solid #FFD700;' : 'background:#F0FDF4; border-left:4px solid #22C55E;'}"><div class="item-info"><div style="font-weight:bold;">${s.name} ${s.isFeatured?'⭐':''}</div><div style="font-size:12px; color:#666;">${s.category} | Rs.${s.deliveryFee}</div></div><button class="btn btn-danger" onclick="database.ref('shops').child('${s.id}').remove()">🗑️</button></div>`).join('');
-        }
+        function saveShop() { const shop = { name: document.getElementById('shopName').value, category: document.getElementById('shopCategory').value, phone: document.getElementById('shopPhone').value, deliveryFee: parseInt(document.getElementById('shopDeliveryFee').value)||150, rating: parseFloat(document.getElementById('shopRating').value)||4.5, image: document.getElementById('shopImageUrl').value, isFeatured: document.getElementById('isFeatured').checked, displayOrder: parseInt(document.getElementById('shopDisplayOrder').value) || 999 }; if(!shop.name) return alert('Enter name!'); database.ref('shops').push(shop).then(() => { alert('✅ Saved!'); document.getElementById('shopName').value=''; document.getElementById('shopDisplayOrder').value='10'; }); }
+        function renderShops() { const search = (document.getElementById('shopSearch')?.value || '').toLowerCase(); const sortedShops = shops.filter(s => s.name.toLowerCase().includes(search)).sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999)); document.getElementById('shopsList').innerHTML = sortedShops.map(s => `<div class="item-card" style="${s.isFeatured ? 'background:#FFF9C4; border-left:4px solid #FFD700;' : 'background:#F0FDF4; border-left:4px solid #22C55E;'}"><div class="item-info"><div style="font-weight:bold;">${s.name} ${s.isFeatured?'⭐':''}</div><div style="font-size:12px; color:#666;">${s.category} | Rs.${s.deliveryFee}</div></div><button class="btn btn-danger" onclick="database.ref('shops').child('${s.id}').remove()">🗑️</button></div>`).join(''); }
         function showEditShopSection() { document.getElementById('editShopSection').classList.remove('hidden'); updateSelects(); }
         function loadShopData() { const s = shops.find(x => x.id === document.getElementById('editShopSelect').value); if(!s) return; document.getElementById('editShopName').value = s.name; document.getElementById('editShopPhone').value = s.phone; document.getElementById('editShopDeliveryFee').value = s.deliveryFee; document.getElementById('editShopRating').value = s.rating; document.getElementById('editShopImage').value = s.image; document.getElementById('editIsFeatured').checked = s.isFeatured; document.getElementById('editShopDisplayOrder').value = s.displayOrder || 999; }
         function updateShop() { const id = document.getElementById('editShopSelect').value; database.ref('shops').child(id).update({ name: document.getElementById('editShopName').value, phone: document.getElementById('editShopPhone').value, deliveryFee: parseInt(document.getElementById('editShopDeliveryFee').value), rating: parseFloat(document.getElementById('editShopRating').value), image: document.getElementById('editShopImage').value, isFeatured: document.getElementById('editIsFeatured').checked, displayOrder: parseInt(document.getElementById('editShopDisplayOrder').value) || 999 }).then(() => { alert('✅ Updated!'); cancelEdit('shop'); }); }
 
-        function saveFood() { 
-            const food = { 
-                shopId: document.getElementById('foodShop').value, 
-                name: document.getElementById('foodName').value, 
-                price: parseInt(document.getElementById('foodPrice').value)||0, 
-                image: document.getElementById('foodImageUrl').value,
-                displayOrder: parseInt(document.getElementById('foodDisplayOrder').value) || 999
-            }; 
-            if(!food.name) return alert('Enter name!'); 
-            database.ref('foods').push(food).then(() => { alert('✅ Saved!'); document.getElementById('foodName').value=''; document.getElementById('foodDisplayOrder').value='10'; }); 
-        }
-        function renderFoods() { 
-            const search = (document.getElementById('foodSearch')?.value || '').toLowerCase(); 
-            const sortedFoods = foods.filter(f => f.name.toLowerCase().includes(search)).sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
-            document.getElementById('foodsList').innerHTML = sortedFoods.map(f => { const shop = shops.find(s => s.id === f.shopId); return `<div class="item-card" style="background:#F0FDF4; border-left:4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${f.name}</div><div style="font-size:12px; color:#666;">${shop?shop.name:'Unknown'} | Rs.${f.price}</div></div><button class="btn btn-danger" onclick="database.ref('foods').child('${f.id}').remove()">🗑️</button></div>`; }).join(''); 
-        }
+        function saveFood() { const food = { shopId: document.getElementById('foodShop').value, name: document.getElementById('foodName').value, price: parseInt(document.getElementById('foodPrice').value)||0, image: document.getElementById('foodImageUrl').value, displayOrder: parseInt(document.getElementById('foodDisplayOrder').value) || 999 }; if(!food.name) return alert('Enter name!'); database.ref('foods').push(food).then(() => { alert('✅ Saved!'); document.getElementById('foodName').value=''; document.getElementById('foodDisplayOrder').value='10'; }); }
+        function renderFoods() { const search = (document.getElementById('foodSearch')?.value || '').toLowerCase(); const sortedFoods = foods.filter(f => f.name.toLowerCase().includes(search)).sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999)); document.getElementById('foodsList').innerHTML = sortedFoods.map(f => { const shop = shops.find(s => s.id === f.shopId); return `<div class="item-card" style="background:#F0FDF4; border-left:4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${f.name}</div><div style="font-size:12px; color:#666;">${shop?shop.name:'Unknown'} | Rs.${f.price}</div></div><button class="btn btn-danger" onclick="database.ref('foods').child('${f.id}').remove()">🗑️</button></div>`; }).join(''); }
         function showEditFoodSection() { document.getElementById('editFoodSection').classList.remove('hidden'); updateSelects(); }
         function loadFoodData() { const f = foods.find(x => x.id === document.getElementById('editFoodSelect').value); if(!f) return; document.getElementById('editFoodName').value = f.name; document.getElementById('editFoodPrice').value = f.price; document.getElementById('editFoodImage').value = f.image; document.getElementById('editFoodDisplayOrder').value = f.displayOrder || 999; }
         function updateFood() { const id = document.getElementById('editFoodSelect').value; database.ref('foods').child(id).update({ name: document.getElementById('editFoodName').value, price: parseInt(document.getElementById('editFoodPrice').value), image: document.getElementById('editFoodImage').value, displayOrder: parseInt(document.getElementById('editFoodDisplayOrder').value) || 999 }).then(() => { alert('✅ Updated!'); cancelEdit('food'); }); }
 
         function loadOrders() { renderOrders(); }
-        function filterOrders() {
-            let filtered = [...orders];
-            const status = document.getElementById('filterStatus').value;
-            const date = document.getElementById('filterDate').value;
-            const period = document.getElementById('filterPeriod').value;
-            const now = new Date();
-            if (status !== 'all') filtered = filtered.filter(o => o.status === status);
-            if (date) filtered = filtered.filter(o => new Date(o.date).toISOString().split('T')[0] === date);
-            if (period === 'today') filtered = filtered.filter(o => new Date(o.date).toDateString() === now.toDateString());
-            else if (period === 'week') filtered = filtered.filter(o => new Date(o.date) >= new Date(now - 7*24*60*60*1000));
-            else if (period === 'month') filtered = filtered.filter(o => { const d = new Date(o.date); return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear(); });
-            renderOrders(filtered);
-        }
-        function renderOrders(list) {
-            const ordersToRender = list || orders;
-            document.getElementById('ordersList').innerHTML = ordersToRender.sort((a,b) => new Date(b.date) - new Date(a.date)).map(o => `
-                <div class="order-card">
-                    <div class="order-header"><div class="order-id">Order #${o.id ? o.id.slice(-6) : 'New'}</div><span class="order-status status-${(o.status||'pending').toLowerCase()}">${o.status||'Pending'}</span></div>
-                    <div class="order-details">
-                        <div>👤 ${o.customerName} |  ${o.phone}</div>
-                        <div>📦 ${o.items}</div>
-                        <div>💰 Total: Rs. ${o.grandTotal || o.total} | 💳 ${o.paymentInfo || o.paymentMethod}</div>
-                        <div>📍 ${o.address}</div>
-                    </div>
-                    <div class="order-actions">
-                        <button class="btn btn-success" onclick="updateOrderStatus('${o.id}', 'Confirmed')">✅ Confirm</button>
-                        <button class="btn btn-primary" onclick="updateOrderStatus('${o.id}', 'Delivered')">✔️ Delivered</button>
-                        <button class="btn btn-danger" onclick="updateOrderStatus('${o.id}', 'Cancelled')">❌ Cancel</button>
-                        <button class="btn btn-info" onclick="contactCustomer('${o.phone}')">💬 Contact</button>
-                        <button class="btn btn-danger" onclick="deleteOrder('${o.id}')">🗑️ Delete</button>
-                    </div>
-                </div>`).join('');
-        }
+        function filterOrders() { let filtered = [...orders]; const status = document.getElementById('filterStatus').value; const date = document.getElementById('filterDate').value; const period = document.getElementById('filterPeriod').value; const now = new Date(); if (status !== 'all') filtered = filtered.filter(o => o.status === status); if (date) filtered = filtered.filter(o => new Date(o.date).toISOString().split('T')[0] === date); if (period === 'today') filtered = filtered.filter(o => new Date(o.date).toDateString() === now.toDateString()); else if (period === 'week') filtered = filtered.filter(o => new Date(o.date) >= new Date(now - 7*24*60*60*1000)); else if (period === 'month') filtered = filtered.filter(o => { const d = new Date(o.date); return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear(); }); renderOrders(filtered); }
+        function renderOrders(list) { const ordersToRender = list || orders; document.getElementById('ordersList').innerHTML = ordersToRender.sort((a,b) => new Date(b.date) - new Date(a.date)).map(o => `<div class="order-card"><div class="order-header"><div class="order-id">Order #${o.id ? o.id.slice(-6) : 'New'}</div><span class="order-status status-${(o.status||'pending').toLowerCase()}">${o.status||'Pending'}</span></div><div class="order-details"><div>👤 ${o.customerName} |  ${o.phone}</div><div>📦 ${o.items}</div><div>💰 Total: Rs. ${o.grandTotal || o.total} | 💳 ${o.paymentInfo || o.paymentMethod}</div><div>📍 ${o.address}</div></div><div class="order-actions"><button class="btn btn-success" onclick="updateOrderStatus('${o.id}', 'Confirmed')">✅ Confirm</button><button class="btn btn-primary" onclick="updateOrderStatus('${o.id}', 'Delivered')">✔️ Delivered</button><button class="btn btn-danger" onclick="updateOrderStatus('${o.id}', 'Cancelled')">❌ Cancel</button><button class="btn btn-info" onclick="contactCustomer('${o.phone}')">💬 Contact</button><button class="btn btn-danger" onclick="deleteOrder('${o.id}')">🗑️ Delete</button></div></div>`).join(''); }
         function updateOrderStatus(id, status) { if(confirm(`Mark as ${status}?`)) database.ref('orders').child(id).update({ status: status }).then(() => alert(`✅ ${status}`)); }
         function contactCustomer(phone) { window.open(`https://wa.me/94${phone.substring(1)}?text=Hello! Regarding your Silvas Express order.`, '_blank'); }
         function deleteOrder(id) { if (confirm('Delete this order?')) { database.ref('orders').child(id).remove().then(() => alert('✅ Deleted')); } }
