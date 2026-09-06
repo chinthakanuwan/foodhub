@@ -15,20 +15,8 @@
         .header { background: linear-gradient(135deg, #22C55E, #16A34A); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; }
         .header h1 { font-size: 24px; margin-bottom: 5px; }
         
-        /* Custom Ads Carousel Styles */
-        .custom-ads-container {
-            background: #fff;
-            padding: 10px;
-            border-bottom: 2px solid #e0e0e0;
-            position: relative;
-            overflow: hidden;
-            height: 120px;
-        }
-        .custom-ad-banner {
-            position: absolute; top: 10px; left: 10px; right: 10px; width: calc(100% - 20px); max-width: 400px; height: 100px; margin: 0 auto;
-            border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.5s ease; background: #fff;
-            opacity: 0; transform: translateX(100%); display: none;
-        }
+        .custom-ads-container { background: #fff; padding: 10px; border-bottom: 2px solid #e0e0e0; position: relative; overflow: hidden; height: 120px; }
+        .custom-ad-banner { position: absolute; top: 10px; left: 10px; right: 10px; width: calc(100% - 20px); max-width: 400px; height: 100px; margin: 0 auto; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.5s ease; background: #fff; opacity: 0; transform: translateX(100%); display: none; }
         .custom-ad-banner.active { opacity: 1; transform: translateX(0); display: block; animation: slideIn 0.5s ease; }
         .custom-ad-banner.prev { opacity: 0; transform: translateX(-100%); }
         @keyframes slideIn { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
@@ -65,7 +53,6 @@
         .rating { background: #22C55E; color: white; padding: 3px 8px; border-radius: 6px; font-weight: 700; }
         
         .food-grid, .grocery-grid, .vegetable-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .food-price, .grocery-price, .vegetable-price { color: #16A34A; font-weight: 800; font-size: 15px; margin: 8px 0; }
         
         .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
         .btn-primary { background: #22C55E; color: white; }
@@ -153,12 +140,12 @@
     </div>
     
     <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="🔍 Shops හෝ products search කරන්න..." oninput="handleSearch()">
+        <input type="text" id="searchInput" placeholder=" Shops හෝ products search කරන්න..." oninput="handleSearch()">
     </div>
     
     <div class="tabs">
-        <div class="tab active" onclick="switchTab('shops')">🏪 Shops</div>
-        <div class="tab" onclick="switchTab('grocery')">🛒 Grocery</div>
+        <div class="tab active" onclick="switchTab('shops')"> Shops</div>
+        <div class="tab" onclick="switchTab('grocery')"> Grocery</div>
         <div class="tab" onclick="switchTab('vegetables')">🥬 Vegetables</div>
         <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
         <div class="tab" onclick="switchTab('orders')">📦 My Orders</div>
@@ -185,7 +172,7 @@
     </div>
 
     <div id="vegetablesTab" class="container hidden">
-        <h2 style="margin-bottom: 12px; font-size: 18px;">🥬 Fresh Vegetables</h2>
+        <h2 style="margin-bottom: 12px; font-size: 18px;"> Fresh Vegetables</h2>
         <div class="vegetable-grid" id="vegetableGrid"><div class="loading">⏳ Vegetables load වෙමින්...</div></div>
         <div class="grocery-cart" id="vegetableCart">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 600;">
@@ -201,16 +188,16 @@
             <button class="btn" onclick="backToShops()" style="background: #eee; margin-bottom: 12px;">⬅️ Back to Shops</button>
             <h2 id="currentShopName" style="margin-bottom: 12px; font-size: 18px;"></h2>
         </div>
-        <div class="food-grid" id="foodsList"><div class="loading"> Foods load වෙමින්...</div></div>
+        <div class="food-grid" id="foodsList"><div class="loading">🍕 Foods load වෙමින්...</div></div>
     </div>
 
     <div id="ordersTab" class="container hidden">
         <h2 style="margin-bottom: 12px; font-size: 18px;">📦 මගේ Orders</h2>
-        <div id="myOrdersList"><div class="loading">⏳ Orders load වෙමින්...</div></div>
+        <div id="myOrdersList"><div class="loading"> Orders load වෙමින්...</div></div>
     </div>
 
     <div id="cartTab" class="container hidden">
-        <h2 style="margin-bottom: 12px; font-size: 18px;">🛒 ඔබේ Cart එක</h2>
+        <h2 style="margin-bottom: 12px; font-size: 18px;">🛒 බේ Cart එක</h2>
         <div id="cartList"></div>
         
         <div id="checkoutSection" class="hidden">
@@ -220,10 +207,10 @@
                 
                 <div class="form-group">
                     <label>👤 ඔබේ නම *</label>
-                    <input type="text" id="customerName" placeholder="ඔබේ සම්පූර්ණ නම">
+                    <input type="text" id="customerName" placeholder="බේ සම්පූර්ණ නම">
                 </div>
                 <div class="form-group">
-                    <label>📞 දුරකන අංකය *</label>
+                    <label>📞 දුරකථන අංකය *</label>
                     <input type="tel" id="phoneNumber" placeholder="07X XXX XXXX">
                 </div>
                 <div class="form-group">
@@ -232,10 +219,10 @@
                 </div>
                 
                 <div class="form-group">
-                    <label>📍 ඔබේ ප්‍රදේශය තෝරන්න *</label>
+                    <label> ඔබේ ප්‍රදේශය තෝරන්න *</label>
                     <select id="deliveryArea" onchange="calculateDeliveryFee()">
                         <option value="">-- ප්‍රදේශය තෝරන්න --</option>
-                        <optgroup label="🟢 Zone 1 - 0-2 km (Rs. 100)">
+                        <optgroup label=" Zone 1 - 0-2 km (Rs. 100)">
                             <option value="raddolugama" data-fee="100" data-zone="1" data-distance="0.4">රද්දොලුගම (Raddolugama)</option>
                             <option value="bathalawatta" data-fee="100" data-zone="1" data-distance="0.4">බතලවත්ත</option>
                             <option value="galla" data-fee="100" data-zone="1" data-distance="0.4">ගල්ල</option>
@@ -258,10 +245,10 @@
                         <optgroup label="🔴 Zone 4 - 5-6 km (Rs. 250)">
                             <option value="seeduwa" data-fee="250" data-zone="4" data-distance="5.1">සීදුව</option>
                             <option value="leenage-mulla" data-fee="250" data-zone="4" data-distance="5.5">ලීනගේ මුල්ල</option>
-                            <option value="opatha" data-fee="250" data-zone="4" data-distance="5.6">ඔපාත</option>
+                            <option value="opatha" data-fee="250" data-zone="4" data-distance="5.6">පාත</option>
                             <option value="katunayake" data-fee="250" data-zone="4" data-distance="5.9">කටුනායක</option>
                         </optgroup>
-                        <optgroup label="🟣 Zone 5 - 6-8 km (Rs. 300)">
+                        <optgroup label=" Zone 5 - 6-8 km (Rs. 300)">
                             <option value="nadagamulla" data-fee="300" data-zone="5" data-distance="7.0">නදගමුව</option>
                             <option value="negombo" data-fee="300" data-zone="5" data-distance="8.0+">නැගොම්බෝ</option>
                             <option value="other-areas" data-fee="300" data-zone="5" data-distance="8.0+">වෙනත් ප්‍රදේශ</option>
@@ -279,7 +266,7 @@
                     <label>💳 ගෙවීම් ක්‍රමය *</label>
                     <div class="payment-option">
                         <button class="payment-btn active" onclick="selectPayment('cod')" id="btn-cod">💵 COD</button>
-                        <button class="payment-btn" onclick="selectPayment('online')" id="btn-online"> Online</button>
+                        <button class="payment-btn" onclick="selectPayment('online')" id="btn-online">🏦 Online</button>
                     </div>
                     <div id="onlinePaymentDetails" style="display: none; background: #f0fdf4; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #22C55E;">
                         <strong>Bank of Ceylon (BOC) විස්තර:</strong><br>
@@ -295,7 +282,7 @@
                 
                 <div style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #22C55E;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span> Items Total:</span>
+                        <span>🛒 Items Total:</span>
                         <span style="font-weight: 600;">Rs. <span id="itemsTotal">0</span></span>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
@@ -320,10 +307,10 @@
     </div>
 
     <div class="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('shops')"><span class="icon">🏪</span><span class="label">Shops</span></div>
+        <div class="nav-item active" onclick="switchTab('shops')"><span class="icon"></span><span class="label">Shops</span></div>
         <div class="nav-item" onclick="switchTab('grocery')"><span class="icon">🛒</span><span class="label">Grocery</span></div>
         <div class="nav-item" onclick="switchTab('vegetables')"><span class="icon">🥬</span><span class="label">Vegetables</span></div>
-        <div class="nav-item" onclick="switchTab('cart')"><span class="icon">🛒</span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
+        <div class="nav-item" onclick="switchTab('cart')"><span class="icon"></span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
         <div class="nav-item" onclick="switchTab('orders')"><span class="icon">📦</span><span class="label">Orders</span></div>
     </div>
 
@@ -348,7 +335,7 @@
         let shops = [], foods = [], groceryItems = [], vegetables = [], cart = JSON.parse(localStorage.getItem('silvas_express_cart')) || [];
         let selectedGroceryIds = new Set(), selectedVegetableIds = new Set(), currentShopId = null, selectedPaymentMethod = 'cod', currentDeliveryFee = 0;
         let customAds = [], adSettings = {};
-        let selectedVariants = {}; // Stores selected variant { weight, price, normalPrice, specialPrice }
+        let selectedVariants = {};
         
         let currentAdIndex = 0, adInterval, isPaused = false;
 
@@ -381,7 +368,7 @@
                     <div class="carousel-indicators">
                         ${customAds.map((_, index) => `<div class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="goToAd(${index})"></div>`).join('')}
                     </div>
-                    <div class="carousel-controls"><button class="pause-btn" onclick="togglePause()">⏸️</button></div>
+                    <div class="carousel-controls"><button class="pause-btn" onclick="togglePause()">️</button></div>
                 `;
                 container.innerHTML = adsHTML + indicatorsHTML;
             } else { container.innerHTML = adsHTML; }
@@ -433,7 +420,7 @@
             isPaused = !isPaused;
             const btn = document.querySelector('.pause-btn');
             if (isPaused) { btn.textContent = '▶️'; if (adInterval) clearInterval(adInterval); } 
-            else { btn.textContent = '️'; startCarousel(); }
+            else { btn.textContent = '⏸️'; startCarousel(); }
         }
 
         function loadAdSettings() {
@@ -509,13 +496,13 @@
                 let variantButtonsHTML = '';
                 
                 if (hasVariants) {
-                    variantButtonsHTML = `<div class="variant-buttons" style="display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0;">
+                    variantButtonsHTML = `<div class="variant-buttons" style="display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0;">
                         ${Object.entries(product.variants).map(([weight, variantData]) => {
                             const normalPrice = variantData.normalPrice || 0;
                             const specialPrice = variantData.specialPrice || 0;
                             const hasDiscount = specialPrice > 0 && specialPrice < normalPrice;
-                            return `<button class="variant-btn" data-product-id="${product.id}" data-weight="${weight}" data-normal-price="${normalPrice}" data-special-price="${specialPrice}" onclick="selectVariant('${product.id}', '${weight}', ${normalPrice}, ${specialPrice})" style="padding: 6px 12px; border: 2px solid #e0e0e0; border-radius: 20px; background: white; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; min-width: 70px;">
-                                <span>${weight}</span>
+                            return `<button class="variant-btn" data-product-id="${product.id}" data-weight="${weight}" data-normal-price="${normalPrice}" data-special-price="${specialPrice}" onclick="selectVariant('${product.id}', '${weight}', ${normalPrice}, ${specialPrice})" style="padding: 8px 14px; border: 2px solid #e0e0e0; border-radius: 25px; background: white; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; flex-direction: column; align-items: center; min-width: 75px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                                <span style="font-size: 13px; font-weight: 700; margin-bottom: 2px;">${weight}</span>
                                 ${hasDiscount ? `<span style="font-size: 10px; color: #f44336; text-decoration: line-through;">Rs.${normalPrice}</span><span style="font-size: 11px; color: #22C55E; font-weight: 700;">Rs.${specialPrice}</span>` : `<span style="font-size: 11px; color: #666;">Rs.${normalPrice}</span>`}
                             </button>`;
                         }).join('')}
@@ -544,9 +531,24 @@
 
         function selectVariant(productId, weight, normalPrice, specialPrice) {
             const allButtons = document.querySelectorAll(`.variant-btn[data-product-id="${productId}"]`);
-            allButtons.forEach(btn => { btn.style.background = 'white'; btn.style.color = '#333'; btn.style.borderColor = '#e0e0e0'; });
+            allButtons.forEach(btn => {
+                btn.style.background = 'white';
+                btn.style.color = '#333';
+                btn.style.borderColor = '#e0e0e0';
+                btn.style.borderWidth = '2px';
+                btn.style.boxShadow = 'none';
+                btn.style.transform = 'scale(1)';
+            });
+            
             const clickedBtn = document.querySelector(`.variant-btn[data-product-id="${productId}"][data-weight="${weight}"]`);
-            if (clickedBtn) { clickedBtn.style.background = '#22C55E'; clickedBtn.style.color = 'white'; clickedBtn.style.borderColor = '#22C55E'; }
+            if (clickedBtn) {
+                clickedBtn.style.background = 'linear-gradient(135deg, #22C55E, #16A34A)';
+                clickedBtn.style.color = 'white';
+                clickedBtn.style.borderColor = '#16A34A';
+                clickedBtn.style.borderWidth = '3px';
+                clickedBtn.style.boxShadow = '0 4px 12px rgba(34, 197, 94, 0.4)';
+                clickedBtn.style.transform = 'scale(1.05)';
+            }
             
             const finalPrice = specialPrice > 0 && specialPrice < normalPrice ? specialPrice : normalPrice;
             const priceDisplay = document.getElementById(`price-${productId}`);
@@ -589,7 +591,6 @@
             selectedGroceryIds.forEach(id => {
                 const item = groceryItems.find(g => g.id === id);
                 if (item) { 
-                    // If variant selected, use that price, else use default
                     let price = item.hasDiscount && item.discountPrice > 0 ? item.discountPrice : item.originalPrice;
                     if (selectedVariants[id]) price = selectedVariants[id].price;
                     total += price; count++; 
@@ -674,14 +675,14 @@
             const list = document.getElementById('cartList');
             const checkoutSection = document.getElementById('checkoutSection');
             if (cart.length === 0) {
-                list.innerHTML = '<div class="loading" style="background: #f0fdf4; padding: 30px; border-radius: 12px; border: 2px dashed #22C55E; color: #166534; text-align: center;">🛒 ඔබේ Cart එක හිස්යි.<br><br>Foods, Grocery හෝ Vegetables tab එකෙන් items add කරන්න!</div>';
+                list.innerHTML = '<div class="loading" style="background: #f0fdf4; padding: 30px; border-radius: 12px; border: 2px dashed #22C55E; color: #166534; text-align: center;"> ඔබේ Cart එක හිස්යි.<br><br>Foods, Grocery හෝ Vegetables tab එකෙන් items add කරන්න!</div>';
                 checkoutSection.classList.add('hidden'); return;
             }
             let total = 0, summaryHTML = '', itemsHTML = '';
             cart.forEach((item, index) => {
                 const itemTotal = item.price * item.quantity; total += itemTotal;
                 summaryHTML += `<div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #cbd5e1;"><span>${item.name} x${item.quantity}</span><span>Rs. ${itemTotal.toLocaleString()}</span></div>`;
-                itemsHTML += `<div class="cart-item"><div style="flex: 1;"><div style="font-weight: 700; font-size: 14px; margin-bottom: 4px;">${item.name}</div><div style="font-size: 12px; color: #666;">Rs. ${item.price} each</div></div><div class="qty-controls"><button class="qty-btn" onclick="changeQty(${index}, -1)">−</button><span style="font-weight: 700; font-size: 14px; min-width: 24px; text-align: center;">${item.quantity}</span><button class="qty-btn" onclick="changeQty(${index}, 1)">+</button><button class="btn" onclick="removeFromCart(${index})" style="margin-left: 8px; background: #fee2e2; color: #ef4444; width: 32px; height: 32px; padding: 0;">️</button></div></div>`;
+                itemsHTML += `<div class="cart-item"><div style="flex: 1;"><div style="font-weight: 700; font-size: 14px; margin-bottom: 4px;">${item.name}</div><div style="font-size: 12px; color: #666;">Rs. ${item.price} each</div></div><div class="qty-controls"><button class="qty-btn" onclick="changeQty(${index}, -1)">−</button><span style="font-weight: 700; font-size: 14px; min-width: 24px; text-align: center;">${item.quantity}</span><button class="qty-btn" onclick="changeQty(${index}, 1)">+</button><button class="btn" onclick="removeFromCart(${index})" style="margin-left: 8px; background: #fee2e2; color: #ef4444; width: 32px; height: 32px; padding: 0;">🗑️</button></div></div>`;
             });
             summaryHTML += `<div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 18px; margin-top: 12px; padding-top: 12px; border-top: 2px solid #e2e8f0;"><span>Items Total:</span><span>Rs. ${total.toLocaleString()}</span></div>`;
             list.innerHTML = `<div style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #22C55E;"><strong style="font-size: 15px; color: #166534;">✅ Items ${cart.length}ක් තෝරාගෙන ඇත!</strong><br><span style="font-size: 12px; color: #15803d;">පහත විස්තර පුරවා Order එක යවන්න</span></div>${itemsHTML}`;
@@ -692,7 +693,7 @@
         }
 
         function changeQty(index, change) { cart[index].quantity += change; if (cart[index].quantity <= 0) cart.splice(index, 1); saveCart(); renderCart(); }
-        function removeFromCart(index) { cart.splice(index, 1); saveCart(); renderCart(); showToast('❌ Item එක වත් කරන ලදී'); }
+        function removeFromCart(index) { cart.splice(index, 1); saveCart(); renderCart(); showToast('❌ Item එක ඉවත් කරන ලදී'); }
         
         function selectPayment(method) {
             selectedPaymentMethod = method;
@@ -738,7 +739,7 @@
             let itemsList = cart.map(i => `${i.name} (x${i.quantity})`).join(', ');
             const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 Cash on Delivery (COD)' : ` Online Payment (Ref: ${transId})`;
             const grandTotal = itemsTotal + currentDeliveryFee;
-            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Area:* ${area}\n🏠 *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
+            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n *Name:* ${name}\n *Phone:* ${phone}\n *Area:* ${area}\n🏠 *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
             const order = { customerName: name, phone: phone, address: address, area: area, paymentMethod: selectedPaymentMethod, transactionId: transId, items: itemsList, itemsTotal: itemsTotal, deliveryFee: currentDeliveryFee, grandTotal: grandTotal, status: 'Pending', date: new Date().toISOString(), paymentInfo: paymentInfo };
             database.ref('orders').push(order).then(() => {
                 const whatsappNumber = '94766488689';
@@ -753,17 +754,17 @@
 
         function renderMyOrders(orders) {
             const list = document.getElementById('myOrdersList');
-            if (orders.length === 0) { list.innerHTML = '<div class="loading">බ තවම order කිසිවක් තබා නැත.</div>'; return; }
+            if (orders.length === 0) { list.innerHTML = '<div class="loading">ඔබ තවම order කිසිවක් තබා නැත.</div>'; return; }
             orders.sort((a, b) => new Date(b.date) - new Date(a.date));
             list.innerHTML = orders.map(order => {
                 const date = new Date(order.date); const status = order.status || 'Pending';
                 return `<div class="cart-item" style="flex-direction: column; align-items: flex-start; padding: 15px;">
                     <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;"><strong style="font-size: 15px;">Order #${order.id ? order.id.slice(-6) : 'New'}</strong><span class="order-status status-${status.toLowerCase()}">${status}</span></div>
-                    <div class="tracking-timeline" style="width: 100%;"><h3>📦 Order Tracking</h3>
-                    <div class="timeline-item ${status === 'Pending' ? 'active' : (['Confirmed', 'Delivered'].includes(status) ? 'completed' : '')}"><div class="timeline-icon">1</div><div class="timeline-content"><div class="timeline-title">Order Received</div><div class="timeline-desc">ඔබේ order එක ලැබී ඇත</div></div></div>
+                    <div class="tracking-timeline" style="width: 100%;"><h3> Order Tracking</h3>
+                    <div class="timeline-item ${status === 'Pending' ? 'active' : (['Confirmed', 'Delivered'].includes(status) ? 'completed' : '')}"><div class="timeline-icon">1</div><div class="timeline-content"><div class="timeline-title">Order Received</div><div class="timeline-desc">බේ order එක ලැබී ඇත</div></div></div>
                     <div class="timeline-item ${status === 'Confirmed' ? 'active' : (status === 'Delivered' ? 'completed' : '')}"><div class="timeline-icon">2</div><div class="timeline-content"><div class="timeline-title">Order Confirmed</div><div class="timeline-desc">Shop එක order එක පිළිගත්තා</div></div></div>
                     <div class="timeline-item ${status === 'Delivered' ? 'completed' : ''}"><div class="timeline-icon">3</div><div class="timeline-content"><div class="timeline-title">Delivered</div><div class="timeline-desc">ඔබේ order එක බාර දුන්නා</div></div></div></div>
-                    <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div>📦 Items: ${order.items}</div><div>💰 Total: Rs. ${order.grandTotal || order.total}</div><div>🚚 Delivery: Rs. ${order.deliveryFee || 0}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : ' Online Payment')}</div><div>📍 ${order.address}</div><div>🕐 ${date.toLocaleString()}</div></div></div>`;
+                    <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div>📦 Items: ${order.items}</div><div>💰 Total: Rs. ${order.grandTotal || order.total}</div><div>🚚 Delivery: Rs. ${order.deliveryFee || 0}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')}</div><div> ${order.address}</div><div> ${date.toLocaleString()}</div></div></div>`;
             }).join('');
         }
 
