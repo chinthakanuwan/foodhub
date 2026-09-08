@@ -138,14 +138,14 @@
     </div>
     
     <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="🔍 Shops හෝ products search කරන්න..." oninput="handleSearch()">
+        <input type="text" id="searchInput" placeholder=" Shops හෝ products search කරන්න..." oninput="handleSearch()">
     </div>
     
     <div class="tabs">
         <div class="tab active" onclick="switchTab('shops')">🏪 Shops</div>
         <div class="tab" onclick="switchTab('grocery')">🛒 Grocery</div>
-        <div class="tab" onclick="switchTab('vegetables')"> Vegetables</div>
-        <div class="tab" onclick="switchTab('foods')"> Foods</div>
+        <div class="tab" onclick="switchTab('vegetables')">🥬 Vegetables</div>
+        <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
         <div class="tab" onclick="switchTab('orders')">📦 My Orders</div>
     </div>
     
@@ -154,18 +154,18 @@
             <h3 style="font-size: 16px; margin-bottom: 5px;">🎉 විශේෂ දීමනාව!</h3>
             <p style="font-size: 13px;">පළමු order එකට 20% වට්ටමක්</p>
         </div>
-        <div id="shopsList"><div class="loading"> Shops load වෙමින්...</div></div>
+        <div id="shopsList"><div class="loading">⏳ Shops load වෙමින්...</div></div>
     </div>
 
     <div id="groceryTab" class="container hidden">
         <h2 style="margin-bottom: 12px; font-size: 18px;">🛒 Grocery භාණ්ඩ</h2>
-        <div class="grocery-grid" id="groceryGrid"><div class="loading">⏳ Grocery ාණ්ඩ load වෙමින්...</div></div>
+        <div class="grocery-grid" id="groceryGrid"><div class="loading">⏳ Grocery භාණ්ඩ load වෙමින්...</div></div>
         <div class="grocery-cart" id="groceryCart">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 600;">
                 <span>තෝරාගත් භාණ්ඩ: <span id="groceryCount">0</span></span>
                 <span style="font-size: 18px; color: #16A34A; font-weight: 800;">Rs. <span id="groceryTotal">0</span></span>
             </div>
-            <button class="btn btn-success" onclick="addGroceryToCart()">🛒 Cart එකට Add කරන්න</button>
+            <button class="btn btn-success" onclick="addGroceryToCart()"> Cart එකට Add කරන්න</button>
         </div>
     </div>
 
@@ -183,7 +183,7 @@
 
     <div id="foodsTab" class="container hidden">
         <div id="shopViewHeader" class="hidden">
-            <button class="btn" onclick="backToShops()" style="background: #eee; margin-bottom: 12px;">️ Back to Shops</button>
+            <button class="btn" onclick="backToShops()" style="background: #eee; margin-bottom: 12px;">⬅️ Back to Shops</button>
             <h2 id="currentShopName" style="margin-bottom: 12px; font-size: 18px;"></h2>
         </div>
         <div class="food-grid" id="foodsList"><div class="loading">🍕 Foods load වෙමින්...</div></div>
@@ -191,28 +191,28 @@
 
     <div id="ordersTab" class="container hidden">
         <h2 style="margin-bottom: 12px; font-size: 18px;">📦 මගේ Orders</h2>
-        <div id="myOrdersList"><div class="loading">⏳ Orders load වෙමින්...</div></div>
+        <div id="myOrdersList"><div class="loading"> Orders load වෙමින්...</div></div>
     </div>
 
     <div id="cartTab" class="container hidden">
-        <h2 style="margin-bottom: 12px; font-size: 18px;"> ඔබේ Cart එක</h2>
+        <h2 style="margin-bottom: 12px; font-size: 18px;">🛒 ඔබේ Cart එක</h2>
         <div id="cartList"></div>
         
         <div id="checkoutSection" class="hidden">
             <div class="checkout-box">
-                <h3 style="margin-bottom: 15px; font-size: 18px;"> Order විස්තර</h3>
+                <h3 style="margin-bottom: 15px; font-size: 18px;">📋 Order විස්තර</h3>
                 <div id="orderSummary" style="background: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 20px;"></div>
                 
                 <div class="form-group">
-                    <label>👤 ඔබේ නම *</label>
-                    <input type="text" id="customerName" placeholder="ඔබේ සම්පූර්ණ නම">
+                    <label>👤 බේ නම *</label>
+                    <input type="text" id="customerName" placeholder="බේ සම්පූර්ණ නම">
                 </div>
                 <div class="form-group">
                     <label> දුරකථන අංකය *</label>
                     <input type="tel" id="phoneNumber" placeholder="07X XXX XXXX">
                 </div>
                 <div class="form-group">
-                    <label>📍 Delivery ලිපිනය *</label>
+                    <label> Delivery ලිපිනය *</label>
                     <textarea id="deliveryAddress" rows="3" placeholder="නිවසේ ලිපිනය..."></textarea>
                 </div>
                 
@@ -234,13 +234,13 @@
                             <option value="gurugewatta" data-fee="150" data-zone="2" data-distance="2.8">ගුරුගෙවත්ත</option>
                             <option value="muthuwadiya-handiya" data-fee="150" data-zone="2" data-distance="3.0">මතුවාඩිය හංදිය</option>
                         </optgroup>
-                        <optgroup label=" Zone 3 - 3-5 km (Rs. 200)">
+                        <optgroup label="🟠 Zone 3 - 3-5 km (Rs. 200)">
                             <option value="kotugoda" data-fee="200" data-zone="3" data-distance="4.0">කොටුගොඩ</option>
                             <option value="averiwatta" data-fee="200" data-zone="3" data-distance="4.5">ඇවරිවත්ත</option>
                             <option value="amandoluwa" data-fee="200" data-zone="3" data-distance="4.6">අමන්දොලුව</option>
                             <option value="udammita" data-fee="200" data-zone="3" data-distance="4.7">උදම් මිට</option>
                         </optgroup>
-                        <optgroup label=" Zone 4 - 5-6 km (Rs. 250)">
+                        <optgroup label="🔴 Zone 4 - 5-6 km (Rs. 250)">
                             <option value="seeduwa" data-fee="250" data-zone="4" data-distance="5.1">සීදුව</option>
                             <option value="leenage-mulla" data-fee="250" data-zone="4" data-distance="5.5">ලීනගේ මුල්ල</option>
                             <option value="opatha" data-fee="250" data-zone="4" data-distance="5.6">ඔපාත</option>
@@ -273,14 +273,14 @@
                         <strong>eZ Cash:</strong> 076-6488689<br><br>
                         <div class="form-group" style="margin-bottom: 0;">
                             <label>Transaction ID / Reference Number *</label>
-                            <input type="text" id="transactionId" placeholder="උදා: CMB123456789">
+                            <input type="text" id="transactionId" placeholder="දා: CMB123456789">
                         </div>
                     </div>
                 </div>
                 
                 <div style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #22C55E;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span>🛒 Items Total:</span>
+                        <span> Items Total:</span>
                         <span style="font-weight: 600;">Rs. <span id="itemsTotal">0</span></span>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
@@ -306,10 +306,10 @@
 
     <div class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('shops')"><span class="icon">🏪</span><span class="label">Shops</span></div>
-        <div class="nav-item" onclick="switchTab('grocery')"><span class="icon">🛒</span><span class="label">Grocery</span></div>
+        <div class="nav-item" onclick="switchTab('grocery')"><span class="icon"></span><span class="label">Grocery</span></div>
         <div class="nav-item" onclick="switchTab('vegetables')"><span class="icon">🥬</span><span class="label">Vegetables</span></div>
         <div class="nav-item" onclick="switchTab('cart')"><span class="icon">🛒</span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
-        <div class="nav-item" onclick="switchTab('orders')"><span class="icon">📦</span><span class="label">Orders</span></div>
+        <div class="nav-item" onclick="switchTab('orders')"><span class="icon"></span><span class="label">Orders</span></div>
     </div>
 
     <div class="developer-credit">
@@ -468,7 +468,7 @@
                 const isGrocery = shop.category === 'Grocery' || shop.category === 'Supermarket';
                 return `<div class="shop-card ${shop.isFeatured ? 'featured' : ''}" onclick="${isGrocery ? `switchTab('grocery')` : `openShopView('${shop.id}')`}">
                     <div class="image-container"><img src="${shop.image || 'https://via.placeholder.com/500x300?text=No+Image'}" class="shop-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${shop.name}'"><div class="image-fallback" style="display:none;">${shop.name}</div></div>
-                    <div class="shop-info"><div class="shop-name">${shop.name} ${shop.isFeatured ? '<span class="gold-badge">⭐ GOLD</span>' : ''} ${isGrocery ? '<span style="background: #22C55E; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;"> Grocery</span>' : ''}</div>
+                    <div class="shop-info"><div class="shop-name">${shop.name} ${shop.isFeatured ? '<span class="gold-badge">⭐ GOLD</span>' : ''} ${isGrocery ? '<span style="background: #22C55E; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;">🛒 Grocery</span>' : ''}</div>
                     <div class="shop-details"><span>📞 ${shop.phone || 'N/A'}</span><span class="rating">⭐ ${shop.rating || '4.0'}</span></div>
                     <div class="shop-details"><span>🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'}</span><span>💰 Rs.${shop.deliveryFee || 150}</span></div></div></div>`;
             }).join('');
@@ -487,7 +487,7 @@
                 <div class="food-info"><div class="food-name">${food.name}</div><div class="food-price">Rs. ${food.price}</div><button class="btn btn-primary" onclick="addToCart('${food.id}', '${food.name}', ${food.price})">🛒 Add to Cart</button></div></div>`).join('');
         }
 
-        // --- FIXED GROCERY GRID WITH CUSTOM CHECKMARK ---
+        // --- FIXED GROCERY GRID WITH VARIANT BUTTON AT BOTTOM ---
         function renderGroceryGrid() {
             const grid = document.getElementById('groceryGrid');
             if (groceryItems.length === 0) { grid.innerHTML = '<div class="loading">දැනට Grocery භාණ්ඩ කිසිවක් නැත.</div>'; updateGroceryCart(); return; }
@@ -538,12 +538,12 @@
                     <div class="grocery-info">
                         <div class="grocery-name">${product.name}</div>
                         <div style="font-size: 11px; color: #666; margin-bottom: 4px;">${product.unit || ''}</div>
-                        ${variantButtonHTML}
                         <div class="item-price-display" id="price-${product.id}" style="display: flex; align-items: center; gap: 6px; margin: 8px 0; flex-wrap: wrap;">
                             ${showDiscount ? `<div style="background: #f44336; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700;">-${discountPercent}%</div><div style="color: #f44336; font-weight: 800; font-size: 16px;">Rs. ${product.discountPrice}</div><div style="color: #999; text-decoration: line-through; font-size: 12px;">Rs. ${product.originalPrice}</div>` : `<div style="color: #16A34A; font-weight: 800; font-size: 16px;">Rs. ${product.originalPrice}</div>`}
                         </div>
                         ${showDiscount ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">🏷️ Special Offer!</div>' : ''}
-                        ${hasVariants ? '<div style="font-size: 10px; color: #22C55E; margin-top: 2px; font-weight: 600;"> Variants Available</div>' : ''}
+                        ${variantButtonHTML}
+                        ${hasVariants ? '<div style="font-size: 10px; color: #22C55E; margin-top: 2px; font-weight: 600;">📦 Variants Available</div>' : ''}
                     </div></div>`;
             }).join('');
             updateGroceryCart();
@@ -705,7 +705,7 @@
             const list = document.getElementById('cartList');
             const checkoutSection = document.getElementById('checkoutSection');
             if (cart.length === 0) {
-                list.innerHTML = '<div class="loading" style="background: #f0fdf4; padding: 30px; border-radius: 12px; border: 2px dashed #22C55E; color: #166534; text-align: center;">🛒 ඔබේ Cart එක හිස්යි.<br><br>Foods, Grocery හෝ Vegetables tab එකෙන් items add කරන්න!</div>';
+                list.innerHTML = '<div class="loading" style="background: #f0fdf4; padding: 30px; border-radius: 12px; border: 2px dashed #22C55E; color: #166534; text-align: center;">🛒 බේ Cart එක හිස්යි.<br><br>Foods, Grocery හෝ Vegetables tab එකෙන් items add කරන්න!</div>';
                 checkoutSection.classList.add('hidden'); return;
             }
             let total = 0, summaryHTML = '', itemsHTML = '';
@@ -763,13 +763,13 @@
             const area = selectedOption.text;
             const transId = document.getElementById('transactionId').value.trim();
             if (!name || !phone || !address || !areaSelect.value) { showToast('❌ කරුණාකර සියලු විස්තර සපුරන්න!'); return; }
-            if (selectedPaymentMethod === 'online' && !transId) { showToast(' Online ගෙවීම් සඳහා Transaction ID එක අනිවාර්යයි!'); return; }
+            if (selectedPaymentMethod === 'online' && !transId) { showToast('❌ Online ගෙවීම් සඳහා Transaction ID එක අනිවාර්යයි!'); return; }
             localStorage.setItem('customerPhone', phone);
             let itemsTotal = parseInt(document.getElementById('itemsTotal').textContent.replace(/,/g, '')) || 0;
             let itemsList = cart.map(i => `${i.name} (x${i.quantity})`).join(', ');
             const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 Cash on Delivery (COD)' : `🏦 Online Payment (Ref: ${transId})`;
             const grandTotal = itemsTotal + currentDeliveryFee;
-            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n *Area:* ${area}\n🏠 *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
+            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n *Name:* ${name}\n *Phone:* ${phone}\n📍 *Area:* ${area}\n🏠 *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
             const order = { customerName: name, phone: phone, address: address, area: area, paymentMethod: selectedPaymentMethod, transactionId: transId, items: itemsList, itemsTotal: itemsTotal, deliveryFee: currentDeliveryFee, grandTotal: grandTotal, status: 'Pending', date: new Date().toISOString(), paymentInfo: paymentInfo };
             database.ref('orders').push(order).then(() => {
                 const whatsappNumber = '94766488689';
@@ -779,12 +779,12 @@
                 cart = []; saveCart(); renderCart();
                 document.getElementById('customerName').value = ''; document.getElementById('phoneNumber').value = ''; document.getElementById('deliveryAddress').value = ''; document.getElementById('deliveryArea').value = ''; document.getElementById('transactionId').value = '';
                 setTimeout(() => switchTab('orders'), 2000);
-            }).catch(error => { showToast('❌ Order යැවීමේ ගැටලුවක්: ' + error.message); });
+            }).catch(error => { showToast(' Order යැවීමේ ගැටලුවක්: ' + error.message); });
         }
 
         function renderMyOrders(orders) {
             const list = document.getElementById('myOrdersList');
-            if (orders.length === 0) { list.innerHTML = '<div class="loading">බ තවම order කිසිවක් තබා නැත.</div>'; return; }
+            if (orders.length === 0) { list.innerHTML = '<div class="loading">ඔබ තවම order කිසිවක් තබා නැත.</div>'; return; }
             orders.sort((a, b) => new Date(b.date) - new Date(a.date));
             list.innerHTML = orders.map(order => {
                 const date = new Date(order.date); const status = order.status || 'Pending';
@@ -794,7 +794,7 @@
                     <div class="timeline-item ${status === 'Pending' ? 'active' : (['Confirmed', 'Delivered'].includes(status) ? 'completed' : '')}"><div class="timeline-icon">1</div><div class="timeline-content"><div class="timeline-title">Order Received</div><div class="timeline-desc">ඔබේ order එක ලැබී ඇත</div></div></div>
                     <div class="timeline-item ${status === 'Confirmed' ? 'active' : (status === 'Delivered' ? 'completed' : '')}"><div class="timeline-icon">2</div><div class="timeline-content"><div class="timeline-title">Order Confirmed</div><div class="timeline-desc">Shop එක order එක පිළිගත්තා</div></div></div>
                     <div class="timeline-item ${status === 'Delivered' ? 'completed' : ''}"><div class="timeline-icon">3</div><div class="timeline-content"><div class="timeline-title">Delivered</div><div class="timeline-desc">ඔබේ order එක බාර දුන්නා</div></div></div></div>
-                    <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div> Items: ${order.items}</div><div> Total: Rs. ${order.grandTotal || order.total}</div><div>🚚 Delivery: Rs. ${order.deliveryFee || 0}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')}</div><div>📍 ${order.address}</div><div>🕐 ${date.toLocaleString()}</div></div></div>`;
+                    <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div>📦 Items: ${order.items}</div><div>💰 Total: Rs. ${order.grandTotal || order.total}</div><div>🚚 Delivery: Rs. ${order.deliveryFee || 0}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')}</div><div>📍 ${order.address}</div><div>🕐 ${date.toLocaleString()}</div></div></div>`;
             }).join('');
         }
 
