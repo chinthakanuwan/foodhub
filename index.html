@@ -9,7 +9,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding-bottom: 80px; }
         
         .header { background: linear-gradient(135deg, #22C55E, #16A34A); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; }
@@ -77,7 +77,7 @@
         .checkout-box { background: white; padding: 20px; border-radius: 16px; margin-top: 15px; }
         .form-group { margin-bottom: 16px; }
         .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: #475569; font-size: 13px; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 14px; background: white; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 14px; background: white; -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text; }
         .form-group select { appearance: auto; }
         
         .payment-option { display: flex; gap: 10px; margin-bottom: 15px; }
@@ -133,9 +133,9 @@
         .google-ad-container { width: 100%; text-align: center; margin: 10px 0; padding: 5px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;" onkeydown="return disableKeys(event);">
     <div class="header">
-        <h1>🌿 Silvas Express</h1>
+        <h1> Silvas Express</h1>
         <p>ඔබේ විශ්වාසවන්ත ආහාර & grocery delivery partner</p>
     </div>
     
@@ -152,8 +152,8 @@
     <div class="tabs">
         <div class="tab active" onclick="switchTab('shops')">🏪 Shops</div>
         <div class="tab" onclick="switchTab('grocery')">🛒 Grocery</div>
-        <div class="tab" onclick="switchTab('vegetables')"> Vegetables</div>
-        <div class="tab" onclick="switchTab('foods')"> Foods</div>
+        <div class="tab" onclick="switchTab('vegetables')">🥬 Vegetables</div>
+        <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
         <div class="tab" onclick="switchTab('orders')">📦 My Orders</div>
     </div>
     
@@ -191,10 +191,18 @@
 
     <div id="foodsTab" class="container hidden">
         <div id="shopViewHeader" class="hidden">
-            <button class="btn" onclick="backToShops()" style="background: #eee; margin-bottom: 12px;">⬅️ Back to Shops</button>
+            <button class="btn" onclick="backToShops()" style="background: #eee; margin-bottom: 12px;">️ Back to Shops</button>
             <h2 id="currentShopName" style="margin-bottom: 12px; font-size: 18px;"></h2>
         </div>
         <div class="food-grid" id="foodsList"><div class="loading">🍕 Foods load වෙමින්...</div></div>
+        <!-- NEW: Food Cart Button (like Grocery) -->
+        <div class="grocery-cart" id="foodCart">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 600;">
+                <span>තෝරාගත් Foods: <span id="foodCount">0</span></span>
+                <span style="font-size: 18px; color: #16A34A; font-weight: 800;">Rs. <span id="foodTotal">0</span></span>
+            </div>
+            <button class="btn btn-success" onclick="addFoodsToCart()">🛒 Cart එකට Add කරන්න</button>
+        </div>
     </div>
 
     <div id="ordersTab" class="container hidden">
@@ -213,7 +221,7 @@
                 
                 <div class="form-group">
                     <label>👤 ඔබේ නම *</label>
-                    <input type="text" id="customerName" placeholder="ඔබේ සම්පූර්ණ නම">
+                    <input type="text" id="customerName" placeholder="ඔබේ සම්පර්ණ නම">
                 </div>
                 <div class="form-group">
                     <label>📞 දුරකථන අංකය *</label>
@@ -225,10 +233,10 @@
                 </div>
                 
                 <div class="form-group">
-                    <label> ඔබේ ප්‍රදේශය තෝරන්න *</label>
+                    <label>📍 ඔබේ ප්‍රදේශය තෝරන්න *</label>
                     <select id="deliveryArea" onchange="calculateDeliveryFee()">
                         <option value="">-- ප්‍රදේශය තෝරන්න --</option>
-                        <optgroup label="🟢 Zone 1 - 0-2 km (Rs. 100)">
+                        <optgroup label=" Zone 1 - 0-2 km (Rs. 100)">
                             <option value="raddolugama" data-fee="100" data-zone="1" data-distance="0.4">රද්දොලුගම (Raddolugama)</option>
                             <option value="bathalawatta" data-fee="100" data-zone="1" data-distance="0.4">බතලවත්ත</option>
                             <option value="galla" data-fee="100" data-zone="1" data-distance="0.4">ගල්ල</option>
@@ -236,7 +244,7 @@
                         <optgroup label="🟡 Zone 2 - 2-3 km (Rs. 150)">
                             <option value="kuswala" data-fee="150" data-zone="2" data-distance="1.5">කුස්වෙල</option>
                             <option value="palliya-handiya" data-fee="150" data-zone="2" data-distance="1.8">පල්ලිය හංදිය</option>
-                            <option value="himbutana" data-fee="150" data-zone="2" data-distance="2.0">හිුටාන</option>
+                            <option value="himbutana" data-fee="150" data-zone="2" data-distance="2.0">හිඹුටාන</option>
                             <option value="ganepola" data-fee="150" data-zone="2" data-distance="2.2">ගණේපොල</option>
                             <option value="lansiyawadiya" data-fee="150" data-zone="2" data-distance="2.3">ලංසියා වාඩිය</option>
                             <option value="gurugewatta" data-fee="150" data-zone="2" data-distance="2.8">ගුරුගෙවත්ත</option>
@@ -262,7 +270,7 @@
                     </select>
                     
                     <div class="delivery-info" id="deliveryInfo" style="display: none;">
-                        <strong>📍 තෝරාගත් ප්රදේශය:</strong> <span id="selectedAreaName"></span>
+                        <strong>📍 තෝරාගත් ප්‍රදේශය:</strong> <span id="selectedAreaName"></span>
                         <span id="zoneBadge" class="zone-badge"></span><br>
                         <strong>🚚 Delivery Fee:</strong> Rs. <span id="zoneFeeDisplay">0</span>
                     </div>
@@ -316,7 +324,7 @@
         <div class="nav-item active" onclick="switchTab('shops')"><span class="icon">🏪</span><span class="label">Shops</span></div>
         <div class="nav-item" onclick="switchTab('grocery')"><span class="icon">🛒</span><span class="label">Grocery</span></div>
         <div class="nav-item" onclick="switchTab('vegetables')"><span class="icon">🥬</span><span class="label">Vegetables</span></div>
-        <div class="nav-item" onclick="switchTab('cart')"><span class="icon"></span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
+        <div class="nav-item" onclick="switchTab('cart')"><span class="icon">🛒</span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
         <div class="nav-item" onclick="switchTab('orders')"><span class="icon">📦</span><span class="label">Orders</span></div>
     </div>
 
@@ -326,6 +334,58 @@
     </div>
 
     <script>
+        // ============ CODE PROTECTION ============
+        // Disable right-click
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
+        
+        // Disable keyboard shortcuts
+        function disableKeys(e) {
+            // F12
+            if (e.keyCode === 123) { e.preventDefault(); return false; }
+            // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
+            if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) { e.preventDefault(); return false; }
+            // Ctrl+U (View Source)
+            if (e.ctrlKey && e.keyCode === 85) { e.preventDefault(); return false; }
+            // Ctrl+S (Save)
+            if (e.ctrlKey && e.keyCode === 83) { e.preventDefault(); return false; }
+            // Ctrl+A (Select All)
+            if (e.ctrlKey && e.keyCode === 65) { e.preventDefault(); return false; }
+            // Ctrl+C (Copy)
+            if (e.ctrlKey && e.keyCode === 67) { e.preventDefault(); return false; }
+            return true;
+        }
+        
+        // Disable text selection on most elements (except inputs)
+        document.addEventListener('selectstart', function(e) {
+            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'SELECT') {
+                e.preventDefault();
+                return false;
+            }
+            return true;
+        });
+        
+        // Clear console periodically
+        setInterval(function() {
+            if (window.console && window.console.clear) {
+                console.clear();
+            }
+        }, 1000);
+        
+        // Detect DevTools open
+        (function() {
+            const threshold = 160;
+            const check = function() {
+                if (window.outerHeight - window.innerHeight > threshold || window.outerWidth - window.innerWidth > threshold) {
+                    document.body.innerHTML = '<div style="text-align:center;padding:50px;"><h1>️ Access Denied</h1><p>Developer tools detected.</p></div>';
+                }
+            };
+            setInterval(check, 1000);
+        })();
+        
+        // Disable drag
+        document.addEventListener('dragstart', function(e) { e.preventDefault(); });
+        
+        // ============ APP CODE ============
         const firebaseConfig = {
             apiKey: "AIzaSyDduouixF2IW568mND20cfxmnBNxQfRkrg",
             authDomain: "foodhub-app-6632c.firebaseapp.com",
@@ -339,7 +399,7 @@
         const database = firebase.database();
 
         let shops = [], foods = [], groceryItems = [], vegetables = [], cart = JSON.parse(localStorage.getItem('silvas_express_cart')) || [];
-        let selectedGroceryIds = new Set(), selectedVegetableIds = new Set(), currentShopId = null, selectedPaymentMethod = 'cod', currentDeliveryFee = 0;
+        let selectedGroceryIds = new Set(), selectedVegetableIds = new Set(), selectedFoodIds = new Set(), currentShopId = null, selectedPaymentMethod = 'cod', currentDeliveryFee = 0;
         let customAds = [], adSettings = {};
         let selectedVariants = {};
         let currentAdIndex = 0, adInterval, isPaused = false;
@@ -384,7 +444,7 @@
                     <div class="carousel-indicators">
                         ${customAds.map((_, index) => `<div class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="goToAd(${index})"></div>`).join('')}
                     </div>
-                    <div class="carousel-controls"><button class="pause-btn" onclick="togglePause()">⏸️</button></div>
+                    <div class="carousel-controls"><button class="pause-btn" onclick="togglePause()">️</button></div>
                 `;
                 container.innerHTML = adsHTML + indicatorsHTML;
             } else { container.innerHTML = adsHTML; }
@@ -493,7 +553,7 @@
                             <span>${shop.name} ${shop.isFeatured ? '<span class="gold-badge">⭐ GOLD</span>' : ''}</span>
                             ${statusBadge}
                         </div>
-                        ${isGrocery ? '<div style="margin-top: 4px;"><span style="background: #22C55E; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;">🛒 Grocery</span></div>' : ''}
+                        ${isGrocery ? '<div style="margin-top: 4px;"><span style="background: #22C55E; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;"> Grocery</span></div>' : ''}
                         <div class="shop-details"><span>📞 ${shop.phone || 'N/A'}</span><span class="rating">⭐ ${shop.rating || '4.0'}</span></div>
                         <div class="shop-details"><span>🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'}</span><span>💰 Rs.${shop.deliveryFee || 150}</span></div>
                     </div>
@@ -504,22 +564,23 @@
         function openShopView(shopId) { currentShopId = shopId; const shop = shops.find(s => s.id === shopId); if (shop) { document.getElementById('currentShopName').textContent = shop.name; document.getElementById('shopViewHeader').classList.remove('hidden'); } switchTab('foods'); }
         function backToShops() { currentShopId = null; document.getElementById('shopViewHeader').classList.add('hidden'); switchTab('shops'); }
 
-        // ✅ FIXED: renderFoods with proper highlighting
+        // ✅ FIXED: Foods Tab - Now works like Grocery (select first, then add to cart)
         function renderFoods() {
             const list = document.getElementById('foodsList');
             let displayFoods = currentShopId ? foods.filter(f => f.shopId === currentShopId) : foods;
-            if (displayFoods.length === 0) { list.innerHTML = `<div class="loading">${currentShopId ? 'මේ කඩේ Foods තවම නැහැ.' : 'දැනට Foods කිසිවක් නැත.'}</div>`; return; }
+            if (displayFoods.length === 0) { list.innerHTML = `<div class="loading">${currentShopId ? 'මේ කඩේ Foods තවම නැහැ.' : 'දැනට Foods කිසිවක් නැත.'}</div>`; updateFoodCart(); return; }
             displayFoods.sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
             
             list.innerHTML = displayFoods.map(food => {
                 const hasVariants = food.variants && Object.keys(food.variants).length > 0;
-                const isSelected = selectedVariants[food.id];
+                const isSelected = selectedFoodIds.has(food.id);
                 let variantButtonHTML = '';
                 
                 if (hasVariants) {
-                    const buttonText = isSelected ? `${isSelected.weight} - Rs. ${isSelected.price}` : '🍽️ Portion තෝරන්න ▼';
-                    const buttonColor = isSelected ? '#22C55E' : '#e0e0e0';
-                    const textColor = isSelected ? 'white' : '#666';
+                    const selectedVariant = selectedVariants[food.id];
+                    const buttonText = selectedVariant ? `${selectedVariant.weight} - Rs. ${selectedVariant.price}` : '🍽️ Portion තෝරන්න ▼';
+                    const buttonColor = selectedVariant ? '#22C55E' : '#e0e0e0';
+                    const textColor = selectedVariant ? 'white' : '#666';
                     
                     variantButtonHTML = `
                         <div style="position: relative; margin-top: 10px; z-index: 1000;">
@@ -544,23 +605,22 @@
                     `;
                 }
 
-                // Show selected price for foods with variants
-                const displayPrice = hasVariants && isSelected ? isSelected.price : food.price;
-                const priceDisplay = hasVariants 
-                    ? `<div style="color: #16A34A; font-weight: 800; font-size: 16px;">Rs. ${displayPrice}</div>${isSelected ? `<div style="font-size: 11px; color: #22C55E; font-weight: 600;">✅ ${isSelected.weight} තෝරාගෙන ඇත</div>` : ''}`
-                    : `<div class="food-price" style="color: #16A34A; font-weight: 800; font-size: 16px;">Rs. ${food.price}</div>`;
+                const displayPrice = hasVariants && selectedVariants[food.id] ? selectedVariants[food.id].price : food.price;
 
                 return `
-                <div class="food-card ${isSelected ? 'selected' : ''}">
+                <div class="food-card ${isSelected ? 'selected' : ''}" onclick="toggleFoodItem('${food.id}')" style="position: relative; padding-bottom: 10px;">
+                    <div onclick="event.stopPropagation(); toggleFoodItem('${food.id}')" style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: ${isSelected ? '#22C55E' : 'white'}; border: 2px solid ${isSelected ? '#22C55E' : '#ddd'}; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-size: 14px; color: white; font-weight: bold; cursor: pointer;">
+                        ${isSelected ? '✓' : ''}
+                    </div>
                     <div class="image-container food-img-container"><img src="${food.image || 'https://via.placeholder.com/400x120?text=No+Image'}" class="food-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${food.name}'"><div class="image-fallback" style="display:none;">${food.name}</div></div>
                     <div class="food-info">
                         <div class="food-name">${food.name}</div>
-                        ${priceDisplay}
+                        <div style="color: #16A34A; font-weight: 800; font-size: 16px; margin: 6px 0;">Rs. ${displayPrice}</div>
                         ${variantButtonHTML}
-                        <button class="btn btn-primary" onclick="addToCart('${food.id}', '${food.name}', ${food.price}, ${hasVariants})" style="margin-top: 8px;">🛒 Add to Cart</button>
                     </div>
                 </div>`;
             }).join('');
+            updateFoodCart();
         }
 
         function renderGroceryGrid() {
@@ -623,7 +683,6 @@
             updateGroceryCart();
         }
 
-        // ✅ FIXED: Properly highlight both Food and Grocery buttons
         function toggleVariantDropdown(productId) {
             const dropdown = document.getElementById(`variant-dropdown-${productId}`);
             const allDropdowns = document.querySelectorAll('.variant-dropdown');
@@ -636,39 +695,14 @@
             if (!selectedVariants) selectedVariants = {};
             selectedVariants[productId] = { weight, price: finalPrice, normalPrice, specialPrice };
             
-            // Close dropdown
             const dropdown = document.getElementById(`variant-dropdown-${productId}`);
             if (dropdown) dropdown.style.display = 'none';
             
-            // ✅ DIRECT UPDATE: Immediately update the button appearance
-            const button = document.querySelector(`.variant-dropdown-btn[data-product-id="${productId}"]`);
-            if (button) {
-                button.textContent = `${weight} - Rs. ${finalPrice}`;
-                button.style.background = '#22C55E';
-                button.style.color = 'white';
-                button.style.borderColor = '#22C55E';
-            }
-            
-            // ✅ Also update the price display below the button
-            const card = button?.closest('.food-card') || button?.closest('.grocery-card');
-            if (card) {
-                const priceDiv = card.querySelector('.food-price, .item-price-display');
-                if (priceDiv) {
-                    if (specialPrice > 0 && specialPrice < normalPrice) {
-                        const discountPercent = Math.round(((normalPrice - specialPrice) / normalPrice) * 100);
-                        priceDiv.innerHTML = `<div style="background: #f44336; color: white; padding: 2px 6px; border-radius: 8px; font-size: 10px; font-weight: 700;">-${discountPercent}%</div><div style="color: #f44336; font-weight: 800; font-size: 15px;">Rs. ${specialPrice}</div><div style="color: #999; text-decoration: line-through; font-size: 11px;">Rs. ${normalPrice}</div><div style="font-size: 11px; color: #22C55E; font-weight: 600;">✅ ${weight} තෝරාගෙන ඇත</div>`;
-                    } else {
-                        priceDiv.innerHTML = `<div style="color: #16A34A; font-weight: 800; font-size: 16px;">Rs. ${finalPrice}</div><div style="font-size: 11px; color: #22C55E; font-weight: 600;">✅ ${weight} තෝරාගෙන ඇත</div>`;
-                    }
-                }
-                
-                // Add selected border to card
-                card.classList.add('selected');
-            }
-            
-            // Update cart totals if grocery
-            if (!document.getElementById('groceryTab').classList.contains('hidden')) {
-                updateGroceryCart();
+            // Re-render to update button appearance
+            if (!document.getElementById('foodsTab').classList.contains('hidden')) {
+                renderFoods();
+            } else if (!document.getElementById('groceryTab').classList.contains('hidden')) {
+                renderGroceryGrid();
             }
         }
 
@@ -696,8 +730,8 @@
                     <div style="display: flex; align-items: center; gap: 6px; margin: 8px 0; flex-wrap: wrap;">
                         ${showDiscount ? `<div style="background: #f44336; color: white; padding: 2px 6px; border-radius: 8px; font-size: 10px; font-weight: 700;">-${discountPercent}%</div><div style="color: #f44336; font-weight: 800; font-size: 15px;">Rs. ${veg.discountPrice}</div><div style="color: #999; text-decoration: line-through; font-size: 11px;">Rs. ${veg.originalPrice}</div>` : `<div style="color: #22C55E; font-weight: 800; font-size: 15px;">Rs. ${veg.originalPrice}</div>`}
                     </div>
-                    ${veg.available === false ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">❌ Unavailable</div>' : ''}
-                    ${showDiscount ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">️ Special Offer!</div>' : ''}
+                    ${veg.available === false ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;"> Unavailable</div>' : ''}
+                    ${showDiscount ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">🏷️ Special Offer!</div>' : ''}
                     </div></div>`;
             }).join('');
             updateVegetableCart();
@@ -705,6 +739,7 @@
 
         function toggleGroceryItem(id) { selectedGroceryIds.has(id) ? selectedGroceryIds.delete(id) : selectedGroceryIds.add(id); renderGroceryGrid(); }
         function toggleVegetable(id) { selectedVegetableIds.has(id) ? selectedVegetableIds.delete(id) : selectedVegetableIds.add(id); renderVegetableGrid(); }
+        function toggleFoodItem(id) { selectedFoodIds.has(id) ? selectedFoodIds.delete(id) : selectedFoodIds.add(id); renderFoods(); }
 
         function updateGroceryCart() {
             let total = 0, count = 0;
@@ -733,6 +768,22 @@
             document.getElementById('vegetableCount').textContent = count;
             document.getElementById('vegetableTotal').textContent = total.toLocaleString();
             document.getElementById('vegetableCart').style.display = count > 0 ? 'block' : 'none';
+        }
+
+        // ✅ NEW: Update Food Cart (like Grocery)
+        function updateFoodCart() {
+            let total = 0, count = 0;
+            selectedFoodIds.forEach(id => {
+                const item = foods.find(f => f.id === id);
+                if (item) { 
+                    let price = item.price;
+                    if (selectedVariants[id]) price = selectedVariants[id].price;
+                    total += price; count++; 
+                }
+            });
+            document.getElementById('foodCount').textContent = count;
+            document.getElementById('foodTotal').textContent = total.toLocaleString();
+            document.getElementById('foodCart').style.display = count > 0 ? 'block' : 'none';
         }
 
         function addGroceryToCart() {
@@ -780,29 +831,35 @@
             setTimeout(() => switchTab('cart'), 1000);
         }
 
-        function addToCart(itemId, itemName, basePrice, hasVariants = false) {
-            let finalPrice = basePrice;
-            let displayName = itemName;
-            let weight = '';
-
-            if (hasVariants) {
-                if (!selectedVariants[itemId]) {
-                    alert(`කරුණාකර "${itemName}" සඳහා Portion එකක් (Half/Full) තෝරාගන්න!`);
-                    return;
+        // ✅ NEW: Add Foods to Cart (like Grocery)
+        function addFoodsToCart() {
+            let hasError = false;
+            selectedFoodIds.forEach(id => {
+                const item = foods.find(f => f.id === id);
+                if (item) {
+                    const hasVariants = item.variants && Object.keys(item.variants).length > 0;
+                    let selectedWeight = '';
+                    let finalPrice = item.price;
+                    let displayName = item.name;
+                    if (hasVariants) {
+                        if (selectedVariants[id]) {
+                            selectedWeight = selectedVariants[id].weight;
+                            finalPrice = selectedVariants[id].price;
+                            displayName = `${item.name} (${selectedWeight})`;
+                        } else {
+                            alert(`කරුණාකර "${item.name}" සඳහා Portion එකක් තෝරාගන්න!`);
+                            hasError = true; return;
+                        }
+                    }
+                    const existing = cart.find(c => c.id === id && c.type === 'food' && c.weight === selectedWeight);
+                    if (existing) existing.quantity += 1;
+                    else cart.push({ id: item.id, name: displayName, price: finalPrice, quantity: 1, type: 'food', weight: selectedWeight });
                 }
-                weight = selectedVariants[itemId].weight;
-                finalPrice = selectedVariants[itemId].price;
-                displayName = `${itemName} (${weight})`;
-            }
-
-            const existing = cart.find(c => c.id === itemId && (hasVariants ? c.weight === weight : true));
-            if (existing) {
-                existing.quantity += 1;
-            } else {
-                cart.push({ id: itemId, name: displayName, price: finalPrice, quantity: 1, type: 'food', weight: weight });
-            }
-            saveCart(); 
-            showToast(`✅ ${displayName} cart එකට එකතු විය!`);
+            });
+            if (hasError) return;
+            saveCart(); selectedFoodIds.clear(); selectedVariants = {}; renderFoods();
+            showToast(`✅ Foods Cart එකට එකතු විය!`);
+            setTimeout(() => switchTab('cart'), 1000);
         }
 
         function saveCart() { localStorage.setItem('silvas_express_cart', JSON.stringify(cart)); updateCartBadge(); renderCart(); }
@@ -874,9 +931,9 @@
             localStorage.setItem('customerPhone', phone);
             let itemsTotal = parseInt(document.getElementById('itemsTotal').textContent.replace(/,/g, '')) || 0;
             let itemsList = cart.map(i => `${i.name} (x${i.quantity})`).join(', ');
-            const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 Cash on Delivery (COD)' : `🏦 Online Payment (Ref: ${transId})`;
+            const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 Cash on Delivery (COD)' : ` Online Payment (Ref: ${transId})`;
             const grandTotal = itemsTotal + currentDeliveryFee;
-            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ${name}\n *Phone:* ${phone}\n📍 *Area:* ${area}\n🏠 *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
+            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Area:* ${area}\n🏠 *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
             const order = { customerName: name, phone: phone, address: address, area: area, paymentMethod: selectedPaymentMethod, transactionId: transId, items: itemsList, itemsTotal: itemsTotal, deliveryFee: currentDeliveryFee, grandTotal: grandTotal, status: 'Pending', date: new Date().toISOString(), paymentInfo: paymentInfo };
             database.ref('orders').push(order).then(() => {
                 const whatsappNumber = '94766488689';
@@ -897,11 +954,11 @@
                 const date = new Date(order.date); const status = order.status || 'Pending';
                 return `<div class="cart-item" style="flex-direction: column; align-items: flex-start; padding: 15px;">
                     <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;"><strong style="font-size: 15px;">Order #${order.id ? order.id.slice(-6) : 'New'}</strong><span class="order-status status-${status.toLowerCase()}">${status}</span></div>
-                    <div class="tracking-timeline" style="width: 100%;"><h3> Order Tracking</h3>
+                    <div class="tracking-timeline" style="width: 100%;"><h3>📦 Order Tracking</h3>
                     <div class="timeline-item ${status === 'Pending' ? 'active' : (['Confirmed', 'Delivered'].includes(status) ? 'completed' : '')}"><div class="timeline-icon">1</div><div class="timeline-content"><div class="timeline-title">Order Received</div><div class="timeline-desc">ඔබේ order එක ලැබී ඇත</div></div></div>
                     <div class="timeline-item ${status === 'Confirmed' ? 'active' : (status === 'Delivered' ? 'completed' : '')}"><div class="timeline-icon">2</div><div class="timeline-content"><div class="timeline-title">Order Confirmed</div><div class="timeline-desc">Shop එක order එක පිළිගත්තා</div></div></div>
                     <div class="timeline-item ${status === 'Delivered' ? 'completed' : ''}"><div class="timeline-icon">3</div><div class="timeline-content"><div class="timeline-title">Delivered</div><div class="timeline-desc">ඔබේ order එක බාර දුන්නා</div></div></div></div>
-                    <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div>📦 Items: ${order.items}</div><div>💰 Total: Rs. ${order.grandTotal || order.total}</div><div> Delivery: Rs. ${order.deliveryFee || 0}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : ' Online Payment')}</div><div>📍 ${order.address}</div><div>🕐 ${date.toLocaleString()}</div></div></div>`;
+                    <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div> Items: ${order.items}</div><div> Total: Rs. ${order.grandTotal || order.total}</div><div>🚚 Delivery: Rs. ${order.deliveryFee || 0}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')}</div><div>📍 ${order.address}</div><div>🕐 ${date.toLocaleString()}</div></div></div>`;
             }).join('');
         }
 
