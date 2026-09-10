@@ -28,6 +28,8 @@
         .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #555; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; }
         .form-group textarea { resize: vertical; min-height: 80px; }
+        .form-row { display: flex; gap: 15px; flex-wrap: wrap; }
+        .form-row .form-group { flex: 1; min-width: 200px; }
         .btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; margin-right: 5px; margin-bottom: 10px; transition: all 0.3s; }
         .btn-primary { background: #22C55E; color: white; }
         .btn-primary:hover { background: #16A34A; }
@@ -100,14 +102,14 @@
     <div id="adminPanel" class="hidden">
         <div class="header">
             <button class="logout-btn" onclick="logout()">🚪 Logout</button>
-            <h1> Silvas Express Admin Panel</h1>
+            <h1>🌿 Silvas Express Admin Panel</h1>
             <p>Complete Management System</p>
         </div>
 
         <div class="section">
             <h2>📊 Analytics Dashboard</h2>
             <div class="analytics-grid">
-                <div class="analytics-card"><h3> Today's Orders</h3><div class="value" id="todayOrders">0</div></div>
+                <div class="analytics-card"><h3>📦 Today's Orders</h3><div class="value" id="todayOrders">0</div></div>
                 <div class="analytics-card"><h3>💰 Today's Revenue</h3><div class="value" id="todayRevenue">Rs. 0</div></div>
                 <div class="analytics-card"><h3>📦 Monthly Orders</h3><div class="value" id="monthOrders">0</div></div>
                 <div class="analytics-card"><h3>💰 Monthly Revenue</h3><div class="value" id="monthRevenue">Rs. 0</div></div>
@@ -120,7 +122,7 @@
             <div class="tabs">
                 <div class="tab active" onclick="switchTab('orders')">📦 Orders</div>
                 <div class="tab" onclick="switchTab('shops')">🏪 Shops</div>
-                <div class="tab" onclick="switchTab('foods')"> Foods</div>
+                <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
                 <div class="tab" onclick="switchTab('grocery')">🛒 Grocery</div>
                 <div class="tab" onclick="switchTab('vegetables')">🥬 Vegetables</div>
                 <div class="tab" onclick="switchTab('customads')">📢 Custom Ads</div>
@@ -152,37 +154,59 @@
                 <div id="ordersList"></div>
             </div>
 
-            <!-- SHOPS TAB -->
+            <!-- SHOPS TAB (UPDATED WITH OPEN/CLOSE TIME) -->
             <div id="shopsTab" class="hidden">
                 <h2>🏪 Add New Shop</h2>
-                <div class="form-group"><label>Shop Name</label><input type="text" id="shopName" placeholder="e.g., Silvas Family Restaurant"></div>
-                <div class="form-group"><label>Category</label>
-                    <select id="shopCategory">
-                        <option value="Restaurant">🍽️ Restaurant</option>
-                        <option value="Fast Food"> Fast Food</option>
-                        <option value="Grocery">🛒 Grocery/Supermarket</option>
-                        <option value="Drinks"> Drinks</option>
-                        <option value="Flowers">💐 Flowers</option>
-                    </select>
+                <div class="form-row">
+                    <div class="form-group"><label>Shop Name *</label><input type="text" id="shopName" placeholder="e.g., Silvas Family Restaurant"></div>
+                    <div class="form-group"><label>Category *</label>
+                        <select id="shopCategory">
+                            <option value="Restaurant">🍽️ Restaurant</option>
+                            <option value="Fast Food">🍔 Fast Food</option>
+                            <option value="Grocery">🛒 Grocery/Supermarket</option>
+                            <option value="Drinks">🥤 Drinks</option>
+                            <option value="Flowers">💐 Flowers</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group"><label>Phone Number</label><input type="tel" id="shopPhone" placeholder="0766488689"></div>
-                <div class="form-group"><label>Delivery Fee (Rs.)</label><input type="number" id="shopDeliveryFee" placeholder="150"></div>
-                <div class="form-group"><label>Rating</label><input type="number" id="shopRating" placeholder="4.5" step="0.1" min="0" max="5"></div>
-                <div class="form-group"><label>Image URL</label><input type="text" id="shopImageUrl" placeholder="https://..."></div>
-                <div class="form-group"><label><input type="checkbox" id="isFeatured" style="margin-right: 10px;">⭐ Featured Shop</label></div>
-                <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="shopDisplayOrder" placeholder="10" value="10"><small style="color:#666; font-size:12px;">අඩු අංකයක් දැම්මොත් උඩින් පෙන්නනවා.</small></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Phone Number</label><input type="tel" id="shopPhone" placeholder="0766488689"></div>
+                    <div class="form-group"><label>Delivery Fee (Rs.)</label><input type="number" id="shopDeliveryFee" placeholder="150"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>විවෘත වන වේලාව (Open Time) *</label><input type="time" id="shopOpenTime" value="09:00"></div>
+                    <div class="form-group"><label>වසා දමන වේලාව (Close Time) *</label><input type="time" id="shopCloseTime" value="22:00"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Rating</label><input type="number" id="shopRating" placeholder="4.5" step="0.1" min="0" max="5"></div>
+                    <div class="form-group"><label>Image URL</label><input type="text" id="shopImageUrl" placeholder="https://..."></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label><input type="checkbox" id="isFeatured" style="margin-right: 10px;">⭐ Featured Shop</label></div>
+                    <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="shopDisplayOrder" placeholder="10" value="10"><small style="color:#666; font-size:12px;">අඩු අංකයක් දැම්මොත් උඩින් පෙන්නනවා.</small></div>
+                </div>
                 <button class="btn btn-primary" onclick="saveShop()">💾 Save Shop</button>
                 <button class="btn btn-warning" onclick="showEditShopSection()">✏️ Edit Shop</button>
 
                 <div id="editShopSection" class="edit-section hidden">
                     <h3>✏️ Edit Shop</h3>
                     <div class="form-group"><label>Select Shop</label><select id="editShopSelect" onchange="loadShopData()"><option value="">-- Select --</option></select></div>
-                    <div class="form-group"><label>Shop Name</label><input type="text" id="editShopName"></div>
-                    <div class="form-group"><label>Phone</label><input type="tel" id="editShopPhone"></div>
-                    <div class="form-group"><label>Delivery Fee</label><input type="number" id="editShopDeliveryFee"></div>
-                    <div class="form-group"><label>Rating</label><input type="number" id="editShopRating" step="0.1"></div>
-                    <div class="form-group"><label>Image URL</label><input type="text" id="editShopImage"></div>
-                    <div class="form-group"><label><input type="checkbox" id="editIsFeatured" style="margin-right: 10px;">⭐ Featured</label></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Shop Name</label><input type="text" id="editShopName"></div>
+                        <div class="form-group"><label>Phone</label><input type="tel" id="editShopPhone"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>විවෘත වන වේලාව (Open Time)</label><input type="time" id="editShopOpenTime"></div>
+                        <div class="form-group"><label>වසා දමන වේලාව (Close Time)</label><input type="time" id="editShopCloseTime"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Delivery Fee</label><input type="number" id="editShopDeliveryFee"></div>
+                        <div class="form-group"><label>Rating</label><input type="number" id="editShopRating" step="0.1"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Image URL</label><input type="text" id="editShopImage"></div>
+                        <div class="form-group"><label><input type="checkbox" id="editIsFeatured" style="margin-right: 10px;">⭐ Featured</label></div>
+                    </div>
                     <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="editShopDisplayOrder"></div>
                     <button class="btn btn-success" onclick="updateShop()">💾 Update</button>
                     <button class="btn btn-warning" onclick="cancelEdit('shop')">❌ Cancel</button>
@@ -195,21 +219,29 @@
             <!-- FOODS TAB -->
             <div id="foodsTab" class="hidden">
                 <h2>🍕 Add New Food</h2>
-                <div class="form-group"><label>Select Shop</label><select id="foodShop"></select></div>
-                <div class="form-group"><label>Food Name</label><input type="text" id="foodName" placeholder="e.g., Fried Rice"></div>
-                <div class="form-group"><label>Price (Rs.)</label><input type="number" id="foodPrice" placeholder="1200"></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Select Shop</label><select id="foodShop"></select></div>
+                    <div class="form-group"><label>Display Order</label><input type="number" id="foodDisplayOrder" placeholder="10" value="10"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Food Name</label><input type="text" id="foodName" placeholder="e.g., Fried Rice"></div>
+                    <div class="form-group"><label>Price (Rs.)</label><input type="number" id="foodPrice" placeholder="1200"></div>
+                </div>
                 <div class="form-group"><label>Image URL</label><input type="text" id="foodImageUrl" placeholder="https://..."></div>
-                <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="foodDisplayOrder" placeholder="10" value="10"><small style="color:#666; font-size:12px;">අඩු අංකයක් දැම්මොත් උඩින් පෙන්නනවා.</small></div>
                 <button class="btn btn-primary" onclick="saveFood()">💾 Save Food</button>
                 <button class="btn btn-warning" onclick="showEditFoodSection()">✏️ Edit Food</button>
 
                 <div id="editFoodSection" class="edit-section hidden">
                     <h3>✏️ Edit Food</h3>
                     <div class="form-group"><label>Select Food</label><select id="editFoodSelect" onchange="loadFoodData()"><option value="">-- Select --</option></select></div>
-                    <div class="form-group"><label>Food Name</label><input type="text" id="editFoodName"></div>
-                    <div class="form-group"><label>Price</label><input type="number" id="editFoodPrice"></div>
-                    <div class="form-group"><label>Image URL</label><input type="text" id="editFoodImage"></div>
-                    <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="editFoodDisplayOrder"></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Food Name</label><input type="text" id="editFoodName"></div>
+                        <div class="form-group"><label>Price</label><input type="number" id="editFoodPrice"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Image URL</label><input type="text" id="editFoodImage"></div>
+                        <div class="form-group"><label>Display Order</label><input type="number" id="editFoodDisplayOrder"></div>
+                    </div>
                     <button class="btn btn-success" onclick="updateFood()">💾 Update</button>
                     <button class="btn btn-warning" onclick="cancelEdit('food')">❌ Cancel</button>
                 </div>
@@ -222,34 +254,35 @@
             <div id="groceryTab" class="hidden">
                 <h2>🛒 Grocery Management</h2>
                 <h3>Add New Item</h3>
-                <div class="form-group"><label>Item Name</label><input type="text" id="groceryName" placeholder="e.g., Chilli Powder"></div>
-                <div class="form-group"><label>Default Price (Rs.)</label><input type="number" id="groceryOriginalPrice" placeholder="180"></div>
-                <div class="form-group"><label><input type="checkbox" id="hasDiscount" style="margin-right: 10px;" onchange="toggleDiscountField()"> 🏷️ Special Discount Available</label></div>
-                <div class="form-group hidden" id="discountPriceGroup"><label>Discount Price (Rs.)</label><input type="number" id="groceryDiscountPrice" placeholder="150"></div>
-                <div class="form-group"><label>Unit</label><input type="text" id="groceryUnit" placeholder="1kg, 500g"></div>
-                <div class="form-group"><label>Category</label>
-                    <select id="groceryCategory">
-                        <option value="Staples">🌾 Staples</option>
-                        <option value="Spices">🌶️ Spices</option>
-                        <option value="Dairy"> Dairy</option>
-                        <option value="Other">📦 Other</option>
-                    </select>
+                <div class="form-row">
+                    <div class="form-group"><label>Item Name</label><input type="text" id="groceryName" placeholder="e.g., Chilli Powder"></div>
+                    <div class="form-group"><label>Unit</label><input type="text" id="groceryUnit" placeholder="1kg, 500g"></div>
                 </div>
-                <div class="form-group"><label>Image URL</label><input type="text" id="groceryImageUrl" placeholder="https://..."></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Default Price (Rs.)</label><input type="number" id="groceryOriginalPrice" placeholder="180"></div>
+                    <div class="form-group"><label>Category</label>
+                        <select id="groceryCategory">
+                            <option value="Staples">🌾 Staples</option>
+                            <option value="Spices">🌶️ Spices</option>
+                            <option value="Dairy">🥛 Dairy</option>
+                            <option value="Other">📦 Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label><input type="checkbox" id="hasDiscount" style="margin-right: 10px;" onchange="toggleDiscountField()"> 🏷️ Special Discount</label></div>
+                    <div class="form-group"><label>Discount Price (Rs.)</label><input type="number" id="groceryDiscountPrice" placeholder="150" disabled></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Image URL</label><input type="text" id="groceryImageUrl" placeholder="https://..."></div>
+                    <div class="form-group"><label>Display Order</label><input type="number" id="groceryDisplayOrder" placeholder="10" value="10"></div>
+                </div>
                 
-                <!-- VARIANTS FIELD - UPDATED -->
                 <div class="variants-box">
-                    <label>📦 Variants (බර, සාමාන්‍ය මිල සහ වට්ටම් මිල)</label>
-                    <textarea id="groceryVariants" rows="3" placeholder="දා: 100g:250:220, 500g:1200:1000, 1kg:2400:"></textarea>
-                    <small>
-                        💡 <strong>Format:</strong> බර:සාමාන්‍යමිල:වට්ටම්මිල (කොමාවෙන් වෙන් කරන්න)<br>
-                        උදා: <code>100g:250:220, 500g:1200:1000, 1kg:2400:</code><br>
-                        ⚠️ වට්ටම් මිල අවශ්‍ය නැත්නම් හිස් තියන්න: <code>100g:250:, 500g:1200:1000</code><br>
-                        ⚠️ Variants නැත්නම් හිස් තියන්න.
-                    </small>
+                    <label>📦 Variants (බර : සාමාන්‍ය මිල : වට්ටම් මිල)</label>
+                    <textarea id="groceryVariants" rows="3" placeholder="උදා: 100g:250:220, 500g:1200:1000, 1kg:2400:"></textarea>
+                    <small>💡 <strong>Format:</strong> බර:සාමාන්‍යමිල:වට්ටම්මිල (කොමාවෙන් වෙන් කරන්න). වට්ටම් මිල නැත්නම් හිස් තියන්න.</small>
                 </div>
-                
-                <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="groceryDisplayOrder" placeholder="10" value="10"><small style="color:#666; font-size:12px;">අඩු අංකයක් දැම්මොත් උඩින් පෙන්නනවා.</small></div>
                 
                 <button class="btn btn-primary" onclick="saveGroceryItem()">💾 Save Item</button>
                 <button class="btn btn-warning" onclick="showEditGrocerySection()">✏️ Edit Item</button>
@@ -257,21 +290,25 @@
                 <div id="editGrocerySection" class="edit-section hidden">
                     <h3>✏️ Edit Grocery Item</h3>
                     <div class="form-group"><label>Select Item</label><select id="editGrocerySelect" onchange="loadGroceryData()"><option value="">-- Select --</option></select></div>
-                    <div class="form-group"><label>Item Name</label><input type="text" id="editGroceryName"></div>
-                    <div class="form-group"><label>Default Price (Rs.)</label><input type="number" id="editGroceryOriginalPrice"></div>
-                    <div class="form-group"><label><input type="checkbox" id="editHasDiscount" style="margin-right: 10px;" onchange="toggleEditDiscountField()"> 🏷️ Special Discount</label></div>
-                    <div class="form-group hidden" id="editDiscountPriceGroup"><label>Discount Price (Rs.)</label><input type="number" id="editGroceryDiscountPrice"></div>
-                    <div class="form-group"><label>Unit</label><input type="text" id="editGroceryUnit"></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Item Name</label><input type="text" id="editGroceryName"></div>
+                        <div class="form-group"><label>Unit</label><input type="text" id="editGroceryUnit"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Default Price (Rs.)</label><input type="number" id="editGroceryOriginalPrice"></div>
+                        <div class="form-group"><label><input type="checkbox" id="editHasDiscount" style="margin-right: 10px;" onchange="toggleEditDiscountField()"> 🏷️ Special Discount</label></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Discount Price (Rs.)</label><input type="number" id="editGroceryDiscountPrice" disabled></div>
+                        <div class="form-group"><label>Display Order</label><input type="number" id="editGroceryDisplayOrder"></div>
+                    </div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editGroceryImage"></div>
                     
-                    <!-- EDIT VARIANTS FIELD - UPDATED -->
                     <div class="variants-box">
-                        <label>📦 Variants (බර, සාමාන්ය මිල සහ වට්ටම් මිල)</label>
+                        <label>📦 Variants (බර : සාමාන්‍ය මිල : වට්ටම් මිල)</label>
                         <textarea id="editGroceryVariants" rows="3" placeholder="උදා: 100g:250:220, 500g:1200:1000"></textarea>
-                        <small>බර:සාමාන්‍යමිල:වට්ටම්මිල ලෙස ටයිප් කරන්න</small>
                     </div>
                     
-                    <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="editGroceryDisplayOrder"></div>
                     <button class="btn btn-success" onclick="updateGroceryItem()">💾 Update</button>
                     <button class="btn btn-danger" onclick="quickDeleteGrocery()">🗑️ Delete</button>
                     <button class="btn btn-warning" onclick="cancelEdit('grocery')">❌ Cancel</button>
@@ -285,34 +322,50 @@
             <div id="vegetablesTab" class="hidden">
                 <h2>🥬 Vegetables Management</h2>
                 <h3>Add New Vegetable</h3>
-                <div class="form-group"><label>Vegetable Name</label><input type="text" id="vegetableName" placeholder="e.g., Carrots (කැරට්)"></div>
-                <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="vegetableOriginalPrice" placeholder="180"></div>
-                <div class="form-group"><label><input type="checkbox" id="hasVegetableDiscount" style="margin-right: 10px;" onchange="toggleVegetableDiscountField()"> ️ Special Discount Available</label></div>
-                <div class="form-group hidden" id="vegetableDiscountPriceGroup"><label>Discount Price (Rs.)</label><input type="number" id="vegetableDiscountPrice" placeholder="150"></div>
-                <div class="form-group"><label>Unit</label><input type="text" id="vegetableUnit" placeholder="1 kg" value="1 kg"></div>
-                <div class="form-group"><label>Image URL</label><input type="text" id="vegetableImageUrl" placeholder="https://..."></div>
-                <div class="form-group"><label><input type="checkbox" id="isVegetableAvailable" checked style="margin-right: 10px;">✅ Available for Sale</label></div>
-                <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="vegetableDisplayOrder" placeholder="10" value="10"><small style="color:#666; font-size:12px;">අඩු අංකයක් දැම්මොත් උඩින් පෙන්නනවා.</small></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Vegetable Name</label><input type="text" id="vegetableName" placeholder="e.g., Carrots"></div>
+                    <div class="form-group"><label>Unit</label><input type="text" id="vegetableUnit" placeholder="1 kg" value="1 kg"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="vegetableOriginalPrice" placeholder="180"></div>
+                    <div class="form-group"><label><input type="checkbox" id="hasVegetableDiscount" style="margin-right: 10px;" onchange="toggleVegetableDiscountField()"> 🏷️ Special Discount</label></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Discount Price (Rs.)</label><input type="number" id="vegetableDiscountPrice" placeholder="150" disabled></div>
+                    <div class="form-group"><label>Display Order</label><input type="number" id="vegetableDisplayOrder" placeholder="10" value="10"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Image URL</label><input type="text" id="vegetableImageUrl" placeholder="https://..."></div>
+                    <div class="form-group"><label><input type="checkbox" id="isVegetableAvailable" checked style="margin-right: 10px;">✅ Available</label></div>
+                </div>
                 <button class="btn btn-primary" onclick="saveVegetable()">💾 Save Vegetable</button>
                 <button class="btn btn-warning" onclick="showEditVegetableSection()">✏️ Edit Vegetable</button>
 
                 <div id="editVegetableSection" class="edit-section hidden">
                     <h3>✏️ Edit Vegetable</h3>
                     <div class="form-group"><label>Select Vegetable</label><select id="editVegetableSelect" onchange="loadVegetableData()"><option value="">-- Select --</option></select></div>
-                    <div class="form-group"><label>Vegetable Name</label><input type="text" id="editVegetableName"></div>
-                    <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="editVegetableOriginalPrice"></div>
-                    <div class="form-group"><label><input type="checkbox" id="editHasVegetableDiscount" style="margin-right: 10px;" onchange="toggleEditVegetableDiscountField()"> 🏷️ Special Discount</label></div>
-                    <div class="form-group hidden" id="editVegetableDiscountPriceGroup"><label>Discount Price (Rs.)</label><input type="number" id="editVegetableDiscountPrice"></div>
-                    <div class="form-group"><label>Unit</label><input type="text" id="editVegetableUnit"></div>
-                    <div class="form-group"><label>Image URL</label><input type="text" id="editVegetableImage"></div>
-                    <div class="form-group"><label><input type="checkbox" id="editIsVegetableAvailable" style="margin-right: 10px;">✅ Available</label></div>
-                    <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="editVegetableDisplayOrder"></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Vegetable Name</label><input type="text" id="editVegetableName"></div>
+                        <div class="form-group"><label>Unit</label><input type="text" id="editVegetableUnit"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="editVegetableOriginalPrice"></div>
+                        <div class="form-group"><label><input type="checkbox" id="editHasVegetableDiscount" style="margin-right: 10px;" onchange="toggleEditVegetableDiscountField()"> 🏷️ Special Discount</label></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Discount Price (Rs.)</label><input type="number" id="editVegetableDiscountPrice" disabled></div>
+                        <div class="form-group"><label>Display Order</label><input type="number" id="editVegetableDisplayOrder"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Image URL</label><input type="text" id="editVegetableImage"></div>
+                        <div class="form-group"><label><input type="checkbox" id="editIsVegetableAvailable" style="margin-right: 10px;">✅ Available</label></div>
+                    </div>
                     <button class="btn btn-success" onclick="updateVegetable()">💾 Update</button>
                     <button class="btn btn-danger" onclick="quickDeleteVegetable()">🗑️ Delete</button>
                     <button class="btn btn-warning" onclick="cancelEdit('vegetable')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Vegetables</h3>
-                <input type="text" class="search-bar" id="vegetableSearch" placeholder=" Search vegetables..." oninput="renderVegetables()">
+                <input type="text" class="search-bar" id="vegetableSearch" placeholder="🔍 Search vegetables..." oninput="renderVegetables()">
                 <div class="item-list" id="vegetablesList"></div>
             </div>
 
@@ -321,22 +374,19 @@
                 <h2>📢 Custom Banner Ads (Sponsored)</h2>
                 <div class="notification-box">
                     <h3>➕ Add New Custom Ad</h3>
-                    <p style="margin-bottom: 15px; font-size: 13px;">පාර්ශවකරුවන්ගේ දැන්වීම් මෙතන add කරන්න. App එකේ උඩින් Carousel එකක් විදිහට පෙන්නනවා.</p>
-                    <div class="form-group"><label>Ad Title (අභ්යන්තර භාවිතයට)</label><input type="text" id="adTitle" placeholder="e.g., ABC Restaurant Ad"></div>
-                    <div class="form-group"><label>Banner Image URL (320x100 px recommended)</label><input type="text" id="adImageUrl" placeholder="https://example.com/banner.jpg"><small style="color: #666; font-size: 12px;">320x100 pixels ප්‍රමාණයේ image එකක් නම් හොඳයි</small></div>
-                    <div class="form-group"><label>Click URL (ad එක click කළාම යන්න ඕන තැන)</label><input type="text" id="adClickUrl" placeholder="https://example.com or WhatsApp number"></div>
-                    <div class="form-group"><label>Display Order (පෙන්වන අනුපිළිවෙල)</label><input type="number" id="adDisplayOrder" placeholder="1" value="1"><small style="color: #666; font-size: 12px;">අඩු අංකයක් දැම්මොත් උඩින් පෙන්නනවා</small></div>
-                    <div class="form-group"><label><input type="checkbox" id="adIsActive" checked style="margin-right: 10px;"> ✅ Active (Enable/Disable)</label></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Ad Title</label><input type="text" id="adTitle" placeholder="e.g., ABC Restaurant Ad"></div>
+                        <div class="form-group"><label>Display Order</label><input type="number" id="adDisplayOrder" placeholder="1" value="1"></div>
+                    </div>
+                    <div class="form-group"><label>Banner Image URL</label><input type="text" id="adImageUrl" placeholder="https://example.com/banner.jpg"></div>
+                    <div class="form-group"><label>Click URL</label><input type="text" id="adClickUrl" placeholder="https://example.com or WhatsApp number"></div>
+                    <div class="form-group"><label><input type="checkbox" id="adIsActive" checked style="margin-right: 10px;"> ✅ Active</label></div>
                     <button class="btn btn-primary" onclick="saveCustomAd()">💾 Save Custom Ad</button>
                 </div>
                 
-                <!-- Carousel Time Setting -->
                 <div class="form-group" style="background: #fff7ed; padding: 15px; border-radius: 10px; border-left: 4px solid #f97316; margin-top: 20px;">
-                    <label style="font-weight: bold; color: #c2410c;">⏱️ Ads මාරු වන වේගය (තත්පර වලින්)</label>
+                    <label style="font-weight: bold; color: #c2410c;">⏱️ Ads මාරු වන වේගය (තත්පර)</label>
                     <input type="number" id="carouselTime" placeholder="3" value="3" style="width: 100px; margin-top: 5px; padding: 8px; border: 2px solid #e0e0e0; border-radius: 8px;">
-                    <small style="color: #666; font-size: 11px; display: block; margin-top: 5px;">
-                        💡 Ads කී තත්පරකින් මාරු විය යුතුද? (උදා: 3, 5, 10). Default එක 3යි.
-                    </small>
                     <button class="btn btn-warning" onclick="saveCarouselTime()" style="margin-top: 10px;">💾 Save Time</button>
                 </div>
                 
@@ -348,17 +398,14 @@
             <div id="googleadsTab" class="hidden">
                 <h2>📊 Google Ads Management</h2>
                 <div class="app-link-box">
-                    <h3>️ AdSense Settings</h3>
-                    <p style="margin-bottom: 15px;">යාගේ Google AdSense විස්තර මෙතන දාන්න.</p>
+                    <h3>⚙️ AdSense Settings</h3>
                     <div class="form-group"><label>AdSense Publisher ID</label><input type="text" id="adsPublisherId" placeholder="ca-pub-XXXXXXXXXXXXXXXX"></div>
-                    <div class="form-group"><label>Top Banner Ad Slot ID</label><input type="text" id="adsTopSlot" placeholder="1234567890"></div>
-                    <div class="form-group"><label>Bottom Banner Ad Slot ID</label><input type="text" id="adsBottomSlot" placeholder="0987654321"></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>Top Banner Ad Slot ID</label><input type="text" id="adsTopSlot" placeholder="1234567890"></div>
+                        <div class="form-group"><label>Bottom Banner Ad Slot ID</label><input type="text" id="adsBottomSlot" placeholder="0987654321"></div>
+                    </div>
                     <div class="form-group"><label><input type="checkbox" id="adsEnabled" style="margin-right: 10px;"> ✅ Enable Ads on App</label></div>
                     <button class="btn btn-success" onclick="saveAdSettings()">💾 Save Ad Settings</button>
-                </div>
-                <div style="background: #fff7ed; padding: 15px; border-radius: 10px; margin-top: 20px; border-left: 4px solid #f97316;">
-                    <h4>ℹ️ How to use:</h4>
-                    <p style="font-size: 13px; margin-top: 5px;">1. මේ විස්තර save කළාම, ඔයාගේ <code>index.html</code> එකේ AdSense script එක දාන්න ඕන.<br>2. Ads පෙන්නන්න නම් "Enable Ads" checkbox එක tick කරන්න.</p>
                 </div>
             </div>
 
@@ -366,13 +413,11 @@
             <div id="promotionsTab" class="hidden">
                 <h2>🎉 Promotions & Offers</h2>
                 <div class="notification-box">
-                    <h3> Create New Promotion</h3>
-                    <p style="margin-bottom: 15px;">Customers ලාට විශේෂ දීමනා හෝ දැන්වීම් පෙන්වන්න.</p>
-                    <div class="form-group"><label>Promo Title</label><input type="text" id="promoTitle" placeholder="e.g., 20% Off on All Foods!"></div>
-                    <div class="form-group"><label>Promo Message</label><textarea id="promoMessage" rows="3" placeholder="e.g., අද ඔබේ සියලුම orders වලට 20% වට්ටමක්!"></textarea></div>
-                    <div class="form-group"><label>Image URL (Optional)</label><input type="text" id="promoImage" placeholder="https://..."></div>
-                    <div class="form-group"><label>Target Phone (Optional - for WhatsApp blast)</label><input type="tel" id="promoPhone" placeholder="0766488689"></div>
-                    <button class="btn btn-primary" onclick="savePromotion()">💾 Save Promo to App</button>
+                    <h3>📢 Create New Promotion</h3>
+                    <div class="form-group"><label>Promo Title</label><input type="text" id="promoTitle" placeholder="e.g., 20% Off!"></div>
+                    <div class="form-group"><label>Promo Message</label><textarea id="promoMessage" rows="3" placeholder="Message..."></textarea></div>
+                    <div class="form-group"><label>Target Phone (Optional)</label><input type="tel" id="promoPhone" placeholder="0766488689"></div>
+                    <button class="btn btn-primary" onclick="savePromotion()">💾 Save Promo</button>
                     <button class="btn btn-whatsapp" onclick="sendPromoWhatsApp()">📤 Send via WhatsApp</button>
                 </div>
                 <h3>Active Promotions</h3>
@@ -381,18 +426,18 @@
 
             <!-- NOTIFICATIONS TAB -->
             <div id="notificationsTab" class="hidden">
-                <h2> General Notifications</h2>
+                <h2>📱 General Notifications</h2>
                 <div class="app-link-box">
-                    <h3> App Install Link</h3>
+                    <h3>📱 App Install Link</h3>
                     <div class="form-group"><label>App URL:</label><input type="text" id="appInstallUrl" value="https://chinthakanuwan.github.io/foodhub/" readonly></div>
                     <div class="form-group"><label>Customer Phone Number:</label><input type="tel" id="customerPhone" placeholder="0766488689"></div>
-                    <button class="btn btn-whatsapp" onclick="sendAppInstallLink()">📤 Send App Install Link via WhatsApp</button>
-                    <button class="btn btn-info" onclick="copyAppLink()"> Copy App Link</button>
+                    <button class="btn btn-whatsapp" onclick="sendAppInstallLink()">📤 Send App Install Link</button>
+                    <button class="btn btn-info" onclick="copyAppLink()">📋 Copy App Link</button>
                 </div>
                 <div class="notification-box">
                     <h3>💬 Send WhatsApp Notification</h3>
                     <div class="form-group"><label>Customer Phone Number:</label><input type="tel" id="notifPhone" placeholder="0766488689"></div>
-                    <div class="form-group"><label>Notification Message:</label><textarea id="notifMessage" rows="4" placeholder="දා: 🎉 විශේෂ දීමනාව!"></textarea></div>
+                    <div class="form-group"><label>Notification Message:</label><textarea id="notifMessage" rows="4"></textarea></div>
                     <button class="btn btn-whatsapp" onclick="sendWhatsAppNotification()">📤 Send via WhatsApp</button>
                     <h3 style="margin-top: 20px;">📝 Quick Templates</h3>
                     <button class="btn btn-info" onclick="useTemplate('welcome')">👋 Welcome</button>
@@ -404,7 +449,6 @@
     </div>
 
     <script>
-        // Firebase Configuration
         const firebaseConfig = {
             apiKey: "AIzaSyDduouixF2IW568mND20cfxmnBNxQfRkrg",
             authDomain: "foodhub-app-6632c.firebaseapp.com",
@@ -417,10 +461,8 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Data arrays
         let shops = [], foods = [], groceryItems = [], vegetables = [], orders = [], promotions = [], customAds = [], adSettings = {};
 
-        // ========== LOGIN FUNCTIONS ==========
         function login() {
             const password = document.getElementById('adminPassword').value;
             if (password === 'admin123') {
@@ -430,9 +472,7 @@
                 loadData();
             } else {
                 document.getElementById('loginError').style.display = 'block';
-                setTimeout(() => {
-                    document.getElementById('loginError').style.display = 'none';
-                }, 3000);
+                setTimeout(() => { document.getElementById('loginError').style.display = 'none'; }, 3000);
             }
         }
 
@@ -441,7 +481,6 @@
             location.reload();
         }
 
-        // Check if already logged in
         window.onload = function() {
             if (localStorage.getItem('adminLoggedIn') === 'true') {
                 document.getElementById('loginScreen').style.display = 'none';
@@ -450,78 +489,37 @@
             }
         };
 
-        // ========== TAB SWITCHING ==========
         function switchTab(tabName) {
             ['orders', 'shops', 'foods', 'grocery', 'vegetables', 'customads', 'googleads', 'promotions', 'notifications'].forEach(t => 
                 document.getElementById(t + 'Tab').classList.add('hidden')
             );
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.getElementById(tabName + 'Tab').classList.remove('hidden');
-            
             const tabs = ['orders', 'shops', 'foods', 'grocery', 'vegetables', 'customads', 'googleads', 'promotions', 'notifications'];
             const index = tabs.indexOf(tabName);
-            if (index >= 0) {
-                document.querySelectorAll('.tab')[index].classList.add('active');
-            }
-            
+            if (index >= 0) document.querySelectorAll('.tab')[index].classList.add('active');
             if (tabName === 'shops' || tabName === 'foods') updateSelects();
         }
 
-        // ========== DATA LOADING ==========
         function loadData() {
-            database.ref('orders').on('value', snap => { 
-                orders = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; 
-                renderOrders(); 
-                updateAnalytics(); 
-            });
-            database.ref('shops').on('value', snap => { 
-                shops = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; 
-                renderShops(); 
-                updateSelects(); 
-            });
-            database.ref('foods').on('value', snap => { 
-                foods = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; 
-                renderFoods(); 
-                updateSelects(); 
-            });
-            database.ref('groceryItems').on('value', snap => { 
-                groceryItems = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; 
-                renderGroceryItems(); 
-            });
-            database.ref('vegetables').on('value', snap => { 
-                vegetables = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; 
-                renderVegetables(); 
-                updateSelects(); 
-            });
-            database.ref('customAds').on('value', snap => { 
-                customAds = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; 
-                renderCustomAds(); 
-            });
-            database.ref('promotions').on('value', snap => { 
-                promotions = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; 
-                renderPromotions(); 
-            });
-            database.ref('settings/ads').on('value', snap => { 
-                adSettings = snap.val() || {}; 
-                loadAdSettingsToForm(); 
-            });
+            database.ref('orders').on('value', snap => { orders = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; renderOrders(); updateAnalytics(); });
+            database.ref('shops').on('value', snap => { shops = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; renderShops(); updateSelects(); });
+            database.ref('foods').on('value', snap => { foods = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; renderFoods(); updateSelects(); });
+            database.ref('groceryItems').on('value', snap => { groceryItems = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; renderGroceryItems(); });
+            database.ref('vegetables').on('value', snap => { vegetables = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; renderVegetables(); updateSelects(); });
+            database.ref('customAds').on('value', snap => { customAds = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; renderCustomAds(); });
+            database.ref('promotions').on('value', snap => { promotions = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; renderPromotions(); });
+            database.ref('settings/ads').on('value', snap => { adSettings = snap.val() || {}; loadAdSettingsToForm(); });
             database.ref('settings/carouselTime').on('value', snap => {
                 const ms = snap.val();
-                if (ms && document.getElementById('carouselTime')) {
-                    document.getElementById('carouselTime').value = ms / 1000;
-                }
+                if (ms && document.getElementById('carouselTime')) document.getElementById('carouselTime').value = ms / 1000;
             });
         }
 
-        // ========== ANALYTICS ==========
         function updateAnalytics() {
             const now = new Date();
             const today = orders.filter(o => new Date(o.date).toDateString() === now.toDateString());
-            const month = orders.filter(o => { 
-                const d = new Date(o.date); 
-                return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear(); 
-            });
-            
+            const month = orders.filter(o => { const d = new Date(o.date); return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear(); });
             document.getElementById('todayOrders').textContent = today.length;
             document.getElementById('todayRevenue').textContent = 'Rs. ' + today.reduce((s, o) => s + (o.grandTotal || o.total || 0), 0).toLocaleString();
             document.getElementById('monthOrders').textContent = month.length;
@@ -530,21 +528,11 @@
             document.getElementById('pendingOrders').textContent = orders.filter(o => o.status === 'Pending' || !o.status).length;
         }
 
-        // ========== UTILITY FUNCTIONS ==========
-        function toggleDiscountField() { 
-            document.getElementById('discountPriceGroup').classList.toggle('hidden', !document.getElementById('hasDiscount').checked); 
-        }
-        function toggleEditDiscountField() { 
-            document.getElementById('editDiscountPriceGroup').classList.toggle('hidden', !document.getElementById('editHasDiscount').checked); 
-        }
-        function toggleVegetableDiscountField() { 
-            document.getElementById('vegetableDiscountPriceGroup').classList.toggle('hidden', !document.getElementById('hasVegetableDiscount').checked); 
-        }
-        function toggleEditVegetableDiscountField() { 
-            document.getElementById('editVegetableDiscountPriceGroup').classList.toggle('hidden', !document.getElementById('editHasVegetableDiscount').checked); 
-        }
+        function toggleDiscountField() { document.getElementById('groceryDiscountPrice').disabled = !document.getElementById('hasDiscount').checked; }
+        function toggleEditDiscountField() { document.getElementById('editGroceryDiscountPrice').disabled = !document.getElementById('editHasDiscount').checked; }
+        function toggleVegetableDiscountField() { document.getElementById('vegetableDiscountPrice').disabled = !document.getElementById('hasVegetableDiscount').checked; }
+        function toggleEditVegetableDiscountField() { document.getElementById('editVegetableDiscountPrice').disabled = !document.getElementById('editHasVegetableDiscount').checked; }
 
-        // UPDATED: Parse variants with normal price and special price
         function parseVariants(text) {
             let variants = {};
             if (!text) return variants;
@@ -554,18 +542,13 @@
                 const weight = parts[0]?.trim();
                 const normalPrice = parseInt(parts[1]?.trim()) || 0;
                 const specialPrice = parseInt(parts[2]?.trim()) || 0;
-                
                 if (weight && normalPrice > 0) {
-                    variants[weight] = { 
-                        normalPrice: normalPrice, 
-                        specialPrice: specialPrice > 0 && specialPrice < normalPrice ? specialPrice : 0 
-                    };
+                    variants[weight] = { normalPrice: normalPrice, specialPrice: specialPrice > 0 && specialPrice < normalPrice ? specialPrice : 0 };
                 }
             });
             return variants;
         }
 
-        // UPDATED: Format variants back to text
         function formatVariants(variants) {
             if (!variants || Object.keys(variants).length === 0) return '';
             return Object.entries(variants).map(([w, v]) => {
@@ -587,7 +570,7 @@
             document.getElementById('edit' + type.charAt(0).toUpperCase() + type.slice(1) + 'Select').value = ''; 
         }
 
-        // ========== SHOP FUNCTIONS ==========
+        // ========== SHOP FUNCTIONS (UPDATED WITH OPEN/CLOSE TIME) ==========
         function saveShop() { 
             const shop = { 
                 name: document.getElementById('shopName').value, 
@@ -597,7 +580,9 @@
                 rating: parseFloat(document.getElementById('shopRating').value)||4.5, 
                 image: document.getElementById('shopImageUrl').value, 
                 isFeatured: document.getElementById('isFeatured').checked, 
-                displayOrder: parseInt(document.getElementById('shopDisplayOrder').value) || 999 
+                displayOrder: parseInt(document.getElementById('shopDisplayOrder').value) || 999,
+                openTime: document.getElementById('shopOpenTime').value || '09:00',
+                closeTime: document.getElementById('shopCloseTime').value || '22:00'
             }; 
             if(!shop.name) return alert('නම ඇතුළත් කරන්න!'); 
             database.ref('shops').push(shop).then(() => { 
@@ -610,13 +595,10 @@
         function renderShops() { 
             const search = (document.getElementById('shopSearch')?.value || '').toLowerCase(); 
             const sortedShops = shops.filter(s => s.name.toLowerCase().includes(search)).sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999)); 
-            document.getElementById('shopsList').innerHTML = sortedShops.map(s => `<div class="item-card" style="${s.isFeatured ? 'background:#FFF9C4; border-left:4px solid #FFD700;' : 'background:#F0FDF4; border-left:4px solid #22C55E;'}"><div class="item-info"><div style="font-weight:bold;">${s.name} ${s.isFeatured?'⭐':''}</div><div style="font-size:12px; color:#666;">${s.category} | Rs.${s.deliveryFee}</div></div><button class="btn btn-danger" onclick="database.ref('shops').child('${s.id}').remove()">🗑️</button></div>`).join(''); 
+            document.getElementById('shopsList').innerHTML = sortedShops.map(s => `<div class="item-card" style="${s.isFeatured ? 'background:#FFF9C4; border-left:4px solid #FFD700;' : 'background:#F0FDF4; border-left:4px solid #22C55E;'}"><div class="item-info"><div style="font-weight:bold;">${s.name} ${s.isFeatured?'⭐':''}</div><div style="font-size:12px; color:#666;">${s.category} | Rs.${s.deliveryFee} | 🕐 ${s.openTime || '09:00'} - ${s.closeTime || '22:00'}</div></div><button class="btn btn-danger" onclick="database.ref('shops').child('${s.id}').remove()">🗑️</button></div>`).join(''); 
         }
 
-        function showEditShopSection() { 
-            document.getElementById('editShopSection').classList.remove('hidden'); 
-            updateSelects(); 
-        }
+        function showEditShopSection() { document.getElementById('editShopSection').classList.remove('hidden'); updateSelects(); }
 
         function loadShopData() { 
             const s = shops.find(x => x.id === document.getElementById('editShopSelect').value); 
@@ -627,7 +609,9 @@
             document.getElementById('editShopRating').value = s.rating; 
             document.getElementById('editShopImage').value = s.image; 
             document.getElementById('editIsFeatured').checked = s.isFeatured; 
-            document.getElementById('editShopDisplayOrder').value = s.displayOrder || 999; 
+            document.getElementById('editShopDisplayOrder').value = s.displayOrder || 999;
+            document.getElementById('editShopOpenTime').value = s.openTime || '09:00';
+            document.getElementById('editShopCloseTime').value = s.closeTime || '22:00';
         }
 
         function updateShop() { 
@@ -639,92 +623,35 @@
                 rating: parseFloat(document.getElementById('editShopRating').value), 
                 image: document.getElementById('editShopImage').value, 
                 isFeatured: document.getElementById('editIsFeatured').checked, 
-                displayOrder: parseInt(document.getElementById('editShopDisplayOrder').value) || 999 
-            }).then(() => { 
-                alert('✅ Update විය!'); 
-                cancelEdit('shop'); 
-            }); 
+                displayOrder: parseInt(document.getElementById('editShopDisplayOrder').value) || 999,
+                openTime: document.getElementById('editShopOpenTime').value,
+                closeTime: document.getElementById('editShopCloseTime').value
+            }).then(() => { alert('✅ Update විය!'); cancelEdit('shop'); }); 
         }
 
         // ========== FOOD FUNCTIONS ==========
         function saveFood() { 
-            const food = { 
-                shopId: document.getElementById('foodShop').value, 
-                name: document.getElementById('foodName').value, 
-                price: parseInt(document.getElementById('foodPrice').value)||0, 
-                image: document.getElementById('foodImageUrl').value, 
-                displayOrder: parseInt(document.getElementById('foodDisplayOrder').value) || 999 
-            }; 
+            const food = { shopId: document.getElementById('foodShop').value, name: document.getElementById('foodName').value, price: parseInt(document.getElementById('foodPrice').value)||0, image: document.getElementById('foodImageUrl').value, displayOrder: parseInt(document.getElementById('foodDisplayOrder').value) || 999 }; 
             if(!food.name) return alert('නම ඇතුළත් කරන්න!'); 
-            database.ref('foods').push(food).then(() => { 
-                alert('✅ Food එක Save විය!'); 
-                document.getElementById('foodName').value=''; 
-                document.getElementById('foodDisplayOrder').value='10'; 
-            }); 
+            database.ref('foods').push(food).then(() => { alert('✅ Food එක Save විය!'); document.getElementById('foodName').value=''; document.getElementById('foodDisplayOrder').value='10'; }); 
         }
-
         function renderFoods() { 
             const search = (document.getElementById('foodSearch')?.value || '').toLowerCase(); 
             const sortedFoods = foods.filter(f => f.name.toLowerCase().includes(search)).sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999)); 
-            document.getElementById('foodsList').innerHTML = sortedFoods.map(f => { 
-                const shop = shops.find(s => s.id === f.shopId); 
-                return `<div class="item-card" style="background:#F0FDF4; border-left:4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${f.name}</div><div style="font-size:12px; color:#666;">${shop?shop.name:'Unknown'} | Rs.${f.price}</div></div><button class="btn btn-danger" onclick="database.ref('foods').child('${f.id}').remove()">🗑️</button></div>`; 
-            }).join(''); 
+            document.getElementById('foodsList').innerHTML = sortedFoods.map(f => { const shop = shops.find(s => s.id === f.shopId); return `<div class="item-card" style="background:#F0FDF4; border-left:4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${f.name}</div><div style="font-size:12px; color:#666;">${shop?shop.name:'Unknown'} | Rs.${f.price}</div></div><button class="btn btn-danger" onclick="database.ref('foods').child('${f.id}').remove()">🗑️</button></div>`; }).join(''); 
         }
-
-        function showEditFoodSection() { 
-            document.getElementById('editFoodSection').classList.remove('hidden'); 
-            updateSelects(); 
-        }
-
-        function loadFoodData() { 
-            const f = foods.find(x => x.id === document.getElementById('editFoodSelect').value); 
-            if(!f) return; 
-            document.getElementById('editFoodName').value = f.name; 
-            document.getElementById('editFoodPrice').value = f.price; 
-            document.getElementById('editFoodImage').value = f.image; 
-            document.getElementById('editFoodDisplayOrder').value = f.displayOrder || 999; 
-        }
-
-        function updateFood() { 
-            const id = document.getElementById('editFoodSelect').value; 
-            database.ref('foods').child(id).update({ 
-                name: document.getElementById('editFoodName').value, 
-                price: parseInt(document.getElementById('editFoodPrice').value), 
-                image: document.getElementById('editFoodImage').value, 
-                displayOrder: parseInt(document.getElementById('editFoodDisplayOrder').value) || 999 
-            }).then(() => { 
-                alert('✅ Update විය!'); 
-                cancelEdit('food'); 
-            }); 
-        }
+        function showEditFoodSection() { document.getElementById('editFoodSection').classList.remove('hidden'); updateSelects(); }
+        function loadFoodData() { const f = foods.find(x => x.id === document.getElementById('editFoodSelect').value); if(!f) return; document.getElementById('editFoodName').value = f.name; document.getElementById('editFoodPrice').value = f.price; document.getElementById('editFoodImage').value = f.image; document.getElementById('editFoodDisplayOrder').value = f.displayOrder || 999; }
+        function updateFood() { const id = document.getElementById('editFoodSelect').value; database.ref('foods').child(id).update({ name: document.getElementById('editFoodName').value, price: parseInt(document.getElementById('editFoodPrice').value), image: document.getElementById('editFoodImage').value, displayOrder: parseInt(document.getElementById('editFoodDisplayOrder').value) || 999 }).then(() => { alert('✅ Update විය!'); cancelEdit('food'); }); }
 
         // ========== GROCERY FUNCTIONS ==========
         function saveGroceryItem() {
             const hasDiscount = document.getElementById('hasDiscount').checked;
-            const variantsText = document.getElementById('groceryVariants').value.trim();
-            const variants = parseVariants(variantsText);
-
-            const item = { 
-                name: document.getElementById('groceryName').value, 
-                originalPrice: parseInt(document.getElementById('groceryOriginalPrice').value) || 0, 
-                hasDiscount: hasDiscount, 
-                discountPrice: hasDiscount ? (parseInt(document.getElementById('groceryDiscountPrice').value) || 0) : 0, 
-                unit: document.getElementById('groceryUnit').value, 
-                category: document.getElementById('groceryCategory').value, 
-                image: document.getElementById('groceryImageUrl').value || 'https://via.placeholder.com/500', 
-                available: true, 
-                displayOrder: parseInt(document.getElementById('groceryDisplayOrder').value) || 999,
-                variants: variants,
-                updatedAt: Date.now() 
-            };
+            const variants = parseVariants(document.getElementById('groceryVariants').value.trim());
+            const item = { name: document.getElementById('groceryName').value, originalPrice: parseInt(document.getElementById('groceryOriginalPrice').value) || 0, hasDiscount: hasDiscount, discountPrice: hasDiscount ? (parseInt(document.getElementById('groceryDiscountPrice').value) || 0) : 0, unit: document.getElementById('groceryUnit').value, category: document.getElementById('groceryCategory').value, image: document.getElementById('groceryImageUrl').value || 'https://via.placeholder.com/500', available: true, displayOrder: parseInt(document.getElementById('groceryDisplayOrder').value) || 999, variants: variants, updatedAt: Date.now() };
             if (!item.name) return alert('නම ඇතුළත් කරන්න!');
-            database.ref('groceryItems').push(item).then(() => { 
-                alert('✅ Item එක Save විය! Variants: ' + (Object.keys(variants).length > 0 ? Object.keys(variants).join(', ') : 'None')); 
-                clearGroceryForm(); 
-            });
+            database.ref('groceryItems').push(item).then(() => { alert('✅ Item එක Save විය!'); clearGroceryForm(); });
         }
-
         function renderGroceryItems() {
             const list = document.getElementById('groceryList');
             const search = (document.getElementById('grocerySearch')?.value || '').toLowerCase();
@@ -736,96 +663,32 @@
                 return `<div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${item.name}</div><div style="margin-top:5px;">${priceDisplay} <span style="color:#666; font-size:12px;">| ${item.unit} | ${item.category}</span></div>${variantsDisplay}</div><button class="btn btn-primary" onclick="quickEditGrocery('${item.id}')" style="padding:8px 12px; font-size:12px;">✏️</button></div>`;
             }).join('');
         }
-
-        function quickEditGrocery(id) { 
-            document.getElementById('editGrocerySection').classList.remove('hidden'); 
-            document.getElementById('editGrocerySelect').value = id; 
-            loadGroceryData(); 
-        }
-        
+        function quickEditGrocery(id) { document.getElementById('editGrocerySection').classList.remove('hidden'); document.getElementById('editGrocerySelect').value = id; loadGroceryData(); }
         function loadGroceryData() { 
-            const id = document.getElementById('editGrocerySelect').value; 
-            if (!id) return; 
-            const item = groceryItems.find(g => g.id === id); 
-            if (!item) return; 
-            document.getElementById('editGroceryName').value = item.name || ''; 
-            document.getElementById('editGroceryOriginalPrice').value = item.originalPrice || 0; 
-            document.getElementById('editHasDiscount').checked = item.hasDiscount || false; 
-            document.getElementById('editGroceryDiscountPrice').value = item.discountPrice || 0; 
-            document.getElementById('editGroceryUnit').value = item.unit || ''; 
-            document.getElementById('editGroceryImage').value = item.image || ''; 
-            document.getElementById('editGroceryDisplayOrder').value = item.displayOrder || 999;
-            document.getElementById('editGroceryVariants').value = formatVariants(item.variants);
+            const id = document.getElementById('editGrocerySelect').value; if (!id) return; const item = groceryItems.find(g => g.id === id); if (!item) return; 
+            document.getElementById('editGroceryName').value = item.name || ''; document.getElementById('editGroceryOriginalPrice').value = item.originalPrice || 0; 
+            document.getElementById('editHasDiscount').checked = item.hasDiscount || false; document.getElementById('editGroceryDiscountPrice').value = item.discountPrice || 0; 
+            document.getElementById('editGroceryUnit').value = item.unit || ''; document.getElementById('editGroceryImage').value = item.image || ''; 
+            document.getElementById('editGroceryDisplayOrder').value = item.displayOrder || 999; document.getElementById('editGroceryVariants').value = formatVariants(item.variants);
             toggleEditDiscountField(); 
         }
-
         function updateGroceryItem() { 
-            const id = document.getElementById('editGrocerySelect').value; 
-            if (!id) return alert('Item එකක් තෝරන්න!'); 
-            const hasDiscount = document.getElementById('editHasDiscount').checked;
-            const variantsText = document.getElementById('editGroceryVariants').value.trim();
-            const variants = parseVariants(variantsText);
-
-            const data = { 
-                name: document.getElementById('editGroceryName').value, 
-                originalPrice: parseInt(document.getElementById('editGroceryOriginalPrice').value) || 0, 
-                hasDiscount: hasDiscount, 
-                discountPrice: hasDiscount ? (parseInt(document.getElementById('editGroceryDiscountPrice').value) || 0) : 0, 
-                unit: document.getElementById('editGroceryUnit').value, 
-                image: document.getElementById('editGroceryImage').value, 
-                displayOrder: parseInt(document.getElementById('editGroceryDisplayOrder').value) || 999,
-                variants: variants,
-                updatedAt: Date.now() 
-            }; 
-            database.ref('groceryItems').child(id).update(data).then(() => { 
-                alert('✅ Update විය! Variants: ' + (Object.keys(variants).length > 0 ? Object.keys(variants).join(', ') : 'None')); 
-                cancelEdit('grocery'); 
-            }); 
+            const id = document.getElementById('editGrocerySelect').value; if (!id) return alert('Item එකක් තෝරන්න!'); 
+            const hasDiscount = document.getElementById('editHasDiscount').checked; const variants = parseVariants(document.getElementById('editGroceryVariants').value.trim());
+            const data = { name: document.getElementById('editGroceryName').value, originalPrice: parseInt(document.getElementById('editGroceryOriginalPrice').value) || 0, hasDiscount: hasDiscount, discountPrice: hasDiscount ? (parseInt(document.getElementById('editGroceryDiscountPrice').value) || 0) : 0, unit: document.getElementById('editGroceryUnit').value, image: document.getElementById('editGroceryImage').value, displayOrder: parseInt(document.getElementById('editGroceryDisplayOrder').value) || 999, variants: variants, updatedAt: Date.now() }; 
+            database.ref('groceryItems').child(id).update(data).then(() => { alert('✅ Update විය!'); cancelEdit('grocery'); }); 
         }
-
-        function quickDeleteGrocery() { 
-            const id = document.getElementById('editGrocerySelect').value; 
-            if (id && confirm('මේ item එක delete කරන්නද?')) { 
-                database.ref('groceryItems').child(id).remove().then(() => { 
-                    alert('✅ Deleted'); 
-                    cancelEdit('grocery'); 
-                }); 
-            } 
-        }
-        
-        function clearGroceryForm() { 
-            ['groceryName', 'groceryOriginalPrice', 'groceryDiscountPrice', 'groceryUnit', 'groceryImageUrl', 'groceryDisplayOrder', 'groceryVariants'].forEach(id => document.getElementById(id).value = ''); 
-            document.getElementById('hasDiscount').checked = false; 
-            document.getElementById('groceryDisplayOrder').value = '10';
-            toggleDiscountField(); 
-        }
-
-        function showEditGrocerySection() { 
-            document.getElementById('editGrocerySection').classList.remove('hidden'); 
-            updateSelects(); 
-        }
+        function quickDeleteGrocery() { const id = document.getElementById('editGrocerySelect').value; if (id && confirm('මේ item එක delete කරන්නද?')) { database.ref('groceryItems').child(id).remove().then(() => { alert('✅ Deleted'); cancelEdit('grocery'); }); } }
+        function clearGroceryForm() { ['groceryName', 'groceryOriginalPrice', 'groceryDiscountPrice', 'groceryUnit', 'groceryImageUrl', 'groceryDisplayOrder', 'groceryVariants'].forEach(id => document.getElementById(id).value = ''); document.getElementById('hasDiscount').checked = false; document.getElementById('groceryDisplayOrder').value = '10'; toggleDiscountField(); }
+        function showEditGrocerySection() { document.getElementById('editGrocerySection').classList.remove('hidden'); updateSelects(); }
 
         // ========== VEGETABLE FUNCTIONS ==========
         function saveVegetable() {
             const hasDiscount = document.getElementById('hasVegetableDiscount').checked;
-            const veg = { 
-                name: document.getElementById('vegetableName').value, 
-                originalPrice: parseInt(document.getElementById('vegetableOriginalPrice').value) || 0, 
-                hasDiscount: hasDiscount, 
-                discountPrice: hasDiscount ? (parseInt(document.getElementById('vegetableDiscountPrice').value) || 0) : 0, 
-                unit: document.getElementById('vegetableUnit').value || '1 kg', 
-                image: document.getElementById('vegetableImageUrl').value || 'https://via.placeholder.com/500', 
-                available: document.getElementById('isVegetableAvailable').checked, 
-                displayOrder: parseInt(document.getElementById('vegetableDisplayOrder').value) || 999, 
-                updatedAt: Date.now() 
-            };
+            const veg = { name: document.getElementById('vegetableName').value, originalPrice: parseInt(document.getElementById('vegetableOriginalPrice').value) || 0, hasDiscount: hasDiscount, discountPrice: hasDiscount ? (parseInt(document.getElementById('vegetableDiscountPrice').value) || 0) : 0, unit: document.getElementById('vegetableUnit').value || '1 kg', image: document.getElementById('vegetableImageUrl').value || 'https://via.placeholder.com/500', available: document.getElementById('isVegetableAvailable').checked, displayOrder: parseInt(document.getElementById('vegetableDisplayOrder').value) || 999, updatedAt: Date.now() };
             if (!veg.name) return alert('නම ඇතුළත් කරන්න!');
-            database.ref('vegetables').push(veg).then(() => { 
-                alert('✅ Vegetable එක Save විය!'); 
-                clearVegetableForm(); 
-            });
+            database.ref('vegetables').push(veg).then(() => { alert('✅ Vegetable එක Save විය!'); clearVegetableForm(); });
         }
-
         function renderVegetables() {
             const list = document.getElementById('vegetablesList');
             const search = (document.getElementById('vegetableSearch')?.value || '').toLowerCase();
@@ -837,72 +700,24 @@
                 return `<div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${veg.name}</div><div style="margin-top:5px;">${priceDisplay} <span style="color:#666; font-size:12px; margin-left:10px;">| ${veg.unit}</span> <span style="margin-left:10px;">${availabilityBadge}</span></div></div><button class="btn btn-primary" onclick="quickEditVegetable('${veg.id}')" style="padding:8px 12px; font-size:12px;">✏️</button></div>`;
             }).join('');
         }
-
-        function quickEditVegetable(id) { 
-            document.getElementById('editVegetableSection').classList.remove('hidden'); 
-            document.getElementById('editVegetableSelect').value = id; 
-            loadVegetableData(); 
-        }
-
+        function quickEditVegetable(id) { document.getElementById('editVegetableSection').classList.remove('hidden'); document.getElementById('editVegetableSelect').value = id; loadVegetableData(); }
         function loadVegetableData() { 
-            const id = document.getElementById('editVegetableSelect').value; 
-            if (!id) return; 
-            const veg = vegetables.find(v => v.id === id); 
-            if (!veg) return; 
-            document.getElementById('editVegetableName').value = veg.name || ''; 
-            document.getElementById('editVegetableOriginalPrice').value = veg.originalPrice || 0; 
-            document.getElementById('editHasVegetableDiscount').checked = veg.hasDiscount || false; 
-            document.getElementById('editVegetableDiscountPrice').value = veg.discountPrice || 0; 
-            document.getElementById('editVegetableUnit').value = veg.unit || '1 kg'; 
-            document.getElementById('editVegetableImage').value = veg.image || ''; 
-            document.getElementById('editIsVegetableAvailable').checked = veg.available !== false; 
-            document.getElementById('editVegetableDisplayOrder').value = veg.displayOrder || 999; 
+            const id = document.getElementById('editVegetableSelect').value; if (!id) return; const veg = vegetables.find(v => v.id === id); if (!veg) return; 
+            document.getElementById('editVegetableName').value = veg.name || ''; document.getElementById('editVegetableOriginalPrice').value = veg.originalPrice || 0; 
+            document.getElementById('editHasVegetableDiscount').checked = veg.hasDiscount || false; document.getElementById('editVegetableDiscountPrice').value = veg.discountPrice || 0; 
+            document.getElementById('editVegetableUnit').value = veg.unit || '1 kg'; document.getElementById('editVegetableImage').value = veg.image || ''; 
+            document.getElementById('editIsVegetableAvailable').checked = veg.available !== false; document.getElementById('editVegetableDisplayOrder').value = veg.displayOrder || 999; 
             toggleEditVegetableDiscountField(); 
         }
-
         function updateVegetable() { 
-            const id = document.getElementById('editVegetableSelect').value; 
-            if (!id) return alert('Vegetable එකක් තෝරන්න!'); 
+            const id = document.getElementById('editVegetableSelect').value; if (!id) return alert('Vegetable එකක් තෝරන්න!'); 
             const hasDiscount = document.getElementById('editHasVegetableDiscount').checked; 
-            const data = { 
-                name: document.getElementById('editVegetableName').value, 
-                originalPrice: parseInt(document.getElementById('editVegetableOriginalPrice').value) || 0, 
-                hasDiscount: hasDiscount, 
-                discountPrice: hasDiscount ? (parseInt(document.getElementById('editVegetableDiscountPrice').value) || 0) : 0, 
-                unit: document.getElementById('editVegetableUnit').value, 
-                image: document.getElementById('editVegetableImage').value, 
-                available: document.getElementById('editIsVegetableAvailable').checked, 
-                displayOrder: parseInt(document.getElementById('editVegetableDisplayOrder').value) || 999, 
-                updatedAt: Date.now() 
-            }; 
-            database.ref('vegetables').child(id).update(data).then(() => { 
-                alert('✅ Updated!'); 
-                cancelEdit('vegetable'); 
-            }); 
+            const data = { name: document.getElementById('editVegetableName').value, originalPrice: parseInt(document.getElementById('editVegetableOriginalPrice').value) || 0, hasDiscount: hasDiscount, discountPrice: hasDiscount ? (parseInt(document.getElementById('editVegetableDiscountPrice').value) || 0) : 0, unit: document.getElementById('editVegetableUnit').value, image: document.getElementById('editVegetableImage').value, available: document.getElementById('editIsVegetableAvailable').checked, displayOrder: parseInt(document.getElementById('editVegetableDisplayOrder').value) || 999, updatedAt: Date.now() }; 
+            database.ref('vegetables').child(id).update(data).then(() => { alert('✅ Updated!'); cancelEdit('vegetable'); }); 
         }
-
-        function quickDeleteVegetable() { 
-            const id = document.getElementById('editVegetableSelect').value; 
-            if (id && confirm('මේ vegetable එක delete කරන්නද?')) { 
-                database.ref('vegetables').child(id).remove().then(() => { 
-                    alert('✅ Deleted'); 
-                    cancelEdit('vegetable'); 
-                }); 
-            } 
-        }
-
-        function clearVegetableForm() { 
-            ['vegetableName', 'vegetableOriginalPrice', 'vegetableDiscountPrice', 'vegetableUnit', 'vegetableImageUrl', 'vegetableDisplayOrder'].forEach(id => document.getElementById(id).value = ''); 
-            document.getElementById('hasVegetableDiscount').checked = false; 
-            document.getElementById('isVegetableAvailable').checked = true; 
-            document.getElementById('vegetableDisplayOrder').value = '10'; 
-            toggleVegetableDiscountField(); 
-        }
-
-        function showEditVegetableSection() { 
-            document.getElementById('editVegetableSection').classList.remove('hidden'); 
-            updateSelects(); 
-        }
+        function quickDeleteVegetable() { const id = document.getElementById('editVegetableSelect').value; if (id && confirm('මේ vegetable එක delete කරන්නද?')) { database.ref('vegetables').child(id).remove().then(() => { alert('✅ Deleted'); cancelEdit('vegetable'); }); } }
+        function clearVegetableForm() { ['vegetableName', 'vegetableOriginalPrice', 'vegetableDiscountPrice', 'vegetableUnit', 'vegetableImageUrl', 'vegetableDisplayOrder'].forEach(id => document.getElementById(id).value = ''); document.getElementById('hasVegetableDiscount').checked = false; document.getElementById('isVegetableAvailable').checked = true; document.getElementById('vegetableDisplayOrder').value = '10'; toggleVegetableDiscountField(); }
+        function showEditVegetableSection() { document.getElementById('editVegetableSection').classList.remove('hidden'); updateSelects(); }
 
         // ========== CUSTOM ADS FUNCTIONS ==========
         function saveCustomAd() {
@@ -913,30 +728,16 @@
             const isActive = document.getElementById('adIsActive').checked;
             if (!title || !imageUrl || !clickUrl) return alert('Title, Image URL සහ Click URL අනිවාර්යයි!');
             const ad = { title, imageUrl, clickUrl, displayOrder, isActive, createdAt: Date.now() };
-            database.ref('customAds').push(ad).then(() => {
-                alert('✅ Custom Ad එක Save විය!');
-                document.getElementById('adTitle').value = '';
-                document.getElementById('adImageUrl').value = '';
-                document.getElementById('adClickUrl').value = '';
-                document.getElementById('adDisplayOrder').value = '1';
-                document.getElementById('adIsActive').checked = true;
-            });
+            database.ref('customAds').push(ad).then(() => { alert('✅ Custom Ad එක Save විය!'); document.getElementById('adTitle').value = ''; document.getElementById('adImageUrl').value = ''; document.getElementById('adClickUrl').value = ''; document.getElementById('adDisplayOrder').value = '1'; document.getElementById('adIsActive').checked = true; });
         }
-
         function saveCarouselTime() {
             const seconds = parseInt(document.getElementById('carouselTime').value) || 3;
             if (seconds < 1) return alert('අවම වශයෙන් තත්පර 1ක් වත් දෙන්න!');
-            database.ref('settings/carouselTime').set(seconds * 1000).then(() => {
-                alert('✅ Ads මාරු වන වේගය තත්පර ' + seconds + ' ලෙස සකසන ලදී!');
-            });
+            database.ref('settings/carouselTime').set(seconds * 1000).then(() => { alert('✅ Ads මාරු වන වේගය තත්පර ' + seconds + ' ලෙස සකසන ලදී!'); });
         }
-
         function renderCustomAds() {
             const list = document.getElementById('customAdsList');
-            if (customAds.length === 0) { 
-                list.innerHTML = '<p style="color:#666; text-align:center;">දැනට Custom Ads කිසිවක් නැත.</p>'; 
-                return; 
-            }
+            if (customAds.length === 0) { list.innerHTML = '<p style="color:#666; text-align:center;">දැනට Custom Ads කිසිවක් නැත.</p>'; return; }
             const sortedAds = [...customAds].sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
             list.innerHTML = sortedAds.map(ad => `
                 <div class="custom-ad-card">
@@ -953,29 +754,15 @@
                 </div>
             `).join('');
         }
-
-        function toggleAdStatus(id, newStatus) { 
-            database.ref('customAds').child(id).update({ isActive: newStatus }).then(() => alert(`✅ Ad ${newStatus ? 'Enabled' : 'Disabled'} විය!`)); 
-        }
-
-        function deleteCustomAd(id) { 
-            if (confirm('මේ Ad එක delete කරන්නද?')) { 
-                database.ref('customAds').child(id).remove().then(() => alert('✅ Ad එක Delete විය!')); 
-            } 
-        }
+        function toggleAdStatus(id, newStatus) { database.ref('customAds').child(id).update({ isActive: newStatus }).then(() => alert(`✅ Ad ${newStatus ? 'Enabled' : 'Disabled'} විය!`)); }
+        function deleteCustomAd(id) { if (confirm('මේ Ad එක delete කරන්නද?')) { database.ref('customAds').child(id).remove().then(() => alert('✅ Ad එක Delete විය!')); } }
 
         // ========== GOOGLE ADS FUNCTIONS ==========
         function saveAdSettings() {
-            const settings = { 
-                publisherId: document.getElementById('adsPublisherId').value.trim(), 
-                topSlot: document.getElementById('adsTopSlot').value.trim(), 
-                bottomSlot: document.getElementById('adsBottomSlot').value.trim(), 
-                enabled: document.getElementById('adsEnabled').checked 
-            };
+            const settings = { publisherId: document.getElementById('adsPublisherId').value.trim(), topSlot: document.getElementById('adsTopSlot').value.trim(), bottomSlot: document.getElementById('adsBottomSlot').value.trim(), enabled: document.getElementById('adsEnabled').checked };
             if (!settings.publisherId) return alert('AdSense Publisher ID එක අනිවාර්යයි!');
             database.ref('settings/ads').set(settings).then(() => alert('✅ Ad Settings Save විය!'));
         }
-
         function loadAdSettingsToForm() {
             document.getElementById('adsPublisherId').value = adSettings.publisherId || '';
             document.getElementById('adsTopSlot').value = adSettings.topSlot || '';
@@ -987,32 +774,20 @@
         function savePromotion() {
             const title = document.getElementById('promoTitle').value.trim();
             const message = document.getElementById('promoMessage').value.trim();
-            const image = document.getElementById('promoImage').value.trim();
             if (!title || !message) return alert('Title සහ Message අනිවාර්යයි!');
-            const promo = { title, message, image, active: true, createdAt: Date.now() };
-            database.ref('promotions').push(promo).then(() => {
-                alert('✅ Promotion එක App එකට Save විය!');
-                document.getElementById('promoTitle').value = '';
-                document.getElementById('promoMessage').value = '';
-                document.getElementById('promoImage').value = '';
-            });
+            const promo = { title, message, image: document.getElementById('promoImage').value.trim(), active: true, createdAt: Date.now() };
+            database.ref('promotions').push(promo).then(() => { alert('✅ Promotion එක App එකට Save විය!'); document.getElementById('promoTitle').value = ''; document.getElementById('promoMessage').value = ''; document.getElementById('promoImage').value = ''; });
         }
-
         function sendPromoWhatsApp() {
             const phone = document.getElementById('promoPhone').value.trim();
             const title = document.getElementById('promoTitle').value.trim();
             const message = document.getElementById('promoMessage').value.trim();
             if (!phone || !title) return alert('Phone Number සහ Title අනිවාර්යයි!');
-            const text = `*🌿 Silvas Express - ${title}*\n\n${message}\n\nOrder දැන්ම: https://chinthakanuwan.github.io/foodhub/`;
-            window.open(`https://wa.me/94${phone.substring(1)}?text=${encodeURIComponent(text)}`, '_blank');
+            window.open(`https://wa.me/94${phone.substring(1)}?text=${encodeURIComponent(`*🌿 Silvas Express - ${title}*\n\n${message}\n\nOrder දැන්ම: https://chinthakanuwan.github.io/foodhub/`)}`, '_blank');
         }
-
         function renderPromotions() {
             const list = document.getElementById('promotionsList');
-            if (promotions.length === 0) { 
-                list.innerHTML = '<p style="color:#666;">දැනට Promotions කිසිවක් නැත.</p>'; 
-                return; 
-            }
+            if (promotions.length === 0) { list.innerHTML = '<p style="color:#666;">දැනට Promotions කිසිවක් නැත.</p>'; return; }
             list.innerHTML = promotions.map(p => `<div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">🎉 ${p.title}</div><div style="font-size:13px; color:#666; margin-top:5px;">${p.message}</div></div><button class="btn btn-danger" onclick="database.ref('promotions').child('${p.id}').remove().then(()=>alert('✅ Deleted'))" style="padding:8px 12px; font-size:12px;">🗑️</button></div>`).join('');
         }
 
@@ -1021,24 +796,18 @@
             const phone = document.getElementById('customerPhone').value.trim();
             const appUrl = document.getElementById('appInstallUrl').value;
             if (!phone) return alert('Phone number එක අනිවාර්යයි!');
-            const message = `🌿 Silvas Express App එක download කරගන්න!\n\nබේ විශ්වාසවන්ත හාර & grocery delivery partner\n\n📱 App Link: ${appUrl}\n\nOrder කරන්න දැන්ම visit කරන්න!`;
-            window.open(`https://wa.me/94${phone.substring(1)}?text=${encodeURIComponent(message)}`, '_blank');
+            window.open(`https://wa.me/94${phone.substring(1)}?text=${encodeURIComponent(`🌿 Silvas Express App එක download කරගන්න!\n\nඔබේ විශ්වාසවන්ත ආහාර & grocery delivery partner\n\n📱 App Link: ${appUrl}\n\nOrder කරන්න දැන්ම visit කරන්න!`)}`, '_blank');
         }
-
-        function copyAppLink() { 
-            navigator.clipboard.writeText(document.getElementById('appInstallUrl').value).then(() => alert('✅ App link copied!')); 
-        }
-
+        function copyAppLink() { navigator.clipboard.writeText(document.getElementById('appInstallUrl').value).then(() => alert('✅ App link copied!')); }
         function sendWhatsAppNotification() {
             const phone = document.getElementById('notifPhone').value.trim();
             const message = document.getElementById('notifMessage').value.trim();
             if (!phone || !message) return alert('Phone number සහ message අනිවාර්යයි!');
             window.open(`https://wa.me/94${phone.substring(1)}?text=${encodeURIComponent(message)}`, '_blank');
         }
-
         function useTemplate(type) {
             const templates = {
-                welcome: ' ආයුබෝවන්!  Silvas Express App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
+                welcome: '👋 ආයුබෝවන්! 🌿 Silvas Express App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
                 offer: '🎉 විශේෂ දීමනාව! 🌿\n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
                 delivery: '🚚 ඔබේ order එක deliver වෙමින් පවතී! 🌿\n\nOrder tracking සඳහා: https://chinthakanuwan.github.io/foodhub/\n\nස්තූතියි! 🙏'
             };
@@ -1046,42 +815,26 @@
         }
 
         // ========== ORDER FUNCTIONS ==========
-        function loadOrders() { 
-            renderOrders(); 
-        }
-
+        function loadOrders() { renderOrders(); }
         function filterOrders() { 
             let filtered = [...orders]; 
             const status = document.getElementById('filterStatus').value; 
             const date = document.getElementById('filterDate').value; 
             const period = document.getElementById('filterPeriod').value; 
             const now = new Date(); 
-            
             if (status !== 'all') filtered = filtered.filter(o => o.status === status); 
             if (date) filtered = filtered.filter(o => new Date(o.date).toISOString().split('T')[0] === date); 
             if (period === 'today') filtered = filtered.filter(o => new Date(o.date).toDateString() === now.toDateString()); 
             else if (period === 'week') filtered = filtered.filter(o => new Date(o.date) >= new Date(now - 7*24*60*60*1000)); 
-            else if (period === 'month') filtered = filtered.filter(o => { 
-                const d = new Date(o.date); 
-                return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear(); 
-            }); 
+            else if (period === 'month') filtered = filtered.filter(o => { const d = new Date(o.date); return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear(); }); 
             renderOrders(filtered); 
         }
-
         function renderOrders(list) { 
             const ordersToRender = list || orders; 
             document.getElementById('ordersList').innerHTML = ordersToRender.sort((a,b) => new Date(b.date) - new Date(a.date)).map(o => `
                 <div class="order-card">
-                    <div class="order-header">
-                        <div class="order-id">Order #${o.id ? o.id.slice(-6) : 'New'}</div>
-                        <span class="order-status status-${(o.status||'pending').toLowerCase()}">${o.status||'Pending'}</span>
-                    </div>
-                    <div class="order-details">
-                        <div>👤 ${o.customerName} | 📞 ${o.phone}</div>
-                        <div>📦 ${o.items}</div>
-                        <div>💰 Total: Rs. ${o.grandTotal || o.total} | 💳 ${o.paymentInfo || o.paymentMethod}</div>
-                        <div>📍 ${o.address}</div>
-                    </div>
+                    <div class="order-header"><div class="order-id">Order #${o.id ? o.id.slice(-6) : 'New'}</div><span class="order-status status-${(o.status||'pending').toLowerCase()}">${o.status||'Pending'}</span></div>
+                    <div class="order-details"><div>👤 ${o.customerName} | 📞 ${o.phone}</div><div>📦 ${o.items}</div><div>💰 Total: Rs. ${o.grandTotal || o.total} | 💳 ${o.paymentInfo || o.paymentMethod}</div><div>📍 ${o.address}</div></div>
                     <div class="order-actions">
                         <button class="btn btn-success" onclick="updateOrderStatus('${o.id}', 'Confirmed')">✅ Confirm</button>
                         <button class="btn btn-primary" onclick="updateOrderStatus('${o.id}', 'Delivered')">✔️ Delivered</button>
@@ -1092,22 +845,9 @@
                 </div>
             `).join(''); 
         }
-
-        function updateOrderStatus(id, status) { 
-            if(confirm(`Mark as ${status}?`)) {
-                database.ref('orders').child(id).update({ status: status }).then(() => alert(`✅ ${status}`)); 
-            }
-        }
-
-        function contactCustomer(phone) { 
-            window.open(`https://wa.me/94${phone.substring(1)}?text=Hello! Regarding your Silvas Express order.`, '_blank'); 
-        }
-
-        function deleteOrder(id) { 
-            if (confirm('මේ order එක delete කරන්නද?')) { 
-                database.ref('orders').child(id).remove().then(() => alert('✅ Deleted')); 
-            } 
-        }
+        function updateOrderStatus(id, status) { if(confirm(`Mark as ${status}?`)) { database.ref('orders').child(id).update({ status: status }).then(() => alert(`✅ ${status}`)); } }
+        function contactCustomer(phone) { window.open(`https://wa.me/94${phone.substring(1)}?text=Hello! Regarding your Silvas Express order.`, '_blank'); }
+        function deleteOrder(id) { if (confirm('මේ order එක delete කරන්නද?')) { database.ref('orders').child(id).remove().then(() => alert('✅ Deleted')); } }
     </script>
 </body>
 </html>
