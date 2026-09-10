@@ -66,7 +66,7 @@
         .btn-primary { background: #22C55E; color: white; }
         .btn-success { background: #16A34A; color: white; }
         
-        .grocery-card.selected, .vegetable-card.selected { border: 2px solid #22C55E; }
+        .grocery-card.selected, .vegetable-card.selected, .food-card.selected { border: 2px solid #22C55E; }
         
         .grocery-cart { position: fixed; bottom: 70px; left: 12px; right: 12px; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 -4px 20px rgba(0,0,0,0.15); z-index: 90; display: none; }
         
@@ -152,8 +152,8 @@
     <div class="tabs">
         <div class="tab active" onclick="switchTab('shops')">🏪 Shops</div>
         <div class="tab" onclick="switchTab('grocery')">🛒 Grocery</div>
-        <div class="tab" onclick="switchTab('vegetables')">🥬 Vegetables</div>
-        <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
+        <div class="tab" onclick="switchTab('vegetables')"> Vegetables</div>
+        <div class="tab" onclick="switchTab('foods')"> Foods</div>
         <div class="tab" onclick="switchTab('orders')">📦 My Orders</div>
     </div>
     
@@ -173,7 +173,7 @@
                 <span>තෝරාගත් භාණ්ඩ: <span id="groceryCount">0</span></span>
                 <span style="font-size: 18px; color: #16A34A; font-weight: 800;">Rs. <span id="groceryTotal">0</span></span>
             </div>
-            <button class="btn btn-success" onclick="addGroceryToCart()"> Cart එකට Add කරන්න</button>
+            <button class="btn btn-success" onclick="addGroceryToCart()">🛒 Cart එකට Add කරන්න</button>
         </div>
     </div>
 
@@ -203,12 +203,12 @@
     </div>
 
     <div id="cartTab" class="container hidden">
-        <h2 style="margin-bottom: 12px; font-size: 18px;"> ඔබේ Cart එක</h2>
+        <h2 style="margin-bottom: 12px; font-size: 18px;">🛒 ඔබේ Cart එක</h2>
         <div id="cartList"></div>
         
         <div id="checkoutSection" class="hidden">
             <div class="checkout-box">
-                <h3 style="margin-bottom: 15px; font-size: 18px;"> Order විස්තර</h3>
+                <h3 style="margin-bottom: 15px; font-size: 18px;">📋 Order විස්තර</h3>
                 <div id="orderSummary" style="background: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 20px;"></div>
                 
                 <div class="form-group">
@@ -216,27 +216,27 @@
                     <input type="text" id="customerName" placeholder="ඔබේ සම්පූර්ණ නම">
                 </div>
                 <div class="form-group">
-                    <label> දුරකථන අංකය *</label>
+                    <label>📞 දුරකථන අංකය *</label>
                     <input type="tel" id="phoneNumber" placeholder="07X XXX XXXX">
                 </div>
                 <div class="form-group">
-                    <label>📍 Delivery ලිපිනය *</label>
+                    <label> Delivery ලිපිනය *</label>
                     <textarea id="deliveryAddress" rows="3" placeholder="නිවසේ ලිපිනය..."></textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label>📍 ඔබේ ප්‍රදේශය තෝරන්න *</label>
+                    <label> ඔබේ ප්‍රදේශය තෝරන්න *</label>
                     <select id="deliveryArea" onchange="calculateDeliveryFee()">
-                        <option value="">-- ප්රදේශය තෝරන්න --</option>
+                        <option value="">-- ප්‍රදේශය තෝරන්න --</option>
                         <optgroup label="🟢 Zone 1 - 0-2 km (Rs. 100)">
                             <option value="raddolugama" data-fee="100" data-zone="1" data-distance="0.4">රද්දොලුගම (Raddolugama)</option>
                             <option value="bathalawatta" data-fee="100" data-zone="1" data-distance="0.4">බතලවත්ත</option>
                             <option value="galla" data-fee="100" data-zone="1" data-distance="0.4">ගල්ල</option>
                         </optgroup>
-                        <optgroup label=" Zone 2 - 2-3 km (Rs. 150)">
+                        <optgroup label="🟡 Zone 2 - 2-3 km (Rs. 150)">
                             <option value="kuswala" data-fee="150" data-zone="2" data-distance="1.5">කුස්වෙල</option>
                             <option value="palliya-handiya" data-fee="150" data-zone="2" data-distance="1.8">පල්ලිය හංදිය</option>
-                            <option value="himbutana" data-fee="150" data-zone="2" data-distance="2.0">හිඹුටාන</option>
+                            <option value="himbutana" data-fee="150" data-zone="2" data-distance="2.0">හිුටාන</option>
                             <option value="ganepola" data-fee="150" data-zone="2" data-distance="2.2">ගණේපොල</option>
                             <option value="lansiyawadiya" data-fee="150" data-zone="2" data-distance="2.3">ලංසියා වාඩිය</option>
                             <option value="gurugewatta" data-fee="150" data-zone="2" data-distance="2.8">ගුරුගෙවත්ත</option>
@@ -262,7 +262,7 @@
                     </select>
                     
                     <div class="delivery-info" id="deliveryInfo" style="display: none;">
-                        <strong> තෝරාගත් ප්‍රදේශය:</strong> <span id="selectedAreaName"></span>
+                        <strong>📍 තෝරාගත් ප්රදේශය:</strong> <span id="selectedAreaName"></span>
                         <span id="zoneBadge" class="zone-badge"></span><br>
                         <strong>🚚 Delivery Fee:</strong> Rs. <span id="zoneFeeDisplay">0</span>
                     </div>
@@ -288,7 +288,7 @@
                 
                 <div style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #22C55E;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span>🛒 Items Total:</span>
+                        <span> Items Total:</span>
                         <span style="font-weight: 600;">Rs. <span id="itemsTotal">0</span></span>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
@@ -316,8 +316,8 @@
         <div class="nav-item active" onclick="switchTab('shops')"><span class="icon">🏪</span><span class="label">Shops</span></div>
         <div class="nav-item" onclick="switchTab('grocery')"><span class="icon">🛒</span><span class="label">Grocery</span></div>
         <div class="nav-item" onclick="switchTab('vegetables')"><span class="icon">🥬</span><span class="label">Vegetables</span></div>
-        <div class="nav-item" onclick="switchTab('cart')"><span class="icon">🛒</span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
-        <div class="nav-item" onclick="switchTab('orders')"><span class="icon"></span><span class="label">Orders</span></div>
+        <div class="nav-item" onclick="switchTab('cart')"><span class="icon"></span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
+        <div class="nav-item" onclick="switchTab('orders')"><span class="icon">📦</span><span class="label">Orders</span></div>
     </div>
 
     <div class="developer-credit">
@@ -495,7 +495,7 @@
                         </div>
                         ${isGrocery ? '<div style="margin-top: 4px;"><span style="background: #22C55E; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;">🛒 Grocery</span></div>' : ''}
                         <div class="shop-details"><span>📞 ${shop.phone || 'N/A'}</span><span class="rating">⭐ ${shop.rating || '4.0'}</span></div>
-                        <div class="shop-details"><span>🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'}</span><span> Rs.${shop.deliveryFee || 150}</span></div>
+                        <div class="shop-details"><span>🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'}</span><span>💰 Rs.${shop.deliveryFee || 150}</span></div>
                     </div>
                 </div>`;
             }).join('');
@@ -504,6 +504,7 @@
         function openShopView(shopId) { currentShopId = shopId; const shop = shops.find(s => s.id === shopId); if (shop) { document.getElementById('currentShopName').textContent = shop.name; document.getElementById('shopViewHeader').classList.remove('hidden'); } switchTab('foods'); }
         function backToShops() { currentShopId = null; document.getElementById('shopViewHeader').classList.add('hidden'); switchTab('shops'); }
 
+        // ✅ FIXED: renderFoods with proper highlighting
         function renderFoods() {
             const list = document.getElementById('foodsList');
             let displayFoods = currentShopId ? foods.filter(f => f.shopId === currentShopId) : foods;
@@ -512,17 +513,17 @@
             
             list.innerHTML = displayFoods.map(food => {
                 const hasVariants = food.variants && Object.keys(food.variants).length > 0;
+                const isSelected = selectedVariants[food.id];
                 let variantButtonHTML = '';
                 
                 if (hasVariants) {
-                    const selectedVariant = selectedVariants[food.id];
-                    const buttonText = selectedVariant ? `${selectedVariant.weight} - Rs. ${selectedVariant.price}` : '🍽️ Portion තෝරන්න ▼';
-                    const buttonColor = selectedVariant ? '#22C55E' : '#e0e0e0';
-                    const textColor = selectedVariant ? 'white' : '#666';
+                    const buttonText = isSelected ? `${isSelected.weight} - Rs. ${isSelected.price}` : '🍽️ Portion තෝරන්න ▼';
+                    const buttonColor = isSelected ? '#22C55E' : '#e0e0e0';
+                    const textColor = isSelected ? 'white' : '#666';
                     
                     variantButtonHTML = `
                         <div style="position: relative; margin-top: 10px; z-index: 1000;">
-                            <button class="variant-dropdown-btn" data-product-id="${food.id}" onclick="event.stopPropagation(); toggleVariantDropdown('${food.id}')" style="width: 100%; padding: 10px; border: 2px solid ${buttonColor}; border-radius: 8px; background: ${buttonColor}; color: ${textColor}; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <button class="variant-dropdown-btn" data-product-id="${food.id}" onclick="event.stopPropagation(); toggleVariantDropdown('${food.id}')" style="width: 100%; padding: 10px; border: 2px solid ${buttonColor}; border-radius: 8px; background: ${buttonColor}; color: ${textColor}; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: all 0.3s;">
                                 ${buttonText}
                             </button>
                             <div id="variant-dropdown-${food.id}" class="variant-dropdown" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 2px solid #22C55E; border-radius: 8px; margin-top: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; max-height: 200px; overflow-y: auto;">
@@ -543,12 +544,18 @@
                     `;
                 }
 
+                // Show selected price for foods with variants
+                const displayPrice = hasVariants && isSelected ? isSelected.price : food.price;
+                const priceDisplay = hasVariants 
+                    ? `<div style="color: #16A34A; font-weight: 800; font-size: 16px;">Rs. ${displayPrice}</div>${isSelected ? `<div style="font-size: 11px; color: #22C55E; font-weight: 600;">✅ ${isSelected.weight} තෝරාගෙන ඇත</div>` : ''}`
+                    : `<div class="food-price" style="color: #16A34A; font-weight: 800; font-size: 16px;">Rs. ${food.price}</div>`;
+
                 return `
-                <div class="food-card">
+                <div class="food-card ${isSelected ? 'selected' : ''}">
                     <div class="image-container food-img-container"><img src="${food.image || 'https://via.placeholder.com/400x120?text=No+Image'}" class="food-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${food.name}'"><div class="image-fallback" style="display:none;">${food.name}</div></div>
                     <div class="food-info">
                         <div class="food-name">${food.name}</div>
-                        ${!hasVariants ? `<div class="food-price">Rs. ${food.price}</div>` : ''}
+                        ${priceDisplay}
                         ${variantButtonHTML}
                         <button class="btn btn-primary" onclick="addToCart('${food.id}', '${food.name}', ${food.price}, ${hasVariants})" style="margin-top: 8px;">🛒 Add to Cart</button>
                     </div>
@@ -616,6 +623,7 @@
             updateGroceryCart();
         }
 
+        // ✅ FIXED: Properly highlight both Food and Grocery buttons
         function toggleVariantDropdown(productId) {
             const dropdown = document.getElementById(`variant-dropdown-${productId}`);
             const allDropdowns = document.querySelectorAll('.variant-dropdown');
@@ -627,11 +635,40 @@
             const finalPrice = specialPrice > 0 && specialPrice < normalPrice ? specialPrice : normalPrice;
             if (!selectedVariants) selectedVariants = {};
             selectedVariants[productId] = { weight, price: finalPrice, normalPrice, specialPrice };
-            document.getElementById(`variant-dropdown-${productId}`).style.display = 'none';
-            if (document.getElementById('groceryTab').classList.contains('hidden') === false) {
-                renderGroceryGrid();
-            } else {
-                renderFoods();
+            
+            // Close dropdown
+            const dropdown = document.getElementById(`variant-dropdown-${productId}`);
+            if (dropdown) dropdown.style.display = 'none';
+            
+            // ✅ DIRECT UPDATE: Immediately update the button appearance
+            const button = document.querySelector(`.variant-dropdown-btn[data-product-id="${productId}"]`);
+            if (button) {
+                button.textContent = `${weight} - Rs. ${finalPrice}`;
+                button.style.background = '#22C55E';
+                button.style.color = 'white';
+                button.style.borderColor = '#22C55E';
+            }
+            
+            // ✅ Also update the price display below the button
+            const card = button?.closest('.food-card') || button?.closest('.grocery-card');
+            if (card) {
+                const priceDiv = card.querySelector('.food-price, .item-price-display');
+                if (priceDiv) {
+                    if (specialPrice > 0 && specialPrice < normalPrice) {
+                        const discountPercent = Math.round(((normalPrice - specialPrice) / normalPrice) * 100);
+                        priceDiv.innerHTML = `<div style="background: #f44336; color: white; padding: 2px 6px; border-radius: 8px; font-size: 10px; font-weight: 700;">-${discountPercent}%</div><div style="color: #f44336; font-weight: 800; font-size: 15px;">Rs. ${specialPrice}</div><div style="color: #999; text-decoration: line-through; font-size: 11px;">Rs. ${normalPrice}</div><div style="font-size: 11px; color: #22C55E; font-weight: 600;">✅ ${weight} තෝරාගෙන ඇත</div>`;
+                    } else {
+                        priceDiv.innerHTML = `<div style="color: #16A34A; font-weight: 800; font-size: 16px;">Rs. ${finalPrice}</div><div style="font-size: 11px; color: #22C55E; font-weight: 600;">✅ ${weight} තෝරාගෙන ඇත</div>`;
+                    }
+                }
+                
+                // Add selected border to card
+                card.classList.add('selected');
+            }
+            
+            // Update cart totals if grocery
+            if (!document.getElementById('groceryTab').classList.contains('hidden')) {
+                updateGroceryCart();
             }
         }
 
@@ -660,7 +697,7 @@
                         ${showDiscount ? `<div style="background: #f44336; color: white; padding: 2px 6px; border-radius: 8px; font-size: 10px; font-weight: 700;">-${discountPercent}%</div><div style="color: #f44336; font-weight: 800; font-size: 15px;">Rs. ${veg.discountPrice}</div><div style="color: #999; text-decoration: line-through; font-size: 11px;">Rs. ${veg.originalPrice}</div>` : `<div style="color: #22C55E; font-weight: 800; font-size: 15px;">Rs. ${veg.originalPrice}</div>`}
                     </div>
                     ${veg.available === false ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">❌ Unavailable</div>' : ''}
-                    ${showDiscount ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">🏷️ Special Offer!</div>' : ''}
+                    ${showDiscount ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">️ Special Offer!</div>' : ''}
                     </div></div>`;
             }).join('');
             updateVegetableCart();
@@ -839,7 +876,7 @@
             let itemsList = cart.map(i => `${i.name} (x${i.quantity})`).join(', ');
             const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 Cash on Delivery (COD)' : `🏦 Online Payment (Ref: ${transId})`;
             const grandTotal = itemsTotal + currentDeliveryFee;
-            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Area:* ${area}\n *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
+            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ${name}\n *Phone:* ${phone}\n📍 *Area:* ${area}\n🏠 *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
             const order = { customerName: name, phone: phone, address: address, area: area, paymentMethod: selectedPaymentMethod, transactionId: transId, items: itemsList, itemsTotal: itemsTotal, deliveryFee: currentDeliveryFee, grandTotal: grandTotal, status: 'Pending', date: new Date().toISOString(), paymentInfo: paymentInfo };
             database.ref('orders').push(order).then(() => {
                 const whatsappNumber = '94766488689';
@@ -849,7 +886,7 @@
                 cart = []; saveCart(); renderCart();
                 document.getElementById('customerName').value = ''; document.getElementById('phoneNumber').value = ''; document.getElementById('deliveryAddress').value = ''; document.getElementById('deliveryArea').value = ''; document.getElementById('transactionId').value = '';
                 setTimeout(() => switchTab('orders'), 2000);
-            }).catch(error => { showToast(' Order යැවීමේ ගැටලුවක්: ' + error.message); });
+            }).catch(error => { showToast('❌ Order යැවීමේ ගැටලුවක්: ' + error.message); });
         }
 
         function renderMyOrders(orders) {
@@ -860,11 +897,11 @@
                 const date = new Date(order.date); const status = order.status || 'Pending';
                 return `<div class="cart-item" style="flex-direction: column; align-items: flex-start; padding: 15px;">
                     <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;"><strong style="font-size: 15px;">Order #${order.id ? order.id.slice(-6) : 'New'}</strong><span class="order-status status-${status.toLowerCase()}">${status}</span></div>
-                    <div class="tracking-timeline" style="width: 100%;"><h3>📦 Order Tracking</h3>
-                    <div class="timeline-item ${status === 'Pending' ? 'active' : (['Confirmed', 'Delivered'].includes(status) ? 'completed' : '')}"><div class="timeline-icon">1</div><div class="timeline-content"><div class="timeline-title">Order Received</div><div class="timeline-desc">බේ order එක ලැබී ඇත</div></div></div>
+                    <div class="tracking-timeline" style="width: 100%;"><h3> Order Tracking</h3>
+                    <div class="timeline-item ${status === 'Pending' ? 'active' : (['Confirmed', 'Delivered'].includes(status) ? 'completed' : '')}"><div class="timeline-icon">1</div><div class="timeline-content"><div class="timeline-title">Order Received</div><div class="timeline-desc">ඔබේ order එක ලැබී ඇත</div></div></div>
                     <div class="timeline-item ${status === 'Confirmed' ? 'active' : (status === 'Delivered' ? 'completed' : '')}"><div class="timeline-icon">2</div><div class="timeline-content"><div class="timeline-title">Order Confirmed</div><div class="timeline-desc">Shop එක order එක පිළිගත්තා</div></div></div>
                     <div class="timeline-item ${status === 'Delivered' ? 'completed' : ''}"><div class="timeline-icon">3</div><div class="timeline-content"><div class="timeline-title">Delivered</div><div class="timeline-desc">ඔබේ order එක බාර දුන්නා</div></div></div></div>
-                    <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div>📦 Items: ${order.items}</div><div>💰 Total: Rs. ${order.grandTotal || order.total}</div><div>🚚 Delivery: Rs. ${order.deliveryFee || 0}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')}</div><div> ${order.address}</div><div> ${date.toLocaleString()}</div></div></div>`;
+                    <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div>📦 Items: ${order.items}</div><div>💰 Total: Rs. ${order.grandTotal || order.total}</div><div> Delivery: Rs. ${order.deliveryFee || 0}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : ' Online Payment')}</div><div>📍 ${order.address}</div><div>🕐 ${date.toLocaleString()}</div></div></div>`;
             }).join('');
         }
 
