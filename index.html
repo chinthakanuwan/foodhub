@@ -135,8 +135,8 @@
 </head>
 <body oncontextmenu="return false;" onkeydown="return disableKeys(event);">
     <div class="header">
-        <h1> Silvas Express</h1>
-        <p>ඔබේ විශ්වාසවන්ත ආහාර & grocery delivery partner</p>
+        <h1>🌿 Silvas Express</h1>
+        <p>බේ විශ්වාසවන්ත හාර & grocery delivery partner</p>
     </div>
     
     <div id="customAdsContainer" class="custom-ads-container" style="display: none;"></div>
@@ -146,7 +146,7 @@
     </div>
     
     <div class="search-bar">
-        <input type="text" id="searchInput" placeholder="🔍 Shops හෝ products search කරන්න..." oninput="handleSearch()">
+        <input type="text" id="searchInput" placeholder=" Shops හෝ products search කරන්න..." oninput="handleSearch()">
     </div>
     
     <div class="tabs">
@@ -159,15 +159,15 @@
     
     <div id="shopsTab" class="container">
         <div style="background: linear-gradient(135deg, #22C55E, #16A34A); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: center;">
-            <h3 style="font-size: 16px; margin-bottom: 5px;">🎉 විශේෂ දීමනාව!</h3>
+            <h3 style="font-size: 16px; margin-bottom: 5px;"> විශේෂ දීමනාව!</h3>
             <p style="font-size: 13px;">පළමු order එකට 20% වට්ටමක්</p>
         </div>
-        <div id="shopsList"><div class="loading">⏳ Shops load වෙමින්...</div></div>
+        <div id="shopsList"><div class="loading"> Shops load වෙමින්...</div></div>
     </div>
 
     <div id="groceryTab" class="container hidden">
         <h2 style="margin-bottom: 12px; font-size: 18px;">🛒 Grocery භාණ්ඩ</h2>
-        <div class="grocery-grid" id="groceryGrid"><div class="loading">⏳ Grocery භාණ්ඩ load වෙමින්...</div></div>
+        <div class="grocery-grid" id="groceryGrid"><div class="loading">⏳ Grocery ාණ්ඩ load වෙමින්...</div></div>
         <div class="grocery-cart" id="groceryCart">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 600;">
                 <span>තෝරාගත් භාණ්ඩ: <span id="groceryCount">0</span></span>
@@ -179,7 +179,7 @@
 
     <div id="vegetablesTab" class="container hidden">
         <h2 style="margin-bottom: 12px; font-size: 18px;">🥬 Fresh Vegetables</h2>
-        <div class="vegetable-grid" id="vegetableGrid"><div class="loading">⏳ Vegetables load වෙමින්...</div></div>
+        <div class="vegetable-grid" id="vegetableGrid"><div class="loading"> Vegetables load වෙමින්...</div></div>
         <div class="grocery-cart" id="vegetableCart">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 600;">
                 <span>තෝරාගත් එළවළු: <span id="vegetableCount">0</span></span>
@@ -195,23 +195,22 @@
             <h2 id="currentShopName" style="margin-bottom: 12px; font-size: 18px;"></h2>
         </div>
         <div class="food-grid" id="foodsList"><div class="loading">🍕 Foods load වෙමින්...</div></div>
-        <!-- NEW: Food Cart Button (like Grocery) -->
         <div class="grocery-cart" id="foodCart">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 600;">
                 <span>තෝරාගත් Foods: <span id="foodCount">0</span></span>
                 <span style="font-size: 18px; color: #16A34A; font-weight: 800;">Rs. <span id="foodTotal">0</span></span>
             </div>
-            <button class="btn btn-success" onclick="addFoodsToCart()">🛒 Cart එකට Add කරන්න</button>
+            <button class="btn btn-success" onclick="addFoodsToCart()"> Cart එකට Add කරන්න</button>
         </div>
     </div>
 
     <div id="ordersTab" class="container hidden">
-        <h2 style="margin-bottom: 12px; font-size: 18px;">📦 මගේ Orders</h2>
+        <h2 style="margin-bottom: 12px; font-size: 18px;"> මගේ Orders</h2>
         <div id="myOrdersList"><div class="loading">⏳ Orders load වෙමින්...</div></div>
     </div>
 
     <div id="cartTab" class="container hidden">
-        <h2 style="margin-bottom: 12px; font-size: 18px;">🛒 ඔබේ Cart එක</h2>
+        <h2 style="margin-bottom: 12px; font-size: 18px;"> ඔබේ Cart එක</h2>
         <div id="cartList"></div>
         
         <div id="checkoutSection" class="hidden">
@@ -220,8 +219,8 @@
                 <div id="orderSummary" style="background: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 20px;"></div>
                 
                 <div class="form-group">
-                    <label>👤 ඔබේ නම *</label>
-                    <input type="text" id="customerName" placeholder="ඔබේ සම්පර්ණ නම">
+                    <label> ඔබේ නම *</label>
+                    <input type="text" id="customerName" placeholder="ඔබේ සම්පූර්ණ නම">
                 </div>
                 <div class="form-group">
                     <label>📞 දුරකථන අංකය *</label>
@@ -285,18 +284,18 @@
                     <div id="onlinePaymentDetails" style="display: none; background: #f0fdf4; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #22C55E;">
                         <strong>Bank of Ceylon (BOC) විස්තර:</strong><br>
                         <strong>Account Name:</strong> Silvas Express Delivery<br>
-                        <strong>Account Number:</strong> 8012345678<br>
-                        <strong>eZ Cash:</strong> 076-6488689<br><br>
+                        <strong>Account Number:</strong> 95794359<br>
+                        <strong>eZ Cash:</strong> 070-2059529<br><br>
                         <div class="form-group" style="margin-bottom: 0;">
                             <label>Transaction ID / Reference Number *</label>
-                            <input type="text" id="transactionId" placeholder="උදා: CMB123456789">
+                            <input type="text" id="transactionId" placeholder="දා: CMB123456789">
                         </div>
                     </div>
                 </div>
                 
                 <div style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #22C55E;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span> Items Total:</span>
+                        <span>🛒 Items Total:</span>
                         <span style="font-weight: 600;">Rs. <span id="itemsTotal">0</span></span>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
@@ -322,7 +321,7 @@
 
     <div class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('shops')"><span class="icon">🏪</span><span class="label">Shops</span></div>
-        <div class="nav-item" onclick="switchTab('grocery')"><span class="icon">🛒</span><span class="label">Grocery</span></div>
+        <div class="nav-item" onclick="switchTab('grocery')"><span class="icon"></span><span class="label">Grocery</span></div>
         <div class="nav-item" onclick="switchTab('vegetables')"><span class="icon">🥬</span><span class="label">Vegetables</span></div>
         <div class="nav-item" onclick="switchTab('cart')"><span class="icon">🛒</span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
         <div class="nav-item" onclick="switchTab('orders')"><span class="icon">📦</span><span class="label">Orders</span></div>
@@ -335,54 +334,32 @@
 
     <script>
         // ============ CODE PROTECTION ============
-        // Disable right-click
         document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
-        
-        // Disable keyboard shortcuts
         function disableKeys(e) {
-            // F12
             if (e.keyCode === 123) { e.preventDefault(); return false; }
-            // Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C
             if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) { e.preventDefault(); return false; }
-            // Ctrl+U (View Source)
             if (e.ctrlKey && e.keyCode === 85) { e.preventDefault(); return false; }
-            // Ctrl+S (Save)
             if (e.ctrlKey && e.keyCode === 83) { e.preventDefault(); return false; }
-            // Ctrl+A (Select All)
             if (e.ctrlKey && e.keyCode === 65) { e.preventDefault(); return false; }
-            // Ctrl+C (Copy)
             if (e.ctrlKey && e.keyCode === 67) { e.preventDefault(); return false; }
             return true;
         }
-        
-        // Disable text selection on most elements (except inputs)
         document.addEventListener('selectstart', function(e) {
             if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'SELECT') {
-                e.preventDefault();
-                return false;
+                e.preventDefault(); return false;
             }
             return true;
         });
-        
-        // Clear console periodically
-        setInterval(function() {
-            if (window.console && window.console.clear) {
-                console.clear();
-            }
-        }, 1000);
-        
-        // Detect DevTools open
+        setInterval(function() { if (window.console && window.console.clear) console.clear(); }, 1000);
         (function() {
             const threshold = 160;
             const check = function() {
                 if (window.outerHeight - window.innerHeight > threshold || window.outerWidth - window.innerWidth > threshold) {
-                    document.body.innerHTML = '<div style="text-align:center;padding:50px;"><h1>️ Access Denied</h1><p>Developer tools detected.</p></div>';
+                    document.body.innerHTML = '<div style="text-align:center;padding:50px;"><h1>🚫 Access Denied</h1><p>Developer tools detected.</p></div>';
                 }
             };
             setInterval(check, 1000);
         })();
-        
-        // Disable drag
         document.addEventListener('dragstart', function(e) { e.preventDefault(); });
         
         // ============ APP CODE ============
@@ -415,9 +392,7 @@
             const currentMinutes = now.getHours() * 60 + now.getMinutes();
             const [openH, openM] = openTime.split(':').map(Number);
             const [closeH, closeM] = closeTime.split(':').map(Number);
-            const openMinutes = openH * 60 + openM;
-            const closeMinutes = closeH * 60 + closeM;
-            return currentMinutes >= openMinutes && currentMinutes <= closeMinutes;
+            return currentMinutes >= (openH * 60 + openM) && currentMinutes <= (closeH * 60 + closeM);
         }
 
         function loadCustomAds() {
@@ -444,7 +419,7 @@
                     <div class="carousel-indicators">
                         ${customAds.map((_, index) => `<div class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="goToAd(${index})"></div>`).join('')}
                     </div>
-                    <div class="carousel-controls"><button class="pause-btn" onclick="togglePause()">️</button></div>
+                    <div class="carousel-controls"><button class="pause-btn" onclick="togglePause()">⏸️</button></div>
                 `;
                 container.innerHTML = adsHTML + indicatorsHTML;
             } else { container.innerHTML = adsHTML; }
@@ -554,7 +529,7 @@
                             ${statusBadge}
                         </div>
                         ${isGrocery ? '<div style="margin-top: 4px;"><span style="background: #22C55E; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;"> Grocery</span></div>' : ''}
-                        <div class="shop-details"><span>📞 ${shop.phone || 'N/A'}</span><span class="rating">⭐ ${shop.rating || '4.0'}</span></div>
+                        <div class="shop-details"><span> ${shop.phone || 'N/A'}</span><span class="rating">⭐ ${shop.rating || '4.0'}</span></div>
                         <div class="shop-details"><span>🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'}</span><span>💰 Rs.${shop.deliveryFee || 150}</span></div>
                     </div>
                 </div>`;
@@ -564,7 +539,6 @@
         function openShopView(shopId) { currentShopId = shopId; const shop = shops.find(s => s.id === shopId); if (shop) { document.getElementById('currentShopName').textContent = shop.name; document.getElementById('shopViewHeader').classList.remove('hidden'); } switchTab('foods'); }
         function backToShops() { currentShopId = null; document.getElementById('shopViewHeader').classList.add('hidden'); switchTab('shops'); }
 
-        // ✅ FIXED: Foods Tab - Now works like Grocery (select first, then add to cart)
         function renderFoods() {
             const list = document.getElementById('foodsList');
             let displayFoods = currentShopId ? foods.filter(f => f.shopId === currentShopId) : foods;
@@ -698,7 +672,6 @@
             const dropdown = document.getElementById(`variant-dropdown-${productId}`);
             if (dropdown) dropdown.style.display = 'none';
             
-            // Re-render to update button appearance
             if (!document.getElementById('foodsTab').classList.contains('hidden')) {
                 renderFoods();
             } else if (!document.getElementById('groceryTab').classList.contains('hidden')) {
@@ -730,7 +703,7 @@
                     <div style="display: flex; align-items: center; gap: 6px; margin: 8px 0; flex-wrap: wrap;">
                         ${showDiscount ? `<div style="background: #f44336; color: white; padding: 2px 6px; border-radius: 8px; font-size: 10px; font-weight: 700;">-${discountPercent}%</div><div style="color: #f44336; font-weight: 800; font-size: 15px;">Rs. ${veg.discountPrice}</div><div style="color: #999; text-decoration: line-through; font-size: 11px;">Rs. ${veg.originalPrice}</div>` : `<div style="color: #22C55E; font-weight: 800; font-size: 15px;">Rs. ${veg.originalPrice}</div>`}
                     </div>
-                    ${veg.available === false ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;"> Unavailable</div>' : ''}
+                    ${veg.available === false ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">❌ Unavailable</div>' : ''}
                     ${showDiscount ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">🏷️ Special Offer!</div>' : ''}
                     </div></div>`;
             }).join('');
@@ -770,7 +743,6 @@
             document.getElementById('vegetableCart').style.display = count > 0 ? 'block' : 'none';
         }
 
-        // ✅ NEW: Update Food Cart (like Grocery)
         function updateFoodCart() {
             let total = 0, count = 0;
             selectedFoodIds.forEach(id => {
@@ -831,7 +803,6 @@
             setTimeout(() => switchTab('cart'), 1000);
         }
 
-        // ✅ NEW: Add Foods to Cart (like Grocery)
         function addFoodsToCart() {
             let hasError = false;
             selectedFoodIds.forEach(id => {
@@ -853,7 +824,7 @@
                     }
                     const existing = cart.find(c => c.id === id && c.type === 'food' && c.weight === selectedWeight);
                     if (existing) existing.quantity += 1;
-                    else cart.push({ id: item.id, name: displayName, price: finalPrice, quantity: 1, type: 'food', weight: selectedWeight });
+                    else cart.push({ id: item.id, name: displayName, price: finalPrice, quantity: 1, type: 'food', weight: selectedWeight, shopId: currentShopId });
                 }
             });
             if (hasError) return;
@@ -919,6 +890,24 @@
         }
 
         function confirmCartOrder() {
+            // ✅ Shop Open/Close Check
+            let closedShops = [];
+            cart.forEach(item => {
+                if (item.type === 'food' && item.shopId) {
+                    const shop = shops.find(s => s.id === item.shopId);
+                    if (shop && shop.openTime && shop.closeTime) {
+                        if (!isShopOpen(shop.openTime, shop.closeTime)) {
+                            if (!closedShops.includes(shop.name)) closedShops.push(shop.name);
+                        }
+                    }
+                }
+            });
+
+            if (closedShops.length > 0) {
+                showToast(`❌ ${closedShops.join(', ')} දැන් වසා ඇත! Order කළ නොහැක.`);
+                return;
+            }
+
             const name = document.getElementById('customerName').value.trim();
             const phone = document.getElementById('phoneNumber').value.trim();
             const address = document.getElementById('deliveryAddress').value.trim();
@@ -931,12 +920,12 @@
             localStorage.setItem('customerPhone', phone);
             let itemsTotal = parseInt(document.getElementById('itemsTotal').textContent.replace(/,/g, '')) || 0;
             let itemsList = cart.map(i => `${i.name} (x${i.quantity})`).join(', ');
-            const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 Cash on Delivery (COD)' : ` Online Payment (Ref: ${transId})`;
+            const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 Cash on Delivery (COD)' : `🏦 Online Payment (Ref: ${transId})`;
             const grandTotal = itemsTotal + currentDeliveryFee;
-            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Area:* ${area}\n🏠 *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
+            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Area:* ${area}\n *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
             const order = { customerName: name, phone: phone, address: address, area: area, paymentMethod: selectedPaymentMethod, transactionId: transId, items: itemsList, itemsTotal: itemsTotal, deliveryFee: currentDeliveryFee, grandTotal: grandTotal, status: 'Pending', date: new Date().toISOString(), paymentInfo: paymentInfo };
             database.ref('orders').push(order).then(() => {
-                const whatsappNumber = '94766488689';
+                const whatsappNumber = '94702059529';
                 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(orderMessage)}`;
                 window.open(whatsappUrl, '_blank');
                 showToast('✅ Order එක WhatsApp එකට යවමින්...');
@@ -954,11 +943,11 @@
                 const date = new Date(order.date); const status = order.status || 'Pending';
                 return `<div class="cart-item" style="flex-direction: column; align-items: flex-start; padding: 15px;">
                     <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;"><strong style="font-size: 15px;">Order #${order.id ? order.id.slice(-6) : 'New'}</strong><span class="order-status status-${status.toLowerCase()}">${status}</span></div>
-                    <div class="tracking-timeline" style="width: 100%;"><h3>📦 Order Tracking</h3>
+                    <div class="tracking-timeline" style="width: 100%;"><h3> Order Tracking</h3>
                     <div class="timeline-item ${status === 'Pending' ? 'active' : (['Confirmed', 'Delivered'].includes(status) ? 'completed' : '')}"><div class="timeline-icon">1</div><div class="timeline-content"><div class="timeline-title">Order Received</div><div class="timeline-desc">ඔබේ order එක ලැබී ඇත</div></div></div>
                     <div class="timeline-item ${status === 'Confirmed' ? 'active' : (status === 'Delivered' ? 'completed' : '')}"><div class="timeline-icon">2</div><div class="timeline-content"><div class="timeline-title">Order Confirmed</div><div class="timeline-desc">Shop එක order එක පිළිගත්තා</div></div></div>
                     <div class="timeline-item ${status === 'Delivered' ? 'completed' : ''}"><div class="timeline-icon">3</div><div class="timeline-content"><div class="timeline-title">Delivered</div><div class="timeline-desc">ඔබේ order එක බාර දුන්නා</div></div></div></div>
-                    <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div> Items: ${order.items}</div><div> Total: Rs. ${order.grandTotal || order.total}</div><div>🚚 Delivery: Rs. ${order.deliveryFee || 0}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')}</div><div>📍 ${order.address}</div><div>🕐 ${date.toLocaleString()}</div></div></div>`;
+                    <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div>📦 Items: ${order.items}</div><div>💰 Total: Rs. ${order.grandTotal || order.total}</div><div> Delivery: Rs. ${order.deliveryFee || 0}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : ' Online Payment')}</div><div>📍 ${order.address}</div><div>🕐 ${date.toLocaleString()}</div></div></div>`;
             }).join('');
         }
 
@@ -977,7 +966,7 @@
             else if (tabName === 'orders') loadMyOrders();
         }
 
-        function handleSearch() { const query = document.getElementById('searchInput').value.toLowerCase(); if (query.length > 2) showToast(`🔍 Searching: ${query}`); }
+        function handleSearch() { const query = document.getElementById('searchInput').value.toLowerCase(); if (query.length > 2) showToast(` Searching: ${query}`); }
         function showToast(message) { const existing = document.querySelector('.toast'); if (existing) existing.remove(); const toast = document.createElement('div'); toast.className = 'toast'; toast.textContent = message; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
     </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
