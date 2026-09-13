@@ -47,8 +47,25 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
             cursor: pointer; 
             position: relative; 
+            transition: all 0.3s;
         }
         .shop-card.featured { border: 2px solid #FFD700; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3); }
+        
+        /* Out of Stock Styles */
+        .out-of-stock { opacity: 0.6; pointer-events: none; }
+        .out-of-stock::after { 
+            content: '❌ Out of Stock'; 
+            position: absolute; 
+            top: 50%; left: 50%; 
+            transform: translate(-50%, -50%); 
+            background: rgba(244, 67, 54, 0.9); 
+            color: white; 
+            padding: 8px 16px; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            z-index: 10; 
+            white-space: nowrap;
+        }
         
         .shop-image, .food-image, .grocery-img, .vegetable-img { width: 100%; height: 150px; object-fit: cover; background: #eee; }
         .food-image, .grocery-img, .vegetable-img { height: 120px; }
@@ -146,7 +163,7 @@
     </div>
     
     <div class="search-bar">
-        <input type="text" id="searchInput" placeholder=" Shops හෝ products search කරන්න..." oninput="handleSearch()">
+        <input type="text" id="searchInput" placeholder="🔍 Shops හෝ products search කරන්න..." oninput="handleSearch()">
     </div>
     
     <div class="tabs">
@@ -159,15 +176,15 @@
     
     <div id="shopsTab" class="container">
         <div style="background: linear-gradient(135deg, #22C55E, #16A34A); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: center;">
-            <h3 style="font-size: 16px; margin-bottom: 5px;"> විශේෂ දීමනාව!</h3>
+            <h3 style="font-size: 16px; margin-bottom: 5px;">🎉 විශේෂ දීමනාව!</h3>
             <p style="font-size: 13px;">පළමු order එකට 20% වට්ටමක්</p>
         </div>
-        <div id="shopsList"><div class="loading"> Shops load වෙමින්...</div></div>
+        <div id="shopsList"><div class="loading">⏳ Shops load වෙමින්...</div></div>
     </div>
 
     <div id="groceryTab" class="container hidden">
         <h2 style="margin-bottom: 12px; font-size: 18px;">🛒 Grocery භාණ්ඩ</h2>
-        <div class="grocery-grid" id="groceryGrid"><div class="loading">⏳ Grocery ාණ්ඩ load වෙමින්...</div></div>
+        <div class="grocery-grid" id="groceryGrid"><div class="loading">⏳ Grocery භාණ්ඩ load වෙමින්...</div></div>
         <div class="grocery-cart" id="groceryCart">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 600;">
                 <span>තෝරාගත් භාණ්ඩ: <span id="groceryCount">0</span></span>
@@ -179,7 +196,7 @@
 
     <div id="vegetablesTab" class="container hidden">
         <h2 style="margin-bottom: 12px; font-size: 18px;">🥬 Fresh Vegetables</h2>
-        <div class="vegetable-grid" id="vegetableGrid"><div class="loading"> Vegetables load වෙමින්...</div></div>
+        <div class="vegetable-grid" id="vegetableGrid"><div class="loading">⏳ Vegetables load වෙමින්...</div></div>
         <div class="grocery-cart" id="vegetableCart">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 600;">
                 <span>තෝරාගත් එළවළු: <span id="vegetableCount">0</span></span>
@@ -191,7 +208,7 @@
 
     <div id="foodsTab" class="container hidden">
         <div id="shopViewHeader" class="hidden">
-            <button class="btn" onclick="backToShops()" style="background: #eee; margin-bottom: 12px;">️ Back to Shops</button>
+            <button class="btn" onclick="backToShops()" style="background: #eee; margin-bottom: 12px;">⬅️ Back to Shops</button>
             <h2 id="currentShopName" style="margin-bottom: 12px; font-size: 18px;"></h2>
         </div>
         <div class="food-grid" id="foodsList"><div class="loading">🍕 Foods load වෙමින්...</div></div>
@@ -200,17 +217,17 @@
                 <span>තෝරාගත් Foods: <span id="foodCount">0</span></span>
                 <span style="font-size: 18px; color: #16A34A; font-weight: 800;">Rs. <span id="foodTotal">0</span></span>
             </div>
-            <button class="btn btn-success" onclick="addFoodsToCart()"> Cart එකට Add කරන්න</button>
+            <button class="btn btn-success" onclick="addFoodsToCart()">🛒 Cart එකට Add කරන්න</button>
         </div>
     </div>
 
     <div id="ordersTab" class="container hidden">
-        <h2 style="margin-bottom: 12px; font-size: 18px;"> මගේ Orders</h2>
+        <h2 style="margin-bottom: 12px; font-size: 18px;">📦 මගේ Orders</h2>
         <div id="myOrdersList"><div class="loading">⏳ Orders load වෙමින්...</div></div>
     </div>
 
     <div id="cartTab" class="container hidden">
-        <h2 style="margin-bottom: 12px; font-size: 18px;"> ඔබේ Cart එක</h2>
+        <h2 style="margin-bottom: 12px; font-size: 18px;">🛒 ඔබේ Cart එක</h2>
         <div id="cartList"></div>
         
         <div id="checkoutSection" class="hidden">
@@ -219,7 +236,7 @@
                 <div id="orderSummary" style="background: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 20px;"></div>
                 
                 <div class="form-group">
-                    <label> ඔබේ නම *</label>
+                    <label>👤 ඔබේ නම *</label>
                     <input type="text" id="customerName" placeholder="ඔබේ සම්පූර්ණ නම">
                 </div>
                 <div class="form-group">
@@ -227,7 +244,7 @@
                     <input type="tel" id="phoneNumber" placeholder="07X XXX XXXX">
                 </div>
                 <div class="form-group">
-                    <label> Delivery ලිපිනය *</label>
+                    <label>📍 Delivery ලිපිනය *</label>
                     <textarea id="deliveryAddress" rows="3" placeholder="නිවසේ ලිපිනය..."></textarea>
                 </div>
                 
@@ -235,7 +252,7 @@
                     <label>📍 ඔබේ ප්‍රදේශය තෝරන්න *</label>
                     <select id="deliveryArea" onchange="calculateDeliveryFee()">
                         <option value="">-- ප්‍රදේශය තෝරන්න --</option>
-                        <optgroup label=" Zone 1 - 0-2 km (Rs. 100)">
+                        <optgroup label="🟢 Zone 1 - 0-2 km (Rs. 100)">
                             <option value="raddolugama" data-fee="100" data-zone="1" data-distance="0.4">රද්දොලුගම (Raddolugama)</option>
                             <option value="bathalawatta" data-fee="100" data-zone="1" data-distance="0.4">බතලවත්ත</option>
                             <option value="galla" data-fee="100" data-zone="1" data-distance="0.4">ගල්ල</option>
@@ -288,7 +305,7 @@
                         <strong>eZ Cash:</strong> 070-2059529<br><br>
                         <div class="form-group" style="margin-bottom: 0;">
                             <label>Transaction ID / Reference Number *</label>
-                            <input type="text" id="transactionId" placeholder="දා: CMB123456789">
+                            <input type="text" id="transactionId" placeholder="උදා: CMB123456789">
                         </div>
                     </div>
                 </div>
@@ -321,7 +338,7 @@
 
     <div class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('shops')"><span class="icon">🏪</span><span class="label">Shops</span></div>
-        <div class="nav-item" onclick="switchTab('grocery')"><span class="icon"></span><span class="label">Grocery</span></div>
+        <div class="nav-item" onclick="switchTab('grocery')"><span class="icon">🛒</span><span class="label">Grocery</span></div>
         <div class="nav-item" onclick="switchTab('vegetables')"><span class="icon">🥬</span><span class="label">Vegetables</span></div>
         <div class="nav-item" onclick="switchTab('cart')"><span class="icon">🛒</span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
         <div class="nav-item" onclick="switchTab('orders')"><span class="icon">📦</span><span class="label">Orders</span></div>
@@ -379,6 +396,7 @@
         let selectedGroceryIds = new Set(), selectedVegetableIds = new Set(), selectedFoodIds = new Set(), currentShopId = null, selectedPaymentMethod = 'cod', currentDeliveryFee = 0;
         let customAds = [], adSettings = {};
         let selectedVariants = {};
+        let itemQuantities = {}; // Tracks quantity before adding to cart
         let currentAdIndex = 0, adInterval, isPaused = false;
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -528,8 +546,8 @@
                             <span>${shop.name} ${shop.isFeatured ? '<span class="gold-badge">⭐ GOLD</span>' : ''}</span>
                             ${statusBadge}
                         </div>
-                        ${isGrocery ? '<div style="margin-top: 4px;"><span style="background: #22C55E; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;"> Grocery</span></div>' : ''}
-                        <div class="shop-details"><span> ${shop.phone || 'N/A'}</span><span class="rating">⭐ ${shop.rating || '4.0'}</span></div>
+                        ${isGrocery ? '<div style="margin-top: 4px;"><span style="background: #22C55E; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;">🛒 Grocery</span></div>' : ''}
+                        <div class="shop-details"><span>📞 ${shop.phone || 'N/A'}</span><span class="rating">⭐ ${shop.rating || '4.0'}</span></div>
                         <div class="shop-details"><span>🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'}</span><span>💰 Rs.${shop.deliveryFee || 150}</span></div>
                     </div>
                 </div>`;
@@ -539,6 +557,7 @@
         function openShopView(shopId) { currentShopId = shopId; const shop = shops.find(s => s.id === shopId); if (shop) { document.getElementById('currentShopName').textContent = shop.name; document.getElementById('shopViewHeader').classList.remove('hidden'); } switchTab('foods'); }
         function backToShops() { currentShopId = null; document.getElementById('shopViewHeader').classList.add('hidden'); switchTab('shops'); }
 
+        // ✅ Quantity Counter & Out of Stock Logic for Foods
         function renderFoods() {
             const list = document.getElementById('foodsList');
             let displayFoods = currentShopId ? foods.filter(f => f.shopId === currentShopId) : foods;
@@ -546,6 +565,7 @@
             displayFoods.sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
             
             list.innerHTML = displayFoods.map(food => {
+                const isAvailable = food.available !== false;
                 const hasVariants = food.variants && Object.keys(food.variants).length > 0;
                 const isSelected = selectedFoodIds.has(food.id);
                 let variantButtonHTML = '';
@@ -580,29 +600,38 @@
                 }
 
                 const displayPrice = hasVariants && selectedVariants[food.id] ? selectedVariants[food.id].price : food.price;
+                const qty = itemQuantities[food.id] || 1;
 
                 return `
-                <div class="food-card ${isSelected ? 'selected' : ''}" onclick="toggleFoodItem('${food.id}')" style="position: relative; padding-bottom: 10px;">
-                    <div onclick="event.stopPropagation(); toggleFoodItem('${food.id}')" style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: ${isSelected ? '#22C55E' : 'white'}; border: 2px solid ${isSelected ? '#22C55E' : '#ddd'}; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-size: 14px; color: white; font-weight: bold; cursor: pointer;">
-                        ${isSelected ? '✓' : ''}
-                    </div>
+                <div class="food-card ${isSelected ? 'selected' : ''} ${!isAvailable ? 'out-of-stock' : ''}" onclick="${isAvailable ? `toggleFoodItem('${food.id}')` : ''}" style="position: relative; padding-bottom: 10px;">
+                    ${isAvailable ? `<div onclick="event.stopPropagation(); toggleFoodItem('${food.id}')" style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: ${isSelected ? '#22C55E' : 'white'}; border: 2px solid ${isSelected ? '#22C55E' : '#ddd'}; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-size: 14px; color: white; font-weight: bold; cursor: pointer;">${isSelected ? '✓' : ''}</div>` : ''}
                     <div class="image-container food-img-container"><img src="${food.image || 'https://via.placeholder.com/400x120?text=No+Image'}" class="food-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${food.name}'"><div class="image-fallback" style="display:none;">${food.name}</div></div>
                     <div class="food-info">
                         <div class="food-name">${food.name}</div>
                         <div style="color: #16A34A; font-weight: 800; font-size: 16px; margin: 6px 0;">Rs. ${displayPrice}</div>
                         ${variantButtonHTML}
+                        ${isAvailable ? `
+                        <div class="qty-selector" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0; background: #f0fdf4; padding: 5px; border-radius: 8px;">
+                            <button class="qty-btn" onclick="event.stopPropagation(); updateItemQty('${food.id}', -1)">−</button>
+                            <span id="qty-${food.id}" style="font-weight: bold; min-width: 20px; text-align: center;">${qty}</span>
+                            <button class="qty-btn" onclick="event.stopPropagation(); updateItemQty('${food.id}', 1)">+</button>
+                        </div>
+                        <button class="btn btn-primary" onclick="event.stopPropagation(); addToCartWithQty('${food.id}', '${food.name}', ${food.price}, ${hasVariants}, '${food.shopId || ''}')">🛒 Add to Cart</button>
+                        ` : ''}
                     </div>
                 </div>`;
             }).join('');
             updateFoodCart();
         }
 
+        // ✅ Quantity Counter & Out of Stock Logic for Grocery
         function renderGroceryGrid() {
             const grid = document.getElementById('groceryGrid');
             if (groceryItems.length === 0) { grid.innerHTML = '<div class="loading">දැනට Grocery භාණ්ඩ කිසිවක් නැත.</div>'; updateGroceryCart(); return; }
             groceryItems.sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
             
             grid.innerHTML = groceryItems.map(product => {
+                const isAvailable = product.available !== false;
                 const hasVariants = product.variants && Object.keys(product.variants).length > 0;
                 const isSelected = selectedGroceryIds.has(product.id);
                 let variantButtonHTML = '';
@@ -638,11 +667,10 @@
 
                 const showDiscount = product.hasDiscount && product.discountPrice > 0 && product.discountPrice < product.originalPrice;
                 const discountPercent = showDiscount ? Math.round(((product.originalPrice - product.discountPrice) / product.originalPrice) * 100) : 0;
+                const qty = itemQuantities[product.id] || 1;
 
-                return `<div class="grocery-card ${isSelected ? 'selected' : ''}" onclick="toggleGroceryItem('${product.id}')" style="position: relative; padding-bottom: 10px;">
-                    <div onclick="event.stopPropagation(); toggleGroceryItem('${product.id}')" style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: ${isSelected ? '#22C55E' : 'white'}; border: 2px solid ${isSelected ? '#22C55E' : '#ddd'}; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-size: 14px; color: white; font-weight: bold; cursor: pointer;">
-                        ${isSelected ? '✓' : ''}
-                    </div>
+                return `<div class="grocery-card ${isSelected ? 'selected' : ''} ${!isAvailable ? 'out-of-stock' : ''}" onclick="${isAvailable ? `toggleGroceryItem('${product.id}')` : ''}" style="position: relative; padding-bottom: 10px;">
+                    ${isAvailable ? `<div onclick="event.stopPropagation(); toggleGroceryItem('${product.id}')" style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: ${isSelected ? '#22C55E' : 'white'}; border: 2px solid ${isSelected ? '#22C55E' : '#ddd'}; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-size: 14px; color: white; font-weight: bold; cursor: pointer;">${isSelected ? '✓' : ''}</div>` : ''}
                     <div class="image-container food-img-container"><img src="${product.image || 'https://res.cloudinary.com/wdd29nbn/image/upload/f_auto,q_auto/1000116375.jpg'}" class="grocery-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${product.name}'"><div class="image-fallback" style="display:none;">${product.name}</div></div>
                     <div class="grocery-info">
                         <div class="grocery-name">${product.name}</div>
@@ -652,9 +680,57 @@
                         </div>
                         ${showDiscount ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">🏷️ Special Offer!</div>' : ''}
                         ${variantButtonHTML}
+                        ${isAvailable ? `
+                        <div class="qty-selector" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0; background: #f0fdf4; padding: 5px; border-radius: 8px;">
+                            <button class="qty-btn" onclick="event.stopPropagation(); updateItemQty('${product.id}', -1)">−</button>
+                            <span id="qty-${product.id}" style="font-weight: bold; min-width: 20px; text-align: center;">${qty}</span>
+                            <button class="qty-btn" onclick="event.stopPropagation(); updateItemQty('${product.id}', 1)">+</button>
+                        </div>
+                        ` : ''}
                     </div></div>`;
             }).join('');
             updateGroceryCart();
+        }
+
+        // ✅ Quantity Counter & Out of Stock Logic for Vegetables
+        function renderVegetableGrid() {
+            const grid = document.getElementById('vegetableGrid');
+            if (vegetables.length === 0) { grid.innerHTML = '<div class="loading">දැනට එළවළු කිසිවක් නැත.</div>'; updateVegetableCart(); return; }
+            vegetables.sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
+            grid.innerHTML = vegetables.map(veg => {
+                const isAvailable = veg.available !== false;
+                const showDiscount = veg.hasDiscount && veg.discountPrice > 0 && veg.discountPrice < veg.originalPrice;
+                const discountPercent = showDiscount ? Math.round(((veg.originalPrice - veg.discountPrice) / veg.originalPrice) * 100) : 0;
+                const isSelected = selectedVegetableIds.has(veg.id);
+                const qty = itemQuantities[veg.id] || 1;
+
+                return `<div class="vegetable-card ${isSelected ? 'selected' : ''} ${!isAvailable ? 'out-of-stock' : ''}" onclick="${isAvailable ? `toggleVegetable('${veg.id}')` : ''}" style="position: relative;">
+                    ${isAvailable ? `<div onclick="event.stopPropagation(); toggleVegetable('${veg.id}')" style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: ${isSelected ? '#22C55E' : 'white'}; border: 2px solid ${isSelected ? '#22C55E' : '#ddd'}; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-size: 14px; color: white; font-weight: bold; cursor: pointer;">${isSelected ? '✓' : ''}</div>` : ''}
+                    <div class="image-container food-img-container"><img src="${veg.image || 'https://via.placeholder.com/400x300?text=No+Image'}" class="vegetable-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${veg.name}'"><div class="image-fallback" style="display:none;">${veg.name}</div></div>
+                    <div class="vegetable-info"><div class="vegetable-name">${veg.name}</div><div style="font-size: 11px; color: #666; margin-bottom: 4px;">${veg.unit || '1 kg'}</div>
+                    <div style="display: flex; align-items: center; gap: 6px; margin: 8px 0; flex-wrap: wrap;">
+                        ${showDiscount ? `<div style="background: #f44336; color: white; padding: 2px 6px; border-radius: 8px; font-size: 10px; font-weight: 700;">-${discountPercent}%</div><div style="color: #f44336; font-weight: 800; font-size: 15px;">Rs. ${veg.discountPrice}</div><div style="color: #999; text-decoration: line-through; font-size: 11px;">Rs. ${veg.originalPrice}</div>` : `<div style="color: #22C55E; font-weight: 800; font-size: 15px;">Rs. ${veg.originalPrice}</div>`}
+                    </div>
+                    ${isAvailable ? `
+                    <div class="qty-selector" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0; background: #f0fdf4; padding: 5px; border-radius: 8px;">
+                        <button class="qty-btn" onclick="event.stopPropagation(); updateItemQty('${veg.id}', -1)">−</button>
+                        <span id="qty-${veg.id}" style="font-weight: bold; min-width: 20px; text-align: center;">${qty}</span>
+                        <button class="qty-btn" onclick="event.stopPropagation(); updateItemQty('${veg.id}', 1)">+</button>
+                    </div>
+                    ` : ''}
+                    </div></div>`;
+            }).join('');
+            updateVegetableCart();
+        }
+
+        // ✅ NEW: Update Quantity Before Adding to Cart
+        function updateItemQty(id, change) {
+            if (!itemQuantities[id]) itemQuantities[id] = 1;
+            itemQuantities[id] += change;
+            if (itemQuantities[id] < 1) itemQuantities[id] = 1;
+            
+            const qtySpan = document.getElementById(`qty-${id}`);
+            if (qtySpan) qtySpan.textContent = itemQuantities[id];
         }
 
         function toggleVariantDropdown(productId) {
@@ -685,30 +761,6 @@
                 allDropdowns.forEach(d => d.style.display = 'none');
             }
         });
-
-        function renderVegetableGrid() {
-            const grid = document.getElementById('vegetableGrid');
-            if (vegetables.length === 0) { grid.innerHTML = '<div class="loading">දැනට එළවළු කිසිවක් නැත.</div>'; updateVegetableCart(); return; }
-            vegetables.sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
-            grid.innerHTML = vegetables.map(veg => {
-                const showDiscount = veg.hasDiscount && veg.discountPrice > 0 && veg.discountPrice < veg.originalPrice;
-                const discountPercent = showDiscount ? Math.round(((veg.originalPrice - veg.discountPrice) / veg.originalPrice) * 100) : 0;
-                const isSelected = selectedVegetableIds.has(veg.id);
-                return `<div class="vegetable-card ${isSelected ? 'selected' : ''}" onclick="toggleVegetable('${veg.id}')" style="position: relative;">
-                    <div onclick="event.stopPropagation(); toggleVegetable('${veg.id}')" style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: ${isSelected ? '#22C55E' : 'white'}; border: 2px solid ${isSelected ? '#22C55E' : '#ddd'}; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-size: 14px; color: white; font-weight: bold; cursor: pointer;">
-                        ${isSelected ? '✓' : ''}
-                    </div>
-                    <div class="image-container food-img-container"><img src="${veg.image || 'https://via.placeholder.com/400x300?text=No+Image'}" class="vegetable-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${veg.name}'"><div class="image-fallback" style="display:none;">${veg.name}</div></div>
-                    <div class="vegetable-info"><div class="vegetable-name">${veg.name}</div><div style="font-size: 11px; color: #666; margin-bottom: 4px;">${veg.unit || '1 kg'}</div>
-                    <div style="display: flex; align-items: center; gap: 6px; margin: 8px 0; flex-wrap: wrap;">
-                        ${showDiscount ? `<div style="background: #f44336; color: white; padding: 2px 6px; border-radius: 8px; font-size: 10px; font-weight: 700;">-${discountPercent}%</div><div style="color: #f44336; font-weight: 800; font-size: 15px;">Rs. ${veg.discountPrice}</div><div style="color: #999; text-decoration: line-through; font-size: 11px;">Rs. ${veg.originalPrice}</div>` : `<div style="color: #22C55E; font-weight: 800; font-size: 15px;">Rs. ${veg.originalPrice}</div>`}
-                    </div>
-                    ${veg.available === false ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">❌ Unavailable</div>' : ''}
-                    ${showDiscount ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">🏷️ Special Offer!</div>' : ''}
-                    </div></div>`;
-            }).join('');
-            updateVegetableCart();
-        }
 
         function toggleGroceryItem(id) { selectedGroceryIds.has(id) ? selectedGroceryIds.delete(id) : selectedGroceryIds.add(id); renderGroceryGrid(); }
         function toggleVegetable(id) { selectedVegetableIds.has(id) ? selectedVegetableIds.delete(id) : selectedVegetableIds.add(id); renderVegetableGrid(); }
@@ -767,6 +819,8 @@
                     let selectedWeight = '';
                     let finalPrice = item.hasDiscount && item.discountPrice > 0 ? item.discountPrice : item.originalPrice;
                     let displayName = item.name;
+                    const qty = itemQuantities[id] || 1;
+                    
                     if (hasVariants) {
                         if (selectedVariants[id]) {
                             selectedWeight = selectedVariants[id].weight;
@@ -777,9 +831,14 @@
                             hasError = true; return;
                         }
                     }
-                    const existing = cart.find(c => c.id === id && c.type === 'grocery' && c.weight === selectedWeight);
-                    if (existing) existing.quantity += 1;
-                    else cart.push({ id: item.id, name: displayName, price: finalPrice, quantity: 1, type: 'grocery', weight: selectedWeight });
+                    
+                    const existingIndex = cart.findIndex(c => c.id === id && c.type === 'grocery' && c.weight === selectedWeight);
+                    if (existingIndex !== -1) {
+                        cart[existingIndex].quantity += qty;
+                    } else {
+                        cart.push({ id: item.id, name: displayName, price: finalPrice, quantity: qty, type: 'grocery', weight: selectedWeight });
+                    }
+                    itemQuantities[id] = 1; // Reset qty
                 }
             });
             if (hasError) return;
@@ -793,9 +852,14 @@
                 const item = vegetables.find(v => v.id === id);
                 if (item && item.available !== false) {
                     const price = item.hasDiscount && item.discountPrice > 0 ? item.discountPrice : item.originalPrice;
-                    const existing = cart.find(c => c.id === id && c.type === 'vegetable');
-                    if (existing) existing.quantity += 1;
-                    else cart.push({ id: item.id, name: item.name, price: price, quantity: 1, type: 'vegetable' });
+                    const qty = itemQuantities[id] || 1;
+                    const existingIndex = cart.findIndex(c => c.id === id && c.type === 'vegetable');
+                    if (existingIndex !== -1) {
+                        cart[existingIndex].quantity += qty;
+                    } else {
+                        cart.push({ id: item.id, name: item.name, price: price, quantity: qty, type: 'vegetable' });
+                    }
+                    itemQuantities[id] = 1; // Reset qty
                 }
             });
             saveCart(); selectedVegetableIds.clear(); renderVegetableGrid();
@@ -812,6 +876,8 @@
                     let selectedWeight = '';
                     let finalPrice = item.price;
                     let displayName = item.name;
+                    const qty = itemQuantities[id] || 1;
+                    
                     if (hasVariants) {
                         if (selectedVariants[id]) {
                             selectedWeight = selectedVariants[id].weight;
@@ -822,9 +888,14 @@
                             hasError = true; return;
                         }
                     }
-                    const existing = cart.find(c => c.id === id && c.type === 'food' && c.weight === selectedWeight);
-                    if (existing) existing.quantity += 1;
-                    else cart.push({ id: item.id, name: displayName, price: finalPrice, quantity: 1, type: 'food', weight: selectedWeight, shopId: currentShopId });
+                    
+                    const existingIndex = cart.findIndex(c => c.id === id && c.type === 'food' && c.weight === selectedWeight);
+                    if (existingIndex !== -1) {
+                        cart[existingIndex].quantity += qty;
+                    } else {
+                        cart.push({ id: item.id, name: displayName, price: finalPrice, quantity: qty, type: 'food', weight: selectedWeight, shopId: currentShopId });
+                    }
+                    itemQuantities[id] = 1; // Reset qty
                 }
             });
             if (hasError) return;
@@ -893,7 +964,7 @@
             // ✅ Shop Open/Close Check
             let closedShops = [];
             cart.forEach(item => {
-                if (item.type === 'food' && item.shopId) {
+                if (item.shopId) {
                     const shop = shops.find(s => s.id === item.shopId);
                     if (shop && shop.openTime && shop.closeTime) {
                         if (!isShopOpen(shop.openTime, shop.closeTime)) {
@@ -922,10 +993,10 @@
             let itemsList = cart.map(i => `${i.name} (x${i.quantity})`).join(', ');
             const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 Cash on Delivery (COD)' : `🏦 Online Payment (Ref: ${transId})`;
             const grandTotal = itemsTotal + currentDeliveryFee;
-            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Area:* ${area}\n *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
+            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Area:* ${area}\n🏠 *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
             const order = { customerName: name, phone: phone, address: address, area: area, paymentMethod: selectedPaymentMethod, transactionId: transId, items: itemsList, itemsTotal: itemsTotal, deliveryFee: currentDeliveryFee, grandTotal: grandTotal, status: 'Pending', date: new Date().toISOString(), paymentInfo: paymentInfo };
             database.ref('orders').push(order).then(() => {
-                const whatsappNumber = '94702059529';
+                const whatsappNumber = '94702059529'; // ✅ Updated WhatsApp Number
                 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(orderMessage)}`;
                 window.open(whatsappUrl, '_blank');
                 showToast('✅ Order එක WhatsApp එකට යවමින්...');
@@ -943,11 +1014,11 @@
                 const date = new Date(order.date); const status = order.status || 'Pending';
                 return `<div class="cart-item" style="flex-direction: column; align-items: flex-start; padding: 15px;">
                     <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;"><strong style="font-size: 15px;">Order #${order.id ? order.id.slice(-6) : 'New'}</strong><span class="order-status status-${status.toLowerCase()}">${status}</span></div>
-                    <div class="tracking-timeline" style="width: 100%;"><h3> Order Tracking</h3>
+                    <div class="tracking-timeline" style="width: 100%;"><h3>📦 Order Tracking</h3>
                     <div class="timeline-item ${status === 'Pending' ? 'active' : (['Confirmed', 'Delivered'].includes(status) ? 'completed' : '')}"><div class="timeline-icon">1</div><div class="timeline-content"><div class="timeline-title">Order Received</div><div class="timeline-desc">ඔබේ order එක ලැබී ඇත</div></div></div>
                     <div class="timeline-item ${status === 'Confirmed' ? 'active' : (status === 'Delivered' ? 'completed' : '')}"><div class="timeline-icon">2</div><div class="timeline-content"><div class="timeline-title">Order Confirmed</div><div class="timeline-desc">Shop එක order එක පිළිගත්තා</div></div></div>
                     <div class="timeline-item ${status === 'Delivered' ? 'completed' : ''}"><div class="timeline-icon">3</div><div class="timeline-content"><div class="timeline-title">Delivered</div><div class="timeline-desc">ඔබේ order එක බාර දුන්නා</div></div></div></div>
-                    <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div>📦 Items: ${order.items}</div><div>💰 Total: Rs. ${order.grandTotal || order.total}</div><div> Delivery: Rs. ${order.deliveryFee || 0}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : ' Online Payment')}</div><div>📍 ${order.address}</div><div>🕐 ${date.toLocaleString()}</div></div></div>`;
+                    <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div>📦 Items: ${order.items}</div><div>💰 Total: Rs. ${order.grandTotal || order.total}</div><div>🚚 Delivery: Rs. ${order.deliveryFee || 0}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')}</div><div>📍 ${order.address}</div><div>🕐 ${date.toLocaleString()}</div></div></div>`;
             }).join('');
         }
 
@@ -966,7 +1037,7 @@
             else if (tabName === 'orders') loadMyOrders();
         }
 
-        function handleSearch() { const query = document.getElementById('searchInput').value.toLowerCase(); if (query.length > 2) showToast(` Searching: ${query}`); }
+        function handleSearch() { const query = document.getElementById('searchInput').value.toLowerCase(); if (query.length > 2) showToast(`🔍 Searching: ${query}`); }
         function showToast(message) { const existing = document.querySelector('.toast'); if (existing) existing.remove(); const toast = document.createElement('div'); toast.className = 'toast'; toast.textContent = message; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
     </script>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
