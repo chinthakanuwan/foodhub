@@ -89,7 +89,6 @@
     </style>
 </head>
 <body>
-    <!-- LOGIN SCREEN -->
     <div id="loginScreen">
         <div class="login-box">
             <h1>🌿 <span>Silvas Express</span><br>Admin Panel</h1>
@@ -98,18 +97,17 @@
             <button class="guest-btn" onclick="loginAsGuest()">👤 Guest Login (Read Only)</button>
             <p id="loginError" style="color: #f44336; margin-top: 15px; font-weight: 600; display: none;">❌ වැරදි Password එකක්!</p>
             <div class="role-info">
-                <strong> Roles:</strong><br>
-                 Admin: <code>admin123</code> - සියලු පහසුකම් + Delete<br>
-                👤 Guest: <code>gest123</code> - Read Only + Orders Handle (Delete නෑ)
+                <strong>🔑 Roles:</strong><br>
+                Admin: <code>Admin123@silvas</code> - සියලු පහසුකම් + Delete<br>
+                👤 Guest: <code>Guest123@silvas</code> - Read Only + Orders Handle (Delete නෑ)
             </div>
         </div>
     </div>
 
-    <!-- ADMIN PANEL -->
     <div id="adminPanel" class="hidden">
         <div id="roleBanner" class="role-banner">🔑 Admin Mode - Full Access</div>
         <div class="header">
-            <button class="logout-btn" onclick="logout()"> Logout</button>
+            <button class="logout-btn" onclick="logout()">🚪 Logout</button>
             <h1>🌿 Silvas Express Admin Panel</h1>
             <p>Complete Management System</p>
         </div>
@@ -122,7 +120,7 @@
                 <div class="analytics-card"><h3>📦 Monthly Orders</h3><div class="value" id="monthOrders">0</div></div>
                 <div class="analytics-card"><h3>💰 Monthly Revenue</h3><div class="value" id="monthRevenue">Rs. 0</div></div>
                 <div class="analytics-card"><h3>✅ Delivered</h3><div class="value" id="deliveredOrders">0</div></div>
-                <div class="analytics-card"><h3> Pending</h3><div class="value" id="pendingOrders">0</div></div>
+                <div class="analytics-card"><h3>⏳ Pending</h3><div class="value" id="pendingOrders">0</div></div>
             </div>
         </div>
 
@@ -131,15 +129,14 @@
                 <div class="tab active" onclick="switchTab('orders')">📦 Orders</div>
                 <div class="tab" onclick="switchTab('shops')">🏪 Shops</div>
                 <div class="tab" onclick="switchTab('foods')">🍕 Foods</div>
-                <div class="tab" onclick="switchTab('grocery')"> Grocery</div>
-                <div class="tab" onclick="switchTab('vegetables')"> Vegetables</div>
-                <div class="tab" onclick="switchTab('customads')"> Custom Ads</div>
-                <div class="tab" onclick="switchTab('googleads')"> Google Ads</div>
-                <div class="tab" onclick="switchTab('promotions')"> Promotions</div>
+                <div class="tab" onclick="switchTab('grocery')">🛒 Grocery</div>
+                <div class="tab" onclick="switchTab('vegetables')">🥬 Vegetables</div>
+                <div class="tab" onclick="switchTab('customads')">📢 Custom Ads</div>
+                <div class="tab" onclick="switchTab('googleads')">📊 Google Ads</div>
+                <div class="tab" onclick="switchTab('promotions')">🎉 Promotions</div>
                 <div class="tab" onclick="switchTab('notifications')">📱 Notifications</div>
             </div>
 
-            <!-- ORDERS TAB -->
             <div id="ordersTab">
                 <h2>📦 Order Management</h2>
                 <div class="filter-bar">
@@ -162,7 +159,6 @@
                 <div id="ordersList"></div>
             </div>
 
-            <!-- SHOPS TAB -->
             <div id="shopsTab" class="hidden">
                 <h2>🏪 Add New Shop</h2>
                 <div class="form-row">
@@ -178,7 +174,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label>Phone Number</label><input type="tel" id="shopPhone" placeholder="0766488689"></div>
+                    <div class="form-group"><label>Phone Number</label><input type="tel" id="shopPhone" placeholder="0702059529"></div>
                     <div class="form-group"><label>Delivery Fee (Rs.)</label><input type="number" id="shopDeliveryFee" placeholder="150"></div>
                 </div>
                 <div class="form-row">
@@ -217,15 +213,14 @@
                     </div>
                     <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="editShopDisplayOrder"></div>
                     <button class="btn btn-success" onclick="updateShop()">💾 Update</button>
-                    <button class="btn btn-danger delete-btn" onclick="deleteShopFromEdit()">️ Delete</button>
-                    <button class="btn btn-warning" onclick="cancelEdit('shop')"> Cancel</button>
+                    <button class="btn btn-danger delete-btn" onclick="deleteShopFromEdit()">🗑️ Delete</button>
+                    <button class="btn btn-warning" onclick="cancelEdit('shop')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Shops</h3>
                 <input type="text" class="search-bar" id="shopSearch" placeholder="🔍 Search shops..." oninput="renderShops()">
                 <div class="item-list" id="shopsList"></div>
             </div>
 
-            <!-- FOODS TAB -->
             <div id="foodsTab" class="hidden">
                 <h2>🍕 Add New Food</h2>
                 <div class="form-row">
@@ -237,13 +232,14 @@
                     <div class="form-group"><label>Display Order</label><input type="number" id="foodDisplayOrder" placeholder="10" value="10"></div>
                 </div>
                 <div class="form-group"><label>Image URL</label><input type="text" id="foodImageUrl" placeholder="https://..."></div>
-                
+                <div class="form-row">
+                    <div class="form-group"><label><input type="checkbox" id="isFoodAvailable" checked style="margin-right: 10px;">✅ Available (Out of Stock නම් uncheck කරන්න)</label></div>
+                </div>
                 <div class="variants-box">
                     <label>📦 Portion Variants (Optional - උදා: Half, Full)</label>
                     <textarea id="foodVariants" rows="2" placeholder="උදා: Half:400:350, Full:750:"></textarea>
                     <small>💡 <strong>Format:</strong> Portion:සාමාන්‍යමිල:වට්ටම්මිල (කොමාවෙන් වෙන් කරන්න). වට්ටම් මිල නැත්නම් හිස් තියන්න.</small>
                 </div>
-
                 <button class="btn btn-primary" onclick="saveFood()">💾 Save Food</button>
                 <button class="btn btn-warning" onclick="showEditFoodSection()">✏️ Edit Food</button>
 
@@ -258,8 +254,11 @@
                         <div class="form-group"><label>Image URL</label><input type="text" id="editFoodImage"></div>
                         <div class="form-group"><label>Display Order</label><input type="number" id="editFoodDisplayOrder"></div>
                     </div>
+                    <div class="form-row">
+                        <div class="form-group"><label><input type="checkbox" id="editIsFoodAvailable" style="margin-right: 10px;">✅ Available</label></div>
+                    </div>
                     <div class="variants-box">
-                        <label> Portion Variants</label>
+                        <label>📦 Portion Variants</label>
                         <textarea id="editFoodVariants" rows="2" placeholder="උදා: Half:400:350, Full:750:"></textarea>
                     </div>
                     <button class="btn btn-success" onclick="updateFood()">💾 Update</button>
@@ -267,11 +266,10 @@
                     <button class="btn btn-warning" onclick="cancelEdit('food')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Foods</h3>
-                <input type="text" class="search-bar" id="foodSearch" placeholder=" Search foods..." oninput="renderFoods()">
+                <input type="text" class="search-bar" id="foodSearch" placeholder="🔍 Search foods..." oninput="renderFoods()">
                 <div class="item-list" id="foodsList"></div>
             </div>
 
-            <!-- GROCERY TAB -->
             <div id="groceryTab" class="hidden">
                 <h2>🛒 Grocery Management</h2>
                 <h3>Add New Item</h3>
@@ -291,20 +289,21 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label><input type="checkbox" id="hasDiscount" style="margin-right: 10px;" onchange="toggleDiscountField()"> 🏷️ Special Discount</label></div>
+                    <div class="form-group"><label><input type="checkbox" id="hasDiscount" style="margin-right: 10px;" onchange="toggleDiscountField()">🏷️ Special Discount</label></div>
                     <div class="form-group"><label>Discount Price (Rs.)</label><input type="number" id="groceryDiscountPrice" placeholder="150" disabled></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label>Image URL</label><input type="text" id="groceryImageUrl" placeholder="https://..."></div>
                     <div class="form-group"><label>Display Order</label><input type="number" id="groceryDisplayOrder" placeholder="10" value="10"></div>
                 </div>
-                
+                <div class="form-row">
+                    <div class="form-group"><label><input type="checkbox" id="isGroceryAvailable" checked style="margin-right: 10px;">✅ Available (Out of Stock නම් uncheck කරන්න)</label></div>
+                </div>
                 <div class="variants-box">
                     <label>📦 Variants (බර : සාමාන්‍ය මිල : වට්ටම් මිල)</label>
                     <textarea id="groceryVariants" rows="3" placeholder="උදා: 100g:250:220, 500g:1200:1000, 1kg:2400:"></textarea>
-                    <small> <strong>Format:</strong> බර:සාමාන්‍යමිල:වට්ටම්මිල (කොමාවෙන් වෙන් කරන්න). වට්ටම් මිල නැත්නම් හිස් තියන්න.</small>
+                    <small>💡 <strong>Format:</strong> බර:සාමාන්‍යමිල:වට්ටම්මිල (කොමාවෙන් වෙන් කරන්න). වට්ටම් මිල නැත්නම් හිස් තියන්න.</small>
                 </div>
-                
                 <button class="btn btn-primary" onclick="saveGroceryItem()">💾 Save Item</button>
                 <button class="btn btn-warning" onclick="showEditGrocerySection()">✏️ Edit Item</button>
 
@@ -317,21 +316,22 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group"><label>Default Price (Rs.)</label><input type="number" id="editGroceryOriginalPrice"></div>
-                        <div class="form-group"><label><input type="checkbox" id="editHasDiscount" style="margin-right: 10px;" onchange="toggleEditDiscountField()"> 🏷️ Special Discount</label></div>
+                        <div class="form-group"><label><input type="checkbox" id="editHasDiscount" style="margin-right: 10px;" onchange="toggleEditDiscountField()">🏷️ Special Discount</label></div>
                     </div>
                     <div class="form-row">
                         <div class="form-group"><label>Discount Price (Rs.)</label><input type="number" id="editGroceryDiscountPrice" disabled></div>
                         <div class="form-group"><label>Display Order</label><input type="number" id="editGroceryDisplayOrder"></div>
                     </div>
                     <div class="form-group"><label>Image URL</label><input type="text" id="editGroceryImage"></div>
-                    
+                    <div class="form-row">
+                        <div class="form-group"><label><input type="checkbox" id="editIsGroceryAvailable" style="margin-right: 10px;">✅ Available</label></div>
+                    </div>
                     <div class="variants-box">
                         <label>📦 Variants (බර : සාමාන්‍ය මිල : වට්ටම් මිල)</label>
                         <textarea id="editGroceryVariants" rows="3" placeholder="උදා: 100g:250:220, 500g:1200:1000"></textarea>
                     </div>
-                    
                     <button class="btn btn-success" onclick="updateGroceryItem()">💾 Update</button>
-                    <button class="btn btn-danger delete-btn" onclick="deleteGroceryFromEdit()">️ Delete</button>
+                    <button class="btn btn-danger delete-btn" onclick="deleteGroceryFromEdit()">🗑️ Delete</button>
                     <button class="btn btn-warning" onclick="cancelEdit('grocery')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Grocery Items</h3>
@@ -339,9 +339,8 @@
                 <div class="item-list" id="groceryList"></div>
             </div>
 
-            <!-- VEGETABLES TAB -->
             <div id="vegetablesTab" class="hidden">
-                <h2> Vegetables Management</h2>
+                <h2>🥬 Vegetables Management</h2>
                 <h3>Add New Vegetable</h3>
                 <div class="form-row">
                     <div class="form-group"><label>Vegetable Name</label><input type="text" id="vegetableName" placeholder="e.g., Carrots"></div>
@@ -349,7 +348,7 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="vegetableOriginalPrice" placeholder="180"></div>
-                    <div class="form-group"><label><input type="checkbox" id="hasVegetableDiscount" style="margin-right: 10px;" onchange="toggleVegetableDiscountField()"> 🏷️ Special Discount</label></div>
+                    <div class="form-group"><label><input type="checkbox" id="hasVegetableDiscount" style="margin-right: 10px;" onchange="toggleVegetableDiscountField()">🏷️ Special Discount</label></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label>Discount Price (Rs.)</label><input type="number" id="vegetableDiscountPrice" placeholder="150" disabled></div>
@@ -371,7 +370,7 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="editVegetableOriginalPrice"></div>
-                        <div class="form-group"><label><input type="checkbox" id="editHasVegetableDiscount" style="margin-right: 10px;" onchange="toggleEditVegetableDiscountField()"> ️ Special Discount</label></div>
+                        <div class="form-group"><label><input type="checkbox" id="editHasVegetableDiscount" style="margin-right: 10px;" onchange="toggleEditVegetableDiscountField()">🏷️ Special Discount</label></div>
                     </div>
                     <div class="form-row">
                         <div class="form-group"><label>Discount Price (Rs.)</label><input type="number" id="editVegetableDiscountPrice" disabled></div>
@@ -390,7 +389,6 @@
                 <div class="item-list" id="vegetablesList"></div>
             </div>
 
-            <!-- CUSTOM ADS TAB -->
             <div id="customadsTab" class="hidden">
                 <h2>📢 Custom Banner Ads (Sponsored)</h2>
                 <div class="notification-box">
@@ -401,21 +399,18 @@
                     </div>
                     <div class="form-group"><label>Banner Image URL</label><input type="text" id="adImageUrl" placeholder="https://example.com/banner.jpg"></div>
                     <div class="form-group"><label>Click URL</label><input type="text" id="adClickUrl" placeholder="https://example.com or WhatsApp number"></div>
-                    <div class="form-group"><label><input type="checkbox" id="adIsActive" checked style="margin-right: 10px;"> ✅ Active</label></div>
+                    <div class="form-group"><label><input type="checkbox" id="adIsActive" checked style="margin-right: 10px;">✅ Active</label></div>
                     <button class="btn btn-primary" onclick="saveCustomAd()">💾 Save Custom Ad</button>
                 </div>
-                
                 <div class="form-group" style="background: #fff7ed; padding: 15px; border-radius: 10px; border-left: 4px solid #f97316; margin-top: 20px;">
                     <label style="font-weight: bold; color: #c2410c;">⏱️ Ads මාරු වන වේගය (තත්පර)</label>
                     <input type="number" id="carouselTime" placeholder="3" value="3" style="width: 100px; margin-top: 5px; padding: 8px; border: 2px solid #e0e0e0; border-radius: 8px;">
                     <button class="btn btn-warning" onclick="saveCarouselTime()" style="margin-top: 10px;">💾 Save Time</button>
                 </div>
-                
                 <h3 style="margin-top: 30px;">Active Custom Ads</h3>
                 <div id="customAdsList" class="item-list"><p style="color: #666; text-align: center;">Loading...</p></div>
             </div>
 
-            <!-- GOOGLE ADS TAB -->
             <div id="googleadsTab" class="hidden">
                 <h2>📊 Google Ads Management</h2>
                 <div class="app-link-box">
@@ -425,19 +420,18 @@
                         <div class="form-group"><label>Top Banner Ad Slot ID</label><input type="text" id="adsTopSlot" placeholder="1234567890"></div>
                         <div class="form-group"><label>Bottom Banner Ad Slot ID</label><input type="text" id="adsBottomSlot" placeholder="0987654321"></div>
                     </div>
-                    <div class="form-group"><label><input type="checkbox" id="adsEnabled" style="margin-right: 10px;"> ✅ Enable Ads on App</label></div>
+                    <div class="form-group"><label><input type="checkbox" id="adsEnabled" style="margin-right: 10px;">✅ Enable Ads on App</label></div>
                     <button class="btn btn-success" onclick="saveAdSettings()">💾 Save Ad Settings</button>
                 </div>
             </div>
 
-            <!-- PROMOTIONS TAB -->
             <div id="promotionsTab" class="hidden">
                 <h2>🎉 Promotions & Offers</h2>
                 <div class="notification-box">
                     <h3>📢 Create New Promotion</h3>
                     <div class="form-group"><label>Promo Title</label><input type="text" id="promoTitle" placeholder="e.g., 20% Off!"></div>
                     <div class="form-group"><label>Promo Message</label><textarea id="promoMessage" rows="3" placeholder="Message..."></textarea></div>
-                    <div class="form-group"><label>Target Phone (Optional)</label><input type="tel" id="promoPhone" placeholder="0766488689"></div>
+                    <div class="form-group"><label>Target Phone (Optional)</label><input type="tel" id="promoPhone" placeholder="0702059529"></div>
                     <button class="btn btn-primary" onclick="savePromotion()">💾 Save Promo</button>
                     <button class="btn btn-whatsapp" onclick="sendPromoWhatsApp()">📤 Send via WhatsApp</button>
                 </div>
@@ -445,19 +439,18 @@
                 <div class="item-list" id="promotionsList"></div>
             </div>
 
-            <!-- NOTIFICATIONS TAB -->
             <div id="notificationsTab" class="hidden">
                 <h2>📱 General Notifications</h2>
                 <div class="app-link-box">
                     <h3>📱 App Install Link</h3>
                     <div class="form-group"><label>App URL:</label><input type="text" id="appInstallUrl" value="https://chinthakanuwan.github.io/foodhub/" readonly></div>
-                    <div class="form-group"><label>Customer Phone Number:</label><input type="tel" id="customerPhone" placeholder="0766488689"></div>
+                    <div class="form-group"><label>Customer Phone Number:</label><input type="tel" id="customerPhone" placeholder="0702059529"></div>
                     <button class="btn btn-whatsapp" onclick="sendAppInstallLink()">📤 Send App Install Link</button>
                     <button class="btn btn-info" onclick="copyAppLink()">📋 Copy App Link</button>
                 </div>
                 <div class="notification-box">
                     <h3>💬 Send WhatsApp Notification</h3>
-                    <div class="form-group"><label>Customer Phone Number:</label><input type="tel" id="notifPhone" placeholder="0766488689"></div>
+                    <div class="form-group"><label>Customer Phone Number:</label><input type="tel" id="notifPhone" placeholder="0702059529"></div>
                     <div class="form-group"><label>Notification Message:</label><textarea id="notifMessage" rows="4"></textarea></div>
                     <button class="btn btn-whatsapp" onclick="sendWhatsAppNotification()">📤 Send via WhatsApp</button>
                     <h3 style="margin-top: 20px;">📝 Quick Templates</h3>
@@ -482,13 +475,12 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        let currentUserRole = null; // 'admin' or 'guest'
+        let currentUserRole = null;
         let shops = [], foods = [], groceryItems = [], vegetables = [], orders = [], promotions = [], customAds = [], adSettings = {};
 
-        // ========== LOGIN FUNCTIONS ==========
         function loginAsAdmin() {
             const password = document.getElementById('adminPassword').value;
-            if (password === 'admin123') {
+            if (password === 'Admin123@silvas') {
                 currentUserRole = 'admin';
                 localStorage.setItem('adminLoggedIn', 'true');
                 localStorage.setItem('userRole', 'admin');
@@ -501,7 +493,7 @@
 
         function loginAsGuest() {
             const password = document.getElementById('adminPassword').value;
-            if (password === 'gest123') {
+            if (password === 'Guest123@silvas') {
                 currentUserRole = 'guest';
                 localStorage.setItem('adminLoggedIn', 'true');
                 localStorage.setItem('userRole', 'guest');
@@ -515,26 +507,17 @@
         function showAdminPanel() {
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('adminPanel').classList.remove('hidden');
-            
-            // Update role banner
             const banner = document.getElementById('roleBanner');
             if (currentUserRole === 'admin') {
                 banner.textContent = '🔑 Admin Mode - Full Access (Delete ඇතුළුව)';
                 banner.className = 'role-banner';
             } else {
-                banner.textContent = ' Guest Mode - Read Only + Orders Handle (Delete නෑ)';
+                banner.textContent = '👤 Guest Mode - Read Only + Orders Handle (Delete නෑ)';
                 banner.className = 'role-banner guest';
             }
-            
-            // Hide delete buttons for guest
             if (currentUserRole === 'guest') {
-                document.querySelectorAll('.delete-btn').forEach(btn => {
-                    btn.style.display = 'none';
-                });
-                // Hide "Add New" sections for guest (optional - can be enabled)
-                // For now, guest can view and handle orders but not add/delete items
+                document.querySelectorAll('.delete-btn').forEach(btn => { btn.style.display = 'none'; });
             }
-            
             loadData();
         }
 
@@ -547,7 +530,6 @@
 
         function isAdmin() { return currentUserRole === 'admin'; }
 
-        // Check if already logged in
         window.onload = function() {
             if (localStorage.getItem('adminLoggedIn') === 'true') {
                 currentUserRole = localStorage.getItem('userRole') || 'admin';
@@ -555,7 +537,6 @@
             }
         };
 
-        // ========== TAB SWITCHING ==========
         function switchTab(tabName) {
             ['orders', 'shops', 'foods', 'grocery', 'vegetables', 'customads', 'googleads', 'promotions', 'notifications'].forEach(t => 
                 document.getElementById(t + 'Tab').classList.add('hidden')
@@ -568,7 +549,6 @@
             if (tabName === 'shops' || tabName === 'foods') updateSelects();
         }
 
-        // ========== DATA LOADING ==========
         function loadData() {
             database.ref('orders').on('value', snap => { orders = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; renderOrders(); updateAnalytics(); });
             database.ref('shops').on('value', snap => { shops = snap.val() ? Object.entries(snap.val()).map(([k,v])=>({...v,id:k})) : []; renderShops(); updateSelects(); });
@@ -638,7 +618,6 @@
             document.getElementById('edit' + type.charAt(0).toUpperCase() + type.slice(1) + 'Select').value = ''; 
         }
 
-        // ========== SHOP FUNCTIONS ==========
         function saveShop() { 
             if (!isAdmin()) return alert('🚫 Guest users cannot add shops!');
             const shop = { 
@@ -668,7 +647,7 @@
         }
 
         function showEditShopSection() { 
-            if (!isAdmin()) return alert(' Guest users cannot edit shops!');
+            if (!isAdmin()) return alert('🚫 Guest users cannot edit shops!');
             document.getElementById('editShopSection').classList.remove('hidden'); 
             updateSelects(); 
         }
@@ -711,7 +690,6 @@
             }
         }
 
-        // ========== FOOD FUNCTIONS ==========
         function saveFood() { 
             if (!isAdmin()) return alert('🚫 Guest users cannot add foods!');
             const variants = parseVariants(document.getElementById('foodVariants').value.trim());
@@ -721,7 +699,8 @@
                 price: parseInt(document.getElementById('foodPrice').value)||0, 
                 image: document.getElementById('foodImageUrl').value, 
                 displayOrder: parseInt(document.getElementById('foodDisplayOrder').value) || 999,
-                variants: variants
+                variants: variants,
+                available: document.getElementById('isFoodAvailable').checked
             }; 
             if(!food.name) return alert('නම ඇතුළත් කරන්න!'); 
             database.ref('foods').push(food).then(() => { 
@@ -739,16 +718,13 @@
                 const shop = shops.find(s => s.id === f.shopId); 
                 const hasVariants = f.variants && Object.keys(f.variants).length > 0;
                 const variantsText = hasVariants ? `<div style="font-size:11px; color:#22C55E; margin-top:3px;">📦 Variants: ${Object.keys(f.variants).join(', ')}</div>` : '';
-                return `<div class="item-card" style="background:#F0FDF4; border-left:4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${f.name}</div><div style="font-size:12px; color:#666;">${shop?shop.name:'Unknown'} | Rs.${f.price}</div>${variantsText}</div>${isAdmin() ? `<button class="btn btn-danger" onclick="database.ref('foods').child('${f.id}').remove()">🗑️</button>` : ''}</div>`; 
+                const availBadge = f.available !== false ? '<span style="background:#C8E6C9; color:#1B5E20; padding:2px 8px; border-radius:10px; font-size:10px;">✅ Available</span>' : '<span style="background:#FFCDD2; color:#B71C1C; padding:2px 8px; border-radius:10px; font-size:10px;">❌ Out of Stock</span>';
+                return `<div class="item-card" style="background:#F0FDF4; border-left:4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${f.name} ${availBadge}</div><div style="font-size:12px; color:#666;">${shop?shop.name:'Unknown'} | Rs.${f.price}</div>${variantsText}</div>${isAdmin() ? `<button class="btn btn-primary" onclick="quickEditFood('${f.id}')">✏️</button>` : ''}</div>`; 
             }).join(''); 
         }
 
-        function showEditFoodSection() { 
-            if (!isAdmin()) return alert('🚫 Guest users cannot edit foods!');
-            document.getElementById('editFoodSection').classList.remove('hidden'); 
-            updateSelects(); 
-        }
-
+        function quickEditFood(id) { if (!isAdmin()) return; document.getElementById('editFoodSection').classList.remove('hidden'); document.getElementById('editFoodSelect').value = id; loadFoodData(); }
+        function showEditFoodSection() { if (!isAdmin()) return; document.getElementById('editFoodSection').classList.remove('hidden'); updateSelects(); }
         function loadFoodData() { 
             const f = foods.find(x => x.id === document.getElementById('editFoodSelect').value); 
             if(!f) return; 
@@ -757,10 +733,10 @@
             document.getElementById('editFoodImage').value = f.image; 
             document.getElementById('editFoodDisplayOrder').value = f.displayOrder || 999;
             document.getElementById('editFoodVariants').value = formatVariants(f.variants);
+            document.getElementById('editIsFoodAvailable').checked = f.available !== false;
         }
-
         function updateFood() { 
-            if (!isAdmin()) return alert(' Guest users cannot update foods!');
+            if (!isAdmin()) return alert('🚫 Guest users cannot update foods!');
             const id = document.getElementById('editFoodSelect').value; 
             const variants = parseVariants(document.getElementById('editFoodVariants').value.trim());
             database.ref('foods').child(id).update({ 
@@ -768,13 +744,13 @@
                 price: parseInt(document.getElementById('editFoodPrice').value), 
                 image: document.getElementById('editFoodImage').value, 
                 displayOrder: parseInt(document.getElementById('editFoodDisplayOrder').value) || 999,
-                variants: variants
+                variants: variants,
+                available: document.getElementById('editIsFoodAvailable').checked
             }).then(() => { 
                 alert('✅ Update විය!'); 
                 cancelEdit('food'); 
             }); 
         }
-
         function deleteFoodFromEdit() {
             if (!isAdmin()) return alert('🚫 Guest users cannot delete!');
             const id = document.getElementById('editFoodSelect').value;
@@ -783,12 +759,11 @@
             }
         }
 
-        // ========== GROCERY FUNCTIONS ==========
         function saveGroceryItem() {
             if (!isAdmin()) return alert('🚫 Guest users cannot add items!');
             const hasDiscount = document.getElementById('hasDiscount').checked;
             const variants = parseVariants(document.getElementById('groceryVariants').value.trim());
-            const item = { name: document.getElementById('groceryName').value, originalPrice: parseInt(document.getElementById('groceryOriginalPrice').value) || 0, hasDiscount: hasDiscount, discountPrice: hasDiscount ? (parseInt(document.getElementById('groceryDiscountPrice').value) || 0) : 0, unit: document.getElementById('groceryUnit').value, category: document.getElementById('groceryCategory').value, image: document.getElementById('groceryImageUrl').value || 'https://via.placeholder.com/500', available: true, displayOrder: parseInt(document.getElementById('groceryDisplayOrder').value) || 999, variants: variants, updatedAt: Date.now() };
+            const item = { name: document.getElementById('groceryName').value, originalPrice: parseInt(document.getElementById('groceryOriginalPrice').value) || 0, hasDiscount: hasDiscount, discountPrice: hasDiscount ? (parseInt(document.getElementById('groceryDiscountPrice').value) || 0) : 0, unit: document.getElementById('groceryUnit').value, category: document.getElementById('groceryCategory').value, image: document.getElementById('groceryImageUrl').value || 'https://via.placeholder.com/500', available: document.getElementById('isGroceryAvailable').checked, displayOrder: parseInt(document.getElementById('groceryDisplayOrder').value) || 999, variants: variants, updatedAt: Date.now() };
             if (!item.name) return alert('නම ඇතුළත් කරන්න!');
             database.ref('groceryItems').push(item).then(() => { alert('✅ Item එක Save විය!'); clearGroceryForm(); });
         }
@@ -801,12 +776,13 @@
                 const hasVariants = item.variants && Object.keys(item.variants).length > 0;
                 const variantsDisplay = hasVariants ? `<div style="font-size:11px; color:#22C55E; margin-top:3px;">📦 Variants: ${Object.entries(item.variants).map(([w,v]) => `${w}: Rs.${v.normalPrice}${v.specialPrice > 0 ? ' → Rs.' + v.specialPrice : ''}`).join(', ')}</div>` : '';
                 const priceDisplay = item.hasDiscount && item.discountPrice > 0 ? `<span style="color:#f44336; font-weight:bold;">Rs. ${item.discountPrice}</span> <span style="text-decoration:line-through; color:#999; font-size:12px;">Rs. ${item.originalPrice}</span>` : `<span style="color:#16A34A; font-weight:bold;">Rs. ${item.originalPrice}</span>`;
-                return `<div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${item.name}</div><div style="margin-top:5px;">${priceDisplay} <span style="color:#666; font-size:12px;">| ${item.unit} | ${item.category}</span></div>${variantsDisplay}</div>${isAdmin() ? `<button class="btn btn-primary" onclick="quickEditGrocery('${item.id}')" style="padding:8px 12px; font-size:12px;">✏️</button>` : ''}</div>`;
+                const availBadge = item.available !== false ? '<span style="background:#C8E6C9; color:#1B5E20; padding:2px 8px; border-radius:10px; font-size:10px;">✅ Available</span>' : '<span style="background:#FFCDD2; color:#B71C1C; padding:2px 8px; border-radius:10px; font-size:10px;">❌ Out of Stock</span>';
+                return `<div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${item.name} ${availBadge}</div><div style="margin-top:5px;">${priceDisplay} <span style="color:#666; font-size:12px;">| ${item.unit} | ${item.category}</span></div>${variantsDisplay}</div>${isAdmin() ? `<button class="btn btn-primary" onclick="quickEditGrocery('${item.id}')" style="padding:8px 12px; font-size:12px;">✏️</button>` : ''}</div>`;
             }).join('');
         }
 
         function quickEditGrocery(id) { 
-            if (!isAdmin()) return alert('🚫 Guest users cannot edit!');
+            if (!isAdmin()) return;
             document.getElementById('editGrocerySection').classList.remove('hidden'); 
             document.getElementById('editGrocerySelect').value = id; 
             loadGroceryData(); 
@@ -818,6 +794,7 @@
             document.getElementById('editHasDiscount').checked = item.hasDiscount || false; document.getElementById('editGroceryDiscountPrice').value = item.discountPrice || 0; 
             document.getElementById('editGroceryUnit').value = item.unit || ''; document.getElementById('editGroceryImage').value = item.image || ''; 
             document.getElementById('editGroceryDisplayOrder').value = item.displayOrder || 999; document.getElementById('editGroceryVariants').value = formatVariants(item.variants);
+            document.getElementById('editIsGroceryAvailable').checked = item.available !== false;
             toggleEditDiscountField(); 
         }
 
@@ -825,7 +802,7 @@
             if (!isAdmin()) return alert('🚫 Guest users cannot update!');
             const id = document.getElementById('editGrocerySelect').value; if (!id) return alert('Item එකක් තෝරන්න!'); 
             const hasDiscount = document.getElementById('editHasDiscount').checked; const variants = parseVariants(document.getElementById('editGroceryVariants').value.trim());
-            const data = { name: document.getElementById('editGroceryName').value, originalPrice: parseInt(document.getElementById('editGroceryOriginalPrice').value) || 0, hasDiscount: hasDiscount, discountPrice: hasDiscount ? (parseInt(document.getElementById('editGroceryDiscountPrice').value) || 0) : 0, unit: document.getElementById('editGroceryUnit').value, image: document.getElementById('editGroceryImage').value, displayOrder: parseInt(document.getElementById('editGroceryDisplayOrder').value) || 999, variants: variants, updatedAt: Date.now() }; 
+            const data = { name: document.getElementById('editGroceryName').value, originalPrice: parseInt(document.getElementById('editGroceryOriginalPrice').value) || 0, hasDiscount: hasDiscount, discountPrice: hasDiscount ? (parseInt(document.getElementById('editGroceryDiscountPrice').value) || 0) : 0, unit: document.getElementById('editGroceryUnit').value, image: document.getElementById('editGroceryImage').value, displayOrder: parseInt(document.getElementById('editGroceryDisplayOrder').value) || 999, variants: variants, available: document.getElementById('editIsGroceryAvailable').checked, updatedAt: Date.now() }; 
             database.ref('groceryItems').child(id).update(data).then(() => { alert('✅ Update විය!'); cancelEdit('grocery'); }); 
         }
 
@@ -837,14 +814,13 @@
             }
         }
 
-        function clearGroceryForm() { ['groceryName', 'groceryOriginalPrice', 'groceryDiscountPrice', 'groceryUnit', 'groceryImageUrl', 'groceryDisplayOrder', 'groceryVariants'].forEach(id => document.getElementById(id).value = ''); document.getElementById('hasDiscount').checked = false; document.getElementById('groceryDisplayOrder').value = '10'; toggleDiscountField(); }
+        function clearGroceryForm() { ['groceryName', 'groceryOriginalPrice', 'groceryDiscountPrice', 'groceryUnit', 'groceryImageUrl', 'groceryDisplayOrder', 'groceryVariants'].forEach(id => document.getElementById(id).value = ''); document.getElementById('hasDiscount').checked = false; document.getElementById('isGroceryAvailable').checked = true; document.getElementById('groceryDisplayOrder').value = '10'; toggleDiscountField(); }
         function showEditGrocerySection() { 
-            if (!isAdmin()) return alert('🚫 Guest users cannot edit!');
+            if (!isAdmin()) return;
             document.getElementById('editGrocerySection').classList.remove('hidden'); 
             updateSelects(); 
         }
 
-        // ========== VEGETABLE FUNCTIONS ==========
         function saveVegetable() {
             if (!isAdmin()) return alert('🚫 Guest users cannot add!');
             const hasDiscount = document.getElementById('hasVegetableDiscount').checked;
@@ -860,13 +836,13 @@
             list.innerHTML = filtered.map(veg => {
                 const showDiscount = veg.hasDiscount && veg.discountPrice > 0 && veg.discountPrice < veg.originalPrice;
                 const priceDisplay = showDiscount ? `<span style="color:#f44336; font-weight:bold;">Rs. ${veg.discountPrice}</span> <span style="text-decoration:line-through; color:#999; font-size:12px;">Rs. ${veg.originalPrice}</span> <span style="background:#f44336; color:white; padding:2px 6px; border-radius:10px; font-size:10px;">OFFER</span>` : `<span style="color:#16A34A; font-weight:bold;">Rs. ${veg.originalPrice}</span>`;
-                const availabilityBadge = veg.available !== false ? '<span style="background:#C8E6C9; color:#1B5E20; padding:2px 8px; border-radius:10px; font-size:10px;">✅ Available</span>' : '<span style="background:#FFCDD2; color:#B71C1C; padding:2px 8px; border-radius:10px; font-size:10px;">❌ Unavailable</span>';
-                return `<div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${veg.name}</div><div style="margin-top:5px;">${priceDisplay} <span style="color:#666; font-size:12px; margin-left:10px;">| ${veg.unit}</span> <span style="margin-left:10px;">${availabilityBadge}</span></div></div>${isAdmin() ? `<button class="btn btn-primary" onclick="quickEditVegetable('${veg.id}')" style="padding:8px 12px; font-size:12px;">✏️</button>` : ''}</div>`;
+                const availabilityBadge = veg.available !== false ? '<span style="background:#C8E6C9; color:#1B5E20; padding:2px 8px; border-radius:10px; font-size:10px;">✅ Available</span>' : '<span style="background:#FFCDD2; color:#B71C1C; padding:2px 8px; border-radius:10px; font-size:10px;">❌ Out of Stock</span>';
+                return `<div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${veg.name} ${availabilityBadge}</div><div style="margin-top:5px;">${priceDisplay} <span style="color:#666; font-size:12px; margin-left:10px;">| ${veg.unit}</span></div></div>${isAdmin() ? `<button class="btn btn-primary" onclick="quickEditVegetable('${veg.id}')" style="padding:8px 12px; font-size:12px;">✏️</button>` : ''}</div>`;
             }).join('');
         }
 
         function quickEditVegetable(id) { 
-            if (!isAdmin()) return alert(' Guest users cannot edit!');
+            if (!isAdmin()) return;
             document.getElementById('editVegetableSection').classList.remove('hidden'); 
             document.getElementById('editVegetableSelect').value = id; 
             loadVegetableData(); 
@@ -899,12 +875,11 @@
 
         function clearVegetableForm() { ['vegetableName', 'vegetableOriginalPrice', 'vegetableDiscountPrice', 'vegetableUnit', 'vegetableImageUrl', 'vegetableDisplayOrder'].forEach(id => document.getElementById(id).value = ''); document.getElementById('hasVegetableDiscount').checked = false; document.getElementById('isVegetableAvailable').checked = true; document.getElementById('vegetableDisplayOrder').value = '10'; toggleVegetableDiscountField(); }
         function showEditVegetableSection() { 
-            if (!isAdmin()) return alert('🚫 Guest users cannot edit!');
+            if (!isAdmin()) return;
             document.getElementById('editVegetableSection').classList.remove('hidden'); 
             updateSelects(); 
         }
 
-        // ========== CUSTOM ADS FUNCTIONS ==========
         function saveCustomAd() {
             if (!isAdmin()) return alert('🚫 Guest users cannot add ads!');
             const title = document.getElementById('adTitle').value.trim();
@@ -933,12 +908,12 @@
                     <img src="${ad.imageUrl}" alt="${ad.title}" class="custom-ad-image" onerror="this.src='https://via.placeholder.com/100x100?text=No+Image'">
                     <div class="custom-ad-info">
                         <div style="font-weight:bold; font-size:15px;">${ad.title} <span class="ad-badge ${ad.isActive ? 'ad-active' : 'ad-inactive'}">${ad.isActive ? '✅ Active' : '❌ Inactive'}</span></div>
-                        <div style="font-size:12px; color:#666; margin-top:5px;"> Click URL: <a href="${ad.clickUrl}" target="_blank" style="color:#22C55E;">${ad.clickUrl.substring(0, 40)}${ad.clickUrl.length > 40 ? '...' : ''}</a></div>
+                        <div style="font-size:12px; color:#666; margin-top:5px;">🔗 Click URL: <a href="${ad.clickUrl}" target="_blank" style="color:#22C55E;">${ad.clickUrl.substring(0, 40)}${ad.clickUrl.length > 40 ? '...' : ''}</a></div>
                         <div style="font-size:12px; color:#666; margin-top:3px;">📊 Display Order: ${ad.displayOrder || 999}</div>
                     </div>
                     <div style="display:flex; gap:5px;">
                         ${isAdmin() ? `<button class="btn ${ad.isActive ? 'btn-warning' : 'btn-success'}" onclick="toggleAdStatus('${ad.id}', ${!ad.isActive})" style="padding:8px 12px; font-size:12px;">${ad.isActive ? '⏸️ Disable' : '✅ Enable'}</button>
-                        <button class="btn btn-danger" onclick="deleteCustomAd('${ad.id}')" style="padding:8px 12px; font-size:12px;">️</button>` : ''}
+                        <button class="btn btn-danger" onclick="deleteCustomAd('${ad.id}')" style="padding:8px 12px; font-size:12px;">🗑️</button>` : ''}
                     </div>
                 </div>
             `).join('');
@@ -956,7 +931,6 @@
             } 
         }
 
-        // ========== GOOGLE ADS FUNCTIONS ==========
         function saveAdSettings() {
             if (!isAdmin()) return alert('🚫 Guest users cannot change settings!');
             const settings = { publisherId: document.getElementById('adsPublisherId').value.trim(), topSlot: document.getElementById('adsTopSlot').value.trim(), bottomSlot: document.getElementById('adsBottomSlot').value.trim(), enabled: document.getElementById('adsEnabled').checked };
@@ -971,7 +945,6 @@
             document.getElementById('adsEnabled').checked = adSettings.enabled || false;
         }
 
-        // ========== PROMOTIONS FUNCTIONS ==========
         function savePromotion() {
             if (!isAdmin()) return alert('🚫 Guest users cannot add promotions!');
             const title = document.getElementById('promoTitle').value.trim();
@@ -995,12 +968,11 @@
             list.innerHTML = promotions.map(p => `<div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">🎉 ${p.title}</div><div style="font-size:13px; color:#666; margin-top:5px;">${p.message}</div></div>${isAdmin() ? `<button class="btn btn-danger" onclick="database.ref('promotions').child('${p.id}').remove().then(()=>alert('✅ Deleted'))" style="padding:8px 12px; font-size:12px;">🗑️</button>` : ''}</div>`).join('');
         }
 
-        // ========== NOTIFICATION FUNCTIONS ==========
         function sendAppInstallLink() {
             const phone = document.getElementById('customerPhone').value.trim();
             const appUrl = document.getElementById('appInstallUrl').value;
             if (!phone) return alert('Phone number එක අනිවාර්යයි!');
-            window.open(`https://wa.me/94${phone.substring(1)}?text=${encodeURIComponent(`🌿 Silvas Express App එක download කරගන්න!\n\nඔබේ විශ්වාසවන්ත ආහාර & grocery delivery partner\n\n App Link: ${appUrl}\n\nOrder කරන්න දැන්ම visit කරන්න!`)}`, '_blank');
+            window.open(`https://wa.me/94${phone.substring(1)}?text=${encodeURIComponent(`🌿 Silvas Express App එක download කරගන්න!\n\nඔබේ විශ්වාසවන්ත ආහාර & grocery delivery partner\n\n📱 App Link: ${appUrl}\n\nOrder කරන්න දැන්ම visit කරන්න!`)}`, '_blank');
         }
 
         function copyAppLink() { navigator.clipboard.writeText(document.getElementById('appInstallUrl').value).then(() => alert('✅ App link copied!')); }
@@ -1014,14 +986,13 @@
 
         function useTemplate(type) {
             const templates = {
-                welcome: ' ආයුබෝවන්!  Silvas Express App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
-                offer: '🎉 විශේ දීමනාව! 🌿\n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
+                welcome: '👋 ආයුබෝවන්! 🌿 Silvas Express App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
+                offer: '🎉 විශේෂ දීමනාව! 🌿\n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
                 delivery: '🚚 ඔබේ order එක deliver වෙමින් පවතී! 🌿\n\nOrder tracking සඳහා: https://chinthakanuwan.github.io/foodhub/\n\nස්තූතියි! 🙏'
             };
             document.getElementById('notifMessage').value = templates[type];
         }
 
-        // ========== ORDER FUNCTIONS ==========
         function loadOrders() { renderOrders(); }
 
         function filterOrders() { 
@@ -1043,7 +1014,7 @@
             document.getElementById('ordersList').innerHTML = ordersToRender.sort((a,b) => new Date(b.date) - new Date(a.date)).map(o => `
                 <div class="order-card">
                     <div class="order-header"><div class="order-id">Order #${o.id ? o.id.slice(-6) : 'New'}</div><span class="order-status status-${(o.status||'pending').toLowerCase()}">${o.status||'Pending'}</span></div>
-                    <div class="order-details"><div>👤 ${o.customerName} |  ${o.phone}</div><div>📦 ${o.items}</div><div>💰 Total: Rs. ${o.grandTotal || o.total} | 💳 ${o.paymentInfo || o.paymentMethod}</div><div>📍 ${o.address}</div></div>
+                    <div class="order-details"><div>👤 ${o.customerName} | 📞 ${o.phone}</div><div>📦 ${o.items}</div><div>💰 Total: Rs. ${o.grandTotal || o.total} | 💳 ${o.paymentInfo || o.paymentMethod}</div><div>📍 ${o.address}</div></div>
                     <div class="order-actions">
                         <button class="btn btn-success" onclick="updateOrderStatus('${o.id}', 'Confirmed')">✅ Confirm</button>
                         <button class="btn btn-primary" onclick="updateOrderStatus('${o.id}', 'Delivered')">✔️ Delivered</button>
