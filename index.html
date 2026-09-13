@@ -51,7 +51,6 @@
         }
         .shop-card.featured { border: 2px solid #FFD700; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3); }
         
-        /* Out of Stock Styles */
         .out-of-stock { opacity: 0.6; pointer-events: none; }
         .out-of-stock::after { 
             content: '❌ Out of Stock'; 
@@ -176,7 +175,7 @@
     
     <div id="shopsTab" class="container">
         <div style="background: linear-gradient(135deg, #22C55E, #16A34A); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: center;">
-            <h3 style="font-size: 16px; margin-bottom: 5px;"> විශේෂ දීමනාව!</h3>
+            <h3 style="font-size: 16px; margin-bottom: 5px;">🎉 විශේෂ දීමනාව!</h3>
             <p style="font-size: 13px;">පළමු order එකට 20% වට්ටමක්</p>
         </div>
         <div id="shopsList"><div class="loading">⏳ Shops load වෙමින්...</div></div>
@@ -187,7 +186,7 @@
         <div class="grocery-grid" id="groceryGrid"><div class="loading">⏳ Grocery භාණ්ඩ load වෙමින්...</div></div>
         <div class="grocery-cart" id="groceryCart">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 600;">
-                <span>තෝරාගත් ාණ්ඩ: <span id="groceryCount">0</span></span>
+                <span>තෝරාගත් භාණ්ඩ: <span id="groceryCount">0</span></span>
                 <span style="font-size: 18px; color: #16A34A; font-weight: 800;">Rs. <span id="groceryTotal">0</span></span>
             </div>
             <button class="btn btn-success" onclick="addGroceryToCart()"> Cart එකට Add කරන්න</button>
@@ -202,7 +201,7 @@
                 <span>තෝරාගත් එළවළු: <span id="vegetableCount">0</span></span>
                 <span style="font-size: 18px; color: #16A34A; font-weight: 800;">Rs. <span id="vegetableTotal">0</span></span>
             </div>
-            <button class="btn btn-success" onclick="addVegetablesToCart()">🛒 Cart එකට Add කරන්න</button>
+            <button class="btn btn-success" onclick="addVegetablesToCart()"> Cart එකට Add කරන්න</button>
         </div>
     </div>
 
@@ -227,7 +226,7 @@
     </div>
 
     <div id="cartTab" class="container hidden">
-        <h2 style="margin-bottom: 12px; font-size: 18px;">🛒 ඔබේ Cart එක</h2>
+        <h2 style="margin-bottom: 12px; font-size: 18px;">🛒 බේ Cart එක</h2>
         <div id="cartList"></div>
         
         <div id="checkoutSection" class="hidden">
@@ -237,7 +236,7 @@
                 
                 <div class="form-group">
                     <label>👤 ඔබේ නම *</label>
-                    <input type="text" id="customerName" placeholder="බේ සම්පූර්ණ නම">
+                    <input type="text" id="customerName" placeholder="ඔබේ සම්පූර්ණ නම">
                 </div>
                 <div class="form-group">
                     <label>📞 දුරකථන අංකය *</label>
@@ -252,7 +251,7 @@
                     <label>📍 ඔබේ ප්‍රදේශය තෝරන්න *</label>
                     <select id="deliveryArea" onchange="calculateDeliveryFee()">
                         <option value="">-- ප්‍රදේශය තෝරන්න --</option>
-                        <optgroup label=" Zone 1 - 0-2 km (Rs. 100)">
+                        <optgroup label="🟢 Zone 1 - 0-2 km (Rs. 100)">
                             <option value="raddolugama" data-fee="100" data-zone="1" data-distance="0.4">රද්දොලුගම (Raddolugama)</option>
                             <option value="bathalawatta" data-fee="100" data-zone="1" data-distance="0.4">බතලවත්ත</option>
                             <option value="galla" data-fee="100" data-zone="1" data-distance="0.4">ගල්ල</option>
@@ -267,11 +266,11 @@
                             <option value="gurugewatta" data-fee="150" data-zone="2" data-distance="2.8">ගුරුගෙවත්ත</option>
                             <option value="muthuwadiya-handiya" data-fee="150" data-zone="2" data-distance="3.0">මතුවාඩිය හංදිය</option>
                         </optgroup>
-                        <optgroup label=" Zone 3 - 3-5 km (Rs. 200)">
+                        <optgroup label="🟠 Zone 3 - 3-5 km (Rs. 200)">
                             <option value="kotugoda" data-fee="200" data-zone="3" data-distance="4.0">කොටුගොඩ</option>
                             <option value="averiwatta" data-fee="200" data-zone="3" data-distance="4.5">ඇවරිවත්ත</option>
                             <option value="amandoluwa" data-fee="200" data-zone="3" data-distance="4.6">අමන්දොලුව</option>
-                            <option value="udammita" data-fee="200" data-zone="3" data-distance="4.7">දම් මිට</option>
+                            <option value="udammita" data-fee="200" data-zone="3" data-distance="4.7">උදම් මිට</option>
                         </optgroup>
                         <optgroup label="🔴 Zone 4 - 5-6 km (Rs. 250)">
                             <option value="seeduwa" data-fee="250" data-zone="4" data-distance="5.1">සීදුව</option>
@@ -287,14 +286,14 @@
                     </select>
                     
                     <div class="delivery-info" id="deliveryInfo" style="display: none;">
-                        <strong> තෝරාගත් ප්රදේශය:</strong> <span id="selectedAreaName"></span>
+                        <strong>📍 තෝරාගත් ප්‍රදේශය:</strong> <span id="selectedAreaName"></span>
                         <span id="zoneBadge" class="zone-badge"></span><br>
                         <strong>🚚 Delivery Fee:</strong> Rs. <span id="zoneFeeDisplay">0</span>
                     </div>
                 </div>
                 
                 <div class="form-group">
-                    <label>💳 ගෙවීම් ක්‍රමය *</label>
+                    <label> ගෙවීම් ක්‍රමය *</label>
                     <div class="payment-option">
                         <button class="payment-btn active" onclick="selectPayment('cod')" id="btn-cod">💵 COD</button>
                         <button class="payment-btn" onclick="selectPayment('online')" id="btn-online">🏦 Online</button>
@@ -312,7 +311,7 @@
                 
                 <div style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #22C55E;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span>🛒 Items Total:</span>
+                        <span> Items Total:</span>
                         <span style="font-weight: 600;">Rs. <span id="itemsTotal">0</span></span>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
@@ -320,7 +319,7 @@
                         <span style="font-weight: 600; color: #16A34A;">Rs. <span id="deliveryFeeDisplay">0</span></span>
                     </div>
                     <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 18px; margin-top: 12px; padding-top: 12px; border-top: 2px solid #cbd5e1;">
-                        <span> මුළු එකතුව:</span>
+                        <span>💰 මුළු එකතුව:</span>
                         <span>Rs. <span id="grandTotal">0</span></span>
                     </div>
                 </div>
@@ -350,7 +349,6 @@
     </div>
 
     <script>
-        // ============ CODE PROTECTION ============
         document.addEventListener('contextmenu', function(e) { e.preventDefault(); return false; });
         function disableKeys(e) {
             if (e.keyCode === 123) { e.preventDefault(); return false; }
@@ -372,14 +370,13 @@
             const threshold = 160;
             const check = function() {
                 if (window.outerHeight - window.innerHeight > threshold || window.outerWidth - window.innerWidth > threshold) {
-                    document.body.innerHTML = '<div style="text-align:center;padding:50px;"><h1> Access Denied</h1><p>Developer tools detected.</p></div>';
+                    document.body.innerHTML = '<div style="text-align:center;padding:50px;"><h1>🚫 Access Denied</h1><p>Developer tools detected.</p></div>';
                 }
             };
             setInterval(check, 1000);
         })();
         document.addEventListener('dragstart', function(e) { e.preventDefault(); });
         
-        // ============ APP CODE ============
         const firebaseConfig = {
             apiKey: "AIzaSyDduouixF2IW568mND20cfxmnBNxQfRkrg",
             authDomain: "foodhub-app-6632c.firebaseapp.com",
@@ -437,7 +434,7 @@
                     <div class="carousel-indicators">
                         ${customAds.map((_, index) => `<div class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="goToAd(${index})"></div>`).join('')}
                     </div>
-                    <div class="carousel-controls"><button class="pause-btn" onclick="togglePause()">⏸️</button></div>
+                    <div class="carousel-controls"><button class="pause-btn" onclick="togglePause()">️</button></div>
                 `;
                 container.innerHTML = adsHTML + indicatorsHTML;
             } else { container.innerHTML = adsHTML; }
@@ -489,7 +486,7 @@
             isPaused = !isPaused;
             const btn = document.querySelector('.pause-btn');
             if (isPaused) { btn.textContent = '▶️'; if (adInterval) clearInterval(adInterval); } 
-            else { btn.textContent = '️'; startCarousel(); }
+            else { btn.textContent = '⏸️'; startCarousel(); }
         }
 
         function loadAdSettings() {
@@ -546,7 +543,7 @@
                             <span>${shop.name} ${shop.isFeatured ? '<span class="gold-badge">⭐ GOLD</span>' : ''}</span>
                             ${statusBadge}
                         </div>
-                        ${isGrocery ? '<div style="margin-top: 4px;"><span style="background: #22C55E; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;">🛒 Grocery</span></div>' : ''}
+                        ${isGrocery ? '<div style="margin-top: 4px;"><span style="background: #22C55E; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;"> Grocery</span></div>' : ''}
                         <div class="shop-details"><span>📞 ${shop.phone || 'N/A'}</span><span class="rating">⭐ ${shop.rating || '4.0'}</span></div>
                         <div class="shop-details"><span>🕐 ${shop.openTime || '09:00'} - ${shop.closeTime || '22:00'}</span><span>💰 Rs.${shop.deliveryFee || 150}</span></div>
                     </div>
@@ -907,14 +904,17 @@
             const list = document.getElementById('cartList');
             const checkoutSection = document.getElementById('checkoutSection');
             if (cart.length === 0) {
-                list.innerHTML = '<div class="loading" style="background: #f0fdf4; padding: 30px; border-radius: 12px; border: 2px dashed #22C55E; color: #166534; text-align: center;">🛒 ඔබේ Cart එක හිස්යි.<br><br>Foods, Grocery හෝ Vegetables tab එකෙන් items add කරන්න!</div>';
+                list.innerHTML = '<div class="loading" style="background: #f0fdf4; padding: 30px; border-radius: 12px; border: 2px dashed #22C55E; color: #166534; text-align: center;"> ඔබේ Cart එක හිස්යි.<br><br>Foods, Grocery හෝ Vegetables tab එකෙන් items add කරන්න!</div>';
                 checkoutSection.classList.add('hidden'); return;
             }
             let total = 0, summaryHTML = '', itemsHTML = '';
             cart.forEach((item, index) => {
-                const itemTotal = item.price * item.quantity; total += itemTotal;
-                summaryHTML += `<div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #cbd5e1;"><span>${item.name} x${item.quantity}</span><span>Rs. ${itemTotal.toLocaleString()}</span></div>`;
-                itemsHTML += `<div class="cart-item"><div style="flex: 1;"><div style="font-weight: 700; font-size: 14px; margin-bottom: 4px;">${item.name}</div><div style="font-size: 12px; color: #666;">Rs. ${item.price} each</div></div><div class="qty-controls"><button class="qty-btn" onclick="changeQty(${index}, -1)">−</button><span style="font-weight: 700; font-size: 14px; min-width: 24px; text-align: center;">${item.quantity}</span><button class="qty-btn" onclick="changeQty(${index}, 1)">+</button><button class="btn" onclick="removeFromCart(${index})" style="margin-left: 8px; background: #fee2e2; color: #ef4444; width: 32px; height: 32px; padding: 0;">🗑️</button></div></div>`;
+                const itemTotal = item.price * item.quantity; 
+                total += itemTotal;
+                // ✅ Display name with weight if available
+                const displayName = item.weight ? `${item.name} (${item.weight})` : item.name;
+                summaryHTML += `<div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #cbd5e1;"><span>${displayName} x${item.quantity}</span><span>Rs. ${itemTotal.toLocaleString()}</span></div>`;
+                itemsHTML += `<div class="cart-item"><div style="flex: 1;"><div style="font-weight: 700; font-size: 14px; margin-bottom: 4px;">${displayName}</div><div style="font-size: 12px; color: #666;">Rs. ${item.price} each</div></div><div class="qty-controls"><button class="qty-btn" onclick="changeQty(${index}, -1)">−</button><span style="font-weight: 700; font-size: 14px; min-width: 24px; text-align: center;">${item.quantity}</span><button class="qty-btn" onclick="changeQty(${index}, 1)">+</button><button class="btn" onclick="removeFromCart(${index})" style="margin-left: 8px; background: #fee2e2; color: #ef4444; width: 32px; height: 32px; padding: 0;">🗑️</button></div></div>`;
             });
             summaryHTML += `<div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 18px; margin-top: 12px; padding-top: 12px; border-top: 2px solid #e2e8f0;"><span>Items Total:</span><span>Rs. ${total.toLocaleString()}</span></div>`;
             list.innerHTML = `<div style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #22C55E;"><strong style="font-size: 15px; color: #166534;">✅ Items ${cart.length}ක් තෝරාගෙන ඇත!</strong><br><span style="font-size: 12px; color: #15803d;">පහත විස්තර පුරවා Order එක යවන්න</span></div>${itemsHTML}`;
@@ -924,7 +924,14 @@
             checkoutSection.classList.remove('hidden');
         }
 
-        function changeQty(index, change) { cart[index].quantity += change; if (cart[index].quantity <= 0) cart.splice(index, 1); saveCart(); renderCart(); }
+        // ✅ FIXED: Change quantity and recalculate total
+        function changeQty(index, change) { 
+            cart[index].quantity += change; 
+            if (cart[index].quantity <= 0) cart.splice(index, 1); 
+            saveCart(); 
+            renderCart(); 
+        }
+        
         function removeFromCart(index) { cart.splice(index, 1); saveCart(); renderCart(); showToast('❌ Item එක ඉවත් කරන ලදී'); }
         
         function selectPayment(method) {
@@ -985,10 +992,14 @@
             if (selectedPaymentMethod === 'online' && !transId) { showToast('❌ Online ගෙවීම් සඳහා Transaction ID එක අනිවාර්යයි!'); return; }
             localStorage.setItem('customerPhone', phone);
             let itemsTotal = parseInt(document.getElementById('itemsTotal').textContent.replace(/,/g, '')) || 0;
-            let itemsList = cart.map(i => `${i.name} (x${i.quantity})`).join(', ');
-            const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 Cash on Delivery (COD)' : `🏦 Online Payment (Ref: ${transId})`;
+            // ✅ WhatsApp message with weight
+            let itemsList = cart.map(i => {
+                const displayName = i.weight ? `${i.name} (${i.weight})` : i.name;
+                return `${displayName} x${i.quantity}`;
+            }).join(', ');
+            const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 Cash on Delivery (COD)' : ` Online Payment (Ref: ${transId})`;
             const grandTotal = itemsTotal + currentDeliveryFee;
-            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Area:* ${area}\n🏠 *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
+            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Area:* ${area}\n🏠 *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
             const order = { customerName: name, phone: phone, address: address, area: area, paymentMethod: selectedPaymentMethod, transactionId: transId, items: itemsList, itemsTotal: itemsTotal, deliveryFee: currentDeliveryFee, grandTotal: grandTotal, status: 'Pending', date: new Date().toISOString(), paymentInfo: paymentInfo };
             database.ref('orders').push(order).then(() => {
                 const whatsappNumber = '94702059529';
@@ -998,7 +1009,7 @@
                 cart = []; saveCart(); renderCart();
                 document.getElementById('customerName').value = ''; document.getElementById('phoneNumber').value = ''; document.getElementById('deliveryAddress').value = ''; document.getElementById('deliveryArea').value = ''; document.getElementById('transactionId').value = '';
                 setTimeout(() => switchTab('orders'), 2000);
-            }).catch(error => { showToast('❌ Order යැවීමේ ගැටලුවක්: ' + error.message); });
+            }).catch(error => { showToast(' Order යැවීමේ ගැටලුවක්: ' + error.message); });
         }
 
         function renderMyOrders(orders) {
@@ -1012,8 +1023,8 @@
                     <div class="tracking-timeline" style="width: 100%;"><h3>📦 Order Tracking</h3>
                     <div class="timeline-item ${status === 'Pending' ? 'active' : (['Confirmed', 'Delivered'].includes(status) ? 'completed' : '')}"><div class="timeline-icon">1</div><div class="timeline-content"><div class="timeline-title">Order Received</div><div class="timeline-desc">ඔබේ order එක ලැබී ඇත</div></div></div>
                     <div class="timeline-item ${status === 'Confirmed' ? 'active' : (status === 'Delivered' ? 'completed' : '')}"><div class="timeline-icon">2</div><div class="timeline-content"><div class="timeline-title">Order Confirmed</div><div class="timeline-desc">Shop එක order එක පිළිගත්තා</div></div></div>
-                    <div class="timeline-item ${status === 'Delivered' ? 'completed' : ''}"><div class="timeline-icon">3</div><div class="timeline-content"><div class="timeline-title">Delivered</div><div class="timeline-desc">බේ order එක බාර දුන්නා</div></div></div></div>
-                    <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div>📦 Items: ${order.items}</div><div>💰 Total: Rs. ${order.grandTotal || order.total}</div><div> Delivery: Rs. ${order.deliveryFee || 0}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')}</div><div>📍 ${order.address}</div><div>🕐 ${date.toLocaleString()}</div></div></div>`;
+                    <div class="timeline-item ${status === 'Delivered' ? 'completed' : ''}"><div class="timeline-icon">3</div><div class="timeline-content"><div class="timeline-title">Delivered</div><div class="timeline-desc">ඔබේ order එක බාර දුන්නා</div></div></div></div>
+                    <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div>📦 Items: ${order.items}</div><div>💰 Total: Rs. ${order.grandTotal || order.total}</div><div> Delivery: Rs. ${order.deliveryFee || 0}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : ' Online Payment')}</div><div>📍 ${order.address}</div><div>🕐 ${date.toLocaleString()}</div></div></div>`;
             }).join('');
         }
 
