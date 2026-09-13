@@ -176,7 +176,7 @@
     
     <div id="shopsTab" class="container">
         <div style="background: linear-gradient(135deg, #22C55E, #16A34A); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: center;">
-            <h3 style="font-size: 16px; margin-bottom: 5px;">🎉 විශේෂ දීමනාව!</h3>
+            <h3 style="font-size: 16px; margin-bottom: 5px;"> විශේෂ දීමනාව!</h3>
             <p style="font-size: 13px;">පළමු order එකට 20% වට්ටමක්</p>
         </div>
         <div id="shopsList"><div class="loading">⏳ Shops load වෙමින්...</div></div>
@@ -187,10 +187,10 @@
         <div class="grocery-grid" id="groceryGrid"><div class="loading">⏳ Grocery භාණ්ඩ load වෙමින්...</div></div>
         <div class="grocery-cart" id="groceryCart">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 600;">
-                <span>තෝරාගත් භාණ්ඩ: <span id="groceryCount">0</span></span>
+                <span>තෝරාගත් ාණ්ඩ: <span id="groceryCount">0</span></span>
                 <span style="font-size: 18px; color: #16A34A; font-weight: 800;">Rs. <span id="groceryTotal">0</span></span>
             </div>
-            <button class="btn btn-success" onclick="addGroceryToCart()">🛒 Cart එකට Add කරන්න</button>
+            <button class="btn btn-success" onclick="addGroceryToCart()"> Cart එකට Add කරන්න</button>
         </div>
     </div>
 
@@ -237,7 +237,7 @@
                 
                 <div class="form-group">
                     <label>👤 ඔබේ නම *</label>
-                    <input type="text" id="customerName" placeholder="ඔබේ සම්පූර්ණ නම">
+                    <input type="text" id="customerName" placeholder="බේ සම්පූර්ණ නම">
                 </div>
                 <div class="form-group">
                     <label>📞 දුරකථන අංකය *</label>
@@ -252,7 +252,7 @@
                     <label>📍 ඔබේ ප්‍රදේශය තෝරන්න *</label>
                     <select id="deliveryArea" onchange="calculateDeliveryFee()">
                         <option value="">-- ප්‍රදේශය තෝරන්න --</option>
-                        <optgroup label="🟢 Zone 1 - 0-2 km (Rs. 100)">
+                        <optgroup label=" Zone 1 - 0-2 km (Rs. 100)">
                             <option value="raddolugama" data-fee="100" data-zone="1" data-distance="0.4">රද්දොලුගම (Raddolugama)</option>
                             <option value="bathalawatta" data-fee="100" data-zone="1" data-distance="0.4">බතලවත්ත</option>
                             <option value="galla" data-fee="100" data-zone="1" data-distance="0.4">ගල්ල</option>
@@ -263,14 +263,15 @@
                             <option value="himbutana" data-fee="150" data-zone="2" data-distance="2.0">හිඹුටාන</option>
                             <option value="ganepola" data-fee="150" data-zone="2" data-distance="2.2">ගණේපොල</option>
                             <option value="lansiyawadiya" data-fee="150" data-zone="2" data-distance="2.3">ලංසියා වාඩිය</option>
+                            <option value="galiganeliya" data-fee="150" data-zone="2" data-distance="2.5">ගලිගනේලිය (Galiganeliya)</option>
                             <option value="gurugewatta" data-fee="150" data-zone="2" data-distance="2.8">ගුරුගෙවත්ත</option>
                             <option value="muthuwadiya-handiya" data-fee="150" data-zone="2" data-distance="3.0">මතුවාඩිය හංදිය</option>
                         </optgroup>
-                        <optgroup label="🟠 Zone 3 - 3-5 km (Rs. 200)">
+                        <optgroup label=" Zone 3 - 3-5 km (Rs. 200)">
                             <option value="kotugoda" data-fee="200" data-zone="3" data-distance="4.0">කොටුගොඩ</option>
                             <option value="averiwatta" data-fee="200" data-zone="3" data-distance="4.5">ඇවරිවත්ත</option>
                             <option value="amandoluwa" data-fee="200" data-zone="3" data-distance="4.6">අමන්දොලුව</option>
-                            <option value="udammita" data-fee="200" data-zone="3" data-distance="4.7">උදම් මිට</option>
+                            <option value="udammita" data-fee="200" data-zone="3" data-distance="4.7">දම් මිට</option>
                         </optgroup>
                         <optgroup label="🔴 Zone 4 - 5-6 km (Rs. 250)">
                             <option value="seeduwa" data-fee="250" data-zone="4" data-distance="5.1">සීදුව</option>
@@ -286,7 +287,7 @@
                     </select>
                     
                     <div class="delivery-info" id="deliveryInfo" style="display: none;">
-                        <strong>📍 තෝරාගත් ප්‍රදේශය:</strong> <span id="selectedAreaName"></span>
+                        <strong> තෝරාගත් ප්රදේශය:</strong> <span id="selectedAreaName"></span>
                         <span id="zoneBadge" class="zone-badge"></span><br>
                         <strong>🚚 Delivery Fee:</strong> Rs. <span id="zoneFeeDisplay">0</span>
                     </div>
@@ -301,8 +302,7 @@
                     <div id="onlinePaymentDetails" style="display: none; background: #f0fdf4; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #22C55E;">
                         <strong>Bank of Ceylon (BOC) විස්තර:</strong><br>
                         <strong>Account Name:</strong> Silvas Express Delivery<br>
-                        <strong>Account Number:</strong> 95794359<br>
-                        <strong>eZ Cash:</strong> 070-2059529<br><br>
+                        <strong>Account Number:</strong> 95794359<br><br>
                         <div class="form-group" style="margin-bottom: 0;">
                             <label>Transaction ID / Reference Number *</label>
                             <input type="text" id="transactionId" placeholder="උදා: CMB123456789">
@@ -320,7 +320,7 @@
                         <span style="font-weight: 600; color: #16A34A;">Rs. <span id="deliveryFeeDisplay">0</span></span>
                     </div>
                     <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 18px; margin-top: 12px; padding-top: 12px; border-top: 2px solid #cbd5e1;">
-                        <span>💰 මුළු එකතුව:</span>
+                        <span> මුළු එකතුව:</span>
                         <span>Rs. <span id="grandTotal">0</span></span>
                     </div>
                 </div>
@@ -372,7 +372,7 @@
             const threshold = 160;
             const check = function() {
                 if (window.outerHeight - window.innerHeight > threshold || window.outerWidth - window.innerWidth > threshold) {
-                    document.body.innerHTML = '<div style="text-align:center;padding:50px;"><h1>🚫 Access Denied</h1><p>Developer tools detected.</p></div>';
+                    document.body.innerHTML = '<div style="text-align:center;padding:50px;"><h1> Access Denied</h1><p>Developer tools detected.</p></div>';
                 }
             };
             setInterval(check, 1000);
@@ -396,7 +396,7 @@
         let selectedGroceryIds = new Set(), selectedVegetableIds = new Set(), selectedFoodIds = new Set(), currentShopId = null, selectedPaymentMethod = 'cod', currentDeliveryFee = 0;
         let customAds = [], adSettings = {};
         let selectedVariants = {};
-        let itemQuantities = {}; // Tracks quantity before adding to cart
+        let itemQuantities = {};
         let currentAdIndex = 0, adInterval, isPaused = false;
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -489,7 +489,7 @@
             isPaused = !isPaused;
             const btn = document.querySelector('.pause-btn');
             if (isPaused) { btn.textContent = '▶️'; if (adInterval) clearInterval(adInterval); } 
-            else { btn.textContent = '⏸️'; startCarousel(); }
+            else { btn.textContent = '️'; startCarousel(); }
         }
 
         function loadAdSettings() {
@@ -557,7 +557,6 @@
         function openShopView(shopId) { currentShopId = shopId; const shop = shops.find(s => s.id === shopId); if (shop) { document.getElementById('currentShopName').textContent = shop.name; document.getElementById('shopViewHeader').classList.remove('hidden'); } switchTab('foods'); }
         function backToShops() { currentShopId = null; document.getElementById('shopViewHeader').classList.add('hidden'); switchTab('shops'); }
 
-        // ✅ Quantity Counter & Out of Stock Logic for Foods
         function renderFoods() {
             const list = document.getElementById('foodsList');
             let displayFoods = currentShopId ? foods.filter(f => f.shopId === currentShopId) : foods;
@@ -624,7 +623,6 @@
             updateFoodCart();
         }
 
-        // ✅ Quantity Counter & Out of Stock Logic for Grocery
         function renderGroceryGrid() {
             const grid = document.getElementById('groceryGrid');
             if (groceryItems.length === 0) { grid.innerHTML = '<div class="loading">දැනට Grocery භාණ්ඩ කිසිවක් නැත.</div>'; updateGroceryCart(); return; }
@@ -692,7 +690,6 @@
             updateGroceryCart();
         }
 
-        // ✅ Quantity Counter & Out of Stock Logic for Vegetables
         function renderVegetableGrid() {
             const grid = document.getElementById('vegetableGrid');
             if (vegetables.length === 0) { grid.innerHTML = '<div class="loading">දැනට එළවළු කිසිවක් නැත.</div>'; updateVegetableCart(); return; }
@@ -723,7 +720,6 @@
             updateVegetableCart();
         }
 
-        // ✅ NEW: Update Quantity Before Adding to Cart
         function updateItemQty(id, change) {
             if (!itemQuantities[id]) itemQuantities[id] = 1;
             itemQuantities[id] += change;
@@ -838,7 +834,7 @@
                     } else {
                         cart.push({ id: item.id, name: displayName, price: finalPrice, quantity: qty, type: 'grocery', weight: selectedWeight });
                     }
-                    itemQuantities[id] = 1; // Reset qty
+                    itemQuantities[id] = 1;
                 }
             });
             if (hasError) return;
@@ -859,7 +855,7 @@
                     } else {
                         cart.push({ id: item.id, name: item.name, price: price, quantity: qty, type: 'vegetable' });
                     }
-                    itemQuantities[id] = 1; // Reset qty
+                    itemQuantities[id] = 1;
                 }
             });
             saveCart(); selectedVegetableIds.clear(); renderVegetableGrid();
@@ -895,7 +891,7 @@
                     } else {
                         cart.push({ id: item.id, name: displayName, price: finalPrice, quantity: qty, type: 'food', weight: selectedWeight, shopId: currentShopId });
                     }
-                    itemQuantities[id] = 1; // Reset qty
+                    itemQuantities[id] = 1;
                 }
             });
             if (hasError) return;
@@ -961,7 +957,6 @@
         }
 
         function confirmCartOrder() {
-            // ✅ Shop Open/Close Check
             let closedShops = [];
             cart.forEach(item => {
                 if (item.shopId) {
@@ -996,7 +991,7 @@
             const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Area:* ${area}\n🏠 *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
             const order = { customerName: name, phone: phone, address: address, area: area, paymentMethod: selectedPaymentMethod, transactionId: transId, items: itemsList, itemsTotal: itemsTotal, deliveryFee: currentDeliveryFee, grandTotal: grandTotal, status: 'Pending', date: new Date().toISOString(), paymentInfo: paymentInfo };
             database.ref('orders').push(order).then(() => {
-                const whatsappNumber = '94702059529'; // ✅ Updated WhatsApp Number
+                const whatsappNumber = '94702059529';
                 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(orderMessage)}`;
                 window.open(whatsappUrl, '_blank');
                 showToast('✅ Order එක WhatsApp එකට යවමින්...');
@@ -1017,8 +1012,8 @@
                     <div class="tracking-timeline" style="width: 100%;"><h3>📦 Order Tracking</h3>
                     <div class="timeline-item ${status === 'Pending' ? 'active' : (['Confirmed', 'Delivered'].includes(status) ? 'completed' : '')}"><div class="timeline-icon">1</div><div class="timeline-content"><div class="timeline-title">Order Received</div><div class="timeline-desc">ඔබේ order එක ලැබී ඇත</div></div></div>
                     <div class="timeline-item ${status === 'Confirmed' ? 'active' : (status === 'Delivered' ? 'completed' : '')}"><div class="timeline-icon">2</div><div class="timeline-content"><div class="timeline-title">Order Confirmed</div><div class="timeline-desc">Shop එක order එක පිළිගත්තා</div></div></div>
-                    <div class="timeline-item ${status === 'Delivered' ? 'completed' : ''}"><div class="timeline-icon">3</div><div class="timeline-content"><div class="timeline-title">Delivered</div><div class="timeline-desc">ඔබේ order එක බාර දුන්නා</div></div></div></div>
-                    <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div>📦 Items: ${order.items}</div><div>💰 Total: Rs. ${order.grandTotal || order.total}</div><div>🚚 Delivery: Rs. ${order.deliveryFee || 0}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')}</div><div>📍 ${order.address}</div><div>🕐 ${date.toLocaleString()}</div></div></div>`;
+                    <div class="timeline-item ${status === 'Delivered' ? 'completed' : ''}"><div class="timeline-icon">3</div><div class="timeline-content"><div class="timeline-title">Delivered</div><div class="timeline-desc">බේ order එක බාර දුන්නා</div></div></div></div>
+                    <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div>📦 Items: ${order.items}</div><div>💰 Total: Rs. ${order.grandTotal || order.total}</div><div> Delivery: Rs. ${order.deliveryFee || 0}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')}</div><div>📍 ${order.address}</div><div>🕐 ${date.toLocaleString()}</div></div></div>`;
             }).join('');
         }
 
