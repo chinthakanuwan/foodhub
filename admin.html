@@ -94,7 +94,7 @@
             <input type="password" id="adminPassword" placeholder="🔒 Password එක ඇතුළත් කරන්න">
             <button onclick="loginAsAdmin()">🔐 Admin Login (Full Access)</button>
             <button class="guest-btn" onclick="loginAsGuest()">👤 Guest Login (Read Only)</button>
-            <p id="loginError" style="color: #f44336; margin-top: 15px; font-weight: 600; display: none;"> වැරදි Password එකක්!</p>
+            <p id="loginError" style="color: #f44336; margin-top: 15px; font-weight: 600; display: none;">❌ වැරදි Password එකක්!</p>
         </div>
     </div>
 
@@ -131,6 +131,7 @@
                 <div class="tab" onclick="switchTab('notifications')">📱 Notifications</div>
             </div>
 
+            <!-- Orders Tab -->
             <div id="ordersTab">
                 <h2>📦 Order Management</h2>
                 <div class="filter-bar">
@@ -148,18 +149,19 @@
                         <option value="month">This Month</option>
                         <option value="all">All Time</option>
                     </select>
-                    <button class="btn btn-primary" onclick="loadOrders()"> Refresh</button>
+                    <button class="btn btn-primary" onclick="loadOrders()">🔄 Refresh</button>
                 </div>
                 <div id="ordersList"></div>
             </div>
 
+            <!-- Shops Tab -->
             <div id="shopsTab" class="hidden">
                 <h2>🏪 Add New Shop</h2>
                 <div class="form-row">
                     <div class="form-group"><label>Shop Name *</label><input type="text" id="shopName" placeholder="e.g., Silvas Family Restaurant"></div>
                     <div class="form-group"><label>Category *</label>
                         <select id="shopCategory">
-                            <option value="Restaurant">️ Restaurant</option>
+                            <option value="Restaurant">🍽️ Restaurant</option>
                             <option value="Fast Food">🍔 Fast Food</option>
                             <option value="Grocery">🛒 Grocery/Supermarket</option>
                             <option value="Drinks">🥤 Drinks</option>
@@ -215,6 +217,7 @@
                 <div class="item-list" id="shopsList"></div>
             </div>
 
+            <!-- Foods Tab -->
             <div id="foodsTab" class="hidden">
                 <h2>🍕 Add New Food</h2>
                 <div class="form-row">
@@ -238,7 +241,7 @@
                 <button class="btn btn-warning" onclick="showEditFoodSection()">✏️ Edit Food</button>
 
                 <div id="editFoodSection" class="edit-section hidden">
-                    <h3>️ Edit Food</h3>
+                    <h3>✏️ Edit Food</h3>
                     <div class="form-group"><label>Select Food</label><select id="editFoodSelect" onchange="loadFoodData()"><option value="">-- Select --</option></select></div>
                     <div class="form-row">
                         <div class="form-group"><label>Food Name</label><input type="text" id="editFoodName"></div>
@@ -252,7 +255,7 @@
                         <div class="form-group"><label><input type="checkbox" id="editIsFoodAvailable" style="margin-right: 10px;">✅ Available</label></div>
                     </div>
                     <div class="variants-box">
-                        <label> Portion Variants</label>
+                        <label>📦 Portion Variants</label>
                         <textarea id="editFoodVariants" rows="2" placeholder="උදා: Half:400:350, Full:750:"></textarea>
                     </div>
                     <button class="btn btn-success" onclick="updateFood()">💾 Update</button>
@@ -264,6 +267,7 @@
                 <div class="item-list" id="foodsList"></div>
             </div>
 
+            <!-- Grocery Tab -->
             <div id="groceryTab" class="hidden">
                 <h2>🛒 Grocery Management</h2>
                 <h3>Add New Item</h3>
@@ -276,7 +280,7 @@
                     <div class="form-group"><label>Category</label>
                         <select id="groceryCategory">
                             <option value="Staples">🌾 Staples</option>
-                            <option value="Spices">️ Spices</option>
+                            <option value="Spices">🌶️ Spices</option>
                             <option value="Dairy">🥛 Dairy</option>
                             <option value="Other">📦 Other</option>
                         </select>
@@ -310,7 +314,7 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group"><label>Default Price (Rs.)</label><input type="number" id="editGroceryOriginalPrice"></div>
-                        <div class="form-group"><label><input type="checkbox" id="editHasDiscount" style="margin-right: 10px;" onchange="toggleEditDiscountField()">️ Special Discount</label></div>
+                        <div class="form-group"><label><input type="checkbox" id="editHasDiscount" style="margin-right: 10px;" onchange="toggleEditDiscountField()">🏷️ Special Discount</label></div>
                     </div>
                     <div class="form-row">
                         <div class="form-group"><label>Discount Price (Rs.)</label><input type="number" id="editGroceryDiscountPrice" disabled></div>
@@ -325,7 +329,7 @@
                         <textarea id="editGroceryVariants" rows="3" placeholder="උදා: 100g:250:220, 500g:1200:1000"></textarea>
                     </div>
                     <button class="btn btn-success" onclick="updateGroceryItem()">💾 Update</button>
-                    <button class="btn btn-danger delete-btn" onclick="deleteGroceryFromEdit()">️ Delete</button>
+                    <button class="btn btn-danger delete-btn" onclick="deleteGroceryFromEdit()">🗑️ Delete</button>
                     <button class="btn btn-warning" onclick="cancelEdit('grocery')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Grocery Items</h3>
@@ -333,6 +337,7 @@
                 <div class="item-list" id="groceryList"></div>
             </div>
 
+            <!-- Vegetables Tab -->
             <div id="vegetablesTab" class="hidden">
                 <h2>🥬 Vegetables Management</h2>
                 <h3>Add New Vegetable</h3>
@@ -342,7 +347,7 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label>Original Price (Rs.)</label><input type="number" id="vegetableOriginalPrice" placeholder="180"></div>
-                    <div class="form-group"><label><input type="checkbox" id="hasVegetableDiscount" style="margin-right: 10px;" onchange="toggleVegetableDiscountField()">️ Special Discount</label></div>
+                    <div class="form-group"><label><input type="checkbox" id="hasVegetableDiscount" style="margin-right: 10px;" onchange="toggleVegetableDiscountField()">🏷️ Special Discount</label></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label>Discount Price (Rs.)</label><input type="number" id="vegetableDiscountPrice" placeholder="150" disabled></div>
@@ -375,7 +380,7 @@
                         <div class="form-group"><label><input type="checkbox" id="editIsVegetableAvailable" style="margin-right: 10px;">✅ Available</label></div>
                     </div>
                     <button class="btn btn-success" onclick="updateVegetable()">💾 Update</button>
-                    <button class="btn btn-danger delete-btn" onclick="deleteVegetableFromEdit()">️ Delete</button>
+                    <button class="btn btn-danger delete-btn" onclick="deleteVegetableFromEdit()">🗑️ Delete</button>
                     <button class="btn btn-warning" onclick="cancelEdit('vegetable')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Vegetables</h3>
@@ -383,6 +388,7 @@
                 <div class="item-list" id="vegetablesList"></div>
             </div>
 
+            <!-- Custom Ads Tab -->
             <div id="customadsTab" class="hidden">
                 <h2>📢 Custom Banner Ads (Sponsored)</h2>
                 <div class="notification-box">
@@ -405,10 +411,11 @@
                 <div id="customAdsList" class="item-list"><p style="color: #666; text-align: center;">Loading...</p></div>
             </div>
 
+            <!-- Google Ads Tab -->
             <div id="googleadsTab" class="hidden">
                 <h2>📊 Google Ads Management</h2>
                 <div class="app-link-box">
-                    <h3>️ AdSense Settings</h3>
+                    <h3>⚙️ AdSense Settings</h3>
                     <div class="form-group"><label>AdSense Publisher ID</label><input type="text" id="adsPublisherId" placeholder="ca-pub-XXXXXXXXXXXXXXXX"></div>
                     <div class="form-row">
                         <div class="form-group"><label>Top Banner Ad Slot ID</label><input type="text" id="adsTopSlot" placeholder="1234567890"></div>
@@ -419,12 +426,14 @@
                 </div>
             </div>
 
+            <!-- Promotions Tab -->
             <div id="promotionsTab" class="hidden">
                 <h2>🎉 Promotions & Offers</h2>
                 <div class="notification-box">
                     <h3>📢 Create New Promotion</h3>
                     <div class="form-group"><label>Promo Title</label><input type="text" id="promoTitle" placeholder="e.g., 20% Off!"></div>
                     <div class="form-group"><label>Promo Message</label><textarea id="promoMessage" rows="3" placeholder="Message..."></textarea></div>
+                    <div class="form-group"><label>Image URL (Optional)</label><input type="text" id="promoImage" placeholder="https://..."></div>
                     <div class="form-group"><label>Target Phone (Optional)</label><input type="tel" id="promoPhone" placeholder="0702059529"></div>
                     <button class="btn btn-primary" onclick="savePromotion()">💾 Save Promo</button>
                     <button class="btn btn-whatsapp" onclick="sendPromoWhatsApp()">📤 Send via WhatsApp</button>
@@ -433,6 +442,7 @@
                 <div class="item-list" id="promotionsList"></div>
             </div>
 
+            <!-- Notifications Tab -->
             <div id="notificationsTab" class="hidden">
                 <h2>📱 General Notifications</h2>
                 <div class="app-link-box">
@@ -457,12 +467,13 @@
     </div>
 
     <script>
+        // ✅ UPDATE: Storage bucket එක නවීන Firebase format එකට යාවත්කාලීන කර ඇත.
         const firebaseConfig = {
             apiKey: "AIzaSyDduouixF2IW568mND20cfxmnBNxQfRkrg",
             authDomain: "foodhub-app-6632c.firebaseapp.com",
             databaseURL: "https://foodhub-app-6632c-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "foodhub-app-6632c",
-            storageBucket: "foodhub-app-6632c.appspot.com",
+            storageBucket: "foodhub-app-6632c.firebasestorage.app",
             messagingSenderId: "1025149369233",
             appId: "1:1025149369233:web:245f846d959274ee487830"
         };
@@ -641,7 +652,7 @@
         }
 
         function showEditShopSection() { 
-            if (!isAdmin()) return alert(' Guest users cannot edit shops!');
+            if (!isAdmin()) return alert('🚫 Guest users cannot edit shops!');
             document.getElementById('editShopSection').classList.remove('hidden'); 
             updateSelects(); 
         }
@@ -677,7 +688,7 @@
         }
 
         function deleteShopFromEdit() {
-            if (!isAdmin()) return alert(' Guest users cannot delete!');
+            if (!isAdmin()) return alert('🚫 Guest users cannot delete!');
             const id = document.getElementById('editShopSelect').value;
             if (id && confirm('මේ shop එක delete කරන්නද?')) {
                 database.ref('shops').child(id).remove().then(() => { alert('✅ Deleted'); cancelEdit('shop'); });
@@ -713,7 +724,7 @@
                 const hasVariants = f.variants && Object.keys(f.variants).length > 0;
                 const variantsText = hasVariants ? `<div style="font-size:11px; color:#22C55E; margin-top:3px;">📦 Variants: ${Object.keys(f.variants).join(', ')}</div>` : '';
                 const availBadge = f.available !== false ? '<span style="background:#C8E6C9; color:#1B5E20; padding:2px 8px; border-radius:10px; font-size:10px;">✅ Available</span>' : '<span style="background:#FFCDD2; color:#B71C1C; padding:2px 8px; border-radius:10px; font-size:10px;">❌ Out of Stock</span>';
-                return `<div class="item-card" style="background:#F0FDF4; border-left:4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${f.name} ${availBadge}</div><div style="font-size:12px; color:#666;">${shop?shop.name:'Unknown'} | Rs.${f.price}</div>${variantsText}</div>${isAdmin() ? `<button class="btn btn-primary" onclick="quickEditFood('${f.id}')">️</button>` : ''}</div>`; 
+                return `<div class="item-card" style="background:#F0FDF4; border-left:4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">${f.name} ${availBadge}</div><div style="font-size:12px; color:#666;">${shop?shop.name:'Unknown'} | Rs.${f.price}</div>${variantsText}</div>${isAdmin() ? `<button class="btn btn-primary" onclick="quickEditFood('${f.id}')" style="padding:8px 12px; font-size:12px;">✏️</button>` : ''}</div>`; 
             }).join(''); 
         }
 
@@ -959,7 +970,7 @@
         function renderPromotions() {
             const list = document.getElementById('promotionsList');
             if (promotions.length === 0) { list.innerHTML = '<p style="color:#666;">දැනට Promotions කිසිවක් නැත.</p>'; return; }
-            list.innerHTML = promotions.map(p => `<div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">🎉 ${p.title}</div><div style="font-size:13px; color:#666; margin-top:5px;">${p.message}</div></div>${isAdmin() ? `<button class="btn btn-danger" onclick="database.ref('promotions').child('${p.id}').remove().then(()=>alert('✅ Deleted'))" style="padding:8px 12px; font-size:12px;">️</button>` : ''}</div>`).join('');
+            list.innerHTML = promotions.map(p => `<div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">🎉 ${p.title}</div><div style="font-size:13px; color:#666; margin-top:5px;">${p.message}</div></div>${isAdmin() ? `<button class="btn btn-danger" onclick="database.ref('promotions').child('${p.id}').remove().then(()=>alert('✅ Deleted'))" style="padding:8px 12px; font-size:12px;">🗑️</button>` : ''}</div>`).join('');
         }
 
         function sendAppInstallLink() {
@@ -980,8 +991,8 @@
 
         function useTemplate(type) {
             const templates = {
-                welcome: '👋 ආයුබෝවන්!  Silvas Express App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
-                offer: '🎉 විශේ දීමනාව! 🌿\n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
+                welcome: '👋 ආයුබෝවන්! Silvas Express App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
+                offer: '🎉 විශේෂ දීමනාව! 🌿\n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
                 delivery: '🚚 ඔබේ order එක deliver වෙමින් පවතී! 🌿\n\nOrder tracking සඳහා: https://chinthakanuwan.github.io/foodhub/\n\nස්තූතියි! 🙏'
             };
             document.getElementById('notifMessage').value = templates[type];
@@ -1005,19 +1016,31 @@
 
         function renderOrders(list) { 
             const ordersToRender = list || orders; 
-            document.getElementById('ordersList').innerHTML = ordersToRender.sort((a,b) => new Date(b.date) - new Date(a.date)).map(o => `
+            document.getElementById('ordersList').innerHTML = ordersToRender.sort((a,b) => new Date(b.date) - new Date(a.date)).map(o => {
+                // ✅ UPDATE: Items object එකක් නම් එය හොඳට කියවිය හැකි ආකාරයට පරිවර්තනය කිරීම.
+                let itemsDisplay = o.items;
+                if (typeof o.items === 'object' && o.items !== null) {
+                    itemsDisplay = JSON.stringify(o.items).replace(/["{}]/g, '').replace(/,/g, ', ');
+                }
+                
+                return `
                 <div class="order-card">
                     <div class="order-header"><div class="order-id">Order #${o.id ? o.id.slice(-6) : 'New'}</div><span class="order-status status-${(o.status||'pending').toLowerCase()}">${o.status||'Pending'}</span></div>
-                    <div class="order-details"><div>👤 ${o.customerName} | 📞 ${o.phone}</div><div>📦 ${o.items}</div><div>💰 Total: Rs. ${o.grandTotal || o.total} | 💳 ${o.paymentInfo || o.paymentMethod}</div><div>📍 ${o.address}</div></div>
+                    <div class="order-details">
+                        <div>👤 ${o.customerName || 'N/A'} | 📞 ${o.phone || 'N/A'}</div>
+                        <div>📦 ${itemsDisplay || 'No items'}</div>
+                        <div>💰 Total: Rs. ${o.grandTotal || o.total || 0} | 💳 ${o.paymentInfo || o.paymentMethod || 'N/A'}</div>
+                        <div>📍 ${o.address || 'N/A'}</div>
+                    </div>
                     <div class="order-actions">
                         <button class="btn btn-success" onclick="updateOrderStatus('${o.id}', 'Confirmed')">✅ Confirm</button>
                         <button class="btn btn-primary" onclick="updateOrderStatus('${o.id}', 'Delivered')">✔️ Delivered</button>
                         <button class="btn btn-danger" onclick="updateOrderStatus('${o.id}', 'Cancelled')">❌ Cancel</button>
-                        <button class="btn btn-info" onclick="contactCustomer('${o.phone}')"> Contact</button>
+                        <button class="btn btn-info" onclick="contactCustomer('${o.phone}')">📞 Contact</button>
                         ${isAdmin() ? `<button class="btn btn-danger" onclick="deleteOrder('${o.id}')">🗑️ Delete</button>` : ''}
                     </div>
                 </div>
-            `).join(''); 
+            `}).join(''); 
         }
 
         function updateOrderStatus(id, status) { 
@@ -1027,6 +1050,7 @@
         }
 
         function contactCustomer(phone) { 
+            if(!phone) return alert('Phone number නැත!');
             window.open(`https://wa.me/94${phone.substring(1)}?text=Hello! Regarding your Silvas Express order.`, '_blank'); 
         }
 
