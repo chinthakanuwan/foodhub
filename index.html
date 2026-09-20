@@ -152,7 +152,7 @@
 <body oncontextmenu="return false;" onkeydown="return disableKeys(event);">
     <div class="header">
         <h1>🌿 Silvas Express</h1>
-        <p>බේ විශ්වාසවන්ත හාර & grocery delivery partner</p>
+        <p>ඔබේ විශ්වාසවන්ත ආහාර & grocery delivery partner</p>
     </div>
     
     <div id="customAdsContainer" class="custom-ads-container" style="display: none;"></div>
@@ -175,7 +175,7 @@
     
     <div id="shopsTab" class="container">
         <div style="background: linear-gradient(135deg, #22C55E, #16A34A); color: white; padding: 15px; border-radius: 12px; margin-bottom: 15px; text-align: center;">
-            <h3 style="font-size: 16px; margin-bottom: 5px;">🎉 විශේ දීමනාව!</h3>
+            <h3 style="font-size: 16px; margin-bottom: 5px;">🎉 විශේෂ දීමනාව!</h3>
             <p style="font-size: 13px;">පළමු order එකට 20% වට්ටමක්</p>
         </div>
         <div id="shopsList"><div class="loading">⏳ Shops load වෙමින්...</div></div>
@@ -186,7 +186,7 @@
         <div class="grocery-grid" id="groceryGrid"><div class="loading"> Grocery භාණ්ඩ load වෙමින්...</div></div>
         <div class="grocery-cart" id="groceryCart">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-weight: 600;">
-                <span>තෝරාගත් ාණ්ඩ: <span id="groceryCount">0</span></span>
+                <span>තෝරාගත් භාණ්ඩ: <span id="groceryCount">0</span></span>
                 <span style="font-size: 18px; color: #16A34A; font-weight: 800;">Rs. <span id="groceryTotal">0</span></span>
             </div>
             <button class="btn btn-success" onclick="addGroceryToCart()">🛒 Cart එකට Add කරන්න</button>
@@ -256,7 +256,7 @@
                             <option value="bathalawatta" data-fee="100" data-zone="1" data-distance="0.4">බතලවත්ත</option>
                             <option value="galla" data-fee="100" data-zone="1" data-distance="0.4">ගල්ල</option>
                         </optgroup>
-                        <optgroup label=" Zone 2 - 2-3 km (Rs. 150)">
+                        <optgroup label="🟡 Zone 2 - 2-3 km (Rs. 150)">
                             <option value="kuswala" data-fee="150" data-zone="2" data-distance="1.5">කුස්වෙල</option>
                             <option value="palliya-handiya" data-fee="150" data-zone="2" data-distance="1.8">පල්ලිය හංදිය</option>
                             <option value="himbutana" data-fee="150" data-zone="2" data-distance="2.0">හිඹුටාන</option>
@@ -296,7 +296,7 @@
                     <label>💳 ගෙවීම් ක්‍රමය *</label>
                     <div class="payment-option">
                         <button class="payment-btn active" onclick="selectPayment('cod')" id="btn-cod">💵 COD</button>
-                        <button class="payment-btn" onclick="selectPayment('online')" id="btn-online"> Online</button>
+                        <button class="payment-btn" onclick="selectPayment('online')" id="btn-online">🏦 Online</button>
                     </div>
                     <div id="onlinePaymentDetails" style="display: none; background: #f0fdf4; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #22C55E;">
                         <strong>Bank of Ceylon (BOC) විස්තර:</strong><br>
@@ -325,7 +325,7 @@
                 </div>
                 
                 <button class="btn btn-success" onclick="confirmCartOrder()" style="padding: 15px; font-size: 16px;">
-                     WhatsApp එකට Order එක යවන්න
+                    📱 WhatsApp එකට Order එක යවන්න
                 </button>
             </div>
         </div>
@@ -338,9 +338,9 @@
     <div class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('shops')"><span class="icon">🏪</span><span class="label">Shops</span></div>
         <div class="nav-item" onclick="switchTab('grocery')"><span class="icon">🛒</span><span class="label">Grocery</span></div>
-        <div class="nav-item" onclick="switchTab('vegetables')"><span class="icon"></span><span class="label">Vegetables</span></div>
+        <div class="nav-item" onclick="switchTab('vegetables')"><span class="icon">🥬</span><span class="label">Vegetables</span></div>
         <div class="nav-item" onclick="switchTab('cart')"><span class="icon">🛒</span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></div>
-        <div class="nav-item" onclick="switchTab('orders')"><span class="icon"></span><span class="label">Orders</span></div>
+        <div class="nav-item" onclick="switchTab('orders')"><span class="icon">📦</span><span class="label">Orders</span></div>
     </div>
 
     <div class="developer-credit">
@@ -382,7 +382,7 @@
             authDomain: "foodhub-app-6632c.firebaseapp.com",
             databaseURL: "https://foodhub-app-6632c-default-rtdb.asia-southeast1.firebasedatabase.app",
             projectId: "foodhub-app-6632c",
-            storageBucket: "foodhub-app-6632c.appspot.com",
+            storageBucket: "foodhub-app-6632c.firebasestorage.app",
             messagingSenderId: "1025149369233",
             appId: "1:1025149369233:web:245f846d959274ee487830"
         };
@@ -803,6 +803,33 @@
             document.getElementById('foodCart').style.display = count > 0 ? 'block' : 'none';
         }
 
+        function addToCartWithQty(id, name, basePrice, hasVariants, shopId) {
+            let finalPrice = basePrice;
+            let displayName = name;
+            let weight = '';
+            const qty = itemQuantities[id] || 1;
+
+            if (hasVariants && selectedVariants[id]) {
+                finalPrice = selectedVariants[id].price;
+                weight = selectedVariants[id].weight;
+                displayName = `${name} (${weight})`;
+            }
+
+            const existingIndex = cart.findIndex(c => c.id === id && c.type === 'food' && (c.weight || '') === weight);
+            if (existingIndex !== -1) {
+                cart[existingIndex].quantity += qty;
+            } else {
+                cart.push({ id: id, name: displayName, price: finalPrice, quantity: qty, type: 'food', weight: weight, shopId: shopId });
+            }
+            itemQuantities[id] = 1;
+            saveCart(); 
+            selectedFoodIds.clear(); 
+            selectedVariants = {}; 
+            renderFoods();
+            showToast(`✅ ${name} Cart එකට එකතු විය!`);
+            setTimeout(() => switchTab('cart'), 1000);
+        }
+
         function addGroceryToCart() {
             let hasError = false;
             selectedGroceryIds.forEach(id => {
@@ -820,12 +847,12 @@
                             finalPrice = selectedVariants[id].price;
                             displayName = `${item.name} (${selectedWeight})`;
                         } else {
-                            alert(`කරුණාකර "${item.name}" සහා බරක් තෝරාගන්න!`);
+                            alert(`කරුණාකර "${item.name}" සඳහා බරක් තෝරාගන්න!`);
                             hasError = true; return;
                         }
                     }
                     
-                    const existingIndex = cart.findIndex(c => c.id === id && c.type === 'grocery' && c.weight === selectedWeight);
+                    const existingIndex = cart.findIndex(c => c.id === id && c.type === 'grocery' && (c.weight || '') === selectedWeight);
                     if (existingIndex !== -1) {
                         cart[existingIndex].quantity += qty;
                     } else {
@@ -856,7 +883,7 @@
                             price: price, 
                             quantity: qty, 
                             type: 'vegetable',
-                            unit: item.unit || '' // ✅ Add unit (e.g., "250g")
+                            unit: item.unit || '' 
                         });
                     }
                     itemQuantities[id] = 1;
@@ -889,7 +916,7 @@
                         }
                     }
                     
-                    const existingIndex = cart.findIndex(c => c.id === id && c.type === 'food' && c.weight === selectedWeight);
+                    const existingIndex = cart.findIndex(c => c.id === id && c.type === 'food' && (c.weight || '') === selectedWeight);
                     if (existingIndex !== -1) {
                         cart[existingIndex].quantity += qty;
                     } else {
@@ -918,7 +945,6 @@
             cart.forEach((item, index) => {
                 const itemTotal = item.price * item.quantity; 
                 total += itemTotal;
-                // ✅ Display name with weight/unit if available
                 const displayName = item.weight ? `${item.name} (${item.weight})` : (item.unit ? `${item.name} (${item.unit})` : item.name);
                 summaryHTML += `<div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #cbd5e1;"><span>${displayName} x${item.quantity}</span><span>Rs. ${itemTotal.toLocaleString()}</span></div>`;
                 itemsHTML += `<div class="cart-item"><div style="flex: 1;"><div style="font-weight: 700; font-size: 14px; margin-bottom: 4px;">${displayName}</div><div style="font-size: 12px; color: #666;">Rs. ${item.price} each</div></div><div class="qty-controls"><button class="qty-btn" onclick="changeQty(${index}, -1)">−</button><span style="font-weight: 700; font-size: 14px; min-width: 24px; text-align: center;">${item.quantity}</span><button class="qty-btn" onclick="changeQty(${index}, 1)">+</button><button class="btn" onclick="removeFromCart(${index})" style="margin-left: 8px; background: #fee2e2; color: #ef4444; width: 32px; height: 32px; padding: 0;">🗑️</button></div></div>`;
@@ -931,7 +957,6 @@
             checkoutSection.classList.remove('hidden');
         }
 
-        // ✅ FIXED: Change quantity and recalculate total
         function changeQty(index, change) { 
             cart[index].quantity += change; 
             if (cart[index].quantity <= 0) {
@@ -998,18 +1023,21 @@
             const area = selectedOption.text;
             const transId = document.getElementById('transactionId').value.trim();
             if (!name || !phone || !address || !areaSelect.value) { showToast('❌ කරුණාකර සියලු විස්තර සපුරන්න!'); return; }
-            if (selectedPaymentMethod === 'online' && !transId) { showToast('❌ Online ගෙවීම් සහා Transaction ID එක අනිවාර්යයි!'); return; }
+            if (selectedPaymentMethod === 'online' && !transId) { showToast('❌ Online ගෙවීම් සඳහා Transaction ID එක අනිවාර්යයි!'); return; }
             localStorage.setItem('customerPhone', phone);
             let itemsTotal = parseInt(document.getElementById('itemsTotal').textContent.replace(/,/g, '')) || 0;
-            // ✅ WhatsApp message with weight/unit
+            
             let itemsList = cart.map(i => {
                 const displayName = i.weight ? `${i.name} (${i.weight})` : (i.unit ? `${i.name} (${i.unit})` : i.name);
                 return `${displayName} x${i.quantity}`;
             }).join(', ');
-            const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 Cash on Delivery (COD)' : ` Online Payment (Ref: ${transId})`;
+            
+            const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 Cash on Delivery (COD)' : `🏦 Online Payment (Ref: ${transId})`;
             const grandTotal = itemsTotal + currentDeliveryFee;
-            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Area:* ${area}\n🏠 *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
             const order = { customerName: name, phone: phone, address: address, area: area, paymentMethod: selectedPaymentMethod, transactionId: transId, items: itemsList, itemsTotal: itemsTotal, deliveryFee: currentDeliveryFee, grandTotal: grandTotal, status: 'Pending', date: new Date().toISOString(), paymentInfo: paymentInfo };
+            
+            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Area:* ${area}\n🏠 *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
+            
             database.ref('orders').push(order).then(() => {
                 const whatsappNumber = '94702059529';
                 const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(orderMessage)}`;
@@ -1030,10 +1058,10 @@
                 return `<div class="cart-item" style="flex-direction: column; align-items: flex-start; padding: 15px;">
                     <div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;"><strong style="font-size: 15px;">Order #${order.id ? order.id.slice(-6) : 'New'}</strong><span class="order-status status-${status.toLowerCase()}">${status}</span></div>
                     <div class="tracking-timeline" style="width: 100%;"><h3>📦 Order Tracking</h3>
-                    <div class="timeline-item ${status === 'Pending' ? 'active' : (['Confirmed', 'Delivered'].includes(status) ? 'completed' : '')}"><div class="timeline-icon">1</div><div class="timeline-content"><div class="timeline-title">Order Received</div><div class="timeline-desc">බේ order එක ලැබී ඇත</div></div></div>
+                    <div class="timeline-item ${status === 'Pending' ? 'active' : (['Confirmed', 'Delivered'].includes(status) ? 'completed' : '')}"><div class="timeline-icon">1</div><div class="timeline-content"><div class="timeline-title">Order Received</div><div class="timeline-desc">ඔබේ order එක ලැබී ඇත</div></div></div>
                     <div class="timeline-item ${status === 'Confirmed' ? 'active' : (status === 'Delivered' ? 'completed' : '')}"><div class="timeline-icon">2</div><div class="timeline-content"><div class="timeline-title">Order Confirmed</div><div class="timeline-desc">Shop එක order එක පිළිගත්තා</div></div></div>
                     <div class="timeline-item ${status === 'Delivered' ? 'completed' : ''}"><div class="timeline-icon">3</div><div class="timeline-content"><div class="timeline-title">Delivered</div><div class="timeline-desc">ඔබේ order එක බාර දුන්නා</div></div></div></div>
-                    <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div>📦 Items: ${order.items}</div><div>💰 Total: Rs. ${order.grandTotal || order.total}</div><div>🚚 Delivery: Rs. ${order.deliveryFee || 0}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')}</div><div>📍 ${order.address}</div><div> ${date.toLocaleString()}</div></div></div>`;
+                    <div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div>📦 Items: ${order.items}</div><div>💰 Total: Rs. ${order.grandTotal || order.total}</div><div>🚚 Delivery: Rs. ${order.deliveryFee || 0}</div><div>💳 Payment: ${order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')}</div><div>📍 ${order.address}</div><div>📅 ${date.toLocaleString()}</div></div></div>`;
             }).join('');
         }
 
