@@ -40,7 +40,6 @@
         .btn-warning { background: #FF9800; color: white; }
         .btn-info { background: #2196F3; color: white; }
         .btn-whatsapp { background: #25D366; color: white; }
-        .btn-disabled { background: #ccc; cursor: not-allowed; opacity: 0.6; }
         .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #e0e0e0; padding-bottom: 10px; flex-wrap: wrap; }
         .tab { padding: 10px 20px; cursor: pointer; border-radius: 8px; font-weight: 600; transition: all 0.3s; }
         .tab.active { background: #22C55E; color: white; }
@@ -131,7 +130,6 @@
                 <div class="tab" onclick="switchTab('notifications')">📱 Notifications</div>
             </div>
 
-            <!-- Orders Tab -->
             <div id="ordersTab">
                 <h2>📦 Order Management</h2>
                 <div class="filter-bar">
@@ -154,7 +152,6 @@
                 <div id="ordersList"></div>
             </div>
 
-            <!-- Shops Tab -->
             <div id="shopsTab" class="hidden">
                 <h2>🏪 Add New Shop</h2>
                 <div class="form-row">
@@ -217,7 +214,6 @@
                 <div class="item-list" id="shopsList"></div>
             </div>
 
-            <!-- Foods Tab -->
             <div id="foodsTab" class="hidden">
                 <h2>🍕 Add New Food</h2>
                 <div class="form-row">
@@ -267,7 +263,6 @@
                 <div class="item-list" id="foodsList"></div>
             </div>
 
-            <!-- Grocery Tab -->
             <div id="groceryTab" class="hidden">
                 <h2>🛒 Grocery Management</h2>
                 <h3>Add New Item</h3>
@@ -337,7 +332,6 @@
                 <div class="item-list" id="groceryList"></div>
             </div>
 
-            <!-- Vegetables Tab -->
             <div id="vegetablesTab" class="hidden">
                 <h2>🥬 Vegetables Management</h2>
                 <h3>Add New Vegetable</h3>
@@ -388,7 +382,6 @@
                 <div class="item-list" id="vegetablesList"></div>
             </div>
 
-            <!-- Custom Ads Tab -->
             <div id="customadsTab" class="hidden">
                 <h2>📢 Custom Banner Ads (Sponsored)</h2>
                 <div class="notification-box">
@@ -411,7 +404,6 @@
                 <div id="customAdsList" class="item-list"><p style="color: #666; text-align: center;">Loading...</p></div>
             </div>
 
-            <!-- Google Ads Tab -->
             <div id="googleadsTab" class="hidden">
                 <h2>📊 Google Ads Management</h2>
                 <div class="app-link-box">
@@ -426,7 +418,6 @@
                 </div>
             </div>
 
-            <!-- Promotions Tab -->
             <div id="promotionsTab" class="hidden">
                 <h2>🎉 Promotions & Offers</h2>
                 <div class="notification-box">
@@ -442,12 +433,11 @@
                 <div class="item-list" id="promotionsList"></div>
             </div>
 
-            <!-- Notifications Tab -->
             <div id="notificationsTab" class="hidden">
                 <h2>📱 General Notifications</h2>
                 <div class="app-link-box">
                     <h3>📱 App Install Link</h3>
-                    <div class="form-group"><label>App URL:</label><input type="text" id="appInstallUrl" value="https://chinthakanuwan.github.io/foodhub/" readonly></div>
+                    <div class="form-group"><label>App URL:</label><input type="text" id="appInstallUrl" value="https://silvasexpress.store" readonly></div>
                     <div class="form-group"><label>Customer Phone Number:</label><input type="tel" id="customerPhone" placeholder="0702059529"></div>
                     <button class="btn btn-whatsapp" onclick="sendAppInstallLink()">📤 Send App Install Link</button>
                     <button class="btn btn-info" onclick="copyAppLink()">📋 Copy App Link</button>
@@ -467,7 +457,6 @@
     </div>
 
     <script>
-        // ✅ UPDATE: Storage bucket එක නවීන Firebase format එකට යාවත්කාලීන කර ඇත.
         const firebaseConfig = {
             apiKey: "AIzaSyDduouixF2IW568mND20cfxmnBNxQfRkrg",
             authDomain: "foodhub-app-6632c.firebaseapp.com",
@@ -964,7 +953,7 @@
             const title = document.getElementById('promoTitle').value.trim();
             const message = document.getElementById('promoMessage').value.trim();
             if (!phone || !title) return alert('Phone Number සහ Title අනිවාර්යයි!');
-            window.open(`https://wa.me/94${phone.substring(1)}?text=${encodeURIComponent(`*🌿 Silvas Express - ${title}*\n\n${message}\n\nOrder දැන්ම: https://chinthakanuwan.github.io/foodhub/`)}`, '_blank');
+            window.open(`https://wa.me/94${phone.substring(1)}?text=${encodeURIComponent(`*🌿 Silvas Express - ${title}*\n\n${message}\n\nOrder දැන්ම: https://silvasexpress.store`)}`, '_blank');
         }
 
         function renderPromotions() {
@@ -991,9 +980,9 @@
 
         function useTemplate(type) {
             const templates = {
-                welcome: '👋 ආයුබෝවන්! Silvas Express App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
-                offer: '🎉 විශේෂ දීමනාව! 🌿\n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://chinthakanuwan.github.io/foodhub/',
-                delivery: '🚚 ඔබේ order එක deliver වෙමින් පවතී! 🌿\n\nOrder tracking සඳහා: https://chinthakanuwan.github.io/foodhub/\n\nස්තූතියි! 🙏'
+                welcome: '👋 ආයුබෝවන්! Silvas Express App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://silvasexpress.store',
+                offer: '🎉 විශේෂ දීමනාව! 🌿\n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://silvasexpress.store',
+                delivery: '🚚 ඔබේ order එක deliver වෙමින් පවතී! 🌿\n\nOrder tracking සඳහා: https://silvasexpress.store\n\nස්තූතියි! 🙏'
             };
             document.getElementById('notifMessage').value = templates[type];
         }
@@ -1017,12 +1006,10 @@
         function renderOrders(list) { 
             const ordersToRender = list || orders; 
             document.getElementById('ordersList').innerHTML = ordersToRender.sort((a,b) => new Date(b.date) - new Date(a.date)).map(o => {
-                // ✅ UPDATE: Items object එකක් නම් එය හොඳට කියවිය හැකි ආකාරයට පරිවර්තනය කිරීම.
                 let itemsDisplay = o.items;
                 if (typeof o.items === 'object' && o.items !== null) {
                     itemsDisplay = JSON.stringify(o.items).replace(/["{}]/g, '').replace(/,/g, ', ');
                 }
-                
                 return `
                 <div class="order-card">
                     <div class="order-header"><div class="order-id">Order #${o.id ? o.id.slice(-6) : 'New'}</div><span class="order-status status-${(o.status||'pending').toLowerCase()}">${o.status||'Pending'}</span></div>
