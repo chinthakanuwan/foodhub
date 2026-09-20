@@ -11,10 +11,8 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding-bottom: 80px; }
-        
         .header { background: linear-gradient(135deg, #22C55E, #16A34A); color: white; padding: 15px; text-align: center; position: sticky; top: 0; z-index: 100; }
         .header h1 { font-size: 24px; margin-bottom: 5px; }
-        
         .custom-ads-container { background: #fff; padding: 10px; border-bottom: 2px solid #e0e0e0; position: relative; overflow: hidden; height: 120px; }
         .custom-ad-banner { position: absolute; top: 10px; left: 10px; right: 10px; width: calc(100% - 20px); max-width: 400px; height: 100px; margin: 0 auto; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.5s ease; background: #fff; opacity: 0; transform: translateX(100%); display: none; }
         .custom-ad-banner.active { opacity: 1; transform: translateX(0); display: block; animation: slideIn 0.5s ease; }
@@ -27,92 +25,53 @@
         .carousel-dot.active { background: #22C55E; width: 24px; border-radius: 4px; }
         .carousel-controls { position: absolute; top: 5px; left: 5px; z-index: 20; }
         .pause-btn { background: rgba(34, 197, 94, 0.9); color: white; border: none; padding: 3px 8px; border-radius: 5px; font-size: 10px; cursor: pointer; }
-        
         .search-bar { padding: 12px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .search-bar input { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 25px; font-size: 14px; }
-        
         .tabs { display: flex; background: white; padding: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 12px; position: sticky; top: 90px; z-index: 90; gap: 6px; flex-wrap: wrap; }
         .tab { flex: 1; min-width: 80px; padding: 10px; text-align: center; cursor: pointer; border-radius: 10px; font-weight: 600; font-size: 13px; }
         .tab.active { background: #22C55E; color: white; }
         .tab:not(.active) { background: #f0f0f0; color: #666; }
-        
         .container { padding: 12px; }
         .hidden { display: none !important; }
-        
-        .shop-card, .food-card, .grocery-card, .vegetable-card { 
-            background: white; 
-            border-radius: 12px; 
-            margin-bottom: 20px; 
-            overflow: visible; 
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
-            cursor: pointer; 
-            position: relative; 
-            transition: all 0.3s;
-        }
+        .shop-card, .food-card, .grocery-card, .vegetable-card { background: white; border-radius: 12px; margin-bottom: 20px; overflow: visible; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: pointer; position: relative; transition: all 0.3s; }
         .shop-card.featured { border: 2px solid #FFD700; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3); }
-        
         .out-of-stock { opacity: 0.6; pointer-events: none; }
-        .out-of-stock::after { 
-            content: '❌ Out of Stock'; 
-            position: absolute; 
-            top: 50%; left: 50%; 
-            transform: translate(-50%, -50%); 
-            background: rgba(244, 67, 54, 0.9); 
-            color: white; 
-            padding: 8px 16px; 
-            border-radius: 8px; 
-            font-weight: bold; 
-            z-index: 10; 
-            white-space: nowrap;
-        }
-        
+        .out-of-stock::after { content: '❌ Out of Stock'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(244, 67, 54, 0.9); color: white; padding: 8px 16px; border-radius: 8px; font-weight: bold; z-index: 10; white-space: nowrap; }
         .shop-image, .food-image, .grocery-img, .vegetable-img { width: 100%; height: 150px; object-fit: cover; background: #eee; }
         .food-image, .grocery-img, .vegetable-img { height: 120px; }
-        
         .shop-info, .food-info, .grocery-info, .vegetable-info { padding: 12px; }
         .shop-name, .food-name, .grocery-name, .vegetable-name { font-size: 16px; font-weight: 700; margin-bottom: 6px; }
         .gold-badge { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 3px 10px; border-radius: 10px; font-size: 11px; }
-        
         .shop-details { display: flex; justify-content: space-between; color: #666; font-size: 12px; margin: 8px 0; }
         .rating { background: #22C55E; color: white; padding: 3px 8px; border-radius: 6px; font-weight: 700; }
-        
         .food-grid, .grocery-grid, .vegetable-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        
         .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; }
         .btn-primary { background: #22C55E; color: white; }
         .btn-success { background: #16A34A; color: white; }
-        
         .grocery-card.selected, .vegetable-card.selected, .food-card.selected { border: 2px solid #22C55E; }
-        
         .grocery-cart { position: fixed; bottom: 70px; left: 12px; right: 12px; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 -4px 20px rgba(0,0,0,0.15); z-index: 90; display: none; }
-        
         .cart-item { background: white; padding: 12px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .qty-controls { display: flex; align-items: center; gap: 8px; background: #f5f5f5; padding: 4px; border-radius: 8px; }
         .qty-btn { width: 30px; height: 30px; border: none; background: white; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: 700; }
-        
         .checkout-box { background: white; padding: 20px; border-radius: 16px; margin-top: 15px; }
         .form-group { margin-bottom: 16px; }
         .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: #475569; font-size: 13px; }
         .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 14px; background: white; -webkit-user-select: text; -moz-user-select: text; -ms-user-select: text; user-select: text; }
         .form-group select { appearance: auto; }
-        
         .payment-option { display: flex; gap: 10px; margin-bottom: 15px; }
         .payment-btn { flex: 1; padding: 14px; border: 2px solid #e2e8f0; border-radius: 10px; background: white; cursor: pointer; font-weight: 700; }
         .payment-btn.active { border-color: #22C55E; background: #f0fdf4; color: #16A34A; }
-        
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0 15px; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); z-index: 100; }
         .nav-item { text-align: center; padding: 5px 15px; cursor: pointer; color: #94a3b8; position: relative; }
         .nav-item.active { color: #22C55E; }
         .nav-item .icon { font-size: 22px; display: block; margin-bottom: 2px; }
         .nav-item .label { font-size: 11px; font-weight: 600; }
         .cart-badge { position: absolute; top: -2px; right: 5px; background: #22C55E; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; border: 2px solid white; }
-        
         .order-status { padding: 8px 15px; border-radius: 20px; font-weight: 600; font-size: 13px; display: inline-block; margin: 5px 0; }
         .status-pending { background: #FFE0B2; color: #E65100; }
         .status-confirmed { background: #C8E6C9; color: #1B5E20; }
         .status-delivered { background: #BBDEFB; color: #0D47A1; }
         .status-cancelled { background: #FFCDD2; color: #B71C1C; }
-        
         .tracking-timeline { background: white; padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         .tracking-timeline h3 { margin-bottom: 15px; color: #333; font-size: 16px; }
         .timeline-item { display: flex; align-items: center; margin-bottom: 15px; position: relative; }
@@ -124,17 +83,13 @@
         .timeline-title { font-weight: 600; color: #333; font-size: 14px; }
         .timeline-desc { font-size: 12px; color: #666; margin-top: 2px; }
         .timeline-item.active .timeline-title { color: #22C55E; }
-        
         .toast { position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 12px 24px; border-radius: 30px; font-weight: 600; z-index: 2000; animation: slideUp 0.3s ease; }
         @keyframes slideUp { from { bottom: 40px; opacity: 0; } to { bottom: 90px; opacity: 1; } }
-        
         .loading { text-align: center; padding: 40px; color: #94a3b8; }
-        
         .image-container { position: relative; width: 100%; height: 150px; background: #f0f0f0; overflow: hidden; border-radius: 12px 12px 0 0; }
         .image-container.food-img-container { height: 120px; }
         .image-container img { width: 100%; height: 100%; object-fit: cover; }
         .image-fallback { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #22C55E, #16A34A); color: white; font-size: 14px; font-weight: 600; text-align: center; padding: 10px; }
-        
         .delivery-info { background: #f0fdf4; padding: 12px; border-radius: 10px; margin-top: 10px; border-left: 4px solid #22C55E; font-size: 13px; }
         .zone-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; margin-left: 5px; }
         .zone-1 { background: #C8E6C9; color: #1B5E20; }
@@ -142,10 +97,8 @@
         .zone-3 { background: #FFE0B2; color: #E65100; }
         .zone-4 { background: #FFCDD2; color: #B71C1C; }
         .zone-5 { background: #E1BEE7; color: #4A148C; }
-        
         .developer-credit { text-align: center; padding: 20px 10px 80px 10px; color: #888; font-size: 12px; background: #f5f5f5; border-top: 1px solid #eee; margin-top: 20px; }
         .developer-credit strong { color: #22C55E; }
-        
         .google-ad-container { width: 100%; text-align: center; margin: 10px 0; padding: 5px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; }
     </style>
 </head>
@@ -156,7 +109,6 @@
     </div>
     
     <div id="customAdsContainer" class="custom-ads-container" style="display: none;"></div>
-    
     <div id="googleAdTop" class="google-ad-container" style="display: none;">
         <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins>
     </div>
@@ -234,18 +186,9 @@
                 <h3 style="margin-bottom: 15px; font-size: 18px;">📋 Order විස්තර</h3>
                 <div id="orderSummary" style="background: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 20px;"></div>
                 
-                <div class="form-group">
-                    <label>👤 ඔබේ නම *</label>
-                    <input type="text" id="customerName" placeholder="ඔබේ සම්පූර්ණ නම">
-                </div>
-                <div class="form-group">
-                    <label>📞 දුරකථන අංකය *</label>
-                    <input type="tel" id="phoneNumber" placeholder="07X XXX XXXX">
-                </div>
-                <div class="form-group">
-                    <label>📍 Delivery ලිපිනය *</label>
-                    <textarea id="deliveryAddress" rows="3" placeholder="නිවසේ ලිපිනය..."></textarea>
-                </div>
+                <div class="form-group"><label>👤 ඔබේ නම *</label><input type="text" id="customerName" placeholder="ඔබේ සම්පූර්ණ නම"></div>
+                <div class="form-group"><label>📞 දුරකථන අංකය *</label><input type="tel" id="phoneNumber" placeholder="07X XXX XXXX"></div>
+                <div class="form-group"><label>📍 Delivery ලිපිනය *</label><textarea id="deliveryAddress" rows="3" placeholder="නිවසේ ලිපිනය..."></textarea></div>
                 
                 <div class="form-group">
                     <label>📍 ඔබේ ප්‍රදේශය තෝරන්න *</label>
@@ -284,7 +227,6 @@
                             <option value="other-areas" data-fee="300" data-zone="5" data-distance="8.0+">වෙනත් ප්‍රදේශ</option>
                         </optgroup>
                     </select>
-                    
                     <div class="delivery-info" id="deliveryInfo" style="display: none;">
                         <strong>📍 තෝරාගත් ප්‍රදේශය:</strong> <span id="selectedAreaName"></span>
                         <span id="zoneBadge" class="zone-badge"></span><br>
@@ -310,23 +252,12 @@
                 </div>
                 
                 <div style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #22C55E;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span>🛒 Items Total:</span>
-                        <span style="font-weight: 600;">Rs. <span id="itemsTotal">0</span></span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                        <span>🚚 Delivery Fee:</span>
-                        <span style="font-weight: 600; color: #16A34A;">Rs. <span id="deliveryFeeDisplay">0</span></span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 18px; margin-top: 12px; padding-top: 12px; border-top: 2px solid #cbd5e1;">
-                        <span>💰 මුළු එකතුව:</span>
-                        <span>Rs. <span id="grandTotal">0</span></span>
-                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>🛒 Items Total:</span><span style="font-weight: 600;">Rs. <span id="itemsTotal">0</span></span></div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>🚚 Delivery Fee:</span><span style="font-weight: 600; color: #16A34A;">Rs. <span id="deliveryFeeDisplay">0</span></span></div>
+                    <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 18px; margin-top: 12px; padding-top: 12px; border-top: 2px solid #cbd5e1;"><span>💰 මුළු එකතුව:</span><span>Rs. <span id="grandTotal">0</span></span></div>
                 </div>
                 
-                <button class="btn btn-success" onclick="confirmCartOrder()" style="padding: 15px; font-size: 16px;">
-                    📱 WhatsApp එකට Order එක යවන්න
-                </button>
+                <button class="btn btn-success" onclick="confirmCartOrder()" style="padding: 15px; font-size: 16px;">📱 WhatsApp එකට Order එක යවන්න</button>
             </div>
         </div>
     </div>
@@ -346,6 +277,7 @@
     <div class="developer-credit">
         <p>Developed with ❤️ by <strong>TK Chinthaka Nuwan</strong></p>
         <p style="font-size: 10px; margin-top: 5px; color: #aaa;">© 2024 Silvas Express App. All rights reserved.</p>
+        <a href="admin.html" style="color: #ccc; text-decoration: none; font-size: 9px; margin-top: 5px; display: inline-block;">Admin Access</a>
     </div>
 
     <script>
@@ -353,26 +285,17 @@
         function disableKeys(e) {
             if (e.keyCode === 123) { e.preventDefault(); return false; }
             if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) { e.preventDefault(); return false; }
-            if (e.ctrlKey && e.keyCode === 85) { e.preventDefault(); return false; }
-            if (e.ctrlKey && e.keyCode === 83) { e.preventDefault(); return false; }
-            if (e.ctrlKey && e.keyCode === 65) { e.preventDefault(); return false; }
-            if (e.ctrlKey && e.keyCode === 67) { e.preventDefault(); return false; }
+            if (e.ctrlKey && e.keyCode === 85 || e.keyCode === 83 || e.keyCode === 65 || e.keyCode === 67) { e.preventDefault(); return false; }
             return true;
         }
         document.addEventListener('selectstart', function(e) {
-            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'SELECT') {
-                e.preventDefault(); return false;
-            }
+            if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA' && e.target.tagName !== 'SELECT') { e.preventDefault(); return false; }
             return true;
         });
         setInterval(function() { if (window.console && window.console.clear) console.clear(); }, 1000);
         (function() {
             const threshold = 160;
-            const check = function() {
-                if (window.outerHeight - window.innerHeight > threshold || window.outerWidth - window.innerWidth > threshold) {
-                    document.body.innerHTML = '<div style="text-align:center;padding:50px;"><h1>🚫 Access Denied</h1><p>Developer tools detected.</p></div>';
-                }
-            };
+            const check = function() { if (window.outerHeight - window.innerHeight > threshold || window.outerWidth - window.innerWidth > threshold) { document.body.innerHTML = '<div style="text-align:center;padding:50px;"><h1>🚫 Access Denied</h1><p>Developer tools detected.</p></div>'; } };
             setInterval(check, 1000);
         })();
         document.addEventListener('dragstart', function(e) { e.preventDefault(); });
@@ -391,9 +314,7 @@
 
         let shops = [], foods = [], groceryItems = [], vegetables = [], cart = JSON.parse(localStorage.getItem('silvas_express_cart')) || [];
         let selectedGroceryIds = new Set(), selectedVegetableIds = new Set(), selectedFoodIds = new Set(), currentShopId = null, selectedPaymentMethod = 'cod', currentDeliveryFee = 0;
-        let customAds = [], adSettings = {};
-        let selectedVariants = {};
-        let itemQuantities = {};
+        let customAds = [], adSettings = {}, selectedVariants = {}, itemQuantities = {};
         let currentAdIndex = 0, adInterval, isPaused = false;
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -430,12 +351,7 @@
                 </div>
             `).join('');
             if (customAds.length > 1) {
-                const indicatorsHTML = `
-                    <div class="carousel-indicators">
-                        ${customAds.map((_, index) => `<div class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="goToAd(${index})"></div>`).join('')}
-                    </div>
-                    <div class="carousel-controls"><button class="pause-btn" onclick="togglePause()">⏸️</button></div>
-                `;
+                const indicatorsHTML = `<div class="carousel-indicators">${customAds.map((_, index) => `<div class="carousel-dot ${index === 0 ? 'active' : ''}" onclick="goToAd(${index})"></div>`).join('')}</div><div class="carousel-controls"><button class="pause-btn" onclick="togglePause()">⏸️</button></div>`;
                 container.innerHTML = adsHTML + indicatorsHTML;
             } else { container.innerHTML = adsHTML; }
         }
@@ -532,16 +448,12 @@
             list.innerHTML = shops.map(shop => {
                 const isGrocery = shop.category === 'Grocery' || shop.category === 'Supermarket';
                 const open = isShopOpen(shop.openTime, shop.closeTime);
-                const statusBadge = open 
-                    ? '<span style="background: #22C55E; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600;">විවෘතයි (Open)</span>' 
-                    : '<span style="background: #f44336; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600;">වසා ඇත (Closed)</span>';
-                
+                const statusBadge = open ? '<span style="background: #22C55E; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600;">විවෘතයි (Open)</span>' : '<span style="background: #f44336; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600;">වසා ඇත (Closed)</span>';
                 return `<div class="shop-card ${shop.isFeatured ? 'featured' : ''}" onclick="${isGrocery ? `switchTab('grocery')` : `openShopView('${shop.id}')`}" style="${!open ? 'opacity: 0.85;' : ''}">
                     <div class="image-container"><img src="${shop.image || 'https://via.placeholder.com/500x300?text=No+Image'}" class="shop-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${shop.name}'"><div class="image-fallback" style="display:none;">${shop.name}</div></div>
                     <div class="shop-info">
                         <div class="shop-name" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 5px;">
-                            <span>${shop.name} ${shop.isFeatured ? '<span class="gold-badge">⭐ GOLD</span>' : ''}</span>
-                            ${statusBadge}
+                            <span>${shop.name} ${shop.isFeatured ? '<span class="gold-badge">⭐ GOLD</span>' : ''}</span>${statusBadge}
                         </div>
                         ${isGrocery ? '<div style="margin-top: 4px;"><span style="background: #22C55E; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px;">🛒 Grocery</span></div>' : ''}
                         <div class="shop-details"><span>📞 ${shop.phone || 'N/A'}</span><span class="rating">⭐ ${shop.rating || '4.0'}</span></div>
@@ -559,61 +471,46 @@
             let displayFoods = currentShopId ? foods.filter(f => f.shopId === currentShopId) : foods;
             if (displayFoods.length === 0) { list.innerHTML = `<div class="loading">${currentShopId ? 'මේ කඩේ Foods තවම නැහැ.' : 'දැනට Foods කිසිවක් නැත.'}</div>`; updateFoodCart(); return; }
             displayFoods.sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
-            
             list.innerHTML = displayFoods.map(food => {
                 const isAvailable = food.available !== false;
                 const hasVariants = food.variants && Object.keys(food.variants).length > 0;
                 const isSelected = selectedFoodIds.has(food.id);
                 let variantButtonHTML = '';
-                
                 if (hasVariants) {
                     const selectedVariant = selectedVariants[food.id];
                     const buttonText = selectedVariant ? `${selectedVariant.weight} - Rs. ${selectedVariant.price}` : '🍽️ Portion තෝරන්න ▼';
                     const buttonColor = selectedVariant ? '#22C55E' : '#e0e0e0';
                     const textColor = selectedVariant ? 'white' : '#666';
-                    
-                    variantButtonHTML = `
-                        <div style="position: relative; margin-top: 10px; z-index: 1000;">
-                            <button class="variant-dropdown-btn" data-product-id="${food.id}" onclick="event.stopPropagation(); toggleVariantDropdown('${food.id}')" style="width: 100%; padding: 10px; border: 2px solid ${buttonColor}; border-radius: 8px; background: ${buttonColor}; color: ${textColor}; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: all 0.3s;">
-                                ${buttonText}
-                            </button>
-                            <div id="variant-dropdown-${food.id}" class="variant-dropdown" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 2px solid #22C55E; border-radius: 8px; margin-top: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; max-height: 200px; overflow-y: auto;">
-                                ${Object.entries(food.variants).map(([weight, variantData]) => {
-                                    const normalPrice = variantData.normalPrice || 0;
-                                    const specialPrice = variantData.specialPrice || 0;
-                                    const finalPrice = specialPrice > 0 && specialPrice < normalPrice ? specialPrice : normalPrice;
-                                    const hasDiscount = specialPrice > 0 && specialPrice < normalPrice;
-                                    return `<div onclick="event.stopPropagation(); selectVariantFromDropdown('${food.id}', '${weight}', ${normalPrice}, ${specialPrice})" style="padding: 10px; border-bottom: 1px solid #f0f0f0; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
-                                        <span style="font-weight: 700; font-size: 13px;">${weight}</span>
-                                        <div style="text-align: right;">
-                                            ${hasDiscount ? `<div style="font-size: 10px; color: #f44336; text-decoration: line-through;">Rs. ${normalPrice}</div><div style="font-size: 12px; color: #22C55E; font-weight: 700;">Rs. ${specialPrice}</div>` : `<div style="font-size: 12px; color: #16A34A; font-weight: 700;">Rs. ${normalPrice}</div>`}
-                                        </div>
-                                    </div>`;
-                                }).join('')}
-                            </div>
+                    variantButtonHTML = `<div style="position: relative; margin-top: 10px; z-index: 1000;">
+                        <button class="variant-dropdown-btn" data-product-id="${food.id}" onclick="event.stopPropagation(); toggleVariantDropdown('${food.id}')" style="width: 100%; padding: 10px; border: 2px solid ${buttonColor}; border-radius: 8px; background: ${buttonColor}; color: ${textColor}; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: all 0.3s;">${buttonText}</button>
+                        <div id="variant-dropdown-${food.id}" class="variant-dropdown" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 2px solid #22C55E; border-radius: 8px; margin-top: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; max-height: 200px; overflow-y: auto;">
+                            ${Object.entries(food.variants).map(([weight, variantData]) => {
+                                const normalPrice = variantData.normalPrice || 0;
+                                const specialPrice = variantData.specialPrice || 0;
+                                const hasDiscount = specialPrice > 0 && specialPrice < normalPrice;
+                                return `<div onclick="event.stopPropagation(); selectVariantFromDropdown('${food.id}', '${weight}', ${normalPrice}, ${specialPrice})" style="padding: 10px; border-bottom: 1px solid #f0f0f0; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-weight: 700; font-size: 13px;">${weight}</span>
+                                    <div style="text-align: right;">${hasDiscount ? `<div style="font-size: 10px; color: #f44336; text-decoration: line-through;">Rs. ${normalPrice}</div><div style="font-size: 12px; color: #22C55E; font-weight: 700;">Rs. ${specialPrice}</div>` : `<div style="font-size: 12px; color: #16A34A; font-weight: 700;">Rs. ${normalPrice}</div>`}</div>
+                                </div>`;
+                            }).join('')}
                         </div>
-                    `;
+                    </div>`;
                 }
-
                 const displayPrice = hasVariants && selectedVariants[food.id] ? selectedVariants[food.id].price : food.price;
                 const qty = itemQuantities[food.id] || 1;
-
-                return `
-                <div class="food-card ${isSelected ? 'selected' : ''} ${!isAvailable ? 'out-of-stock' : ''}" onclick="${isAvailable ? `toggleFoodItem('${food.id}')` : ''}" style="position: relative; padding-bottom: 10px;">
+                return `<div class="food-card ${isSelected ? 'selected' : ''} ${!isAvailable ? 'out-of-stock' : ''}" onclick="${isAvailable ? `toggleFoodItem('${food.id}')` : ''}" style="position: relative; padding-bottom: 10px;">
                     ${isAvailable ? `<div onclick="event.stopPropagation(); toggleFoodItem('${food.id}')" style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: ${isSelected ? '#22C55E' : 'white'}; border: 2px solid ${isSelected ? '#22C55E' : '#ddd'}; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-size: 14px; color: white; font-weight: bold; cursor: pointer;">${isSelected ? '✓' : ''}</div>` : ''}
                     <div class="image-container food-img-container"><img src="${food.image || 'https://via.placeholder.com/400x120?text=No+Image'}" class="food-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${food.name}'"><div class="image-fallback" style="display:none;">${food.name}</div></div>
                     <div class="food-info">
                         <div class="food-name">${food.name}</div>
                         <div style="color: #16A34A; font-weight: 800; font-size: 16px; margin: 6px 0;">Rs. ${displayPrice}</div>
                         ${variantButtonHTML}
-                        ${isAvailable ? `
-                        <div class="qty-selector" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0; background: #f0fdf4; padding: 5px; border-radius: 8px;">
+                        ${isAvailable ? `<div class="qty-selector" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0; background: #f0fdf4; padding: 5px; border-radius: 8px;">
                             <button class="qty-btn" onclick="event.stopPropagation(); updateItemQty('${food.id}', -1)">−</button>
                             <span id="qty-${food.id}" style="font-weight: bold; min-width: 20px; text-align: center;">${qty}</span>
                             <button class="qty-btn" onclick="event.stopPropagation(); updateItemQty('${food.id}', 1)">+</button>
                         </div>
-                        <button class="btn btn-primary" onclick="event.stopPropagation(); addToCartWithQty('${food.id}', '${food.name}', ${food.price}, ${hasVariants}, '${food.shopId || ''}')">🛒 Add to Cart</button>
-                        ` : ''}
+                        <button class="btn btn-primary" onclick="event.stopPropagation(); addToCartWithQty('${food.id}', '${food.name}', ${food.price}, ${hasVariants}, '${food.shopId || ''}')">🛒 Add to Cart</button>` : ''}
                     </div>
                 </div>`;
             }).join('');
@@ -624,46 +521,34 @@
             const grid = document.getElementById('groceryGrid');
             if (groceryItems.length === 0) { grid.innerHTML = '<div class="loading">දැනට Grocery භාණ්ඩ කිසිවක් නැත.</div>'; updateGroceryCart(); return; }
             groceryItems.sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
-            
             grid.innerHTML = groceryItems.map(product => {
                 const isAvailable = product.available !== false;
                 const hasVariants = product.variants && Object.keys(product.variants).length > 0;
                 const isSelected = selectedGroceryIds.has(product.id);
                 let variantButtonHTML = '';
-                
                 if (hasVariants) {
                     const selectedVariant = selectedVariants[product.id];
                     const buttonText = selectedVariant ? `${selectedVariant.weight} - Rs. ${selectedVariant.price}` : '📦 බර තෝරන්න ▼';
                     const buttonColor = selectedVariant ? '#22C55E' : '#e0e0e0';
                     const textColor = selectedVariant ? 'white' : '#666';
-                    
-                    variantButtonHTML = `
-                        <div style="position: relative; margin-top: 10px; z-index: 1000;">
-                            <button class="variant-dropdown-btn" data-product-id="${product.id}" onclick="event.stopPropagation(); toggleVariantDropdown('${product.id}')" style="width: 100%; padding: 10px; border: 2px solid ${buttonColor}; border-radius: 8px; background: ${buttonColor}; color: ${textColor}; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                ${buttonText}
-                            </button>
-                            <div id="variant-dropdown-${product.id}" class="variant-dropdown" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 2px solid #22C55E; border-radius: 8px; margin-top: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; max-height: 200px; overflow-y: auto;">
-                                ${Object.entries(product.variants).map(([weight, variantData]) => {
-                                    const normalPrice = variantData.normalPrice || 0;
-                                    const specialPrice = variantData.specialPrice || 0;
-                                    const finalPrice = specialPrice > 0 && specialPrice < normalPrice ? specialPrice : normalPrice;
-                                    const hasDiscount = specialPrice > 0 && specialPrice < normalPrice;
-                                    return `<div onclick="event.stopPropagation(); selectVariantFromDropdown('${product.id}', '${weight}', ${normalPrice}, ${specialPrice})" style="padding: 10px; border-bottom: 1px solid #f0f0f0; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
-                                        <span style="font-weight: 700; font-size: 13px;">${weight}</span>
-                                        <div style="text-align: right;">
-                                            ${hasDiscount ? `<div style="font-size: 10px; color: #f44336; text-decoration: line-through;">Rs. ${normalPrice}</div><div style="font-size: 12px; color: #22C55E; font-weight: 700;">Rs. ${specialPrice}</div>` : `<div style="font-size: 12px; color: #16A34A; font-weight: 700;">Rs. ${normalPrice}</div>`}
-                                        </div>
-                                    </div>`;
-                                }).join('')}
-                            </div>
+                    variantButtonHTML = `<div style="position: relative; margin-top: 10px; z-index: 1000;">
+                        <button class="variant-dropdown-btn" data-product-id="${product.id}" onclick="event.stopPropagation(); toggleVariantDropdown('${product.id}')" style="width: 100%; padding: 10px; border: 2px solid ${buttonColor}; border-radius: 8px; background: ${buttonColor}; color: ${textColor}; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">${buttonText}</button>
+                        <div id="variant-dropdown-${product.id}" class="variant-dropdown" style="display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 2px solid #22C55E; border-radius: 8px; margin-top: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); z-index: 1000; max-height: 200px; overflow-y: auto;">
+                            ${Object.entries(product.variants).map(([weight, variantData]) => {
+                                const normalPrice = variantData.normalPrice || 0;
+                                const specialPrice = variantData.specialPrice || 0;
+                                const hasDiscount = specialPrice > 0 && specialPrice < normalPrice;
+                                return `<div onclick="event.stopPropagation(); selectVariantFromDropdown('${product.id}', '${weight}', ${normalPrice}, ${specialPrice})" style="padding: 10px; border-bottom: 1px solid #f0f0f0; cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-weight: 700; font-size: 13px;">${weight}</span>
+                                    <div style="text-align: right;">${hasDiscount ? `<div style="font-size: 10px; color: #f44336; text-decoration: line-through;">Rs. ${normalPrice}</div><div style="font-size: 12px; color: #22C55E; font-weight: 700;">Rs. ${specialPrice}</div>` : `<div style="font-size: 12px; color: #16A34A; font-weight: 700;">Rs. ${normalPrice}</div>`}</div>
+                                </div>`;
+                            }).join('')}
                         </div>
-                    `;
+                    </div>`;
                 }
-
                 const showDiscount = product.hasDiscount && product.discountPrice > 0 && product.discountPrice < product.originalPrice;
                 const discountPercent = showDiscount ? Math.round(((product.originalPrice - product.discountPrice) / product.originalPrice) * 100) : 0;
                 const qty = itemQuantities[product.id] || 1;
-
                 return `<div class="grocery-card ${isSelected ? 'selected' : ''} ${!isAvailable ? 'out-of-stock' : ''}" onclick="${isAvailable ? `toggleGroceryItem('${product.id}')` : ''}" style="position: relative; padding-bottom: 10px;">
                     ${isAvailable ? `<div onclick="event.stopPropagation(); toggleGroceryItem('${product.id}')" style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: ${isSelected ? '#22C55E' : 'white'}; border: 2px solid ${isSelected ? '#22C55E' : '#ddd'}; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-size: 14px; color: white; font-weight: bold; cursor: pointer;">${isSelected ? '✓' : ''}</div>` : ''}
                     <div class="image-container food-img-container"><img src="${product.image || 'https://res.cloudinary.com/wdd29nbn/image/upload/f_auto,q_auto/1000116375.jpg'}" class="grocery-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${product.name}'"><div class="image-fallback" style="display:none;">${product.name}</div></div>
@@ -675,13 +560,11 @@
                         </div>
                         ${showDiscount ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">🏷️ Special Offer!</div>' : ''}
                         ${variantButtonHTML}
-                        ${isAvailable ? `
-                        <div class="qty-selector" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0; background: #f0fdf4; padding: 5px; border-radius: 8px;">
+                        ${isAvailable ? `<div class="qty-selector" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0; background: #f0fdf4; padding: 5px; border-radius: 8px;">
                             <button class="qty-btn" onclick="event.stopPropagation(); updateItemQty('${product.id}', -1)">−</button>
                             <span id="qty-${product.id}" style="font-weight: bold; min-width: 20px; text-align: center;">${qty}</span>
                             <button class="qty-btn" onclick="event.stopPropagation(); updateItemQty('${product.id}', 1)">+</button>
-                        </div>
-                        ` : ''}
+                        </div>` : ''}
                     </div></div>`;
             }).join('');
             updateGroceryCart();
@@ -697,7 +580,6 @@
                 const discountPercent = showDiscount ? Math.round(((veg.originalPrice - veg.discountPrice) / veg.originalPrice) * 100) : 0;
                 const isSelected = selectedVegetableIds.has(veg.id);
                 const qty = itemQuantities[veg.id] || 1;
-
                 return `<div class="vegetable-card ${isSelected ? 'selected' : ''} ${!isAvailable ? 'out-of-stock' : ''}" onclick="${isAvailable ? `toggleVegetable('${veg.id}')` : ''}" style="position: relative;">
                     ${isAvailable ? `<div onclick="event.stopPropagation(); toggleVegetable('${veg.id}')" style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: ${isSelected ? '#22C55E' : 'white'}; border: 2px solid ${isSelected ? '#22C55E' : '#ddd'}; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-size: 14px; color: white; font-weight: bold; cursor: pointer;">${isSelected ? '✓' : ''}</div>` : ''}
                     <div class="image-container food-img-container"><img src="${veg.image || 'https://via.placeholder.com/400x300?text=No+Image'}" class="vegetable-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'; this.nextElementSibling.textContent='${veg.name}'"><div class="image-fallback" style="display:none;">${veg.name}</div></div>
@@ -705,13 +587,11 @@
                     <div style="display: flex; align-items: center; gap: 6px; margin: 8px 0; flex-wrap: wrap;">
                         ${showDiscount ? `<div style="background: #f44336; color: white; padding: 2px 6px; border-radius: 8px; font-size: 10px; font-weight: 700;">-${discountPercent}%</div><div style="color: #f44336; font-weight: 800; font-size: 15px;">Rs. ${veg.discountPrice}</div><div style="color: #999; text-decoration: line-through; font-size: 11px;">Rs. ${veg.originalPrice}</div>` : `<div style="color: #22C55E; font-weight: 800; font-size: 15px;">Rs. ${veg.originalPrice}</div>`}
                     </div>
-                    ${isAvailable ? `
-                    <div class="qty-selector" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0; background: #f0fdf4; padding: 5px; border-radius: 8px;">
+                    ${isAvailable ? `<div class="qty-selector" style="display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0; background: #f0fdf4; padding: 5px; border-radius: 8px;">
                         <button class="qty-btn" onclick="event.stopPropagation(); updateItemQty('${veg.id}', -1)">−</button>
                         <span id="qty-${veg.id}" style="font-weight: bold; min-width: 20px; text-align: center;">${qty}</span>
                         <button class="qty-btn" onclick="event.stopPropagation(); updateItemQty('${veg.id}', 1)">+</button>
-                    </div>
-                    ` : ''}
+                    </div>` : ''}
                     </div></div>`;
             }).join('');
             updateVegetableCart();
@@ -721,15 +601,13 @@
             if (!itemQuantities[id]) itemQuantities[id] = 1;
             itemQuantities[id] += change;
             if (itemQuantities[id] < 1) itemQuantities[id] = 1;
-            
             const qtySpan = document.getElementById(`qty-${id}`);
             if (qtySpan) qtySpan.textContent = itemQuantities[id];
         }
 
         function toggleVariantDropdown(productId) {
             const dropdown = document.getElementById(`variant-dropdown-${productId}`);
-            const allDropdowns = document.querySelectorAll('.variant-dropdown');
-            allDropdowns.forEach(d => { if (d.id !== `variant-dropdown-${productId}`) d.style.display = 'none'; });
+            document.querySelectorAll('.variant-dropdown').forEach(d => { if (d.id !== `variant-dropdown-${productId}`) d.style.display = 'none'; });
             dropdown.style.display = (dropdown.style.display === 'none' || dropdown.style.display === '') ? 'block' : 'none';
         }
 
@@ -737,21 +615,15 @@
             const finalPrice = specialPrice > 0 && specialPrice < normalPrice ? specialPrice : normalPrice;
             if (!selectedVariants) selectedVariants = {};
             selectedVariants[productId] = { weight, price: finalPrice, normalPrice, specialPrice };
-            
             const dropdown = document.getElementById(`variant-dropdown-${productId}`);
             if (dropdown) dropdown.style.display = 'none';
-            
-            if (!document.getElementById('foodsTab').classList.contains('hidden')) {
-                renderFoods();
-            } else if (!document.getElementById('groceryTab').classList.contains('hidden')) {
-                renderGroceryGrid();
-            }
+            if (!document.getElementById('foodsTab').classList.contains('hidden')) renderFoods();
+            else if (!document.getElementById('groceryTab').classList.contains('hidden')) renderGroceryGrid();
         }
 
         document.addEventListener('click', function(event) {
             if (!event.target.classList.contains('variant-dropdown-btn') && !event.target.closest('.variant-dropdown')) {
-                const allDropdowns = document.querySelectorAll('.variant-dropdown');
-                allDropdowns.forEach(d => d.style.display = 'none');
+                document.querySelectorAll('.variant-dropdown').forEach(d => d.style.display = 'none');
             }
         });
 
@@ -804,28 +676,18 @@
         }
 
         function addToCartWithQty(id, name, basePrice, hasVariants, shopId) {
-            let finalPrice = basePrice;
-            let displayName = name;
-            let weight = '';
+            let finalPrice = basePrice, displayName = name, weight = '';
             const qty = itemQuantities[id] || 1;
-
             if (hasVariants && selectedVariants[id]) {
                 finalPrice = selectedVariants[id].price;
                 weight = selectedVariants[id].weight;
                 displayName = `${name} (${weight})`;
             }
-
             const existingIndex = cart.findIndex(c => c.id === id && c.type === 'food' && (c.weight || '') === weight);
-            if (existingIndex !== -1) {
-                cart[existingIndex].quantity += qty;
-            } else {
-                cart.push({ id: id, name: displayName, price: finalPrice, quantity: qty, type: 'food', weight: weight, shopId: shopId });
-            }
+            if (existingIndex !== -1) cart[existingIndex].quantity += qty;
+            else cart.push({ id: id, name: displayName, price: finalPrice, quantity: qty, type: 'food', weight: weight, shopId: shopId });
             itemQuantities[id] = 1;
-            saveCart(); 
-            selectedFoodIds.clear(); 
-            selectedVariants = {}; 
-            renderFoods();
+            saveCart(); selectedFoodIds.clear(); selectedVariants = {}; renderFoods();
             showToast(`✅ ${name} Cart එකට එකතු විය!`);
             setTimeout(() => switchTab('cart'), 1000);
         }
@@ -836,28 +698,15 @@
                 const item = groceryItems.find(g => g.id === id);
                 if (item) {
                     const hasVariants = item.variants && Object.keys(item.variants).length > 0;
-                    let selectedWeight = '';
-                    let finalPrice = item.hasDiscount && item.discountPrice > 0 ? item.discountPrice : item.originalPrice;
-                    let displayName = item.name;
+                    let selectedWeight = '', finalPrice = item.hasDiscount && item.discountPrice > 0 ? item.discountPrice : item.originalPrice, displayName = item.name;
                     const qty = itemQuantities[id] || 1;
-                    
                     if (hasVariants) {
-                        if (selectedVariants[id]) {
-                            selectedWeight = selectedVariants[id].weight;
-                            finalPrice = selectedVariants[id].price;
-                            displayName = `${item.name} (${selectedWeight})`;
-                        } else {
-                            alert(`කරුණාකර "${item.name}" සඳහා බරක් තෝරාගන්න!`);
-                            hasError = true; return;
-                        }
+                        if (selectedVariants[id]) { selectedWeight = selectedVariants[id].weight; finalPrice = selectedVariants[id].price; displayName = `${item.name} (${selectedWeight})`; } 
+                        else { alert(`කරුණාකර "${item.name}" සඳහා බරක් තෝරාගන්න!`); hasError = true; return; }
                     }
-                    
                     const existingIndex = cart.findIndex(c => c.id === id && c.type === 'grocery' && (c.weight || '') === selectedWeight);
-                    if (existingIndex !== -1) {
-                        cart[existingIndex].quantity += qty;
-                    } else {
-                        cart.push({ id: item.id, name: displayName, price: finalPrice, quantity: qty, type: 'grocery', weight: selectedWeight });
-                    }
+                    if (existingIndex !== -1) cart[existingIndex].quantity += qty;
+                    else cart.push({ id: item.id, name: displayName, price: finalPrice, quantity: qty, type: 'grocery', weight: selectedWeight });
                     itemQuantities[id] = 1;
                 }
             });
@@ -874,18 +723,8 @@
                     const price = item.hasDiscount && item.discountPrice > 0 ? item.discountPrice : item.originalPrice;
                     const qty = itemQuantities[id] || 1;
                     const existingIndex = cart.findIndex(c => c.id === id && c.type === 'vegetable');
-                    if (existingIndex !== -1) {
-                        cart[existingIndex].quantity += qty;
-                    } else {
-                        cart.push({ 
-                            id: item.id, 
-                            name: item.name, 
-                            price: price, 
-                            quantity: qty, 
-                            type: 'vegetable',
-                            unit: item.unit || '' 
-                        });
-                    }
+                    if (existingIndex !== -1) cart[existingIndex].quantity += qty;
+                    else cart.push({ id: item.id, name: item.name, price: price, quantity: qty, type: 'vegetable', unit: item.unit || '' });
                     itemQuantities[id] = 1;
                 }
             });
@@ -900,28 +739,15 @@
                 const item = foods.find(f => f.id === id);
                 if (item) {
                     const hasVariants = item.variants && Object.keys(item.variants).length > 0;
-                    let selectedWeight = '';
-                    let finalPrice = item.price;
-                    let displayName = item.name;
+                    let selectedWeight = '', finalPrice = item.price, displayName = item.name;
                     const qty = itemQuantities[id] || 1;
-                    
                     if (hasVariants) {
-                        if (selectedVariants[id]) {
-                            selectedWeight = selectedVariants[id].weight;
-                            finalPrice = selectedVariants[id].price;
-                            displayName = `${item.name} (${selectedWeight})`;
-                        } else {
-                            alert(`කරුණාකර "${item.name}" සඳහා Portion එකක් තෝරාගන්න!`);
-                            hasError = true; return;
-                        }
+                        if (selectedVariants[id]) { selectedWeight = selectedVariants[id].weight; finalPrice = selectedVariants[id].price; displayName = `${item.name} (${selectedWeight})`; } 
+                        else { alert(`කරුණාකර "${item.name}" සඳහා Portion එකක් තෝරාගන්න!`); hasError = true; return; }
                     }
-                    
                     const existingIndex = cart.findIndex(c => c.id === id && c.type === 'food' && (c.weight || '') === selectedWeight);
-                    if (existingIndex !== -1) {
-                        cart[existingIndex].quantity += qty;
-                    } else {
-                        cart.push({ id: item.id, name: displayName, price: finalPrice, quantity: qty, type: 'food', weight: selectedWeight, shopId: currentShopId });
-                    }
+                    if (existingIndex !== -1) cart[existingIndex].quantity += qty;
+                    else cart.push({ id: item.id, name: displayName, price: finalPrice, quantity: qty, type: 'food', weight: selectedWeight, shopId: currentShopId });
                     itemQuantities[id] = 1;
                 }
             });
@@ -932,7 +758,7 @@
         }
 
         function saveCart() { localStorage.setItem('silvas_express_cart', JSON.stringify(cart)); updateCartBadge(); renderCart(); }
-        function updateCartBadge() { const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0); document.getElementById('cartCount').textContent = totalItems; }
+        function updateCartBadge() { document.getElementById('cartCount').textContent = cart.reduce((sum, item) => sum + item.quantity, 0); }
 
         function renderCart() {
             const list = document.getElementById('cartList');
@@ -959,13 +785,9 @@
 
         function changeQty(index, change) { 
             cart[index].quantity += change; 
-            if (cart[index].quantity <= 0) {
-                cart.splice(index, 1); 
-            }
-            saveCart(); 
-            renderCart(); 
+            if (cart[index].quantity <= 0) cart.splice(index, 1);
+            saveCart(); renderCart(); 
         }
-        
         function removeFromCart(index) { cart.splice(index, 1); saveCart(); renderCart(); showToast('❌ Item එක ඉවත් කරන ලදී'); }
         
         function selectPayment(method) {
@@ -981,12 +803,11 @@
             const fee = parseInt(selectedOption.getAttribute('data-fee')) || 0;
             const zone = selectedOption.getAttribute('data-zone');
             const distance = selectedOption.getAttribute('data-distance') || '';
-            const areaName = selectedOption.text;
             currentDeliveryFee = fee;
             const deliveryInfo = document.getElementById('deliveryInfo');
             if (fee > 0) {
                 deliveryInfo.style.display = 'block';
-                document.getElementById('selectedAreaName').textContent = areaName;
+                document.getElementById('selectedAreaName').textContent = selectedOption.text;
                 const zoneBadge = document.getElementById('zoneBadge');
                 zoneBadge.textContent = distance ? `Zone ${zone} (${distance}km)` : `Zone ${zone}`;
                 zoneBadge.className = `zone-badge zone-${zone}`;
@@ -1002,31 +823,23 @@
             cart.forEach(item => {
                 if (item.shopId) {
                     const shop = shops.find(s => s.id === item.shopId);
-                    if (shop && shop.openTime && shop.closeTime) {
-                        if (!isShopOpen(shop.openTime, shop.closeTime)) {
-                            if (!closedShops.includes(shop.name)) closedShops.push(shop.name);
-                        }
+                    if (shop && shop.openTime && shop.closeTime && !isShopOpen(shop.openTime, shop.closeTime)) {
+                        if (!closedShops.includes(shop.name)) closedShops.push(shop.name);
                     }
                 }
             });
-
-            if (closedShops.length > 0) {
-                showToast(`❌ ${closedShops.join(', ')} දැන් වසා ඇත! Order කළ නොහැක.`);
-                return;
-            }
+            if (closedShops.length > 0) { showToast(`❌ ${closedShops.join(', ')} දැන් වසා ඇත! Order කළ නොහැක.`); return; }
 
             const name = document.getElementById('customerName').value.trim();
             const phone = document.getElementById('phoneNumber').value.trim();
             const address = document.getElementById('deliveryAddress').value.trim();
             const areaSelect = document.getElementById('deliveryArea');
-            const selectedOption = areaSelect.options[areaSelect.selectedIndex];
-            const area = selectedOption.text;
             const transId = document.getElementById('transactionId').value.trim();
             if (!name || !phone || !address || !areaSelect.value) { showToast('❌ කරුණාකර සියලු විස්තර සපුරන්න!'); return; }
             if (selectedPaymentMethod === 'online' && !transId) { showToast('❌ Online ගෙවීම් සඳහා Transaction ID එක අනිවාර්යයි!'); return; }
+            
             localStorage.setItem('customerPhone', phone);
             let itemsTotal = parseInt(document.getElementById('itemsTotal').textContent.replace(/,/g, '')) || 0;
-            
             let itemsList = cart.map(i => {
                 const displayName = i.weight ? `${i.name} (${i.weight})` : (i.unit ? `${i.name} (${i.unit})` : i.name);
                 return `${displayName} x${i.quantity}`;
@@ -1034,14 +847,12 @@
             
             const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 Cash on Delivery (COD)' : `🏦 Online Payment (Ref: ${transId})`;
             const grandTotal = itemsTotal + currentDeliveryFee;
-            const order = { customerName: name, phone: phone, address: address, area: area, paymentMethod: selectedPaymentMethod, transactionId: transId, items: itemsList, itemsTotal: itemsTotal, deliveryFee: currentDeliveryFee, grandTotal: grandTotal, status: 'Pending', date: new Date().toISOString(), paymentInfo: paymentInfo };
+            const order = { customerName: name, phone: phone, address: address, area: areaSelect.options[areaSelect.selectedIndex].text, paymentMethod: selectedPaymentMethod, transactionId: transId, items: itemsList, itemsTotal: itemsTotal, deliveryFee: currentDeliveryFee, grandTotal: grandTotal, status: 'Pending', date: new Date().toISOString(), paymentInfo: paymentInfo };
             
-            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Area:* ${area}\n🏠 *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.`;
+            const orderMessage = `🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ${name}\n📞 *Phone:* ${phone}\n📍 *Area:* ${order.area}\n🏠 *Address:* ${address}\n\n📦 *Items:* ${itemsList}\n\n💰 *Items Total:* Rs. ${itemsTotal.toLocaleString()}\n🚚 *Delivery Fee:* Rs. ${currentDeliveryFee.toLocaleString()}\n💳 *Payment:* ${paymentInfo}\n\n💵 *GRAND TOTAL:* Rs. ${grandTotal.toLocaleString()}\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.\n\n🌐 Order: https://silvasexpress.store`;
             
             database.ref('orders').push(order).then(() => {
-                const whatsappNumber = '94702059529';
-                const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(orderMessage)}`;
-                window.open(whatsappUrl, '_blank');
+                window.open(`https://wa.me/94702059529?text=${encodeURIComponent(orderMessage)}`, '_blank');
                 showToast('✅ Order එක WhatsApp එකට යවමින්...');
                 cart = []; saveCart(); renderCart();
                 document.getElementById('customerName').value = ''; document.getElementById('phoneNumber').value = ''; document.getElementById('deliveryAddress').value = ''; document.getElementById('deliveryArea').value = ''; document.getElementById('transactionId').value = '';
