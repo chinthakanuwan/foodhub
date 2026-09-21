@@ -79,6 +79,10 @@
         .variants-box small { color: #666; font-size: 11px; display: block; margin-top: 5px; line-height: 1.6; }
         .role-banner { background: #2196F3; color: white; padding: 10px; text-align: center; font-weight: 600; }
         .role-banner.guest { background: #FF9800; }
+        .promo-preview { padding: 20px; border-radius: 10px; color: white; text-align: center; margin-top: 15px; }
+        .promo-preview h3 { font-size: 18px; margin-bottom: 8px; }
+        .promo-preview p { font-size: 14px; }
+        .promo-preview .discount { font-size: 22px; font-weight: bold; margin-top: 8px; }
         @media (max-width: 768px) {
             .analytics-grid { grid-template-columns: repeat(2, 1fr); }
             .order-actions { flex-direction: column; }
@@ -89,9 +93,9 @@
 <body>
     <div id="loginScreen">
         <div class="login-box">
-            <h1>🌿 <span>Silvas Express</span><br>Admin Panel</h1>
-            <input type="password" id="adminPassword" placeholder="🔒 Password එක ඇතුළත් කරන්න">
-            <button onclick="loginAsAdmin()">🔐 Admin Login (Full Access)</button>
+            <h1> <span>Silvas Express</span><br>Admin Panel</h1>
+            <input type="password" id="adminPassword" placeholder=" Password එක ඇතුළත් කරන්න">
+            <button onclick="loginAsAdmin()"> Admin Login (Full Access)</button>
             <button class="guest-btn" onclick="loginAsGuest()">👤 Guest Login (Read Only)</button>
             <p id="loginError" style="color: #f44336; margin-top: 15px; font-weight: 600; display: none;">❌ වැරදි Password එකක්!</p>
         </div>
@@ -106,12 +110,12 @@
         </div>
 
         <div class="section">
-            <h2>📊 Analytics Dashboard</h2>
+            <h2> Analytics Dashboard</h2>
             <div class="analytics-grid">
                 <div class="analytics-card"><h3>📦 Today's Orders</h3><div class="value" id="todayOrders">0</div></div>
                 <div class="analytics-card"><h3>💰 Today's Revenue</h3><div class="value" id="todayRevenue">Rs. 0</div></div>
-                <div class="analytics-card"><h3>📦 Monthly Orders</h3><div class="value" id="monthOrders">0</div></div>
-                <div class="analytics-card"><h3>💰 Monthly Revenue</h3><div class="value" id="monthRevenue">Rs. 0</div></div>
+                <div class="analytics-card"><h3> Monthly Orders</h3><div class="value" id="monthOrders">0</div></div>
+                <div class="analytics-card"><h3> Monthly Revenue</h3><div class="value" id="monthRevenue">Rs. 0</div></div>
                 <div class="analytics-card"><h3>✅ Delivered</h3><div class="value" id="deliveredOrders">0</div></div>
                 <div class="analytics-card"><h3>⏳ Pending</h3><div class="value" id="pendingOrders">0</div></div>
             </div>
@@ -127,6 +131,7 @@
                 <div class="tab" onclick="switchTab('customads')">📢 Custom Ads</div>
                 <div class="tab" onclick="switchTab('googleads')">📊 Google Ads</div>
                 <div class="tab" onclick="switchTab('promotions')">🎉 Promotions</div>
+                <div class="tab" onclick="switchTab('banner')">📣 Promo Banner</div>
                 <div class="tab" onclick="switchTab('notifications')">📱 Notifications</div>
             </div>
 
@@ -171,7 +176,7 @@
                     <div class="form-group"><label>Delivery Fee (Rs.)</label><input type="number" id="shopDeliveryFee" placeholder="150"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label>විවෘත වන වේලාව (Open Time) *</label><input type="time" id="shopOpenTime" value="09:00"></div>
+                    <div class="form-group"><label>විවත වන වේලාව (Open Time) *</label><input type="time" id="shopOpenTime" value="09:00"></div>
                     <div class="form-group"><label>වසා දමන වේලාව (Close Time) *</label><input type="time" id="shopCloseTime" value="22:00"></div>
                 </div>
                 <div class="form-row">
@@ -206,8 +211,8 @@
                     </div>
                     <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="editShopDisplayOrder"></div>
                     <button class="btn btn-success" onclick="updateShop()">💾 Update</button>
-                    <button class="btn btn-danger delete-btn" onclick="deleteShopFromEdit()">🗑️ Delete</button>
-                    <button class="btn btn-warning" onclick="cancelEdit('shop')">❌ Cancel</button>
+                    <button class="btn btn-danger delete-btn" onclick="deleteShopFromEdit()">️ Delete</button>
+                    <button class="btn btn-warning" onclick="cancelEdit('shop')"> Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Shops</h3>
                 <input type="text" class="search-bar" id="shopSearch" placeholder="🔍 Search shops..." oninput="renderShops()">
@@ -251,11 +256,11 @@
                         <div class="form-group"><label><input type="checkbox" id="editIsFoodAvailable" style="margin-right: 10px;">✅ Available</label></div>
                     </div>
                     <div class="variants-box">
-                        <label>📦 Portion Variants</label>
+                        <label> Portion Variants</label>
                         <textarea id="editFoodVariants" rows="2" placeholder="උදා: Half:400:350, Full:750:"></textarea>
                     </div>
                     <button class="btn btn-success" onclick="updateFood()">💾 Update</button>
-                    <button class="btn btn-danger delete-btn" onclick="deleteFoodFromEdit()">🗑️ Delete</button>
+                    <button class="btn btn-danger delete-btn" onclick="deleteFoodFromEdit()">️ Delete</button>
                     <button class="btn btn-warning" onclick="cancelEdit('food')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Foods</h3>
@@ -264,7 +269,7 @@
             </div>
 
             <div id="groceryTab" class="hidden">
-                <h2>🛒 Grocery Management</h2>
+                <h2> Grocery Management</h2>
                 <h3>Add New Item</h3>
                 <div class="form-row">
                     <div class="form-group"><label>Item Name</label><input type="text" id="groceryName" placeholder="e.g., Chilli Powder"></div>
@@ -282,7 +287,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label><input type="checkbox" id="hasDiscount" style="margin-right: 10px;" onchange="toggleDiscountField()">🏷️ Special Discount</label></div>
+                    <div class="form-group"><label><input type="checkbox" id="hasDiscount" style="margin-right: 10px;" onchange="toggleDiscountField()">️ Special Discount</label></div>
                     <div class="form-group"><label>Discount Price (Rs.)</label><input type="number" id="groceryDiscountPrice" placeholder="150" disabled></div>
                 </div>
                 <div class="form-row">
@@ -293,7 +298,7 @@
                     <div class="form-group"><label><input type="checkbox" id="isGroceryAvailable" checked style="margin-right: 10px;">✅ Available (Out of Stock නම් uncheck කරන්න)</label></div>
                 </div>
                 <div class="variants-box">
-                    <label>📦 Variants (බර : සාමාන්‍ය මිල : වට්ටම් මිල)</label>
+                    <label>📦 Variants (බර : සාමාන්ය මිල : වට්ටම් මිල)</label>
                     <textarea id="groceryVariants" rows="3" placeholder="උදා: 100g:250:220, 500g:1200:1000, 1kg:2400:"></textarea>
                     <small>💡 <strong>Format:</strong> බර:සාමාන්‍යමිල:වට්ටම්මිල (කොමාවෙන් වෙන් කරන්න). වට්ටම් මිල නැත්නම් හිස් තියන්න.</small>
                 </div>
@@ -320,7 +325,7 @@
                         <div class="form-group"><label><input type="checkbox" id="editIsGroceryAvailable" style="margin-right: 10px;">✅ Available</label></div>
                     </div>
                     <div class="variants-box">
-                        <label>📦 Variants (බර : සාමාන්‍ය මිල : වට්ටම් මිල)</label>
+                        <label> Variants (බර : සාමාන්‍ය මිල : වට්ටම් මිල)</label>
                         <textarea id="editGroceryVariants" rows="3" placeholder="උදා: 100g:250:220, 500g:1200:1000"></textarea>
                     </div>
                     <button class="btn btn-success" onclick="updateGroceryItem()">💾 Update</button>
@@ -328,7 +333,7 @@
                     <button class="btn btn-warning" onclick="cancelEdit('grocery')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Grocery Items</h3>
-                <input type="text" class="search-bar" id="grocerySearch" placeholder="🔍 Search items..." oninput="renderGroceryItems()">
+                <input type="text" class="search-bar" id="grocerySearch" placeholder=" Search items..." oninput="renderGroceryItems()">
                 <div class="item-list" id="groceryList"></div>
             </div>
 
@@ -433,6 +438,71 @@
                 <div class="item-list" id="promotionsList"></div>
             </div>
 
+            <!-- NEW: Promotional Banner Settings Tab -->
+            <div id="bannerTab" class="hidden">
+                <h2> Promotional Banner Settings</h2>
+                <p style="color: #666; margin-bottom: 20px; font-size: 14px;">මෙතනින් ඔයාට App එකේ පෙන්නන Promotional Banner එක Edit කරන්න පුළුවන්. වෙනස්කම් සේව් කළාට පස්සේ Customer App එකේ automatic update වෙනවා.</p>
+                
+                <div class="notification-box">
+                    <h3>✏️ Edit Promotional Banner</h3>
+                    <div class="form-group">
+                        <label>Banner Message (Sinhala) *</label>
+                        <input type="text" id="bannerMessageSi" placeholder="උදා: විශේෂ දීමනාව!">
+                    </div>
+                    <div class="form-group">
+                        <label>Banner Message (English) *</label>
+                        <input type="text" id="bannerMessageEn" placeholder="e.g., Special Offer!">
+                    </div>
+                    <div class="form-group">
+                        <label>Discount Percentage (%) *</label>
+                        <input type="number" id="bannerDiscount" placeholder="20" min="0" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label>Applicable For</label>
+                        <select id="bannerApplicableFor">
+                            <option value="first_order">පළමු order එකට (First Order)</option>
+                            <option value="all_orders">සියලුම orders වලට (All Orders)</option>
+                            <option value="min_purchase">නිශ්ිත මිලදී ගැනීමකට (Min Purchase)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Minimum Purchase Amount (Rs.) - If applicable</label>
+                        <input type="number" id="bannerMinPurchase" placeholder="1000" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Banner Color</label>
+                        <select id="bannerColor">
+                            <option value="linear-gradient(135deg, #22C55E, #16A34A)">🟢 Green (Default)</option>
+                            <option value="linear-gradient(135deg, #FF6B6B, #EE5A6F)">🔴 Red</option>
+                            <option value="linear-gradient(135deg, #FFD93D, #F6B93B)">🟡 Yellow</option>
+                            <option value="linear-gradient(135deg, #4ECDC4, #44A08D)">🔵 Teal</option>
+                            <option value="linear-gradient(135deg, #667eea, #764ba2)">🟣 Purple</option>
+                            <option value="linear-gradient(135deg, #FF9A9E, #FECFEF)">🩷 Pink</option>
+                            <option value="linear-gradient(135deg, #F093FB, #F5576C)">💜 Magenta</option>
+                            <option value="linear-gradient(135deg, #4FACFE, #00F2FE)">💙 Blue</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><input type="checkbox" id="bannerActive" checked style="margin-right: 10px;">✅ Active (Customer ලාට පෙන්වන්න)</label>
+                    </div>
+                    <button class="btn btn-primary" onclick="saveBannerSettings()"> Save Banner</button>
+                    <button class="btn btn-warning" onclick="resetBannerToDefault()">🔄 Reset to Default</button>
+                </div>
+                
+                <h3 style="margin-top: 30px;">👁️ Live Preview</h3>
+                <p style="color: #666; font-size: 13px; margin-bottom: 10px;">ඔයා දාන දේවල් මෙතන Live වෙන්නේ පෙන්නනවා</p>
+                <div id="bannerPreview" class="promo-preview" style="background: linear-gradient(135deg, #22C55E, #16A34A);">
+                    <h3>🎉 විශේෂ දීමනාව!</h3>
+                    <p>Special Offer!</p>
+                    <p class="discount">20% OFF</p>
+                </div>
+
+                <h3 style="margin-top: 30px;">📊 Current Banner Status</h3>
+                <div id="currentBannerDisplay" style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin-top: 15px;">
+                    <p style="color: #666;">Loading...</p>
+                </div>
+            </div>
+
             <div id="notificationsTab" class="hidden">
                 <h2>📱 General Notifications</h2>
                 <div class="app-link-box">
@@ -440,7 +510,7 @@
                     <div class="form-group"><label>App URL:</label><input type="text" id="appInstallUrl" value="https://silvasexpress.store" readonly></div>
                     <div class="form-group"><label>Customer Phone Number:</label><input type="tel" id="customerPhone" placeholder="0702059529"></div>
                     <button class="btn btn-whatsapp" onclick="sendAppInstallLink()">📤 Send App Install Link</button>
-                    <button class="btn btn-info" onclick="copyAppLink()">📋 Copy App Link</button>
+                    <button class="btn btn-info" onclick="copyAppLink()"> Copy App Link</button>
                 </div>
                 <div class="notification-box">
                     <h3>💬 Send WhatsApp Notification</h3>
@@ -503,10 +573,10 @@
             document.getElementById('adminPanel').classList.remove('hidden');
             const banner = document.getElementById('roleBanner');
             if (currentUserRole === 'admin') {
-                banner.textContent = '🔑 Admin Mode - Full Access (Delete ඇතුළුව)';
+                banner.textContent = ' Admin Mode - Full Access (Delete ඇතුළුව)';
                 banner.className = 'role-banner';
             } else {
-                banner.textContent = '👤 Guest Mode - Read Only + Orders Handle (Delete නෑ)';
+                banner.textContent = ' Guest Mode - Read Only + Orders Handle (Delete නෑ)';
                 banner.className = 'role-banner guest';
             }
             if (currentUserRole === 'guest') {
@@ -532,15 +602,16 @@
         };
 
         function switchTab(tabName) {
-            ['orders', 'shops', 'foods', 'grocery', 'vegetables', 'customads', 'googleads', 'promotions', 'notifications'].forEach(t => 
+            ['orders', 'shops', 'foods', 'grocery', 'vegetables', 'customads', 'googleads', 'promotions', 'banner', 'notifications'].forEach(t => 
                 document.getElementById(t + 'Tab').classList.add('hidden')
             );
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.getElementById(tabName + 'Tab').classList.remove('hidden');
-            const tabs = ['orders', 'shops', 'foods', 'grocery', 'vegetables', 'customads', 'googleads', 'promotions', 'notifications'];
+            const tabs = ['orders', 'shops', 'foods', 'grocery', 'vegetables', 'customads', 'googleads', 'promotions', 'banner', 'notifications'];
             const index = tabs.indexOf(tabName);
             if (index >= 0) document.querySelectorAll('.tab')[index].classList.add('active');
             if (tabName === 'shops' || tabName === 'foods') updateSelects();
+            if (tabName === 'banner') loadBannerSettings();
         }
 
         function loadData() {
@@ -556,6 +627,8 @@
                 const ms = snap.val();
                 if (ms && document.getElementById('carouselTime')) document.getElementById('carouselTime').value = ms / 1000;
             });
+            // Load banner settings on load
+            loadBannerSettings();
         }
 
         function updateAnalytics() {
@@ -661,7 +734,7 @@
         }
 
         function updateShop() { 
-            if (!isAdmin()) return alert('🚫 Guest users cannot update shops!');
+            if (!isAdmin()) return alert(' Guest users cannot update shops!');
             const id = document.getElementById('editShopSelect').value; 
             database.ref('shops').child(id).update({ 
                 name: document.getElementById('editShopName').value, 
@@ -730,7 +803,7 @@
             document.getElementById('editIsFoodAvailable').checked = f.available !== false;
         }
         function updateFood() { 
-            if (!isAdmin()) return alert('🚫 Guest users cannot update foods!');
+            if (!isAdmin()) return alert(' Guest users cannot update foods!');
             const id = document.getElementById('editFoodSelect').value; 
             const variants = parseVariants(document.getElementById('editFoodVariants').value.trim());
             database.ref('foods').child(id).update({ 
@@ -816,7 +889,7 @@
         }
 
         function saveVegetable() {
-            if (!isAdmin()) return alert('🚫 Guest users cannot add!');
+            if (!isAdmin()) return alert(' Guest users cannot add!');
             const hasDiscount = document.getElementById('hasVegetableDiscount').checked;
             const veg = { name: document.getElementById('vegetableName').value, originalPrice: parseInt(document.getElementById('vegetableOriginalPrice').value) || 0, hasDiscount: hasDiscount, discountPrice: hasDiscount ? (parseInt(document.getElementById('vegetableDiscountPrice').value) || 0) : 0, unit: document.getElementById('vegetableUnit').value || '1 kg', image: document.getElementById('vegetableImageUrl').value || 'https://via.placeholder.com/500', available: document.getElementById('isVegetableAvailable').checked, displayOrder: parseInt(document.getElementById('vegetableDisplayOrder').value) || 999, updatedAt: Date.now() };
             if (!veg.name) return alert('නම ඇතුළත් කරන්න!');
@@ -980,12 +1053,141 @@
 
         function useTemplate(type) {
             const templates = {
-                welcome: '👋 ආයුබෝවන්! Silvas Express App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://silvasexpress.store',
+                welcome: ' ආයුබෝවන්! Silvas Express App එකට සාදරයෙන් පිළිගනිමු! \n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://silvasexpress.store',
                 offer: '🎉 විශේෂ දීමනාව! 🌿\n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://silvasexpress.store',
-                delivery: '🚚 ඔබේ order එක deliver වෙමින් පවතී! 🌿\n\nOrder tracking සඳහා: https://silvasexpress.store\n\nස්තූතියි! 🙏'
+                delivery: '🚚 ඔබේ order එක deliver වෙමින් පවතී! 🌿\n\nOrder tracking සහා: https://silvasexpress.store\n\nස්තූතියි! 🙏'
             };
             document.getElementById('notifMessage').value = templates[type];
         }
+
+        // ============ PROMOTIONAL BANNER FUNCTIONS ============
+        
+        function saveBannerSettings() {
+            if (!isAdmin()) return alert('🚫 Guest users cannot change settings!');
+            
+            const bannerData = {
+                messageSi: document.getElementById('bannerMessageSi').value.trim(),
+                messageEn: document.getElementById('bannerMessageEn').value.trim(),
+                discount: parseInt(document.getElementById('bannerDiscount').value) || 0,
+                applicableFor: document.getElementById('bannerApplicableFor').value,
+                minPurchase: parseInt(document.getElementById('bannerMinPurchase').value) || 0,
+                color: document.getElementById('bannerColor').value,
+                active: document.getElementById('bannerActive').checked,
+                updatedAt: Date.now()
+            };
+            
+            if (!bannerData.messageSi || !bannerData.messageEn) {
+                return alert('සිංහල සහ ඉංග්‍රීසි පණිවිඩ අනිවාර්යයි!');
+            }
+            
+            database.ref('settings/promotionalBanner').set(bannerData).then(() => {
+                alert('✅ Promotional Banner Save විය! Customer App එකේ automatic update වෙනවා.');
+                loadBannerSettings();
+            }).catch(error => {
+                alert('❌ Error: ' + error.message);
+            });
+        }
+
+        function loadBannerSettings() {
+            database.ref('settings/promotionalBanner').once('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    document.getElementById('bannerMessageSi').value = data.messageSi || '';
+                    document.getElementById('bannerMessageEn').value = data.messageEn || '';
+                    document.getElementById('bannerDiscount').value = data.discount || 0;
+                    document.getElementById('bannerApplicableFor').value = data.applicableFor || 'first_order';
+                    document.getElementById('bannerMinPurchase').value = data.minPurchase || 0;
+                    document.getElementById('bannerColor').value = data.color || 'linear-gradient(135deg, #22C55E, #16A34A)';
+                    document.getElementById('bannerActive').checked = data.active !== false;
+                    
+                    updateBannerPreview();
+                    displayCurrentBanner(data);
+                } else {
+                    document.getElementById('bannerMessageSi').value = 'විශේෂ දීමනාව!';
+                    document.getElementById('bannerMessageEn').value = 'Special Offer!';
+                    document.getElementById('bannerDiscount').value = 20;
+                    updateBannerPreview();
+                }
+            });
+        }
+
+        function updateBannerPreview() {
+            const messageSi = document.getElementById('bannerMessageSi').value.trim() || 'විශේෂ දීමනාව!';
+            const messageEn = document.getElementById('bannerMessageEn').value.trim() || 'Special Offer!';
+            const discount = document.getElementById('bannerDiscount').value || 0;
+            const color = document.getElementById('bannerColor').value;
+            
+            const preview = document.getElementById('bannerPreview');
+            preview.style.background = color;
+            preview.innerHTML = `
+                <h3>🎉 ${messageSi}</h3>
+                <p>${messageEn}</p>
+                <p class="discount">${discount}% OFF</p>
+            `;
+        }
+
+        // Live preview update on input change
+        document.addEventListener('DOMContentLoaded', () => {
+            ['bannerMessageSi', 'bannerMessageEn', 'bannerDiscount', 'bannerColor'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('input', updateBannerPreview);
+                    el.addEventListener('change', updateBannerPreview);
+                }
+            });
+        });
+
+        function displayCurrentBanner(data) {
+            const displayDiv = document.getElementById('currentBannerDisplay');
+            const statusText = data.active ? '✅ Active (Customer ලාට පෙන්නනවා)' : '❌ Inactive (සවා ඇත)';
+            const applicableText = getApplicableForText(data.applicableFor);
+            
+            displayDiv.innerHTML = `
+                <div style="background: ${data.color}; color: white; padding: 20px; border-radius: 10px; margin-bottom: 15px; text-align: center;">
+                    <h3 style="margin-bottom: 10px;">🎉 ${data.messageSi}</h3>
+                    <p style="font-size: 14px;">${data.messageEn}</p>
+                    <p style="font-size: 22px; font-weight: bold; margin-top: 10px;">${data.discount}% OFF</p>
+                </div>
+                <div style="font-size: 13px; color: #666; line-height: 2;">
+                    <div><strong>Status:</strong> ${statusText}</div>
+                    <div><strong>Applicable For:</strong> ${applicableText}</div>
+                    ${data.minPurchase > 0 ? `<div><strong>Min Purchase:</strong> Rs. ${data.minPurchase}</div>` : ''}
+                    <div><strong>Last Updated:</strong> ${new Date(data.updatedAt).toLocaleString('si-LK')}</div>
+                </div>
+            `;
+        }
+
+        function getApplicableForText(value) {
+            const texts = {
+                'first_order': 'පළමු order එකට (First Order)',
+                'all_orders': 'සියලුම orders වලට (All Orders)',
+                'min_purchase': 'නිශ්චිත මිලදී ගැනීමකට (Min Purchase)'
+            };
+            return texts[value] || value;
+        }
+
+        function resetBannerToDefault() {
+            if (!isAdmin()) return alert('🚫 Guest users cannot change settings!');
+            if (!confirm('Default banner එකට reset කරන්නද?')) return;
+            
+            const defaultData = {
+                messageSi: 'විශේෂ දීමනාව!',
+                messageEn: 'Special Offer!',
+                discount: 20,
+                applicableFor: 'first_order',
+                minPurchase: 0,
+                color: 'linear-gradient(135deg, #22C55E, #16A34A)',
+                active: true,
+                updatedAt: Date.now()
+            };
+            
+            database.ref('settings/promotionalBanner').set(defaultData).then(() => {
+                alert('✅ Default banner එකට reset විය!');
+                loadBannerSettings();
+            });
+        }
+
+        // ============ ORDER FUNCTIONS ============
 
         function loadOrders() { renderOrders(); }
 
@@ -1024,7 +1226,7 @@
                         <button class="btn btn-primary" onclick="updateOrderStatus('${o.id}', 'Delivered')">✔️ Delivered</button>
                         <button class="btn btn-danger" onclick="updateOrderStatus('${o.id}', 'Cancelled')">❌ Cancel</button>
                         <button class="btn btn-info" onclick="contactCustomer('${o.phone}')">📞 Contact</button>
-                        ${isAdmin() ? `<button class="btn btn-danger" onclick="deleteOrder('${o.id}')">🗑️ Delete</button>` : ''}
+                        ${isAdmin() ? `<button class="btn btn-danger" onclick="deleteOrder('${o.id}')">️ Delete</button>` : ''}
                     </div>
                 </div>
             `}).join(''); 
