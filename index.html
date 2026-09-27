@@ -61,7 +61,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            background: #f5f5f5; 
+            background: #f8fafc; 
             -webkit-font-smoothing: antialiased; 
             padding-bottom: 90px;
             min-height: 100vh;
@@ -69,223 +69,16 @@
         html { height: -webkit-fill-available; }
         @supports (-webkit-touch-callout: none) { body { min-height: -webkit-fill-available; } }
         
-        /* ===== DESKTOP CONTAINER ===== */
-        .desktop-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .header { 
-            background: linear-gradient(135deg, #22C55E, #16A34A); 
-            color: white; 
-            padding: 18px 15px; 
-            text-align: center; 
-            position: sticky; 
-            top: 0; 
-            z-index: 100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .header h1 { font-size: 24px; margin-bottom: 4px; font-weight: 800; }
-        .header p { font-size: 13px; opacity: 0.95; }
-        
-        .custom-ads-container { background: #fff; padding: 10px; border-bottom: 2px solid #e0e0e0; position: relative; overflow: hidden; height: 120px; max-width: 1400px; margin: 0 auto; }
-        .custom-ad-banner { position: absolute; top: 10px; left: 10px; right: 10px; width: calc(100% - 20px); max-width: 400px; height: 100px; margin: 0 auto; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1); cursor: pointer; transition: all 0.5s ease; background: #fff; opacity: 0; transform: translateX(100%); display: none; }
-        .custom-ad-banner.active { opacity: 1; transform: translateX(0); display: block; animation: slideIn 0.5s ease; }
-        .custom-ad-banner.prev { opacity: 0; transform: translateX(-100%); }
-        @keyframes slideIn { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }
-        .custom-ad-banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .ad-badge { position: absolute; top: 5px; right: 5px; background: rgba(255, 255, 255, 0.9); padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 600; color: #22C55E; z-index: 10; }
-        .carousel-indicators { position: absolute; bottom: 5px; left: 0; right: 0; display: flex; justify-content: center; gap: 8px; z-index: 20; }
-        .carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: #ddd; cursor: pointer; transition: all 0.3s; }
-        .carousel-dot.active { background: #22C55E; width: 24px; border-radius: 4px; }
-        .carousel-controls { position: absolute; top: 5px; left: 5px; z-index: 20; }
-        .pause-btn { background: rgba(34, 197, 94, 0.9); color: white; border: none; padding: 3px 8px; border-radius: 5px; font-size: 10px; cursor: pointer; }
-        
-        .search-bar { padding: 12px; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.05); max-width: 1400px; margin: 0 auto; }
-        .search-bar input { width: 100%; padding: 12px; border: 2px solid #eee; border-radius: 25px; font-size: 16px; -webkit-appearance: none; max-width: 800px; margin: 0 auto; display: block; }
-        .search-bar input:focus { border-color: #22C55E; outline: none; }
-        
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 15px 12px 15px;
-            background: white;
-            border-bottom: 1px solid #eee;
-            position: sticky;
-            top: 75px;
-            z-index: 95;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .section-header h2 {
-            font-size: 18px;
-            font-weight: 800;
-            color: #1e293b;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .container { padding: 12px; max-width: 1400px; margin: 0 auto; }
-        .hidden { display: none !important; }
-        
-        .promo-banner { 
-            border-radius: 12px; 
-            margin: 12px auto; 
-            text-align: center; 
-            padding: 18px; 
-            color: white; 
-            background: linear-gradient(135deg, #22C55E, #16A34A);
-            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
-            max-width: 1400px;
-        }
-        .promo-banner h3 { font-size: 18px; margin-bottom: 6px; font-weight: 800; }
-        .promo-banner p { font-size: 14px; }
-        .promo-banner .discount-text { font-size: 24px; font-weight: 800; margin-top: 6px; }
-        
-        .shop-card { 
-            background: white; 
-            border-radius: 12px; 
-            margin-bottom: 16px; 
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08); 
-            cursor: pointer; 
-            position: relative; 
-            transition: all 0.3s;
-        }
-        .shop-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.12); }
-        .shop-card.featured { border: 2px solid #FFD700; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3); }
-        .shop-image { width: 100%; height: 160px; object-fit: cover; background: #eee; }
-        .shop-info { padding: 14px; }
-        .shop-name { font-size: 17px; font-weight: 700; margin-bottom: 6px; color: #1e293b; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
-        .gold-badge { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 3px 10px; border-radius: 10px; font-size: 11px; font-weight: 700; }
-        .shop-details { display: flex; justify-content: space-between; color: #666; font-size: 12px; margin: 8px 0; }
-        .rating { background: #22C55E; color: white; padding: 3px 8px; border-radius: 6px; font-weight: 700; font-size: 12px; }
-        .status-open { background: #22C55E; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; }
-        .status-closed { background: #f44336; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; }
-        
-        /* ===== RESPONSIVE GRID - Mobile: 2 cols, Tablet: 3 cols, Desktop: 4 cols ===== */
-        .food-grid, .grocery-grid, .vegetable-grid { 
-            display: grid; 
-            grid-template-columns: repeat(2, 1fr); 
-            gap: 12px; 
-        }
-        
-        .food-card, .grocery-card, .vegetable-card { 
-            background: white; 
-            border-radius: 12px; 
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08); 
-            cursor: pointer; 
-            position: relative; 
-            transition: all 0.3s;
-            padding-bottom: 10px;
-        }
-        .food-card:hover, .grocery-card:hover, .vegetable-card:hover { 
-            transform: translateY(-3px); 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12); 
-        }
-        .food-card.selected, .grocery-card.selected, .vegetable-card.selected { border: 2px solid #22C55E; }
-        .food-image, .grocery-img, .vegetable-img { width: 100%; height: 120px; object-fit: cover; background: #eee; }
-        .food-info, .grocery-info, .vegetable-info { padding: 10px; }
-        .food-name, .grocery-name, .vegetable-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; color: #1e293b; line-height: 1.3; }
-        
-        .out-of-stock { opacity: 0.6; pointer-events: none; }
-        .out-of-stock::after { content: 'Out of Stock'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(244, 67, 54, 0.95); color: white; padding: 8px 14px; border-radius: 8px; font-weight: 700; z-index: 10; white-space: nowrap; font-size: 11px; }
-        
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; -webkit-appearance: none; }
-        .btn-primary { background: #22C55E; color: white; }
-        .btn-success { background: #16A34A; color: white; }
-        
-        .grocery-cart { position: fixed; bottom: 80px; left: 12px; right: 12px; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 -4px 20px rgba(0,0,0,0.15); z-index: 90; display: none; max-width: 600px; margin: 0 auto; }
-        .cart-item { background: white; padding: 12px; border-radius: 10px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
-        .qty-controls { display: flex; align-items: center; gap: 8px; background: #f5f5f5; padding: 4px; border-radius: 8px; }
-        .qty-btn { width: 30px; height: 30px; border: none; background: white; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: 700; -webkit-appearance: none; }
-        
-        .checkout-box { background: white; padding: 20px; border-radius: 16px; margin-top: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); max-width: 800px; margin-left: auto; margin-right: auto; }
-        .checkout-box h3 { font-size: 18px; font-weight: 700; color: #1e293b; margin-bottom: 16px; }
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: #475569; font-size: 13px; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 16px; background: white; -webkit-appearance: none; }
-        .form-group select { appearance: auto; -webkit-appearance: auto; }
-        .form-group input:focus, .form-group textarea:focus { border-color: #22C55E; outline: none; }
-        
-        .payment-option { display: flex; gap: 10px; margin-bottom: 15px; }
-        .payment-btn { flex: 1; padding: 14px; border: 2px solid #e2e8f0; border-radius: 10px; background: white; cursor: pointer; font-weight: 700; -webkit-appearance: none; font-size: 14px; }
-        .payment-btn.active { border-color: #22C55E; background: #f0fdf4; color: #16A34A; }
-        
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 10px 0 15px; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); z-index: 100; padding-bottom: calc(15px + env(safe-area-inset-bottom)); }
-        .nav-item { text-align: center; padding: 5px 12px; cursor: pointer; color: #94a3b8; position: relative; transition: all 0.3s; text-decoration: none; }
-        .nav-item.active { color: #22C55E; }
-        .nav-item .icon { font-size: 22px; display: block; margin-bottom: 2px; }
-        .nav-item .label { font-size: 10px; font-weight: 600; }
-        .cart-badge { position: absolute; top: -2px; right: 0; background: #22C55E; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; border: 2px solid white; }
-        
-        .order-status { padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 12px; display: inline-block; }
-        .status-pending { background: #FFE0B2; color: #E65100; }
-        .status-confirmed { background: #C8E6C9; color: #1B5E20; }
-        .status-delivered { background: #BBDEFB; color: #0D47A1; }
-        .status-cancelled { background: #FFCDD2; color: #B71C1C; }
-        
-        .tracking-timeline { background: white; padding: 20px; border-radius: 12px; margin: 15px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .tracking-timeline h3 { margin-bottom: 15px; color: #1e293b; font-size: 16px; font-weight: 700; }
-        .timeline-item { display: flex; align-items: center; margin-bottom: 15px; position: relative; }
-        .timeline-item:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 35px; height: calc(100% - 20px); width: 2px; background: #e2e8f0; }
-        .timeline-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; font-weight: bold; font-size: 14px; z-index: 1; background: #e2e8f0; color: #94a3b8; }
-        .timeline-item.active .timeline-icon { background: #22C55E; color: white; }
-        .timeline-item.completed .timeline-icon { background: #2196F3; color: white; }
-        .timeline-content { flex: 1; }
-        .timeline-title { font-weight: 700; color: #1e293b; font-size: 14px; }
-        .timeline-desc { font-size: 12px; color: #64748b; margin-top: 2px; }
-        
-        .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 14px 24px; border-radius: 30px; font-weight: 600; z-index: 2000; animation: slideUp 0.3s ease; font-size: 14px; box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
-        @keyframes slideUp { from { bottom: 40px; opacity: 0; } to { bottom: 100px; opacity: 1; } }
-        
-        .loading { text-align: center; padding: 40px; color: #94a3b8; font-size: 14px; }
-        .image-container { position: relative; width: 100%; height: 150px; background: #f0f0f0; overflow: hidden; }
-        .image-container.food-img-container { height: 120px; }
-        .image-container img { width: 100%; height: 100%; object-fit: cover; }
-        .image-fallback { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #22C55E, #16A34A); color: white; font-size: 14px; font-weight: 600; text-align: center; padding: 10px; }
-        
-        .delivery-info { background: #f0fdf4; padding: 14px; border-radius: 10px; margin-top: 10px; border-left: 4px solid #22C55E; font-size: 13px; }
-        .zone-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 700; margin-left: 5px; }
-        .zone-1 { background: #C8E6C9; color: #1B5E20; }
-        .zone-2 { background: #FFF9C4; color: #F57F17; }
-        .zone-3 { background: #FFE0B2; color: #E65100; }
-        .zone-4 { background: #FFCDD2; color: #B71C1C; }
-        .zone-5 { background: #E1BEE7; color: #4A148C; }
-        
-        .developer-credit { text-align: center; padding: 20px 10px 90px 10px; color: #888; font-size: 12px; background: #f5f5f5; border-top: 1px solid #eee; margin-top: 20px; }
-        .developer-credit strong { color: #22C55E; }
-        
-        .google-ad-container { width: 100%; text-align: center; margin: 10px 0; padding: 5px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; max-width: 1400px; margin-left: auto; margin-right: auto; }
-        
-        .variant-dropdown-btn { width: 100%; padding: 10px; border: 2px solid #e0e0e0; border-radius: 8px; background: white; color: #666; font-size: 13px; font-weight: 600; cursor: pointer; -webkit-appearance: none; margin-top: 8px; }
-        .variant-dropdown { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 2px solid #22C55E; border-radius: 8px; margin-top: 5px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1000; max-height: 200px; overflow-y: auto; }
-        
-        .price-display { display: flex; align-items: center; gap: 6px; margin: 6px 0; flex-wrap: wrap; }
-        .price-current { color: #16A34A; font-weight: 800; font-size: 15px; }
-        .price-original { color: #999; text-decoration: line-through; font-size: 11px; }
-        .discount-badge { background: #f44336; color: white; padding: 2px 6px; border-radius: 6px; font-size: 10px; font-weight: 700; }
-        
-        .qty-selector { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 10px 0; background: #f0fdf4; padding: 5px; border-radius: 8px; }
-        
-        .add-to-cart-btn { width: 100%; padding: 10px; background: #22C55E; color: white; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; -webkit-appearance: none; }
-        .add-to-cart-btn:hover { background: #16A34A; }
-        
-        .section-divider { height: 8px; background: #f0f0f0; margin: 15px 0; border-radius: 4px; max-width: 1400px; margin-left: auto; margin-right: auto; }
-        
-        /* ===== DESKTOP TOP NAVIGATION (Hidden on mobile) ===== */
+        /* ===== DESKTOP TOP NAVIGATION ===== */
         .desktop-nav {
             display: none;
             background: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
             position: sticky;
             top: 0;
-            z-index: 99;
+            z-index: 101;
             padding: 0 20px;
+            border-bottom: 3px solid #22C55E;
         }
         .desktop-nav-inner {
             max-width: 1400px;
@@ -293,23 +86,24 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 0;
+            padding: 14px 0;
         }
         .desktop-nav-logo {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 800;
             color: #22C55E;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            text-decoration: none;
         }
         .desktop-nav-links {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             flex-wrap: wrap;
         }
         .desktop-nav-link {
-            padding: 10px 20px;
+            padding: 10px 22px;
             border-radius: 25px;
             font-weight: 600;
             font-size: 14px;
@@ -319,9 +113,14 @@
             color: #64748b;
             text-decoration: none;
             border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         .desktop-nav-link:hover {
             background: #e2e8f0;
+            color: #22C55E;
+            transform: translateY(-2px);
         }
         .desktop-nav-link.active {
             background: #22C55E;
@@ -330,96 +129,352 @@
         }
         .desktop-nav-cart {
             position: relative;
-            background: #22C55E;
+            background: linear-gradient(135deg, #22C55E, #16A34A);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 25px;
             font-weight: 700;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+            text-decoration: none;
         }
+        .desktop-nav-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4);
+        }
+        
+        /* ===== HEADER ===== */
+        .header { 
+            background: linear-gradient(135deg, #22C55E 0%, #16A34A 100%); 
+            color: white; 
+            padding: 20px 15px; 
+            text-align: center; 
+            position: relative;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.2);
+        }
+        .header h1 { 
+            font-size: 26px; 
+            margin-bottom: 6px; 
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .header p { 
+            font-size: 14px; 
+            opacity: 0.95;
+            font-weight: 400;
+        }
+        
+        /* ===== CUSTOM ADS ===== */
+        .custom-ads-container { 
+            background: #fff; 
+            padding: 15px; 
+            border-bottom: 1px solid #e2e8f0; 
+            position: relative; 
+            overflow: hidden; 
+            height: 140px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .custom-ad-banner { 
+            position: absolute; 
+            top: 15px; 
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 30px);
+            max-width: 800px;
+            height: 110px; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+            cursor: pointer; 
+            transition: all 0.5s ease; 
+            background: #fff; 
+            opacity: 0;
+            display: none;
+        }
+        .custom-ad-banner.active { 
+            opacity: 1; 
+            display: block; 
+            animation: slideIn 0.5s ease; 
+        }
+        .custom-ad-banner.prev { opacity: 0; }
+        @keyframes slideIn { 
+            from { opacity: 0; transform: translateX(100%); } 
+            to { opacity: 1; transform: translateX(-50%); } 
+        }
+        .custom-ad-banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .ad-badge { 
+            position: absolute; top: 8px; right: 8px; 
+            background: rgba(34, 197, 94, 0.95); color: white;
+            padding: 3px 10px; border-radius: 12px; font-size: 10px; font-weight: 700; z-index: 10; 
+        }
+        .carousel-indicators { position: absolute; bottom: 8px; left: 0; right: 0; display: flex; justify-content: center; gap: 8px; z-index: 20; }
+        .carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: #cbd5e1; cursor: pointer; transition: all 0.3s; }
+        .carousel-dot.active { background: #22C55E; width: 24px; border-radius: 4px; }
+        .carousel-controls { position: absolute; top: 8px; left: 8px; z-index: 20; }
+        .pause-btn { background: rgba(34, 197, 94, 0.9); color: white; border: none; padding: 4px 10px; border-radius: 6px; font-size: 10px; cursor: pointer; font-weight: 600; }
+        
+        /* ===== SEARCH BAR ===== */
+        .search-bar { 
+            padding: 16px; 
+            background: white; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .search-bar input { 
+            width: 100%; 
+            padding: 14px 20px; 
+            border: 2px solid #e2e8f0; 
+            border-radius: 30px; 
+            font-size: 16px; 
+            -webkit-appearance: none;
+            max-width: 800px;
+            margin: 0 auto;
+            display: block;
+            background: #f8fafc;
+            transition: all 0.3s;
+        }
+        .search-bar input:focus { 
+            border-color: #22C55E; 
+            outline: none;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.1);
+        }
+        
+        /* ===== PROMO BANNER ===== */
+        .promo-banner { 
+            border-radius: 16px; 
+            margin: 20px auto; 
+            text-align: center; 
+            padding: 30px 20px; 
+            color: white; 
+            background: linear-gradient(135deg, #22C55E, #16A34A);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+            max-width: 1400px;
+            position: relative;
+            overflow: hidden;
+        }
+        .promo-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .promo-banner h3 { font-size: 24px; margin-bottom: 8px; font-weight: 800; position: relative; }
+        .promo-banner p { font-size: 16px; position: relative; opacity: 0.95; }
+        .promo-banner .discount-text { font-size: 42px; font-weight: 800; margin-top: 10px; position: relative; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        
+        /* ===== SECTION HEADERS ===== */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 15px 16px 15px;
+            background: white;
+            border-bottom: 2px solid #e2e8f0;
+            position: sticky;
+            top: 75px;
+            z-index: 95;
+            max-width: 1400px;
+            margin: 0 auto;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .section-header h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .container { padding: 15px; max-width: 1400px; margin: 0 auto; }
+        .hidden { display: none !important; }
+        
+        /* ===== SHOP CARDS ===== */
+        .shop-card { 
+            background: white; 
+            border-radius: 16px; 
+            margin-bottom: 20px; 
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
+            cursor: pointer; 
+            position: relative; 
+            transition: all 0.3s;
+        }
+        .shop-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+        .shop-card.featured { border: 3px solid #FFD700; box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3); }
+        .shop-image { width: 100%; height: 200px; object-fit: cover; background: #eee; }
+        .shop-info { padding: 18px; }
+        .shop-name { font-size: 20px; font-weight: 700; margin-bottom: 8px; color: #1e293b; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .gold-badge { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3); }
+        .shop-details { display: flex; justify-content: space-between; color: #64748b; font-size: 13px; margin: 10px 0; align-items: center; }
+        .rating { background: #22C55E; color: white; padding: 4px 10px; border-radius: 8px; font-weight: 700; font-size: 12px; }
+        .status-open { background: #22C55E; color: white; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+        .status-closed { background: #f44336; color: white; padding: 3px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+        
+        /* ===== GRIDS ===== */
+        .food-grid, .grocery-grid, .vegetable-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        
+        .food-card, .grocery-card, .vegetable-card { 
+            background: white; 
+            border-radius: 16px; 
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08); 
+            cursor: pointer; 
+            position: relative; 
+            transition: all 0.3s;
+            padding-bottom: 12px;
+        }
+        .food-card:hover, .grocery-card:hover, .vegetable-card:hover { transform: translateY(-5px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
+        .food-card.selected, .grocery-card.selected, .vegetable-card.selected { border: 3px solid #22C55E; }
+        .food-image, .grocery-img, .vegetable-img { width: 100%; height: 140px; object-fit: cover; background: #eee; }
+        .food-info, .grocery-info, .vegetable-info { padding: 12px; }
+        .food-name, .grocery-name, .vegetable-name { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: #1e293b; line-height: 1.3; }
+        
+        .out-of-stock { opacity: 0.6; pointer-events: none; }
+        .out-of-stock::after { content: 'Out of Stock'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(244, 67, 54, 0.95); color: white; padding: 10px 16px; border-radius: 10px; font-weight: 700; z-index: 10; white-space: nowrap; font-size: 12px; }
+        
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; -webkit-appearance: none; transition: all 0.3s; }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-primary { background: linear-gradient(135deg, #22C55E, #16A34A); color: white; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3); }
+        .btn-success { background: linear-gradient(135deg, #16A34A, #15803d); color: white; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3); }
+        
+        .grocery-cart { position: fixed; bottom: 80px; left: 12px; right: 12px; background: white; padding: 18px; border-radius: 16px; box-shadow: 0 -4px 25px rgba(0,0,0,0.15); z-index: 90; display: none; max-width: 600px; margin: 0 auto; }
+        .cart-item { background: white; padding: 14px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .qty-controls { display: flex; align-items: center; gap: 8px; background: #f1f5f9; padding: 4px; border-radius: 8px; }
+        .qty-btn { width: 32px; height: 32px; border: none; background: white; border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: 700; -webkit-appearance: none; transition: all 0.2s; }
+        .qty-btn:hover { background: #22C55E; color: white; }
+        
+        .checkout-box { background: white; padding: 24px; border-radius: 20px; margin-top: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); max-width: 800px; margin-left: auto; margin-right: auto; }
+        .checkout-box h3 { font-size: 20px; font-weight: 700; color: #1e293b; margin-bottom: 20px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 600; color: #475569; font-size: 14px; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 14px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 16px; background: white; -webkit-appearance: none; transition: all 0.3s; }
+        .form-group select { appearance: auto; -webkit-appearance: auto; }
+        .form-group input:focus, .form-group textarea:focus { border-color: #22C55E; outline: none; box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.1); }
+        
+        .payment-option { display: flex; gap: 12px; margin-bottom: 18px; }
+        .payment-btn { flex: 1; padding: 16px; border: 2px solid #e2e8f0; border-radius: 12px; background: white; cursor: pointer; font-weight: 700; -webkit-appearance: none; font-size: 15px; transition: all 0.3s; }
+        .payment-btn:hover { border-color: #22C55E; }
+        .payment-btn.active { border-color: #22C55E; background: #f0fdf4; color: #16A34A; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2); }
+        
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 12px 0 18px; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); z-index: 100; padding-bottom: calc(18px + env(safe-area-inset-bottom)); }
+        .nav-item { text-align: center; padding: 6px 14px; cursor: pointer; color: #94a3b8; position: relative; transition: all 0.3s; text-decoration: none; }
+        .nav-item.active { color: #22C55E; }
+        .nav-item:hover { color: #22C55E; }
+        .nav-item .icon { font-size: 24px; display: block; margin-bottom: 3px; }
+        .nav-item .label { font-size: 11px; font-weight: 600; }
+        .cart-badge { position: absolute; top: -4px; right: 0; background: #ef4444; color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; border: 2px solid white; }
+        
+        .order-status { padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 12px; display: inline-block; }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-confirmed { background: #dcfce7; color: #166534; }
+        .status-delivered { background: #dbeafe; color: #1e40af; }
+        .status-cancelled { background: #fee2e2; color: #991b1b; }
+        
+        .tracking-timeline { background: white; padding: 24px; border-radius: 16px; margin: 20px 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .tracking-timeline h3 { margin-bottom: 18px; color: #1e293b; font-size: 18px; font-weight: 700; }
+        .timeline-item { display: flex; align-items: center; margin-bottom: 18px; position: relative; }
+        .timeline-item:not(:last-child)::before { content: ''; position: absolute; left: 17px; top: 40px; height: calc(100% - 20px); width: 2px; background: #e2e8f0; }
+        .timeline-icon { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 14px; font-weight: bold; font-size: 16px; z-index: 1; background: #e2e8f0; color: #94a3b8; }
+        .timeline-item.active .timeline-icon { background: #22C55E; color: white; }
+        .timeline-item.completed .timeline-icon { background: #3b82f6; color: white; }
+        .timeline-content { flex: 1; }
+        .timeline-title { font-weight: 700; color: #1e293b; font-size: 15px; }
+        .timeline-desc { font-size: 13px; color: #64748b; margin-top: 3px; }
+        
+        .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #1e293b; color: white; padding: 16px 28px; border-radius: 30px; font-weight: 600; z-index: 2000; animation: slideUp 0.3s ease; font-size: 15px; box-shadow: 0 8px 25px rgba(0,0,0,0.2); }
+        @keyframes slideUp { from { bottom: 40px; opacity: 0; } to { bottom: 100px; opacity: 1; } }
+        
+        .loading { text-align: center; padding: 50px; color: #94a3b8; font-size: 15px; }
+        .image-container { position: relative; width: 100%; height: 160px; background: #f0f0f0; overflow: hidden; }
+        .image-container.food-img-container { height: 140px; }
+        .image-container img { width: 100%; height: 100%; object-fit: cover; }
+        .image-fallback { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, #22C55E, #16A34A); color: white; font-size: 15px; font-weight: 600; text-align: center; padding: 10px; }
+        
+        .delivery-info { background: #f0fdf4; padding: 16px; border-radius: 12px; margin-top: 12px; border-left: 4px solid #22C55E; font-size: 14px; }
+        .zone-badge { display: inline-block; padding: 3px 10px; border-radius: 10px; font-size: 11px; font-weight: 700; margin-left: 5px; }
+        .zone-1 { background: #dcfce7; color: #166534; }
+        .zone-2 { background: #fef3c7; color: #92400e; }
+        .zone-3 { background: #fed7aa; color: #9a3412; }
+        .zone-4 { background: #fee2e2; color: #991b1b; }
+        .zone-5 { background: #e9d5ff; color: #6b21a8; }
+        
+        .developer-credit { text-align: center; padding: 24px 10px 90px 10px; color: #94a3b8; font-size: 13px; background: #f8fafc; border-top: 1px solid #e2e8f0; margin-top: 30px; }
+        .developer-credit strong { color: #22C55E; }
+        
+        .google-ad-container { width: 100%; text-align: center; margin: 15px 0; padding: 8px; background: #f8fafc; border-bottom: 1px solid #e2e8f0; max-width: 1400px; margin-left: auto; margin-right: auto; }
+        
+        .variant-dropdown-btn { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; background: white; color: #64748b; font-size: 14px; font-weight: 600; cursor: pointer; -webkit-appearance: none; margin-top: 10px; transition: all 0.3s; }
+        .variant-dropdown-btn:hover { border-color: #22C55E; }
+        .variant-dropdown { display: none; position: absolute; top: 100%; left: 0; right: 0; background: white; border: 2px solid #22C55E; border-radius: 10px; margin-top: 5px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); z-index: 1000; max-height: 200px; overflow-y: auto; }
+        
+        .price-display { display: flex; align-items: center; gap: 8px; margin: 8px 0; flex-wrap: wrap; }
+        .price-current { color: #16A34A; font-weight: 800; font-size: 17px; }
+        .price-original { color: #94a3b8; text-decoration: line-through; font-size: 12px; }
+        .discount-badge { background: #ef4444; color: white; padding: 3px 8px; border-radius: 8px; font-size: 11px; font-weight: 700; }
+        
+        .qty-selector { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 12px 0; background: #f0fdf4; padding: 6px; border-radius: 10px; }
+        
+        .add-to-cart-btn { width: 100%; padding: 12px; background: linear-gradient(135deg, #22C55E, #16A34A); color: white; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; -webkit-appearance: none; transition: all 0.3s; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3); }
+        .add-to-cart-btn:hover { background: linear-gradient(135deg, #16A34A, #15803d); transform: translateY(-2px); }
+        
+        .section-divider { height: 10px; background: #f1f5f9; margin: 20px 0; border-radius: 5px; max-width: 1400px; margin-left: auto; margin-right: auto; }
         
         /* ===== RESPONSIVE BREAKPOINTS ===== */
-        
-        /* Tablet: 768px+ */
         @media (min-width: 768px) {
-            .food-grid, .grocery-grid, .vegetable-grid { 
-                grid-template-columns: repeat(3, 1fr); 
-                gap: 16px;
-            }
-            .food-image, .grocery-img, .vegetable-img { height: 140px; }
-            .shop-image { height: 200px; }
-            .section-header h2 { font-size: 20px; }
-            .promo-banner { padding: 24px; }
-            .promo-banner h3 { font-size: 22px; }
-            .promo-banner .discount-text { font-size: 28px; }
-        }
-        
-        /* Desktop: 1024px+ */
-        @media (min-width: 1024px) {
-            body { padding-bottom: 0; }
-            
-            /* Hide mobile bottom nav on desktop */
-            .bottom-nav { display: none; }
-            
-            /* Show desktop top nav */
-            .desktop-nav { display: block; }
-            
-            /* 4 column grid on desktop */
-            .food-grid, .grocery-grid, .vegetable-grid { 
-                grid-template-columns: repeat(4, 1fr); 
-                gap: 20px;
-            }
-            
-            /* Bigger cards on desktop */
+            .food-grid, .grocery-grid, .vegetable-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
             .food-image, .grocery-img, .vegetable-img { height: 160px; }
             .shop-image { height: 220px; }
-            
-            /* Bigger section headers */
-            .section-header { padding: 20px 15px 14px 15px; top: 60px; }
-            .section-header h2 { font-size: 22px; }
-            
-            /* Bigger promo banner */
-            .promo-banner { padding: 30px; margin: 20px auto; }
-            .promo-banner h3 { font-size: 26px; }
-            .promo-banner .discount-text { font-size: 36px; }
-            
-            /* Bigger search bar */
-            .search-bar { padding: 16px; }
-            .search-bar input { padding: 14px 20px; font-size: 16px; }
-            
-            /* Bigger header */
-            .header { padding: 24px 15px; }
-            .header h1 { font-size: 28px; }
-            .header p { font-size: 14px; }
-            
-            /* Cart fixed position adjustment for desktop */
-            .grocery-cart { 
-                bottom: 20px; 
-                left: 50%; 
-                right: auto;
-                transform: translateX(-50%);
-                max-width: 600px;
-                width: calc(100% - 40px);
-            }
-            
-            /* Toast adjustment for desktop */
-            .toast { bottom: 40px; }
-            @keyframes slideUp { from { bottom: 20px; opacity: 0; } to { bottom: 40px; opacity: 1; } }
+            .section-header h2 { font-size: 24px; }
+            .promo-banner { padding: 35px 20px; }
+            .promo-banner h3 { font-size: 28px; }
+            .promo-banner .discount-text { font-size: 48px; }
         }
         
-        /* Large Desktop: 1440px+ */
-        @media (min-width: 1440px) {
-            .food-grid, .grocery-grid, .vegetable-grid { 
-                grid-template-columns: repeat(4, 1fr); 
-                gap: 24px;
-            }
-            .food-card, .grocery-card, .vegetable-card { 
-                border-radius: 16px;
-            }
+        @media (min-width: 1024px) {
+            body { padding-bottom: 0; }
+            .bottom-nav { display: none; }
+            .desktop-nav { display: block; }
+            .food-grid, .grocery-grid, .vegetable-grid { grid-template-columns: repeat(4, 1fr); gap: 24px; }
             .food-image, .grocery-img, .vegetable-img { height: 180px; }
+            .shop-image { height: 240px; }
+            .section-header { padding: 24px 20px 18px 20px; top: 70px; }
+            .section-header h2 { font-size: 26px; }
+            .promo-banner { padding: 40px 20px; margin: 30px auto; }
+            .promo-banner h3 { font-size: 32px; }
+            .promo-banner .discount-text { font-size: 56px; }
+            .search-bar { padding: 20px; }
+            .search-bar input { padding: 16px 24px; font-size: 17px; }
+            .header { padding: 28px 15px; }
+            .header h1 { font-size: 32px; }
+            .header p { font-size: 16px; }
+            .grocery-cart { bottom: 30px; left: 50%; right: auto; transform: translateX(-50%); max-width: 700px; width: calc(100% - 60px); }
+            .toast { bottom: 50px; }
+            @keyframes slideUp { from { bottom: 30px; opacity: 0; } to { bottom: 50px; opacity: 1; } }
+        }
+        
+        @media (min-width: 1440px) {
+            .food-grid, .grocery-grid, .vegetable-grid { grid-template-columns: repeat(4, 1fr); gap: 28px; }
+            .food-card, .grocery-card, .vegetable-card { border-radius: 20px; }
+            .food-image, .grocery-img, .vegetable-img { height: 200px; }
         }
         
         @media screen and (orientation: landscape) and (max-width: 1024px) { body { padding-bottom: 100px; } }
@@ -427,10 +482,10 @@
     </style>
 </head>
 <body>
-    <!-- DESKTOP TOP NAVIGATION -->
+    <!-- DESKTOP NAVIGATION -->
     <nav class="desktop-nav" aria-label="Main navigation">
         <div class="desktop-nav-inner">
-            <div class="desktop-nav-logo">🌿 Silvas Express</div>
+            <a href="#" class="desktop-nav-logo">🌿 Silvas Express</a>
             <div class="desktop-nav-links">
                 <a href="#shopsContainer" class="desktop-nav-link active" onclick="scrollToSection('shopsContainer')">🏪 Shops</a>
                 <a href="#allFoodsList" class="desktop-nav-link" onclick="scrollToSection('allFoodsList')">🍕 Foods</a>
@@ -438,9 +493,9 @@
                 <a href="#allVegetablesList" class="desktop-nav-link" onclick="scrollToSection('allVegetablesList')">🥬 Vegetables</a>
                 <a href="#myOrdersList" class="desktop-nav-link" onclick="scrollToSection('myOrdersList')">📦 Orders</a>
             </div>
-            <div class="desktop-nav-cart" onclick="showCart()">
-                🛒 Cart <span class="cart-badge" id="desktopCartCount" style="position: static; width: auto; height: auto; border: none; background: white; color: #22C55E; padding: 2px 8px; border-radius: 12px; font-size: 12px;">0</span>
-            </div>
+            <a href="#cartTab" class="desktop-nav-cart" onclick="showCart()">
+                🛒 Cart <span id="desktopCartCount" style="background: white; color: #22C55E; padding: 2px 8px; border-radius: 12px; font-size: 12px; margin-left: 5px;">0</span>
+            </a>
         </div>
     </nav>
 
@@ -468,7 +523,7 @@
         <h2>🏪 Shops</h2>
     </div>
     <div class="container" id="shopsContainer">
-        <div id="shopsList"><div class="loading">⏳ Shops load වෙමින්...</div></div>
+        <div id="shopsList"><div class="loading"> Shops load වෙමින්...</div></div>
     </div>
     
     <div class="section-divider"></div>
@@ -483,7 +538,7 @@
                 <span>තෝරාගත් Foods: <span id="foodCount">0</span></span>
                 <span style="font-size: 18px; color: #16A34A; font-weight: 800;">Rs. <span id="foodTotal">0</span></span>
             </div>
-            <button class="btn btn-success" onclick="addFoodsToCart()">🛒 Cart එකට Add කරන්න</button>
+            <button class="btn btn-success" onclick="addFoodsToCart()"> Cart එකට Add කරන්න</button>
         </div>
     </div>
     
@@ -539,7 +594,7 @@
                 <div class="form-group"><label>📞 දුරකථන අංකය *</label><input type="tel" id="phoneNumber" placeholder="07X XXX XXXX"></div>
                 <div class="form-group"><label>📍 Delivery ලිපිනය *</label><textarea id="deliveryAddress" rows="3" placeholder="නිවසේ ලිපිනය..."></textarea></div>
                 <div class="form-group">
-                    <label> ඔබේ ප්‍රදේශය තෝරන්න *</label>
+                    <label>📍 ඔබේ ප්‍රදේශය තෝරන්න *</label>
                     <select id="deliveryArea" onchange="calculateDeliveryFee()">
                         <option value="">-- ප්‍රදේශය තෝරන්න --</option>
                         <optgroup label="🟢 Zone 1 - 0-2 km (Rs. 100)">
@@ -578,13 +633,13 @@
                     <div class="delivery-info" id="deliveryInfo" style="display: none;">
                         <strong>📍 තෝරාගත් ප්‍රදේශය:</strong> <span id="selectedAreaName"></span>
                         <span id="zoneBadge" class="zone-badge"></span><br>
-                        <strong> Delivery Fee:</strong> Rs. <span id="zoneFeeDisplay">0</span>
+                        <strong>🚚 Delivery Fee:</strong> Rs. <span id="zoneFeeDisplay">0</span>
                     </div>
                 </div>
                 <div class="form-group">
                     <label>💳 ගෙවීම් ක්‍රමය *</label>
                     <div class="payment-option">
-                        <button class="payment-btn active" onclick="selectPayment('cod')" id="btn-cod"> COD</button>
+                        <button class="payment-btn active" onclick="selectPayment('cod')" id="btn-cod">💵 COD</button>
                         <button class="payment-btn" onclick="selectPayment('online')" id="btn-online">🏦 Online</button>
                     </div>
                     <div id="onlinePaymentDetails" style="display: none; background: #f0fdf4; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #22C55E;">
@@ -598,8 +653,8 @@
                     </div>
                 </div>
                 <div style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin: 15px 0; border-left: 4px solid #22C55E;">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span> Items Total:</span><span style="font-weight: 600;">Rs. <span id="itemsTotal">0</span></span></div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>🚚 Delivery Fee:</span><span style="font-weight: 600; color: #16A34A;">Rs. <span id="deliveryFeeDisplay">0</span></span></div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span>🛒 Items Total:</span><span style="font-weight: 600;">Rs. <span id="itemsTotal">0</span></span></div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;"><span> Delivery Fee:</span><span style="font-weight: 600; color: #16A34A;">Rs. <span id="deliveryFeeDisplay">0</span></span></div>
                     <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 18px; margin-top: 12px; padding-top: 12px; border-top: 2px solid #cbd5e1;"><span>💰 මුළු එකතුව:</span><span>Rs. <span id="grandTotal">0</span></span></div>
                 </div>
                 <button class="btn btn-success" onclick="confirmCartOrder()" style="padding: 15px; font-size: 16px;">📱 WhatsApp එකට Order එක යවන්න</button>
@@ -621,8 +676,8 @@
 
     <footer class="developer-credit">
         <p>Developed with ❤️ by <strong>TK Chinthaka Nuwan</strong></p>
-        <p style="font-size: 10px; margin-top: 5px; color: #aaa;">© 2024 Silvas Express App. All rights reserved.</p>
-        <a href="admin.html" style="color: #ccc; text-decoration: none; font-size: 9px; margin-top: 5px; display: inline-block;">Admin Access</a>
+        <p style="font-size: 10px; margin-top: 5px; color: #94a3b8;">© 2024 Silvas Express App. All rights reserved.</p>
+        <a href="admin.html" style="color: #cbd5e1; text-decoration: none; font-size: 9px; margin-top: 5px; display: inline-block;">Admin Access</a>
     </footer>
 
     <script>
@@ -808,33 +863,10 @@
             }
         }
 
-        function loadShops() { 
-            database.ref('shops').on('value', (snapshot) => { 
-                shops = snapshot.val() ? Object.entries(snapshot.val()).map(([key, value]) => ({...value, id: key})) : []; 
-                renderShops(); 
-            }); 
-        }
-        
-        function loadAllFoods() { 
-            database.ref('foods').on('value', (snapshot) => { 
-                foods = snapshot.val() ? Object.entries(snapshot.val()).map(([key, value]) => ({...value, id: key})) : []; 
-                renderAllFoods(); 
-            }); 
-        }
-        
-        function loadAllGrocery() { 
-            database.ref('groceryItems').on('value', (snapshot) => { 
-                groceryItems = snapshot.val() ? Object.entries(snapshot.val()).map(([key, value]) => ({...value, id: key})) : []; 
-                renderAllGrocery(); 
-            }); 
-        }
-        
-        function loadAllVegetables() { 
-            database.ref('vegetables').on('value', (snapshot) => { 
-                vegetables = snapshot.val() ? Object.entries(snapshot.val()).map(([key, value]) => ({...value, id: key})) : []; 
-                renderAllVegetables(); 
-            }); 
-        }
+        function loadShops() { database.ref('shops').on('value', (snapshot) => { shops = snapshot.val() ? Object.entries(snapshot.val()).map(([key, value]) => ({...value, id: key})) : []; renderShops(); }); }
+        function loadAllFoods() { database.ref('foods').on('value', (snapshot) => { foods = snapshot.val() ? Object.entries(snapshot.val()).map(([key, value]) => ({...value, id: key})) : []; renderAllFoods(); }); }
+        function loadAllGrocery() { database.ref('groceryItems').on('value', (snapshot) => { groceryItems = snapshot.val() ? Object.entries(snapshot.val()).map(([key, value]) => ({...value, id: key})) : []; renderAllGrocery(); }); }
+        function loadAllVegetables() { database.ref('vegetables').on('value', (snapshot) => { vegetables = snapshot.val() ? Object.entries(snapshot.val()).map(([key, value]) => ({...value, id: key})) : []; renderAllVegetables(); }); }
 
         function loadMyOrders() {
             const phone = localStorage.getItem('customerPhone') || '';
@@ -863,7 +895,7 @@
                 const shopFoods = foods.filter(f => f.shopId === shopId);
                 const foodsList = document.getElementById('allFoodsList');
                 if (shopFoods.length > 0) {
-                    foodsList.innerHTML = '<h3 style="grid-column: 1/-1; margin-bottom: 10px; color: #1e293b; font-weight: 700;">🏪 ' + shop.name + ' Foods</h3>' + shopFoods.map(food => renderFoodCard(food)).join('');
+                    foodsList.innerHTML = '<h3 style="grid-column: 1/-1; margin-bottom: 10px; color: #1e293b; font-weight: 700;"> ' + shop.name + ' Foods</h3>' + shopFoods.map(food => renderFoodCard(food)).join('');
                 } else {
                     foodsList.innerHTML = '<div class="loading">මේ කඩේ Foods තවම නැහැ.</div>';
                 }
@@ -879,17 +911,17 @@
             let variantButtonHTML = '';
             if (hasVariants) {
                 const selectedVariant = selectedVariants[food.id];
-                const buttonText = selectedVariant ? selectedVariant.weight + ' - Rs. ' + selectedVariant.price : '🍽️ Portion තෝරන්න ▼';
-                variantButtonHTML = '<div style="position: relative; margin-top: 8px; z-index: 1000;"><button class="variant-dropdown-btn" data-product-id="' + food.id + '" onclick="event.stopPropagation(); toggleVariantDropdown(\'' + food.id + '\')" style="border-color: ' + (selectedVariant ? '#22C55E' : '#e0e0e0') + '; background: ' + (selectedVariant ? '#22C55E' : 'white') + '; color: ' + (selectedVariant ? 'white' : '#666') + ';">' + buttonText + '</button><div id="variant-dropdown-' + food.id + '" class="variant-dropdown">' + Object.entries(food.variants).map(([weight, variantData]) => {
+                const buttonText = selectedVariant ? selectedVariant.weight + ' - Rs. ' + selectedVariant.price : '️ Portion තෝරන්න ▼';
+                variantButtonHTML = '<div style="position: relative; margin-top: 8px; z-index: 1000;"><button class="variant-dropdown-btn" data-product-id="' + food.id + '" onclick="event.stopPropagation(); toggleVariantDropdown(\'' + food.id + '\')" style="border-color: ' + (selectedVariant ? '#22C55E' : '#e2e8f0') + '; background: ' + (selectedVariant ? '#22C55E' : 'white') + '; color: ' + (selectedVariant ? 'white' : '#64748b') + ';">' + buttonText + '</button><div id="variant-dropdown-' + food.id + '" class="variant-dropdown">' + Object.entries(food.variants).map(([weight, variantData]) => {
                     const normalPrice = variantData.normalPrice || 0;
                     const specialPrice = variantData.specialPrice || 0;
                     const hasDiscount = specialPrice > 0 && specialPrice < normalPrice;
-                    return '<div onclick="event.stopPropagation(); selectVariantFromDropdown(\'' + food.id + '\', \'' + weight + '\', ' + normalPrice + ', ' + specialPrice + ')" style="padding: 10px; border-bottom: 1px solid #f0f0f0; cursor: pointer; display: flex; justify-content: space-between; align-items: center;"><span style="font-weight: 700; font-size: 13px;">' + weight + '</span><div style="text-align: right;">' + (hasDiscount ? '<div style="font-size: 10px; color: #f44336; text-decoration: line-through;">Rs. ' + normalPrice + '</div><div style="font-size: 12px; color: #22C55E; font-weight: 700;">Rs. ' + specialPrice + '</div>' : '<div style="font-size: 12px; color: #16A34A; font-weight: 700;">Rs. ' + normalPrice + '</div>') + '</div></div>';
+                    return '<div onclick="event.stopPropagation(); selectVariantFromDropdown(\'' + food.id + '\', \'' + weight + '\', ' + normalPrice + ', ' + specialPrice + ')" style="padding: 10px; border-bottom: 1px solid #f0f0f0; cursor: pointer; display: flex; justify-content: space-between; align-items: center;"><span style="font-weight: 700; font-size: 13px;">' + weight + '</span><div style="text-align: right;">' + (hasDiscount ? '<div style="font-size: 10px; color: #ef4444; text-decoration: line-through;">Rs. ' + normalPrice + '</div><div style="font-size: 12px; color: #22C55E; font-weight: 700;">Rs. ' + specialPrice + '</div>' : '<div style="font-size: 12px; color: #16A34A; font-weight: 700;">Rs. ' + normalPrice + '</div>') + '</div></div>';
                 }).join('') + '</div></div>';
             }
             const displayPrice = hasVariants && selectedVariants[food.id] ? selectedVariants[food.id].price : food.price;
             const qty = itemQuantities[food.id] || 1;
-            return '<div class="food-card ' + (isSelected ? 'selected' : '') + ' ' + (!isAvailable ? 'out-of-stock' : '') + '" onclick="' + (isAvailable ? "toggleFoodItem('" + food.id + "')" : "") + '">' + (isAvailable ? '<div onclick="event.stopPropagation(); toggleFoodItem(\'' + food.id + '\')" style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: ' + (isSelected ? '#22C55E' : 'white') + '; border: 2px solid ' + (isSelected ? '#22C55E' : '#ddd') + '; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-size: 14px; color: white; font-weight: bold; cursor: pointer;">' + (isSelected ? '✓' : '') + '</div>' : '') + '<div class="image-container food-img-container"><img src="' + (food.image || 'https://via.placeholder.com/400x120?text=No+Image') + '" class="food-image" alt="' + food.name + '" onerror="this.style.display=\'none\'"><div class="image-fallback" style="display:none;">' + food.name + '</div></div><div class="food-info"><div class="food-name">' + food.name + (shop ? '<div style="font-size: 10px; color: #666; font-weight: 400; margin-top: 2px;">' + shop.name + '</div>' : '') + '</div><div class="price-display"><span class="price-current">Rs. ' + displayPrice + '</span></div>' + variantButtonHTML + (isAvailable ? '<div class="qty-selector"><button class="qty-btn" onclick="event.stopPropagation(); updateItemQty(\'' + food.id + '\', -1)">−</button><span id="qty-' + food.id + '" style="font-weight: bold; min-width: 20px; text-align: center;">' + qty + '</span><button class="qty-btn" onclick="event.stopPropagation(); updateItemQty(\'' + food.id + '\', 1)">+</button></div><button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCartWithQty(\'' + food.id + '\', \'' + food.name + '\', ' + food.price + ', ' + hasVariants + ', \'' + (food.shopId || '') + '\')">🛒 Add to Cart</button>' : '') + '</div></div>';
+            return '<div class="food-card ' + (isSelected ? 'selected' : '') + ' ' + (!isAvailable ? 'out-of-stock' : '') + '" onclick="' + (isAvailable ? "toggleFoodItem('" + food.id + "')" : "") + '">' + (isAvailable ? '<div onclick="event.stopPropagation(); toggleFoodItem(\'' + food.id + '\')" style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: ' + (isSelected ? '#22C55E' : 'white') + '; border: 2px solid ' + (isSelected ? '#22C55E' : '#ddd') + '; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-size: 14px; color: white; font-weight: bold; cursor: pointer;">' + (isSelected ? '✓' : '') + '</div>' : '') + '<div class="image-container food-img-container"><img src="' + (food.image || 'https://via.placeholder.com/400x120?text=No+Image') + '" class="food-image" alt="' + food.name + '" onerror="this.style.display=\'none\'"><div class="image-fallback" style="display:none;">' + food.name + '</div></div><div class="food-info"><div class="food-name">' + food.name + (shop ? '<div style="font-size: 10px; color: #64748b; font-weight: 400; margin-top: 2px;">' + shop.name + '</div>' : '') + '</div><div class="price-display"><span class="price-current">Rs. ' + displayPrice + '</span></div>' + variantButtonHTML + (isAvailable ? '<div class="qty-selector"><button class="qty-btn" onclick="event.stopPropagation(); updateItemQty(\'' + food.id + '\', -1)">−</button><span id="qty-' + food.id + '" style="font-weight: bold; min-width: 20px; text-align: center;">' + qty + '</span><button class="qty-btn" onclick="event.stopPropagation(); updateItemQty(\'' + food.id + '\', 1)">+</button></div><button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCartWithQty(\'' + food.id + '\', \'' + food.name + '\', ' + food.price + ', ' + hasVariants + ', \'' + (food.shopId || '') + '\')"> Add to Cart</button>' : '') + '</div></div>';
         }
 
         function renderAllFoods() {
@@ -912,17 +944,17 @@
                 if (hasVariants) {
                     const selectedVariant = selectedVariants[product.id];
                     const buttonText = selectedVariant ? selectedVariant.weight + ' - Rs. ' + selectedVariant.price : '📦 බර තෝරන්න ▼';
-                    variantButtonHTML = '<div style="position: relative; margin-top: 8px; z-index: 1000;"><button class="variant-dropdown-btn" data-product-id="' + product.id + '" onclick="event.stopPropagation(); toggleVariantDropdown(\'' + product.id + '\')" style="border-color: ' + (selectedVariant ? '#22C55E' : '#e0e0e0') + '; background: ' + (selectedVariant ? '#22C55E' : 'white') + '; color: ' + (selectedVariant ? 'white' : '#666') + ';">' + buttonText + '</button><div id="variant-dropdown-' + product.id + '" class="variant-dropdown">' + Object.entries(product.variants).map(([weight, variantData]) => {
+                    variantButtonHTML = '<div style="position: relative; margin-top: 8px; z-index: 1000;"><button class="variant-dropdown-btn" data-product-id="' + product.id + '" onclick="event.stopPropagation(); toggleVariantDropdown(\'' + product.id + '\')" style="border-color: ' + (selectedVariant ? '#22C55E' : '#e2e8f0') + '; background: ' + (selectedVariant ? '#22C55E' : 'white') + '; color: ' + (selectedVariant ? 'white' : '#64748b') + ';">' + buttonText + '</button><div id="variant-dropdown-' + product.id + '" class="variant-dropdown">' + Object.entries(product.variants).map(([weight, variantData]) => {
                         const normalPrice = variantData.normalPrice || 0;
                         const specialPrice = variantData.specialPrice || 0;
                         const hasDiscount = specialPrice > 0 && specialPrice < normalPrice;
-                        return '<div onclick="event.stopPropagation(); selectVariantFromDropdown(\'' + product.id + '\', \'' + weight + '\', ' + normalPrice + ', ' + specialPrice + ')" style="padding: 10px; border-bottom: 1px solid #f0f0f0; cursor: pointer; display: flex; justify-content: space-between; align-items: center;"><span style="font-weight: 700; font-size: 13px;">' + weight + '</span><div style="text-align: right;">' + (hasDiscount ? '<div style="font-size: 10px; color: #f44336; text-decoration: line-through;">Rs. ' + normalPrice + '</div><div style="font-size: 12px; color: #22C55E; font-weight: 700;">Rs. ' + specialPrice + '</div>' : '<div style="font-size: 12px; color: #16A34A; font-weight: 700;">Rs. ' + normalPrice + '</div>') + '</div></div>';
+                        return '<div onclick="event.stopPropagation(); selectVariantFromDropdown(\'' + product.id + '\', \'' + weight + '\', ' + normalPrice + ', ' + specialPrice + ')" style="padding: 10px; border-bottom: 1px solid #f0f0f0; cursor: pointer; display: flex; justify-content: space-between; align-items: center;"><span style="font-weight: 700; font-size: 13px;">' + weight + '</span><div style="text-align: right;">' + (hasDiscount ? '<div style="font-size: 10px; color: #ef4444; text-decoration: line-through;">Rs. ' + normalPrice + '</div><div style="font-size: 12px; color: #22C55E; font-weight: 700;">Rs. ' + specialPrice + '</div>' : '<div style="font-size: 12px; color: #16A34A; font-weight: 700;">Rs. ' + normalPrice + '</div>') + '</div></div>';
                     }).join('') + '</div></div>';
                 }
                 const showDiscount = product.hasDiscount && product.discountPrice > 0 && product.discountPrice < product.originalPrice;
                 const discountPercent = showDiscount ? Math.round(((product.originalPrice - product.discountPrice) / product.originalPrice) * 100) : 0;
                 const qty = itemQuantities[product.id] || 1;
-                return '<div class="grocery-card ' + (isSelected ? 'selected' : '') + ' ' + (!isAvailable ? 'out-of-stock' : '') + '" onclick="' + (isAvailable ? "toggleGroceryItem('" + product.id + "')" : "") + '">' + (isAvailable ? '<div onclick="event.stopPropagation(); toggleGroceryItem(\'' + product.id + '\')" style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: ' + (isSelected ? '#22C55E' : 'white') + '; border: 2px solid ' + (isSelected ? '#22C55E' : '#ddd') + '; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-size: 14px; color: white; font-weight: bold; cursor: pointer;">' + (isSelected ? '✓' : '') + '</div>' : '') + '<div class="image-container food-img-container"><img src="' + (product.image || 'https://res.cloudinary.com/wdd29nbn/image/upload/f_auto,q_auto/1000116375.jpg') + '" class="grocery-img" alt="' + product.name + '" onerror="this.style.display=\'none\'"><div class="image-fallback" style="display:none;">' + product.name + '</div></div><div class="grocery-info"><div class="grocery-name">' + product.name + '</div><div style="font-size: 11px; color: #666; margin-bottom: 4px;">' + (product.unit || '') + '</div><div class="price-display">' + (showDiscount ? '<span class="discount-badge">-' + discountPercent + '%</span><span class="price-current" style="color: #f44336;">Rs. ' + product.discountPrice + '</span><span class="price-original">Rs. ' + product.originalPrice + '</span>' : '<span class="price-current">Rs. ' + product.originalPrice + '</span>') + '</div>' + (showDiscount ? '<div style="font-size: 10px; color: #f44336; margin-top: 2px; font-weight: 600;">️ Special Offer!</div>' : '') + variantButtonHTML + (isAvailable ? '<div class="qty-selector"><button class="qty-btn" onclick="event.stopPropagation(); updateItemQty(\'' + product.id + '\', -1)">−</button><span id="qty-' + product.id + '" style="font-weight: bold; min-width: 20px; text-align: center;">' + qty + '</span><button class="qty-btn" onclick="event.stopPropagation(); updateItemQty(\'' + product.id + '\', 1)">+</button></div>' : '') + '</div></div>';
+                return '<div class="grocery-card ' + (isSelected ? 'selected' : '') + ' ' + (!isAvailable ? 'out-of-stock' : '') + '" onclick="' + (isAvailable ? "toggleGroceryItem('" + product.id + "')" : "") + '">' + (isAvailable ? '<div onclick="event.stopPropagation(); toggleGroceryItem(\'' + product.id + '\')" style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: ' + (isSelected ? '#22C55E' : 'white') + '; border: 2px solid ' + (isSelected ? '#22C55E' : '#ddd') + '; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-size: 14px; color: white; font-weight: bold; cursor: pointer;">' + (isSelected ? '✓' : '') + '</div>' : '') + '<div class="image-container food-img-container"><img src="' + (product.image || 'https://res.cloudinary.com/wdd29nbn/image/upload/f_auto,q_auto/1000116375.jpg') + '" class="grocery-img" alt="' + product.name + '" onerror="this.style.display=\'none\'"><div class="image-fallback" style="display:none;">' + product.name + '</div></div><div class="grocery-info"><div class="grocery-name">' + product.name + '</div><div style="font-size: 11px; color: #64748b; margin-bottom: 4px;">' + (product.unit || '') + '</div><div class="price-display">' + (showDiscount ? '<span class="discount-badge">-' + discountPercent + '%</span><span class="price-current" style="color: #ef4444;">Rs. ' + product.discountPrice + '</span><span class="price-original">Rs. ' + product.originalPrice + '</span>' : '<span class="price-current">Rs. ' + product.originalPrice + '</span>') + '</div>' + (showDiscount ? '<div style="font-size: 10px; color: #ef4444; margin-top: 2px; font-weight: 600;">🏷️ Special Offer!</div>' : '') + variantButtonHTML + (isAvailable ? '<div class="qty-selector"><button class="qty-btn" onclick="event.stopPropagation(); updateItemQty(\'' + product.id + '\', -1)">−</button><span id="qty-' + product.id + '" style="font-weight: bold; min-width: 20px; text-align: center;">' + qty + '</span><button class="qty-btn" onclick="event.stopPropagation(); updateItemQty(\'' + product.id + '\', 1)">+</button></div>' : '') + '</div></div>';
             }).join('');
             updateGroceryCart();
         }
@@ -937,7 +969,7 @@
                 const discountPercent = showDiscount ? Math.round(((veg.originalPrice - veg.discountPrice) / veg.originalPrice) * 100) : 0;
                 const isSelected = selectedVegetableIds.has(veg.id);
                 const qty = itemQuantities[veg.id] || 1;
-                return '<div class="vegetable-card ' + (isSelected ? 'selected' : '') + ' ' + (!isAvailable ? 'out-of-stock' : '') + '" onclick="' + (isAvailable ? "toggleVegetable('" + veg.id + "')" : "") + '">' + (isAvailable ? '<div onclick="event.stopPropagation(); toggleVegetable(\'' + veg.id + '\')" style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: ' + (isSelected ? '#22C55E' : 'white') + '; border: 2px solid ' + (isSelected ? '#22C55E' : '#ddd') + '; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-size: 14px; color: white; font-weight: bold; cursor: pointer;">' + (isSelected ? '✓' : '') + '</div>' : '') + '<div class="image-container food-img-container"><img src="' + (veg.image || 'https://via.placeholder.com/400x120?text=No+Image') + '" class="vegetable-img" alt="' + veg.name + '" onerror="this.style.display=\'none\'"><div class="image-fallback" style="display:none;">' + veg.name + '</div></div><div class="vegetable-info"><div class="vegetable-name">' + veg.name + '</div><div style="font-size: 11px; color: #666; margin-bottom: 4px;">' + (veg.unit || '1 kg') + '</div><div class="price-display">' + (showDiscount ? '<span class="discount-badge">-' + discountPercent + '%</span><span class="price-current" style="color: #f44336;">Rs. ' + veg.discountPrice + '</span><span class="price-original">Rs. ' + veg.originalPrice + '</span>' : '<span class="price-current">Rs. ' + veg.originalPrice + '</span>') + '</div>' + (isAvailable ? '<div class="qty-selector"><button class="qty-btn" onclick="event.stopPropagation(); updateItemQty(\'' + veg.id + '\', -1)">−</button><span id="qty-' + veg.id + '" style="font-weight: bold; min-width: 20px; text-align: center;">' + qty + '</span><button class="qty-btn" onclick="event.stopPropagation(); updateItemQty(\'' + veg.id + '\', 1)">+</button></div>' : '') + '</div></div>';
+                return '<div class="vegetable-card ' + (isSelected ? 'selected' : '') + ' ' + (!isAvailable ? 'out-of-stock' : '') + '" onclick="' + (isAvailable ? "toggleVegetable('" + veg.id + "')" : "") + '">' + (isAvailable ? '<div onclick="event.stopPropagation(); toggleVegetable(\'' + veg.id + '\')" style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: ' + (isSelected ? '#22C55E' : 'white') + '; border: 2px solid ' + (isSelected ? '#22C55E' : '#ddd') + '; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-size: 14px; color: white; font-weight: bold; cursor: pointer;">' + (isSelected ? '✓' : '') + '</div>' : '') + '<div class="image-container food-img-container"><img src="' + (veg.image || 'https://via.placeholder.com/400x120?text=No+Image') + '" class="vegetable-img" alt="' + veg.name + '" onerror="this.style.display=\'none\'"><div class="image-fallback" style="display:none;">' + veg.name + '</div></div><div class="vegetable-info"><div class="vegetable-name">' + veg.name + '</div><div style="font-size: 11px; color: #64748b; margin-bottom: 4px;">' + (veg.unit || '1 kg') + '</div><div class="price-display">' + (showDiscount ? '<span class="discount-badge">-' + discountPercent + '%</span><span class="price-current" style="color: #ef4444;">Rs. ' + veg.discountPrice + '</span><span class="price-original">Rs. ' + veg.originalPrice + '</span>' : '<span class="price-current">Rs. ' + veg.originalPrice + '</span>') + '</div>' + (isAvailable ? '<div class="qty-selector"><button class="qty-btn" onclick="event.stopPropagation(); updateItemQty(\'' + veg.id + '\', -1)">−</button><span id="qty-' + veg.id + '" style="font-weight: bold; min-width: 20px; text-align: center;">' + qty + '</span><button class="qty-btn" onclick="event.stopPropagation(); updateItemQty(\'' + veg.id + '\', 1)">+</button></div>' : '') + '</div></div>';
             }).join('');
             updateVegetableCart();
         }
@@ -1119,7 +1151,7 @@
                 total += itemTotal;
                 const displayName = item.weight ? item.name + ' (' + item.weight + ')' : (item.unit ? item.name + ' (' + item.unit + ')' : item.name);
                 summaryHTML += '<div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dashed #cbd5e1;"><span>' + displayName + ' x' + item.quantity + '</span><span>Rs. ' + itemTotal.toLocaleString() + '</span></div>';
-                itemsHTML += '<div class="cart-item"><div style="flex: 1;"><div style="font-weight: 700; font-size: 14px; margin-bottom: 4px;">' + displayName + '</div><div style="font-size: 12px; color: #666;">Rs. ' + item.price + ' each</div></div><div class="qty-controls"><button class="qty-btn" onclick="changeQty(' + index + ', -1)">−</button><span style="font-weight: 700; font-size: 14px; min-width: 24px; text-align: center;">' + item.quantity + '</span><button class="qty-btn" onclick="changeQty(' + index + ', 1)">+</button><button class="btn" onclick="removeFromCart(' + index + ')" style="margin-left: 8px; background: #fee2e2; color: #ef4444; width: 32px; height: 32px; padding: 0;">🗑️</button></div></div>';
+                itemsHTML += '<div class="cart-item"><div style="flex: 1;"><div style="font-weight: 700; font-size: 14px; margin-bottom: 4px;">' + displayName + '</div><div style="font-size: 12px; color: #64748b;">Rs. ' + item.price + ' each</div></div><div class="qty-controls"><button class="qty-btn" onclick="changeQty(' + index + ', -1)">−</button><span style="font-weight: 700; font-size: 14px; min-width: 24px; text-align: center;">' + item.quantity + '</span><button class="qty-btn" onclick="changeQty(' + index + ', 1)">+</button><button class="btn" onclick="removeFromCart(' + index + ')" style="margin-left: 8px; background: #fee2e2; color: #ef4444; width: 32px; height: 32px; padding: 0;">🗑️</button></div></div>';
             });
             summaryHTML += '<div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 18px; margin-top: 12px; padding-top: 12px; border-top: 2px solid #e2e8f0;"><span>Items Total:</span><span>Rs. ' + total.toLocaleString() + '</span></div>';
             list.innerHTML = '<div style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #22C55E;"><strong style="font-size: 15px; color: #166534;">✅ Items ' + cart.length + 'ක් තෝරාගෙන ඇත!</strong><br><span style="font-size: 12px; color: #15803d;">පහත විස්තර පුරවා Order එක යවන්න</span></div>' + itemsHTML;
@@ -1181,7 +1213,7 @@
             const address = document.getElementById('deliveryAddress').value.trim();
             const areaSelect = document.getElementById('deliveryArea');
             const transId = document.getElementById('transactionId').value.trim();
-            if (!name || !phone || !address || !areaSelect.value) { showToast(' කරුණාකර සියලු විස්තර සපුරන්න!'); return; }
+            if (!name || !phone || !address || !areaSelect.value) { showToast('❌ කරුණාකර සියලු විස්තර සපුරන්න!'); return; }
             if (selectedPaymentMethod === 'online' && !transId) { showToast('❌ Online ගෙවීම් සඳහා Transaction ID එක අනිවාර්යයි!'); return; }
             
             localStorage.setItem('customerPhone', phone);
@@ -1195,7 +1227,7 @@
             const grandTotal = itemsTotal + currentDeliveryFee;
             const order = { customerName: name, phone: phone, address: address, area: areaSelect.options[areaSelect.selectedIndex].text, paymentMethod: selectedPaymentMethod, transactionId: transId, items: itemsList, itemsTotal: itemsTotal, deliveryFee: currentDeliveryFee, grandTotal: grandTotal, status: 'Pending', date: new Date().toISOString(), paymentInfo: paymentInfo };
             
-            const orderMessage = '🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ' + name + '\n📞 *Phone:* ' + phone + '\n📍 *Area:* ' + order.area + '\n🏠 *Address:* ' + address + '\n\n📦 *Items:* ' + itemsList + '\n\n💰 *Items Total:* Rs. ' + itemsTotal.toLocaleString() + '\n🚚 *Delivery Fee:* Rs. ' + currentDeliveryFee.toLocaleString() + '\n *Payment:* ' + paymentInfo + '\n\n💵 *GRAND TOTAL:* Rs. ' + grandTotal.toLocaleString() + '\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.\n\n🌐 Order: https://silvasexpress.store';
+            const orderMessage = '🛒 *NEW ORDER FROM Silvas Express*\n\n👤 *Name:* ' + name + '\n📞 *Phone:* ' + phone + '\n📍 *Area:* ' + order.area + '\n *Address:* ' + address + '\n\n *Items:* ' + itemsList + '\n\n💰 *Items Total:* Rs. ' + itemsTotal.toLocaleString() + '\n🚚 *Delivery Fee:* Rs. ' + currentDeliveryFee.toLocaleString() + '\n💳 *Payment:* ' + paymentInfo + '\n\n💵 *GRAND TOTAL:* Rs. ' + grandTotal.toLocaleString() + '\n\nකරුණාකර මෙම order එක තහවුරු කරන්න.\n\n🌐 Order: https://silvasexpress.store';
             
             database.ref('orders').push(order).then(() => {
                 window.open('https://wa.me/94702059529?text=' + encodeURIComponent(orderMessage), '_blank');
@@ -1207,11 +1239,11 @@
 
         function renderMyOrders(orders) {
             const list = document.getElementById('myOrdersList');
-            if (orders.length === 0) { list.innerHTML = '<div class="loading">ඔබ තවම order කිසිවක් තබා නැත.</div>'; return; }
+            if (orders.length === 0) { list.innerHTML = '<div class="loading">බ තවම order කිසිවක් තබා නැත.</div>'; return; }
             orders.sort((a, b) => new Date(b.date) - new Date(a.date));
             list.innerHTML = orders.map(order => {
                 const date = new Date(order.date); const status = order.status || 'Pending';
-                return '<div class="cart-item" style="flex-direction: column; align-items: flex-start; padding: 15px;"><div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;"><strong style="font-size: 15px;">Order #' + (order.id ? order.id.slice(-6) : 'New') + '</strong><span class="order-status status-' + status.toLowerCase() + '">' + status + '</span></div><div class="tracking-timeline" style="width: 100%;"><h3>📦 Order Tracking</h3><div class="timeline-item ' + (status === 'Pending' ? 'active' : (['Confirmed', 'Delivered'].includes(status) ? 'completed' : '')) + '"><div class="timeline-icon">1</div><div class="timeline-content"><div class="timeline-title">Order Received</div><div class="timeline-desc">ඔබේ order එක ලැබී ඇත</div></div></div><div class="timeline-item ' + (status === 'Confirmed' ? 'active' : (status === 'Delivered' ? 'completed' : '')) + '"><div class="timeline-icon">2</div><div class="timeline-content"><div class="timeline-title">Order Confirmed</div><div class="timeline-desc">Shop එක order එක පිළිගත්තා</div></div></div><div class="timeline-item ' + (status === 'Delivered' ? 'completed' : '') + '"><div class="timeline-icon">3</div><div class="timeline-content"><div class="timeline-title">Delivered</div><div class="timeline-desc">ඔබේ order එක බාර දුන්නා</div></div></div></div><div style="width: 100%; font-size: 13px; color: #666; line-height: 1.8; margin-top: 10px;"><div> Items: ' + order.items + '</div><div>💰 Total: Rs. ' + (order.grandTotal || order.total) + '</div><div>🚚 Delivery: Rs. ' + (order.deliveryFee || 0) + '</div><div> Payment: ' + (order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')) + '</div><div>📍 ' + order.address + '</div><div>📅 ' + date.toLocaleString() + '</div></div></div>';
+                return '<div class="cart-item" style="flex-direction: column; align-items: flex-start; padding: 15px;"><div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;"><strong style="font-size: 15px;">Order #' + (order.id ? order.id.slice(-6) : 'New') + '</strong><span class="order-status status-' + status.toLowerCase() + '">' + status + '</span></div><div class="tracking-timeline" style="width: 100%;"><h3>📦 Order Tracking</h3><div class="timeline-item ' + (status === 'Pending' ? 'active' : (['Confirmed', 'Delivered'].includes(status) ? 'completed' : '')) + '"><div class="timeline-icon">1</div><div class="timeline-content"><div class="timeline-title">Order Received</div><div class="timeline-desc">ඔබේ order එක ලැබී ඇත</div></div></div><div class="timeline-item ' + (status === 'Confirmed' ? 'active' : (status === 'Delivered' ? 'completed' : '')) + '"><div class="timeline-icon">2</div><div class="timeline-content"><div class="timeline-title">Order Confirmed</div><div class="timeline-desc">Shop එක order එක පිළිගත්තා</div></div></div><div class="timeline-item ' + (status === 'Delivered' ? 'completed' : '') + '"><div class="timeline-icon">3</div><div class="timeline-content"><div class="timeline-title">Delivered</div><div class="timeline-desc">බේ order එක බාර දුන්නා</div></div></div></div><div style="width: 100%; font-size: 13px; color: #64748b; line-height: 1.8; margin-top: 10px;"><div>📦 Items: ' + order.items + '</div><div>💰 Total: Rs. ' + (order.grandTotal || order.total) + '</div><div>🚚 Delivery: Rs. ' + (order.deliveryFee || 0) + '</div><div>💳 Payment: ' + (order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')) + '</div><div>📍 ' + order.address + '</div><div>📅 ' + date.toLocaleString() + '</div></div></div>';
             }).join('');
         }
 
@@ -1236,14 +1268,14 @@
             document.getElementById('allGroceryList').innerHTML = filteredGrocery.length > 0 ? filteredGrocery.map(product => {
                 const showDiscount = product.hasDiscount && product.discountPrice > 0 && product.discountPrice < product.originalPrice;
                 const discountPercent = showDiscount ? Math.round(((product.originalPrice - product.discountPrice) / product.originalPrice) * 100) : 0;
-                return '<div class="grocery-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);"><div class="image-container food-img-container"><img src="' + (product.image || 'https://via.placeholder.com/400x120?text=No+Image') + '" class="grocery-img" alt="' + product.name + '"></div><div class="grocery-info"><div class="grocery-name">' + product.name + '</div><div class="price-display">' + (showDiscount ? '<span class="discount-badge">-' + discountPercent + '%</span><span class="price-current" style="color: #f44336;">Rs. ' + product.discountPrice + '</span>' : '<span class="price-current">Rs. ' + product.originalPrice + '</span>') + '</div></div></div>';
+                return '<div class="grocery-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);"><div class="image-container food-img-container"><img src="' + (product.image || 'https://via.placeholder.com/400x120?text=No+Image') + '" class="grocery-img" alt="' + product.name + '"></div><div class="grocery-info"><div class="grocery-name">' + product.name + '</div><div class="price-display">' + (showDiscount ? '<span class="discount-badge">-' + discountPercent + '%</span><span class="price-current" style="color: #ef4444;">Rs. ' + product.discountPrice + '</span>' : '<span class="price-current">Rs. ' + product.originalPrice + '</span>') + '</div></div></div>';
             }).join('') : '<div class="loading">Grocery items හමු නොවීය</div>';
             
             const filteredVeg = vegetables.filter(v => v.name.toLowerCase().includes(query));
             document.getElementById('allVegetablesList').innerHTML = filteredVeg.length > 0 ? filteredVeg.map(veg => {
                 const showDiscount = veg.hasDiscount && veg.discountPrice > 0 && veg.discountPrice < veg.originalPrice;
                 const discountPercent = showDiscount ? Math.round(((veg.originalPrice - veg.discountPrice) / veg.originalPrice) * 100) : 0;
-                return '<div class="vegetable-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);"><div class="image-container food-img-container"><img src="' + (veg.image || 'https://via.placeholder.com/400x120?text=No+Image') + '" class="vegetable-img" alt="' + veg.name + '"></div><div class="vegetable-info"><div class="vegetable-name">' + veg.name + '</div><div class="price-display">' + (showDiscount ? '<span class="discount-badge">-' + discountPercent + '%</span><span class="price-current" style="color: #f44336;">Rs. ' + veg.discountPrice + '</span>' : '<span class="price-current">Rs. ' + veg.originalPrice + '</span>') + '</div></div></div>';
+                return '<div class="vegetable-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);"><div class="image-container food-img-container"><img src="' + (veg.image || 'https://via.placeholder.com/400x120?text=No+Image') + '" class="vegetable-img" alt="' + veg.name + '"></div><div class="vegetable-info"><div class="vegetable-name">' + veg.name + '</div><div class="price-display">' + (showDiscount ? '<span class="discount-badge">-' + discountPercent + '%</span><span class="price-current" style="color: #ef4444;">Rs. ' + veg.discountPrice + '</span>' : '<span class="price-current">Rs. ' + veg.originalPrice + '</span>') + '</div></div></div>';
             }).join('') : '<div class="loading">Vegetables හමු නොවීය</div>';
             
             if (query.length > 2) showToast('🔍 "' + query + '" සඳහා සොයමින්...');
