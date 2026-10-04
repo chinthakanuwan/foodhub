@@ -46,6 +46,8 @@
         .btn-whatsapp { background: #25D366; color: white; }
         .btn-thanks { background: linear-gradient(135deg, #10B981, #059669); color: white; }
         .btn-upload { background: linear-gradient(135deg, #8B5CF6, #7C3AED); color: white; }
+        .btn-hide { background: #f59e0b; color: white; }
+        .btn-show { background: #10b981; color: white; }
         .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid #e0e0e0; padding-bottom: 10px; flex-wrap: wrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         .tab { padding: 10px 20px; cursor: pointer; border-radius: 8px; font-weight: 600; transition: all 0.3s; white-space: nowrap; }
         .tab.active { background: #22C55E; color: white; }
@@ -91,6 +93,97 @@
         .upload-status.success { color: #16A34A; }
         .upload-status.error { color: #f44336; }
         .upload-status.loading { color: #FF9800; }
+        
+        /* Review Styles */
+        .review-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .review-stat-card {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+        .review-stat-card h4 {
+            font-size: 12px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+        .review-stat-card .stat-value {
+            font-size: 28px;
+            font-weight: 800;
+        }
+        .review-card-admin {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-left: 4px solid #22C55E;
+            transition: all 0.3s;
+        }
+        .review-card-admin.hidden-review {
+            opacity: 0.5;
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        .review-card-admin:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+        }
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .review-stars {
+            color: #fbbf24;
+            font-size: 18px;
+        }
+        .review-order-id {
+            font-size: 12px;
+            color: #64748b;
+            background: #f1f5f9;
+            padding: 3px 10px;
+            border-radius: 12px;
+        }
+        .review-comment {
+            font-size: 14px;
+            color: #475569;
+            line-height: 1.6;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 8px;
+        }
+        .review-meta {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 10px;
+        }
+        .review-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .review-actions .btn {
+            font-size: 12px;
+            padding: 8px 14px;
+        }
+        .no-reviews {
+            text-align: center;
+            padding: 40px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        
         @media (max-width: 768px) {
             .analytics-grid { grid-template-columns: repeat(2, 1fr); }
             .order-actions { flex-direction: column; }
@@ -102,10 +195,10 @@
 <body>
     <div id="loginScreen">
         <div class="login-box">
-            <h1>🌿 <span>Silvas Express</span><br>Admin Panel</h1>
+            <h1> <span>Silvas Express</span><br>Admin Panel</h1>
             <input type="password" id="adminPassword" placeholder="🔒 Password එක ඇතුළත් කරන්න">
             <button onclick="loginAsAdmin()">🔐 Admin Login (Full Access)</button>
-            <button class="guest-btn" onclick="loginAsGuest()">👤 Guest Login (Read Only)</button>
+            <button class="guest-btn" onclick="loginAsGuest()"> Guest Login (Read Only)</button>
             <p id="loginError" style="color: #f44336; margin-top: 15px; font-weight: 600; display: none;">❌ වැරදි Password එකක්!</p>
         </div>
     </div>
@@ -126,7 +219,7 @@
                 <div class="analytics-card"><h3>📦 Monthly Orders</h3><div class="value" id="monthOrders">0</div></div>
                 <div class="analytics-card"><h3>💰 Monthly Revenue</h3><div class="value" id="monthRevenue">Rs. 0</div></div>
                 <div class="analytics-card"><h3>✅ Delivered</h3><div class="value" id="deliveredOrders">0</div></div>
-                <div class="analytics-card"><h3> Pending</h3><div class="value" id="pendingOrders">0</div></div>
+                <div class="analytics-card"><h3>⏳ Pending</h3><div class="value" id="pendingOrders">0</div></div>
             </div>
         </div>
 
@@ -137,10 +230,11 @@
                 <div class="tab" data-tab="foods" onclick="switchTab('foods')">🍕 Foods</div>
                 <div class="tab" data-tab="grocery" onclick="switchTab('grocery')"> Grocery</div>
                 <div class="tab" data-tab="vegetables" onclick="switchTab('vegetables')">🥬 Vegetables</div>
-                <div class="tab" data-tab="customads" onclick="switchTab('customads')">📢 Custom Ads</div>
+                <div class="tab" data-tab="customads" onclick="switchTab('customads')"> Custom Ads</div>
                 <div class="tab" data-tab="googleads" onclick="switchTab('googleads')">📊 Google Ads</div>
-                <div class="tab" data-tab="promotions" onclick="switchTab('promotions')">🎉 Promotions</div>
+                <div class="tab" data-tab="promotions" onclick="switchTab('promotions')"> Promotions</div>
                 <div class="tab" data-tab="banner" onclick="switchTab('banner')">📣 Promo Banner</div>
+                <div class="tab" data-tab="reviews" onclick="switchTab('reviews')">⭐ Reviews</div>
                 <div class="tab" data-tab="notifications" onclick="switchTab('notifications')">📱 Notifications</div>
             </div>
 
@@ -169,15 +263,15 @@
 
             <!-- SHOPS TAB -->
             <div id="shopsTab" class="hidden">
-                <h2> Add New Shop</h2>
+                <h2>🏪 Add New Shop</h2>
                 <div class="form-row">
                     <div class="form-group"><label>Shop Name *</label><input type="text" id="shopName" placeholder="e.g., Silvas Family Restaurant"></div>
                     <div class="form-group"><label>Category *</label>
                         <select id="shopCategory">
                             <option value="Restaurant">🍽️ Restaurant</option>
-                            <option value="Fast Food">🍔 Fast Food</option>
+                            <option value="Fast Food"> Fast Food</option>
                             <option value="Grocery">🛒 Grocery/Supermarket</option>
-                            <option value="Drinks">🥤 Drinks</option>
+                            <option value="Drinks"> Drinks</option>
                             <option value="Flowers">💐 Flowers</option>
                         </select>
                     </div>
@@ -208,8 +302,8 @@
                     <div class="form-group"><label><input type="checkbox" id="isFeatured" style="margin-right: 10px;">⭐ Featured Shop</label></div>
                     <div class="form-group"><label>පෙන්වන අනුපිළිවෙල (Display Order)</label><input type="number" id="shopDisplayOrder" placeholder="10" value="10"></div>
                 </div>
-                <button class="btn btn-primary" onclick="saveShop()">💾 Save Shop</button>
-                <button class="btn btn-warning" onclick="showEditShopSection()">✏️ Edit Shop</button>
+                <button class="btn btn-primary" onclick="saveShop()"> Save Shop</button>
+                <button class="btn btn-warning" onclick="showEditShopSection()">️ Edit Shop</button>
 
                 <div id="editShopSection" class="edit-section hidden">
                     <h3>✏️ Edit Shop</h3>
@@ -231,7 +325,7 @@
                             <label>Image URL</label>
                             <input type="text" id="editShopImage">
                             <div class="image-upload-container">
-                                <p style="margin-bottom: 10px; color: #666;"> Image එකක් upload කරන්න (ImgBB)</p>
+                                <p style="margin-bottom: 10px; color: #666;">📷 Image එකක් upload කරන්න (ImgBB)</p>
                                 <input type="file" id="editShopImageFile" accept="image/*" style="display: none;" onchange="handleImageUpload(this, 'editShopImage', 'editShopImagePreview', 'editShopUploadStatus')">
                                 <button class="btn btn-upload" onclick="document.getElementById('editShopImageFile').click()">📤 Image තෝරන්න</button>
                                 <div id="editShopImagePreview" class="image-preview"></div>
@@ -276,12 +370,12 @@
                     <div class="form-group"><label><input type="checkbox" id="isFoodAvailable" checked style="margin-right: 10px;">✅ Available (Out of Stock නම් uncheck කරන්න)</label></div>
                 </div>
                 <div class="variants-box">
-                    <label>📦 Portion Variants (Optional - උදා: Half, Full)</label>
+                    <label> Portion Variants (Optional - උදා: Half, Full)</label>
                     <textarea id="foodVariants" rows="2" placeholder="උදා: Half:400:350, Full:750:"></textarea>
                     <small>💡 <strong>Format:</strong> Portion:සාමාන්‍යමිල:වට්ටම්මිල (කොමාවෙන් වෙන් කරන්න). වට්ටම් මිල නැත්නම් හිස් තියන්න.</small>
                 </div>
-                <button class="btn btn-primary" onclick="saveFood()"> Save Food</button>
-                <button class="btn btn-warning" onclick="showEditFoodSection()">️ Edit Food</button>
+                <button class="btn btn-primary" onclick="saveFood()">💾 Save Food</button>
+                <button class="btn btn-warning" onclick="showEditFoodSection()">✏️ Edit Food</button>
 
                 <div id="editFoodSection" class="edit-section hidden">
                     <h3>✏️ Edit Food</h3>
@@ -308,15 +402,15 @@
                         <div class="form-group"><label><input type="checkbox" id="editIsFoodAvailable" style="margin-right: 10px;">✅ Available</label></div>
                     </div>
                     <div class="variants-box">
-                        <label> Portion Variants</label>
+                        <label>📦 Portion Variants</label>
                         <textarea id="editFoodVariants" rows="2" placeholder="උදා: Half:400:350, Full:750:"></textarea>
                     </div>
                     <button class="btn btn-success" onclick="updateFood()">💾 Update</button>
-                    <button class="btn btn-danger delete-btn" onclick="deleteFoodFromEdit()">️ Delete</button>
+                    <button class="btn btn-danger delete-btn" onclick="deleteFoodFromEdit()">🗑️ Delete</button>
                     <button class="btn btn-warning" onclick="cancelEdit('food')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Foods</h3>
-                <input type="text" class="search-bar" id="foodSearch" placeholder="🔍 Search foods..." oninput="renderFoods()">
+                <input type="text" class="search-bar" id="foodSearch" placeholder=" Search foods..." oninput="renderFoods()">
                 <div class="item-list" id="foodsList"></div>
             </div>
 
@@ -335,7 +429,7 @@
                             <option value="Staples">🌾 Staples</option>
                             <option value="Spices">🌶️ Spices</option>
                             <option value="Dairy">🥛 Dairy</option>
-                            <option value="Other"> Other</option>
+                            <option value="Other">📦 Other</option>
                         </select>
                     </div>
                 </div>
@@ -348,7 +442,7 @@
                         <label>Image URL</label>
                         <input type="text" id="groceryImageUrl" placeholder="https://... or upload below">
                         <div class="image-upload-container">
-                            <p style="margin-bottom: 10px; color: #666;">📷 Image එකක් upload කරන්න (ImgBB)</p>
+                            <p style="margin-bottom: 10px; color: #666;"> Image එකක් upload කරන්න (ImgBB)</p>
                             <input type="file" id="groceryImageFile" accept="image/*" style="display: none;" onchange="handleImageUpload(this, 'groceryImageUrl', 'groceryImagePreview', 'groceryUploadStatus')">
                             <button class="btn btn-upload" onclick="document.getElementById('groceryImageFile').click()">📤 Image තෝරන්න</button>
                             <div id="groceryImagePreview" class="image-preview"></div>
@@ -361,7 +455,7 @@
                     <div class="form-group"><label><input type="checkbox" id="isGroceryAvailable" checked style="margin-right: 10px;">✅ Available (Out of Stock නම් uncheck කරන්න)</label></div>
                 </div>
                 <div class="variants-box">
-                    <label>📦 Variants (බර : සාමාන්ය මිල : වට්ටම් මිල)</label>
+                    <label> Variants (බර : සාමාන්‍ය මිල : වට්ටම් මිල)</label>
                     <textarea id="groceryVariants" rows="3" placeholder="උදා: 100g:250:220, 500g:1200:1000, 1kg:2400:"></textarea>
                     <small>💡 <strong>Format:</strong> බර:සාමාන්‍යමිල:වට්ටම්මිල (කොමාවෙන් වෙන් කරන්න). වට්ටම් මිල නැත්නම් හිස් තියන්න.</small>
                 </div>
@@ -377,7 +471,7 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group"><label>Default Price (Rs.)</label><input type="number" id="editGroceryOriginalPrice"></div>
-                        <div class="form-group"><label><input type="checkbox" id="editHasDiscount" style="margin-right: 10px;" onchange="toggleEditDiscountField()">🏷️ Special Discount</label></div>
+                        <div class="form-group"><label><input type="checkbox" id="editHasDiscount" style="margin-right: 10px;" onchange="toggleEditDiscountField()">️ Special Discount</label></div>
                     </div>
                     <div class="form-row">
                         <div class="form-group"><label>Discount Price (Rs.)</label><input type="number" id="editGroceryDiscountPrice" disabled></div>
@@ -390,7 +484,7 @@
                             <div class="image-upload-container">
                                 <p style="margin-bottom: 10px; color: #666;">📷 Image එකක් upload කරන්න (ImgBB)</p>
                                 <input type="file" id="editGroceryImageFile" accept="image/*" style="display: none;" onchange="handleImageUpload(this, 'editGroceryImage', 'editGroceryImagePreview', 'editGroceryUploadStatus')">
-                                <button class="btn btn-upload" onclick="document.getElementById('editGroceryImageFile').click()"> Image තෝරන්න</button>
+                                <button class="btn btn-upload" onclick="document.getElementById('editGroceryImageFile').click()">📤 Image තෝරන්න</button>
                                 <div id="editGroceryImagePreview" class="image-preview"></div>
                                 <div id="editGroceryUploadStatus" class="upload-status"></div>
                             </div>
@@ -400,7 +494,7 @@
                         <div class="form-group"><label><input type="checkbox" id="editIsGroceryAvailable" style="margin-right: 10px;">✅ Available</label></div>
                     </div>
                     <div class="variants-box">
-                        <label>📦 Variants (බර : සාමාන්‍ය මිල : වට්ටම් මිල)</label>
+                        <label> Variants (බර : සාමාන්‍ය මිල : වට්ටම් මිල)</label>
                         <textarea id="editGroceryVariants" rows="3" placeholder="උදා: 100g:250:220, 500g:1200:1000"></textarea>
                     </div>
                     <button class="btn btn-success" onclick="updateGroceryItem()">💾 Update</button>
@@ -408,7 +502,7 @@
                     <button class="btn btn-warning" onclick="cancelEdit('grocery')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Grocery Items</h3>
-                <input type="text" class="search-bar" id="grocerySearch" placeholder="🔍 Search items..." oninput="renderGroceryItems()">
+                <input type="text" class="search-bar" id="grocerySearch" placeholder=" Search items..." oninput="renderGroceryItems()">
                 <div class="item-list" id="groceryList"></div>
             </div>
 
@@ -475,7 +569,7 @@
                         <div class="form-group"><label><input type="checkbox" id="editIsVegetableAvailable" style="margin-right: 10px;">✅ Available</label></div>
                     </div>
                     <button class="btn btn-success" onclick="updateVegetable()">💾 Update</button>
-                    <button class="btn btn-danger delete-btn" onclick="deleteVegetableFromEdit()">🗑️ Delete</button>
+                    <button class="btn btn-danger delete-btn" onclick="deleteVegetableFromEdit()">️ Delete</button>
                     <button class="btn btn-warning" onclick="cancelEdit('vegetable')">❌ Cancel</button>
                 </div>
                 <h3 style="margin-top: 30px;">All Vegetables</h3>
@@ -498,7 +592,7 @@
                         <div class="image-upload-container">
                             <p style="margin-bottom: 10px; color: #666;"> Image එකක් upload කරන්න (ImgBB)</p>
                             <input type="file" id="adImageFile" accept="image/*" style="display: none;" onchange="handleImageUpload(this, 'adImageUrl', 'adImagePreview', 'adUploadStatus')">
-                            <button class="btn btn-upload" onclick="document.getElementById('adImageFile').click()">📤 Image තෝරන්න</button>
+                            <button class="btn btn-upload" onclick="document.getElementById('adImageFile').click()"> Image තෝරන්න</button>
                             <div id="adImagePreview" class="image-preview"></div>
                             <div id="adUploadStatus" class="upload-status"></div>
                         </div>
@@ -508,7 +602,7 @@
                     <button class="btn btn-primary" onclick="saveCustomAd()">💾 Save Custom Ad</button>
                 </div>
                 <div class="form-group" style="background: #fff7ed; padding: 15px; border-radius: 10px; border-left: 4px solid #f97316; margin-top: 20px;">
-                    <label style="font-weight: bold; color: #c2410c;">️ Ads මාරු වන වේගය (තත්පර)</label>
+                    <label style="font-weight: bold; color: #c2410c;">⏱️ Ads මාරු වන වේගය (තත්පර)</label>
                     <input type="number" id="carouselTime" placeholder="3" value="3" style="width: 100px; margin-top: 5px; padding: 8px; border: 2px solid #e0e0e0; border-radius: 8px;">
                     <button class="btn btn-warning" onclick="saveCarouselTime()" style="margin-top: 10px;">💾 Save Time</button>
                 </div>
@@ -520,7 +614,7 @@
             <div id="googleadsTab" class="hidden">
                 <h2>📊 Google Ads Management</h2>
                 <div class="app-link-box">
-                    <h3>️ AdSense Settings</h3>
+                    <h3>⚙️ AdSense Settings</h3>
                     <div class="form-group"><label>AdSense Publisher ID</label><input type="text" id="adsPublisherId" placeholder="ca-pub-XXXXXXXXXXXXXXXX"></div>
                     <div class="form-row">
                         <div class="form-group"><label>Top Banner Ad Slot ID</label><input type="text" id="adsTopSlot" placeholder="1234567890"></div>
@@ -550,8 +644,8 @@
                         </div>
                     </div>
                     <div class="form-group"><label>Target Phone (Optional)</label><input type="tel" id="promoPhone" placeholder="0702059529"></div>
-                    <button class="btn btn-primary" onclick="savePromotion()">💾 Save Promo</button>
-                    <button class="btn btn-whatsapp" onclick="sendPromoWhatsApp()"> Send via WhatsApp</button>
+                    <button class="btn btn-primary" onclick="savePromotion()"> Save Promo</button>
+                    <button class="btn btn-whatsapp" onclick="sendPromoWhatsApp()">📤 Send via WhatsApp</button>
                 </div>
                 <h3>Active Promotions</h3>
                 <div class="item-list" id="promotionsList"></div>
@@ -562,8 +656,8 @@
                 <h2>📣 Promotional Banner Settings</h2>
                 <p style="color: #666; margin-bottom: 20px; font-size: 14px;">මෙතනින් ඔයාට App එකේ පෙන්නන Promotional Banner එක Edit කරන්න පුළුවන්.</p>
                 <div class="notification-box">
-                    <h3>✏️ Edit Promotional Banner</h3>
-                    <div class="form-group"><label>Banner Message (Sinhala) *</label><input type="text" id="bannerMessageSi" placeholder="දා: විශේෂ දීමනාව!"></div>
+                    <h3>️ Edit Promotional Banner</h3>
+                    <div class="form-group"><label>Banner Message (Sinhala) *</label><input type="text" id="bannerMessageSi" placeholder="උදා: විශේෂ දීමනාව!"></div>
                     <div class="form-group"><label>Banner Message (English) *</label><input type="text" id="bannerMessageEn" placeholder="e.g., Special Offer!"></div>
                     <div class="form-group"><label>Discount Percentage (%) *</label><input type="number" id="bannerDiscount" placeholder="20" min="0" max="100"></div>
                     <div class="form-group"><label>Applicable For</label>
@@ -576,10 +670,10 @@
                     <div class="form-group"><label>Minimum Purchase Amount (Rs.)</label><input type="number" id="bannerMinPurchase" placeholder="1000" value="0"></div>
                     <div class="form-group"><label>Banner Color</label>
                         <select id="bannerColor">
-                            <option value="linear-gradient(135deg, #22C55E, #16A34A)">🟢 Green (Default)</option>
+                            <option value="linear-gradient(135deg, #22C55E, #16A34A)"> Green (Default)</option>
                             <option value="linear-gradient(135deg, #FF6B6B, #EE5A6F)"> Red</option>
                             <option value="linear-gradient(135deg, #FFD93D, #F6B93B)"> Yellow</option>
-                            <option value="linear-gradient(135deg, #4ECDC4, #44A08D)">🔵 Teal</option>
+                            <option value="linear-gradient(135deg, #4ECDC4, #44A08D)"> Teal</option>
                             <option value="linear-gradient(135deg, #667eea, #764ba2)">🟣 Purple</option>
                             <option value="linear-gradient(135deg, #FF9A9E, #FECFEF)">🩷 Pink</option>
                             <option value="linear-gradient(135deg, #F093FB, #F5576C)">💜 Magenta</option>
@@ -599,6 +693,52 @@
                 <h3 style="margin-top: 30px;">📊 Current Banner Status</h3>
                 <div id="currentBannerDisplay" style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin-top: 15px;">
                     <p style="color: #666;">Loading...</p>
+                </div>
+            </div>
+
+            <!-- ⭐ REVIEWS TAB - NEW! -->
+            <div id="reviewsTab" class="hidden">
+                <h2>⭐ Customer Reviews Management</h2>
+                <p style="color: #666; margin-bottom: 20px; font-size: 14px;">සියලුම customer reviews මෙතනින් බලන්න, hide/show කරන්න, හෝ delete කරන්න.</p>
+                
+                <!-- Review Stats -->
+                <div class="review-stats" id="reviewStats">
+                    <div class="review-stat-card">
+                        <h4>📊 Total Reviews</h4>
+                        <div class="stat-value" id="totalReviewsCount">0</div>
+                    </div>
+                    <div class="review-stat-card">
+                        <h4>⭐ Average Rating</h4>
+                        <div class="stat-value" id="averageRating">0.0</div>
+                    </div>
+                    <div class="review-stat-card">
+                        <h4>️ Visible Reviews</h4>
+                        <div class="stat-value" id="visibleReviewsCount">0</div>
+                    </div>
+                    <div class="review-stat-card">
+                        <h4>🙈 Hidden Reviews</h4>
+                        <div class="stat-value" id="hiddenReviewsCount">0</div>
+                    </div>
+                </div>
+
+                <!-- Filter -->
+                <div class="filter-bar">
+                    <select id="reviewFilter" onchange="renderReviews()">
+                        <option value="all">All Reviews</option>
+                        <option value="visible">Visible Only</option>
+                        <option value="hidden">Hidden Only</option>
+                        <option value="5">5 Stars</option>
+                        <option value="4">4 Stars</option>
+                        <option value="3">3 Stars</option>
+                        <option value="2">2 Stars</option>
+                        <option value="1">1 Star</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="loadReviews()">🔄 Refresh</button>
+                </div>
+
+                <!-- Reviews List -->
+                <div id="reviewsList" class="item-list">
+                    <p class="no-reviews">Loading reviews...</p>
                 </div>
             </div>
 
@@ -644,6 +784,7 @@
 
         let currentUserRole = null;
         let shops = [], foods = [], groceryItems = [], vegetables = [], orders = [], promotions = [], customAds = [], adSettings = {};
+        let allReviews = [];
 
         function loginAsAdmin() {
             const password = document.getElementById('adminPassword').value;
@@ -676,10 +817,10 @@
             document.getElementById('adminPanel').classList.remove('hidden');
             const banner = document.getElementById('roleBanner');
             if (currentUserRole === 'admin') {
-                banner.textContent = ' Admin Mode - Full Access (Delete ඇතුළුව)';
+                banner.textContent = '🔑 Admin Mode - Full Access (Delete ඇතුළුව)';
                 banner.className = 'role-banner';
             } else {
-                banner.textContent = ' Guest Mode - Read Only + Orders Handle (Delete නෑ)';
+                banner.textContent = '👤 Guest Mode - Read Only + Orders Handle (Delete නෑ)';
                 banner.className = 'role-banner guest';
             }
             if (currentUserRole === 'guest') {
@@ -704,41 +845,26 @@
             }
         };
 
-        // ✅ FIXED: switchTab function with proper error handling
         function switchTab(tabName) {
             try {
-                // Hide all tabs
-                const allTabs = ['orders', 'shops', 'foods', 'grocery', 'vegetables', 'customads', 'googleads', 'promotions', 'banner', 'notifications'];
+                const allTabs = ['orders', 'shops', 'foods', 'grocery', 'vegetables', 'customads', 'googleads', 'promotions', 'banner', 'reviews', 'notifications'];
                 allTabs.forEach(t => {
                     const tabEl = document.getElementById(t + 'Tab');
                     if (tabEl) tabEl.classList.add('hidden');
                 });
 
-                // Remove active class from all tab buttons
                 const tabButtons = document.querySelectorAll('.tab');
                 tabButtons.forEach(t => t.classList.remove('active'));
 
-                // Show selected tab
                 const selectedTab = document.getElementById(tabName + 'Tab');
-                if (selectedTab) {
-                    selectedTab.classList.remove('hidden');
-                } else {
-                    console.error('Tab not found: ' + tabName + 'Tab');
-                }
+                if (selectedTab) selectedTab.classList.remove('hidden');
 
-                // Set active class on clicked tab button
                 const activeTabButton = document.querySelector('.tab[data-tab="' + tabName + '"]');
-                if (activeTabButton) {
-                    activeTabButton.classList.add('active');
-                }
+                if (activeTabButton) activeTabButton.classList.add('active');
 
-                // Load data for specific tabs
-                if (tabName === 'shops' || tabName === 'foods') {
-                    updateSelects();
-                }
-                if (tabName === 'banner') {
-                    loadBannerSettings();
-                }
+                if (tabName === 'shops' || tabName === 'foods') updateSelects();
+                if (tabName === 'banner') loadBannerSettings();
+                if (tabName === 'reviews') loadReviews();
             } catch (error) {
                 console.error('switchTab error:', error);
             }
@@ -815,7 +941,7 @@
             }
 
             if (file.size > 5 * 1024 * 1024) {
-                statusEl.textContent = '❌ Image size should be less than 5MB';
+                statusEl.textContent = ' Image size should be less than 5MB';
                 statusEl.className = 'upload-status error';
                 return;
             }
@@ -828,11 +954,7 @@
                 formData.append('key', IMGBB_API_KEY);
                 formData.append('image', file);
 
-                const response = await fetch(IMGBB_API_URL, {
-                    method: 'POST',
-                    body: formData
-                });
-
+                const response = await fetch(IMGBB_API_URL, { method: 'POST', body: formData });
                 const data = await response.json();
 
                 if (data.success) {
@@ -842,10 +964,7 @@
                     previewEl.style.display = 'block';
                     statusEl.textContent = '✅ Image uploaded successfully!';
                     statusEl.className = 'upload-status success';
-                    setTimeout(() => {
-                        statusEl.textContent = '';
-                        statusEl.className = 'upload-status';
-                    }, 3000);
+                    setTimeout(() => { statusEl.textContent = ''; statusEl.className = 'upload-status'; }, 3000);
                 } else {
                     throw new Error(data.error?.message || 'Upload failed');
                 }
@@ -888,16 +1007,12 @@
         function updateSelects() {
             const foodShop = document.getElementById('foodShop');
             if (foodShop) foodShop.innerHTML = shops.map(s => '<option value="' + s.id + '">' + s.name + '</option>').join('');
-            
             const editShopSelect = document.getElementById('editShopSelect');
             if (editShopSelect) editShopSelect.innerHTML = '<option value="">-- Select --</option>' + shops.map(s => '<option value="' + s.id + '">' + s.name + '</option>').join('');
-            
             const editFoodSelect = document.getElementById('editFoodSelect');
             if (editFoodSelect) editFoodSelect.innerHTML = '<option value="">-- Select --</option>' + foods.map(f => '<option value="' + f.id + '">' + f.name + '</option>').join('');
-            
             const editGrocerySelect = document.getElementById('editGrocerySelect');
             if (editGrocerySelect) editGrocerySelect.innerHTML = '<option value="">-- Select --</option>' + groceryItems.map(g => '<option value="' + g.id + '">' + g.name + '</option>').join('');
-            
             const editVegetableSelect = document.getElementById('editVegetableSelect');
             if (editVegetableSelect) editVegetableSelect.innerHTML = '<option value="">-- Select --</option>' + vegetables.map(v => '<option value="' + v.id + '">' + v.name + '</option>').join('');
         }
@@ -989,7 +1104,7 @@
         }
 
         function saveFood() { 
-            if (!isAdmin()) return alert(' Guest users cannot add foods!');
+            if (!isAdmin()) return alert('🚫 Guest users cannot add foods!');
             const variants = parseVariants(document.getElementById('foodVariants').value.trim());
             const food = { 
                 shopId: document.getElementById('foodShop').value, 
@@ -1018,7 +1133,7 @@
             document.getElementById('foodsList').innerHTML = sortedFoods.map(f => { 
                 const shop = shops.find(s => s.id === f.shopId); 
                 const hasVariants = f.variants && Object.keys(f.variants).length > 0;
-                const variantsText = hasVariants ? '<div style="font-size:11px; color:#22C55E; margin-top:3px;">📦 Variants: ' + Object.keys(f.variants).join(', ') + '</div>' : '';
+                const variantsText = hasVariants ? '<div style="font-size:11px; color:#22C55E; margin-top:3px;"> Variants: ' + Object.keys(f.variants).join(', ') + '</div>' : '';
                 const availBadge = f.available !== false ? '<span style="background:#C8E6C9; color:#1B5E20; padding:2px 8px; border-radius:10px; font-size:10px;">✅ Available</span>' : '<span style="background:#FFCDD2; color:#B71C1C; padding:2px 8px; border-radius:10px; font-size:10px;">❌ Out of Stock</span>';
                 return '<div class="item-card" style="background:#F0FDF4; border-left:4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">' + f.name + ' ' + availBadge + '</div><div style="font-size:12px; color:#666;">' + (shop?shop.name:'Unknown') + ' | Rs.' + f.price + '</div>' + variantsText + '</div>' + (isAdmin() ? '<button class="btn btn-primary" onclick="quickEditFood(\'' + f.id + '\')" style="padding:8px 12px; font-size:12px;">✏️</button>' : '') + '</div>'; 
             }).join(''); 
@@ -1065,7 +1180,7 @@
         }
 
         function saveGroceryItem() {
-            if (!isAdmin()) return alert(' Guest users cannot add items!');
+            if (!isAdmin()) return alert('🚫 Guest users cannot add items!');
             const hasDiscount = document.getElementById('hasDiscount').checked;
             const variants = parseVariants(document.getElementById('groceryVariants').value.trim());
             const item = { 
@@ -1096,7 +1211,7 @@
                 const hasVariants = item.variants && Object.keys(item.variants).length > 0;
                 const variantsDisplay = hasVariants ? '<div style="font-size:11px; color:#22C55E; margin-top:3px;">📦 Variants: ' + Object.entries(item.variants).map(([w,v]) => w + ': Rs.' + v.normalPrice + (v.specialPrice > 0 ? ' → Rs.' + v.specialPrice : '')).join(', ') + '</div>' : '';
                 const priceDisplay = item.hasDiscount && item.discountPrice > 0 ? '<span style="color:#f44336; font-weight:bold;">Rs. ' + item.discountPrice + '</span> <span style="text-decoration:line-through; color:#999; font-size:12px;">Rs. ' + item.originalPrice + '</span>' : '<span style="color:#16A34A; font-weight:bold;">Rs. ' + item.originalPrice + '</span>';
-                const availBadge = item.available !== false ? '<span style="background:#C8E6C9; color:#1B5E20; padding:2px 8px; border-radius:10px; font-size:10px;">✅ Available</span>' : '<span style="background:#FFCDD2; color:#B71C1C; padding:2px 8px; border-radius:10px; font-size:10px;"> Out of Stock</span>';
+                const availBadge = item.available !== false ? '<span style="background:#C8E6C9; color:#1B5E20; padding:2px 8px; border-radius:10px; font-size:10px;">✅ Available</span>' : '<span style="background:#FFCDD2; color:#B71C1C; padding:2px 8px; border-radius:10px; font-size:10px;">❌ Out of Stock</span>';
                 return '<div class="item-card" style="background: #F0FDF4; border-left: 4px solid #22C55E;"><div class="item-info"><div style="font-weight:bold;">' + item.name + ' ' + availBadge + '</div><div style="margin-top:5px;">' + priceDisplay + ' <span style="color:#666; font-size:12px;">| ' + item.unit + ' | ' + item.category + '</span></div>' + variantsDisplay + '</div>' + (isAdmin() ? '<button class="btn btn-primary" onclick="quickEditGrocery(\'' + item.id + '\')" style="padding:8px 12px; font-size:12px;">✏️</button>' : '') + '</div>';
             }).join('');
         }
@@ -1170,7 +1285,7 @@
         }
 
         function saveVegetable() {
-            if (!isAdmin()) return alert(' Guest users cannot add!');
+            if (!isAdmin()) return alert('🚫 Guest users cannot add!');
             const hasDiscount = document.getElementById('hasVegetableDiscount').checked;
             const veg = { 
                 name: document.getElementById('vegetableName').value, 
@@ -1245,7 +1360,7 @@
         }
 
         function deleteVegetableFromEdit() {
-            if (!isAdmin()) return alert(' Guest users cannot delete!');
+            if (!isAdmin()) return alert('🚫 Guest users cannot delete!');
             const id = document.getElementById('editVegetableSelect').value;
             if (id && confirm('මේ vegetable එක delete කරන්නද?')) {
                 database.ref('vegetables').child(id).remove().then(() => { alert('✅ Deleted'); cancelEdit('vegetable'); });
@@ -1308,7 +1423,7 @@
                 '<div style="font-size:12px; color:#666; margin-top:3px;">📊 Display Order: ' + (ad.displayOrder || 999) + '</div>' +
                 '</div>' +
                 '<div style="display:flex; gap:5px;">' +
-                (isAdmin() ? '<button class="btn ' + (ad.isActive ? 'btn-warning' : 'btn-success') + '" onclick="toggleAdStatus(\'' + ad.id + '\', ' + !ad.isActive + ')" style="padding:8px 12px; font-size:12px;">' + (ad.isActive ? '⏸️ Disable' : '✅ Enable') + '</button>' +
+                (isAdmin() ? '<button class="btn ' + (ad.isActive ? 'btn-warning' : 'btn-success') + '" onclick="toggleAdStatus(\'' + ad.id + '\', ' + !ad.isActive + ')" style="padding:8px 12px; font-size:12px;">' + (ad.isActive ? '️ Disable' : '✅ Enable') + '</button>' +
                 '<button class="btn btn-danger" onclick="deleteCustomAd(\'' + ad.id + '\')" style="padding:8px 12px; font-size:12px;">🗑️</button>' : '') +
                 '</div></div>'
             ).join('');
@@ -1374,7 +1489,7 @@
             const phone = document.getElementById('customerPhone').value.trim();
             const appUrl = document.getElementById('appInstallUrl').value;
             if (!phone) return alert('Phone number එක අනිවාර්යයි!');
-            window.open('https://wa.me/94' + phone.substring(1) + '?text=' + encodeURIComponent('🌿 Silvas Express App එක download කරගන්න!\n\nඔබේ විශ්වාසවන්ත ආහාර & grocery delivery partner\n\n App Link: ' + appUrl + '\n\nOrder කරන්න දැන්ම visit කරන්න!'), '_blank');
+            window.open('https://wa.me/94' + phone.substring(1) + '?text=' + encodeURIComponent('🌿 Silvas Express App එක download කරගන්න!\n\nඔබේ විශ්වාසවන්ත ආහාර & grocery delivery partner\n\n📱 App Link: ' + appUrl + '\n\nOrder කරන්න දැන්ම visit කරන්න!'), '_blank');
         }
 
         function copyAppLink() { 
@@ -1402,8 +1517,8 @@
         function useTemplate(type) {
             const templates = {
                 welcome: '👋 ආයුබෝවන්! Silvas Express App එකට සාදරයෙන් පිළිගනිමු! 🎉\n\nඔබේ පළමු order එකට 20% වට්ටමක්!\nCode: WELCOME20\n\nOrder කරන්න: https://silvasexpress.store',
-                offer: ' විශේෂ දීමනාව! \n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://silvasexpress.store',
-                delivery: '🚚 බේ order එක deliver වෙමින් පවතී! 🌿\n\nOrder tracking සඳහා: https://silvasexpress.store\n\nස්තූතියි! '
+                offer: '🎉 විශේෂ දීමනාව! \n\nඅද ඔබේ සියලුම orders වලට 15% වට්ටමක්!\nCode: SPECIAL15\n\nOrder කරන්න: https://silvasexpress.store',
+                delivery: '🚚 බේ order එක deliver වෙමින් පවතී! 🌿\n\nOrder tracking සඳහා: https://silvasexpress.store\n\nස්තූතියි! 🙏'
             };
             document.getElementById('notifMessage').value = templates[type];
         }
@@ -1445,7 +1560,7 @@
                     updateBannerPreview();
                     displayCurrentBanner(data);
                 } else {
-                    document.getElementById('bannerMessageSi').value = 'විශේ දීමනාව!';
+                    document.getElementById('bannerMessageSi').value = 'විශේෂ දීමනාව!';
                     document.getElementById('bannerMessageEn').value = 'Special Offer!';
                     document.getElementById('bannerDiscount').value = 20;
                     updateBannerPreview();
@@ -1454,7 +1569,7 @@
         }
 
         function updateBannerPreview() {
-            const messageSi = document.getElementById('bannerMessageSi').value.trim() || 'විශේෂ දීමනාව!';
+            const messageSi = document.getElementById('bannerMessageSi').value.trim() || 'විශේ දීමනාව!';
             const messageEn = document.getElementById('bannerMessageEn').value.trim() || 'Special Offer!';
             const discount = document.getElementById('bannerDiscount').value || 0;
             const color = document.getElementById('bannerColor').value;
@@ -1519,6 +1634,143 @@
             });
         }
 
+        // ===== ⭐ REVIEWS MANAGEMENT FUNCTIONS =====
+        
+        function loadReviews() {
+            if (!isAdmin()) {
+                document.getElementById('reviewsList').innerHTML = '<p class="no-reviews">🚫 Guest users cannot view reviews management.</p>';
+                return;
+            }
+            
+            document.getElementById('reviewsList').innerHTML = '<p class="no-reviews">⏳ Loading reviews...</p>';
+            
+            database.ref('orders').orderByChild('review/rating').once('value', (snapshot) => {
+                const data = snapshot.val();
+                allReviews = [];
+                
+                if (data) {
+                    Object.entries(data).forEach(([orderId, order]) => {
+                        if (order.review && order.review.rating) {
+                            allReviews.push({
+                                orderId: orderId,
+                                rating: order.review.rating,
+                                comment: order.review.comment || '',
+                                date: order.review.date,
+                                customerPhone: order.review.customerPhone || order.phone || 'N/A',
+                                customerName: order.customerName || 'Customer',
+                                hidden: order.review.hidden || false,
+                                orderTotal: order.grandTotal || order.total || 0
+                            });
+                        }
+                    });
+                }
+                
+                // Sort by date (newest first)
+                allReviews.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                updateReviewStats();
+                renderReviews();
+            }).catch(error => {
+                document.getElementById('reviewsList').innerHTML = '<p class="no-reviews">❌ Error loading reviews: ' + error.message + '</p>';
+            });
+        }
+
+        function updateReviewStats() {
+            const total = allReviews.length;
+            const visible = allReviews.filter(r => !r.hidden).length;
+            const hidden = allReviews.filter(r => r.hidden).length;
+            
+            let avgRating = 0;
+            if (total > 0) {
+                const sum = allReviews.reduce((acc, r) => acc + r.rating, 0);
+                avgRating = (sum / total).toFixed(1);
+            }
+            
+            document.getElementById('totalReviewsCount').textContent = total;
+            document.getElementById('averageRating').textContent = avgRating + ' ';
+            document.getElementById('visibleReviewsCount').textContent = visible;
+            document.getElementById('hiddenReviewsCount').textContent = hidden;
+        }
+
+        function renderReviews() {
+            const list = document.getElementById('reviewsList');
+            const filter = document.getElementById('reviewFilter').value;
+            
+            if (allReviews.length === 0) {
+                list.innerHTML = '<p class="no-reviews">📝 තවම reviews කිසිවක් නැත.</p>';
+                return;
+            }
+            
+            let filteredReviews = allReviews;
+            if (filter === 'visible') {
+                filteredReviews = allReviews.filter(r => !r.hidden);
+            } else if (filter === 'hidden') {
+                filteredReviews = allReviews.filter(r => r.hidden);
+            } else if (filter !== 'all') {
+                filteredReviews = allReviews.filter(r => r.rating === parseInt(filter));
+            }
+            
+            if (filteredReviews.length === 0) {
+                list.innerHTML = '<p class="no-reviews">📝 මේ filter එකට reviews නැත.</p>';
+                return;
+            }
+            
+            list.innerHTML = filteredReviews.map(review => {
+                const stars = '★'.repeat(review.rating) + '☆'.repeat(5 - review.rating);
+                const dateStr = new Date(review.date).toLocaleString('si-LK');
+                const isHidden = review.hidden;
+                
+                return '<div class="review-card-admin ' + (isHidden ? 'hidden-review' : '') + '">' +
+                    '<div class="review-header">' +
+                    '<div class="review-stars">' + stars + ' <span style="font-size: 14px; color: #64748b;">(' + review.rating + '/5)</span></div>' +
+                    '<span class="review-order-id">Order #' + (review.orderId ? review.orderId.slice(-6) : 'N/A') + '</span>' +
+                    '</div>' +
+                    '<div class="review-meta">' +
+                    '👤 ' + review.customerName + ' | 📞 ' + review.customerPhone + ' | 📅 ' + dateStr +
+                    (isHidden ? ' | <span style="color: #ef4444; font-weight: 600;">🙈 Hidden</span>' : ' | <span style="color: #10b981; font-weight: 600;">👁️ Visible</span>') +
+                    '</div>' +
+                    (review.comment ? '<div class="review-comment">"' + review.comment + '"</div>' : '<div class="review-comment" style="color: #94a3b8; font-style: italic;">No comment</div>') +
+                    '<div class="review-actions">' +
+                    (isAdmin() ? 
+                        '<button class="btn ' + (isHidden ? 'btn-show' : 'btn-hide') + '" onclick="toggleReviewVisibility(\'' + review.orderId + '\', ' + !isHidden + ')">' + 
+                        (isHidden ? '👁️ Show Review' : '🙈 Hide Review') + 
+                        '</button>' +
+                        '<button class="btn btn-danger" onclick="deleteReview(\'' + review.orderId + '\')">🗑️ Delete Review</button>'
+                        : '') +
+                    '</div>' +
+                    '</div>';
+            }).join('');
+        }
+
+        function toggleReviewVisibility(orderId, makeVisible) {
+            if (!isAdmin()) return alert('🚫 Guest users cannot change reviews!');
+            
+            const action = makeVisible ? 'පෙන්වන්නද' : 'සඟවන්නද';
+            if (!confirm('මේ review එක ' + action + ' (hide/show)?')) return;
+            
+            database.ref('orders/' + orderId + '/review/hidden').set(!makeVisible).then(() => {
+                alert('✅ Review ' + (makeVisible ? 'පෙන්වන ලදී!' : 'සඟවන ලදී!'));
+                loadReviews();
+            }).catch(error => {
+                alert('❌ Error: ' + error.message);
+            });
+        }
+
+        function deleteReview(orderId) {
+            if (!isAdmin()) return alert('🚫 Guest users cannot delete reviews!');
+            
+            if (!confirm('මේ review එක සම්පර්ණයෙන්ම delete කරන්නද? මේක ආපසු ගන්න බෑ!')) return;
+            
+            database.ref('orders/' + orderId + '/review').remove().then(() => {
+                alert('✅ Review එක delete විය!');
+                loadReviews();
+            }).catch(error => {
+                alert(' Error: ' + error.message);
+            });
+        }
+
+        // ===== ORDER FUNCTIONS =====
+
         function loadOrders() { renderOrders(); }
 
         function filterOrders() { 
@@ -1547,7 +1799,7 @@
                     '<div class="order-details">' +
                     '<div>👤 ' + (o.customerName || 'N/A') + ' | 📞 ' + (o.phone || 'N/A') + '</div>' +
                     '<div>📦 ' + (itemsDisplay || 'No items') + '</div>' +
-                    '<div> Total: Rs. ' + (o.grandTotal || o.total || 0) + ' | 💳 ' + (o.paymentInfo || o.paymentMethod || 'N/A') + '</div>' +
+                    '<div>💰 Total: Rs. ' + (o.grandTotal || o.total || 0) + ' | 💳 ' + (o.paymentInfo || o.paymentMethod || 'N/A') + '</div>' +
                     '<div>📍 ' + (o.address || 'N/A') + '</div>' +
                     '</div>' +
                     '<div class="order-actions">' +
@@ -1555,7 +1807,7 @@
                     '<button class="btn btn-primary" onclick="updateOrderStatus(\'' + o.id + '\', \'Delivered\')">✔️ Delivered</button>' +
                     (o.status === 'Delivered' ? '<button class="btn btn-thanks" onclick="sendThankYouMessage(\'' + o.id + '\', \'' + (o.phone||'') + '\', \'' + (o.customerName||'') + '\')">💚 Send Thank You</button>' : '') +
                     '<button class="btn btn-info" onclick="contactCustomer(\'' + (o.phone||'') + '\')">📞 Contact</button>' +
-                    (isAdmin() ? '<button class="btn btn-danger" onclick="deleteOrder(\'' + o.id + '\')">️ Delete</button>' : '') +
+                    (isAdmin() ? '<button class="btn btn-danger" onclick="deleteOrder(\'' + o.id + '\')">🗑️ Delete</button>' : '') +
                     '</div></div>';
             }).join(''); 
         }
@@ -1571,10 +1823,10 @@
 
         function sendThankYouMessage(orderId, phone, customerName) {
             if (!phone) {
-                alert('❌ Phone number not found!');
+                alert(' Phone number not found!');
                 return;
             }
-            const thankYouMessage = '🚚 Order එක සාර්ථකව භාර දෙන ලදී! 💚\nඔබ Silvas Express සමඟ Order කළාට බොහොම ස්තූතියි! 🙏\nඔබගේ විශ්වාසය අපට ගොඩක් වටිනවා. ❤️\nඉදිරියටත් අපිත් සමඟ රැඳී සිටින්න. \nනැවතත් ඔබට සේවය කිරීමට අපි බලාපොරොත්තු වෙමු! 🌿\nSilvas Express 🛵\nඔබේ විශ්වාසය අපේ ශක්තියයි! ❤️\nhttps://silvasexpress.store/';
+            const thankYouMessage = ' Order එක සාර්ථකව භාර දෙන ලදී! 💚\nඔබ Silvas Express සමඟ Order කළාට බොහොම ස්තූතියි! 🙏\nඔබගේ විශ්වාසය අපට ගොඩක් වටිනවා. ❤️\nඉදිරියටත් අපිත් සමඟ රැඳී සිටින්න. 😊\nනැවතත් ඔබට සේවය කිරීමට අපි බලාපොරොත්තු වෙමු! 🌿\nSilvas Express 🛵\nඔබේ විශ්වාසය අපේ ක්තියයි! ❤️\nhttps://silvasexpress.store/';
             const whatsappUrl = 'https://wa.me/94' + phone.substring(1) + '?text=' + encodeURIComponent(thankYouMessage);
             if (confirm('📱 Send Thank You message to ' + (customerName || 'this customer') + '?\n\nPhone: ' + phone)) {
                 window.open(whatsappUrl, '_blank');
