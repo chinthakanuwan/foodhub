@@ -41,12 +41,7 @@
         "description": "Food, Grocery & Vegetable Delivery Service in Raddolugama, Negombo, Sri Lanka",
         "url": "https://silvasexpress.store",
         "telephone": "+94702059529",
-        "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Raddolugama",
-            "addressRegion": "Western Province",
-            "addressCountry": "LK"
-        },
+        "address": { "@type": "PostalAddress", "addressLocality": "Raddolugama", "addressRegion": "Western Province", "addressCountry": "LK" },
         "areaServed": ["Raddolugama", "Negombo", "Katunayake", "Seeduwa", "Bathalawatta", "Kuswala"],
         "priceRange": "Rs. 100 - Rs. 5000",
         "openingHours": "Mo-Su 08:00-22:00",
@@ -401,7 +396,7 @@
             <p style="color: #64748b; font-size: 14px; margin-bottom: 15px;">Silvas Express සේවය ගැන ඔබේ අදහස අපිට කියන්න!</p>
             <div class="form-group">
                 <label>👤 ඔබේ නම *</label>
-                <input type="text" id="reviewerName" placeholder="බේ නම ඇතුළත් කරන්න">
+                <input type="text" id="reviewerName" placeholder="ඔබේ නම ඇතුළත් කරන්න">
             </div>
             <div class="form-group">
                 <label>📞 දුරකථන අංකය (Optional)</label>
@@ -419,7 +414,7 @@
                 <div class="star-rating-label" id="formStarLabel">තාරකා තෝරන්න</div>
             </div>
             <div class="form-group">
-                <label>💬 ඔබේ අදහස *</label>
+                <label> ඔබේ අදහස *</label>
                 <textarea id="reviewerComment" placeholder="Silvas Express සේවය ගැන ඔබේ අදහස ලියන්න..."></textarea>
             </div>
             <button class="submit-review-btn" id="submitPublicReviewBtn" onclick="submitPublicReview()" disabled>⭐ Review එක Submit කරන්න</button>
@@ -444,13 +439,13 @@
     </div>
     
     <div id="cartTab" class="container hidden">
-        <h2 style="margin-bottom: 12px; font-size: 18px;">🛒 ඔබේ Cart එක</h2>
+        <h2 style="margin-bottom: 12px; font-size: 18px;">🛒 බේ Cart එක</h2>
         <div id="cartList"></div>
         <div id="checkoutSection" class="hidden">
             <div class="checkout-box">
                 <h3>📋 Order විස්තර</h3>
                 <div id="orderSummary" style="background: #f8fafc; padding: 15px; border-radius: 10px; margin-bottom: 20px;"></div>
-                <div class="form-group"><label>👤 ඔබේ නම *</label><input type="text" id="customerName" placeholder="ඔබේ සම්පර්ණ නම"></div>
+                <div class="form-group"><label>👤 බේ නම *</label><input type="text" id="customerName" placeholder="ඔබේ සම්පූර්ණ නම"></div>
                 <div class="form-group"><label>📞 දුරකථන අංකය *</label><input type="tel" id="phoneNumber" placeholder="07X XXX XXXX"></div>
                 <div class="form-group"><label>📍 Delivery ලිපිනය *</label><textarea id="deliveryAddress" rows="3" placeholder="නිවසේ ලිපිනය..."></textarea></div>
                 <div class="form-group">
@@ -461,7 +456,7 @@
                     <div class="delivery-info" id="deliveryInfo" style="display: none;">
                         <strong>📍 තෝරාගත් ප්‍රදේශය:</strong> <span id="selectedAreaName"></span>
                         <span id="zoneBadge" class="zone-badge"></span><br>
-                        <strong> Delivery Fee:</strong> Rs. <span id="zoneFeeDisplay">0</span>
+                        <strong>🚚 Delivery Fee:</strong> Rs. <span id="zoneFeeDisplay">0</span>
                         <div id="rainySurchargeDisplay" style="display: none;"></div>
                     </div>
                 </div>
@@ -477,7 +472,7 @@
                         <strong>Account Number:</strong> 95974359<br><br>
                         <div class="form-group" style="margin-bottom: 0;">
                             <label>Transaction ID / Reference Number *</label>
-                            <input type="text" id="transactionId" placeholder="දා: CMB123456789">
+                            <input type="text" id="transactionId" placeholder="උදා: CMB123456789">
                         </div>
                     </div>
                 </div>
@@ -497,10 +492,10 @@
 
     <nav class="bottom-nav" aria-label="Mobile navigation">
         <a href="#shopsContainer" class="nav-item active" onclick="scrollToSection('shopsContainer')"><span class="icon">🏪</span><span class="label">Shops</span></a>
-        <a href="#allGroceryList" class="nav-item" onclick="scrollToSection('allGroceryList')"><span class="icon">🛒</span><span class="label">Grocery</span></a>
+        <a href="#allGroceryList" class="nav-item" onclick="scrollToSection('allGroceryList')"><span class="icon"></span><span class="label">Grocery</span></a>
         <a href="#allVegetablesList" class="nav-item" onclick="scrollToSection('allVegetablesList')"><span class="icon">🥬</span><span class="label">Vegetables</span></a>
         <a href="#reviewsContainer" class="nav-item" onclick="scrollToSection('reviewsContainer')"><span class="icon">⭐</span><span class="label">Reviews</span></a>
-        <a href="#cartTab" class="nav-item" onclick="showCart()"><span class="icon">🛒</span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></a>
+        <a href="#cartTab" class="nav-item" onclick="showCart()"><span class="icon"></span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></a>
         <a href="#myOrdersList" class="nav-item" onclick="scrollToSection('myOrdersList')"><span class="icon">📦</span><span class="label">Orders</span></a>
     </nav>
 
@@ -578,7 +573,7 @@
                     bannerDiv.innerHTML = '<h3>🎉 ' + (data.messageSi || 'විශේෂ දීමනාව!') + '</h3><p>' + (data.messageEn || 'Special Offer!') + '</p><p class="discount-text">' + (data.discount || 0) + '% OFF</p>';
                 } else {
                     bannerDiv.style.background = 'linear-gradient(135deg, #22C55E, #16A34A)';
-                    bannerDiv.innerHTML = '<h3> විශේෂ දීමනාව!</h3><p>පළමු order එකට 20% වට්ටමක්</p><p class="discount-text">20% OFF</p>';
+                    bannerDiv.innerHTML = '<h3>🎉 විශේෂ දීමනාව!</h3><p>පළමු order එකට 20% වට්ටමක්</p><p class="discount-text">20% OFF</p>';
                 }
             });
         }
@@ -825,14 +820,14 @@
                 if (index < rating) star.classList.add('active');
                 else star.classList.remove('active');
             });
-            const labels = { 1: '😞 Very Bad - තා නරක', 2: ' Bad - නරක', 3: '🙂 Okay - OK', 4: '😊 Good - හොඳයි', 5: '🤩 Excellent - ඉතා හොඳයි!' };
+            const labels = { 1: '😞 Very Bad - ඉතා නරක', 2: '😐 Bad - නරක', 3: '🙂 Okay - OK', 4: '😊 Good - හොඳයි', 5: '🤩 Excellent - ඉතා හොඳයි!' };
             document.getElementById('formStarLabel').textContent = labels[rating] || 'තාරකා තෝරන්න';
             document.getElementById('submitPublicReviewBtn').disabled = false;
         }
 
         function submitPublicReview() {
             if (currentFormRating === 0) {
-                showToast(' කරුණාකර තාරකා තෝරන්න!');
+                showToast('❌ කරුණාකර තාරකා තෝරන්න!');
                 return;
             }
             
@@ -841,7 +836,7 @@
             const comment = document.getElementById('reviewerComment').value.trim();
             
             if (!name) { showToast('❌ කරුණාකර ඔබේ නම ඇතුළත් කරන්න!'); return; }
-            if (!comment) { showToast('❌ කරුණාකර ඔබේ අදහස ලියන්න!'); return; }
+            if (!comment) { showToast(' කරුණාකර ඔබේ අදහස ලියන්න!'); return; }
             
             const reviewData = {
                 name: name,
@@ -917,7 +912,7 @@
                 const [closeHour, closeMinute] = food.closeTime.split(':').map(Number);
                 const openTimeInMinutes = openHour * 60 + openMinute;
                 const closeTimeInMinutes = closeHour * 60 + closeMinute;
-                if (currentTimeInMinutes < openTimeInMinutes) return { available: false, message: ' ' + food.openTime + ' ට පසුව open වේ' };
+                if (currentTimeInMinutes < openTimeInMinutes) return { available: false, message: '⏰ ' + food.openTime + ' ට පසුව open වේ' };
                 else if (currentTimeInMinutes >= closeTimeInMinutes) return { available: false, message: '⏰ ' + food.closeTime + ' ට පසුව close වේ' };
             }
             return { available: true, message: '' };
@@ -953,7 +948,7 @@
             let scheduleBadge = '';
             if (!isScheduleAvailable) scheduleBadge = '<div class="schedule-badge schedule-unavailable">' + scheduleStatus.message + '</div>';
             else if (food.availableDays && food.openTime && food.closeTime) {
-                const dayNames = { 'Sunday': 'ඉරිදා', 'Monday': 'සඳුදා', 'Tuesday': 'අඟහ', 'Wednesday': 'බදාදා', 'Thursday': 'බ්‍රහස්', 'Friday': 'සිකුරා', 'Saturday': 'සෙන' };
+                const dayNames = { 'Sunday': 'ඉරිදා', 'Monday': 'සඳුදා', 'Tuesday': 'අඟහ', 'Wednesday': 'බදාදා', 'Thursday': 'බ්රහස්', 'Friday': 'සිකුරා', 'Saturday': 'සෙන' };
                 const daysText = food.availableDays.length < 7 ? food.availableDays.map(d => dayNames[d] || d).join(', ') : 'සෑම දිනකම';
                 scheduleBadge = '<div class="schedule-badge schedule-info">📅 ' + daysText + ' | 🕐 ' + food.openTime + ' - ' + food.closeTime + '</div>';
             }
@@ -998,7 +993,7 @@
                 const showDiscount = product.hasDiscount && product.discountPrice > 0 && product.discountPrice < product.originalPrice;
                 const discountPercent = showDiscount ? Math.round(((product.originalPrice - product.discountPrice) / product.originalPrice) * 100) : 0;
                 const qty = itemQuantities[product.id] || 1;
-                return '<div class="grocery-card ' + (isSelected ? 'selected' : '') + ' ' + (!isAvailable ? 'out-of-stock' : '') + '" onclick="' + (isAvailable ? "toggleGroceryItem('" + product.id + "')" : "") + '">' + (isAvailable ? '<div onclick="event.stopPropagation(); toggleGroceryItem(\'' + product.id + '\')" style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: ' + (isSelected ? '#22C55E' : 'white') + '; border: 2px solid ' + (isSelected ? '#22C55E' : '#ddd') + '; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-size: 14px; color: white; font-weight: bold; cursor: pointer;">' + (isSelected ? '✓' : '') + '</div>' : '') + '<div class="image-container food-img-container"><img src="' + (product.image || 'https://res.cloudinary.com/wdd29nbn/image/upload/f_auto,q_auto/1000116375.jpg') + '" class="grocery-img" alt="' + product.name + '" onerror="this.style.display=\'none\'"><div class="image-fallback" style="display:none;">' + product.name + '</div></div><div class="grocery-info"><div class="grocery-name">' + product.name + '</div><div style="font-size: 11px; color: #64748b; margin-bottom: 4px;">' + (product.unit || '') + '</div><div class="price-display">' + (showDiscount ? '<span class="discount-badge">-' + discountPercent + '%</span><span class="price-current" style="color: #ef4444;">Rs. ' + displayPrice + '</span><span class="price-original">Rs. ' + product.originalPrice + '</span>' : '<span class="price-current">Rs. ' + displayPrice + '</span>') + '</div>' + (showDiscount ? '<div style="font-size: 10px; color: #ef4444; margin-top: 2px; font-weight: 600;">🏷️ Special Offer!</div>' : '') + variantButtonHTML + (isAvailable ? '<div class="qty-selector"><button class="qty-btn" onclick="event.stopPropagation(); updateItemQty(\'' + product.id + '\', -1)">−</button><span id="qty-' + product.id + '" style="font-weight: bold; min-width: 20px; text-align: center;">' + qty + '</span><button class="qty-btn" onclick="event.stopPropagation(); updateItemQty(\'' + product.id + '\', 1)">+</button></div>' : '') + '</div></div>';
+                return '<div class="grocery-card ' + (isSelected ? 'selected' : '') + ' ' + (!isAvailable ? 'out-of-stock' : '') + '" onclick="' + (isAvailable ? "toggleGroceryItem('" + product.id + "')" : "") + '">' + (isAvailable ? '<div onclick="event.stopPropagation(); toggleGroceryItem(\'' + product.id + '\')" style="position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; background: ' + (isSelected ? '#22C55E' : 'white') + '; border: 2px solid ' + (isSelected ? '#22C55E' : '#ddd') + '; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.2); z-index: 2; font-size: 14px; color: white; font-weight: bold; cursor: pointer;">' + (isSelected ? '✓' : '') + '</div>' : '') + '<div class="image-container food-img-container"><img src="' + (product.image || 'https://res.cloudinary.com/wdd29nbn/image/upload/f_auto,q_auto/1000116375.jpg') + '" class="grocery-img" alt="' + product.name + '" onerror="this.style.display=\'none\'"><div class="image-fallback" style="display:none;">' + product.name + '</div></div><div class="grocery-info"><div class="grocery-name">' + product.name + '</div><div style="font-size: 11px; color: #64748b; margin-bottom: 4px;">' + (product.unit || '') + '</div><div class="price-display">' + (showDiscount ? '<span class="discount-badge">-' + discountPercent + '%</span><span class="price-current" style="color: #ef4444;">Rs. ' + displayPrice + '</span><span class="price-original">Rs. ' + product.originalPrice + '</span>' : '<span class="price-current">Rs. ' + displayPrice + '</span>') + '</div>' + (showDiscount ? '<div style="font-size: 10px; color: #ef4444; margin-top: 2px; font-weight: 600;">️ Special Offer!</div>' : '') + variantButtonHTML + (isAvailable ? '<div class="qty-selector"><button class="qty-btn" onclick="event.stopPropagation(); updateItemQty(\'' + product.id + '\', -1)">−</button><span id="qty-' + product.id + '" style="font-weight: bold; min-width: 20px; text-align: center;">' + qty + '</span><button class="qty-btn" onclick="event.stopPropagation(); updateItemQty(\'' + product.id + '\', 1)">+</button></div>' : '') + '</div></div>';
             }).join('');
             updateGroceryCart();
         }
@@ -1173,7 +1168,7 @@
                     const qty = itemQuantities[id] || 1;
                     if (hasVariants) {
                         if (selectedVariants[id]) { selectedWeight = selectedVariants[id].weight; finalPrice = selectedVariants[id].price; displayName = item.name + ' (' + selectedWeight + ')'; } 
-                        else { alert('කරුණාකර "' + item.name + '" සඳහා Portion එකක් තෝරාගන්න!'); hasError = true; return; }
+                        else { alert('කරුණාකර "' + item.name + '" සහා Portion එකක් තෝරාගන්න!'); hasError = true; return; }
                     }
                     const existingIndex = cart.findIndex(c => c.id === id && c.type === 'food' && (c.weight || '') === selectedWeight);
                     if (existingIndex !== -1) cart[existingIndex].quantity += qty;
@@ -1218,7 +1213,7 @@
         }
 
         function changeQty(index, change) { cart[index].quantity += change; if (cart[index].quantity <= 0) cart.splice(index, 1); saveCart(); renderCart(); }
-        function removeFromCart(index) { cart.splice(index, 1); saveCart(); renderCart(); showToast('❌ Item එක ඉවත් කරන ලදී'); }
+        function removeFromCart(index) { cart.splice(index, 1); saveCart(); renderCart(); showToast(' Item එක ඉවත් කරන ලදී'); }
         
         function selectPayment(method) {
             selectedPaymentMethod = method;
@@ -1247,7 +1242,7 @@
                 if (rainySurcharge.enabled && rainySurcharge.percent > 0) {
                     const extra = Math.round(baseFee * rainySurcharge.percent / 100);
                     finalFee = baseFee + extra;
-                    surchargeHtml = '<div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #86efac; color: #ea580c; font-size: 12px; font-weight: 600;">🌧️ වැසි දින අතිරේක ගාස්තුව (+' + rainySurcharge.percent + '%): Rs. ' + extra + '</div>';
+                    surchargeHtml = '<div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #86efac; color: #ea580c; font-size: 12px; font-weight: 600;">️ වැසි දින අතිරේක ගාස්තුව (+' + rainySurcharge.percent + '%): Rs. ' + extra + '</div>';
                 }
                 
                 currentDeliveryFee = finalFee;
@@ -1269,7 +1264,7 @@
             document.getElementById('grandTotal').textContent = (itemsTotal + currentDeliveryFee).toLocaleString();
         }
 
-        // ✅ UPDATED: Short & Clean WhatsApp Message
+        // ✅ UPDATED: Clean WhatsApp Message - App එකේ පෙන්නන විදියටම
         function confirmCartOrder() {
             let closedShops = [];
             cart.forEach(item => {
@@ -1289,15 +1284,28 @@
             const transId = document.getElementById('transactionId').value.trim();
             
             if (!name || !phone || !address || !areaSelect.value) { showToast('❌ කරුණාකර සියලු විස්තර සපුරන්න!'); return; }
-            if (selectedPaymentMethod === 'online' && !transId) { showToast('❌ Online ගෙවීම් සඳහා Transaction ID එක අනිවාර්යයි!'); return; }
+            if (selectedPaymentMethod === 'online' && !transId) { showToast(' Online ගෙවීම් සඳහා Transaction ID එක අනිවාර්යයි!'); return; }
             
             localStorage.setItem('customerPhone', phone);
             let itemsTotal = parseInt(document.getElementById('itemsTotal').textContent.replace(/,/g, '')) || 0;
             
-            // ✅ Clean items list - one per line
+            // ✅ Clean items list - remove duplicate names & show individual prices
             let itemsList = cart.map(i => { 
-                const displayName = i.weight ? i.name + ' (' + i.weight + ')' : (i.unit ? i.name + ' (' + i.unit + ')' : i.name); 
-                return '• ' + displayName + ' x' + i.quantity; 
+                // Remove duplicate parenthetical parts like "(Egg Rice F) (Egg Rice F)"
+                let cleanName = i.name;
+                const parts = cleanName.match(/\([^)]+\)/g) || [];
+                const uniqueParts = [...new Set(parts)];
+                const baseName = cleanName.replace(/\([^)]+\)/g, '').trim();
+                cleanName = baseName + (uniqueParts.length > 0 ? ' ' + uniqueParts.join(' ') : '');
+                
+                // Add weight/unit if exists
+                if (i.weight) cleanName += ' (' + i.weight + ')';
+                else if (i.unit) cleanName += ' (' + i.unit + ')';
+                
+                // Calculate item total
+                const itemTotal = i.price * i.quantity;
+                
+                return '• ' + cleanName + ' x' + i.quantity + ' - Rs. ' + itemTotal.toLocaleString();
             }).join('\n');
             
             const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 COD' : '🏦 Online (Ref: ' + transId + ')';
@@ -1319,19 +1327,19 @@
                 paymentInfo: paymentInfo 
             };
             
-            // ✅ SHORT & CLEAN WhatsApp Message
+            // ✅ CLEAN WhatsApp Message - App එකේ පෙන්නන විදියටම
             const orderMessage = 
-                ' *NEW ORDER - Silvas Express*\n\n' +
+                '🛒 *NEW ORDER - Silvas Express*\n\n' +
                 '👤 *Name:* ' + name + '\n' +
                 '📞 *Phone:* ' + phone + '\n' +
                 '📍 *Area:* ' + order.area + '\n' +
                 '🏠 *Address:* ' + address + '\n\n' +
                 '📦 *Items:*\n' + itemsList + '\n\n' +
-                '💰 *Items:* Rs. ' + itemsTotal.toLocaleString() + '\n' +
-                '🚚 *Delivery:* Rs. ' + currentDeliveryFee.toLocaleString() + '\n' +
+                '💰 *Items Total:* Rs. ' + itemsTotal.toLocaleString() + '\n' +
+                '🚚 *Delivery Fee:* Rs. ' + currentDeliveryFee.toLocaleString() + '\n' +
                 '💳 *Payment:* ' + paymentInfo + '\n\n' +
-                '💵 *TOTAL: Rs. ' + grandTotal.toLocaleString() + '*\n\n' +
-                'කරුණාකර තහවුරු කරන්න. 🙏\n\n' +
+                '💵 *GRAND TOTAL: Rs. ' + grandTotal.toLocaleString() + '*\n\n' +
+                'කරුණාකර මෙම order එක තහවුරු කරන්න. 🙏\n\n' +
                 '🌐 silvasexpress.store';
             
             database.ref('orders').push(order).then(() => {
@@ -1361,7 +1369,7 @@
                 } else if (hasReview) {
                     reviewSection = '<div class="review-section"><h3>⭐ ඔබේ Review එක</h3><div style="text-align: center; margin-bottom: 10px;"><span style="font-size: 36px; color: #fbbf24;">' + '★'.repeat(order.review.rating) + '☆'.repeat(5 - order.review.rating) + '</span></div><div style="text-align: center; font-size: 14px; color: #64748b; margin-bottom: 10px;">' + getRatingText(order.review.rating) + '</div>' + (order.review.comment ? '<div style="background: #f8fafc; padding: 12px; border-radius: 8px; font-size: 14px; color: #475569; line-height: 1.6;">"' + order.review.comment + '"</div>' : '') + '<div style="text-align: center; margin-top: 10px; font-size: 12px; color: #94a3b8;">📅 ' + new Date(order.review.date).toLocaleDateString('si-LK') + '</div></div>';
                 }
-                return '<div class="cart-item" style="flex-direction: column; align-items: flex-start; padding: 16px;"><div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;"><strong style="font-size: 15px; color: #1e293b;">Order #' + (order.id ? order.id.slice(-6) : 'New') + '</strong><span class="order-status status-' + status.toLowerCase() + '">' + status + '</span></div><div style="width: 100%; margin-bottom: 12px;"><span class="order-date-badge"> Order දාපු දිනය: ' + dateStr + '</span> <span class="order-date-badge">🕐 වේලාව: ' + timeStr + '</span></div><div class="tracking-timeline" style="width: 100%;"><h3>📦 Order Tracking</h3><div class="timeline-item ' + (status === 'Pending' ? 'active' : (['Confirmed', 'Delivered'].includes(status) ? 'completed' : '')) + '"><div class="timeline-icon">1</div><div class="timeline-content"><div class="timeline-title">Order Received</div><div class="timeline-desc">ඔබේ order එක ලැබී ඇත</div></div></div><div class="timeline-item ' + (status === 'Confirmed' ? 'active' : (status === 'Delivered' ? 'completed' : '')) + '"><div class="timeline-icon">2</div><div class="timeline-content"><div class="timeline-title">Order Confirmed</div><div class="timeline-desc">Shop එක order එක පිළිගත්තා</div></div></div><div class="timeline-item ' + (status === 'Delivered' ? 'completed' : '') + '"><div class="timeline-icon">3</div><div class="timeline-content"><div class="timeline-title">Delivered</div><div class="timeline-desc">ඔබේ order එක බාර දුන්නා</div></div></div></div><div style="width: 100%; font-size: 13px; color: #64748b; line-height: 1.8; margin-top: 12px;"><div> Items: ' + order.items + '</div><div>💰 Total: Rs. ' + (order.grandTotal || order.total) + '</div><div>🚚 Delivery: Rs. ' + (order.deliveryFee || 0) + '</div><div> Payment: ' + (order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')) + '</div><div>📍 ' + order.address + '</div></div>' + reviewSection + '</div>';
+                return '<div class="cart-item" style="flex-direction: column; align-items: flex-start; padding: 16px;"><div style="width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;"><strong style="font-size: 15px; color: #1e293b;">Order #' + (order.id ? order.id.slice(-6) : 'New') + '</strong><span class="order-status status-' + status.toLowerCase() + '">' + status + '</span></div><div style="width: 100%; margin-bottom: 12px;"><span class="order-date-badge">📅 Order දාපු දිනය: ' + dateStr + '</span> <span class="order-date-badge">🕐 වේලාව: ' + timeStr + '</span></div><div class="tracking-timeline" style="width: 100%;"><h3>📦 Order Tracking</h3><div class="timeline-item ' + (status === 'Pending' ? 'active' : (['Confirmed', 'Delivered'].includes(status) ? 'completed' : '')) + '"><div class="timeline-icon">1</div><div class="timeline-content"><div class="timeline-title">Order Received</div><div class="timeline-desc">ඔබේ order එක ලැබී ඇත</div></div></div><div class="timeline-item ' + (status === 'Confirmed' ? 'active' : (status === 'Delivered' ? 'completed' : '')) + '"><div class="timeline-icon">2</div><div class="timeline-content"><div class="timeline-title">Order Confirmed</div><div class="timeline-desc">Shop එක order එක පිළිගත්තා</div></div></div><div class="timeline-item ' + (status === 'Delivered' ? 'completed' : '') + '"><div class="timeline-icon">3</div><div class="timeline-content"><div class="timeline-title">Delivered</div><div class="timeline-desc">ඔබේ order එක බාර දුන්නා</div></div></div></div><div style="width: 100%; font-size: 13px; color: #64748b; line-height: 1.8; margin-top: 12px;"><div>📦 Items: ' + order.items + '</div><div> Total: Rs. ' + (order.grandTotal || order.total) + '</div><div> Delivery: Rs. ' + (order.deliveryFee || 0) + '</div><div>💳 Payment: ' + (order.paymentInfo || (order.paymentMethod === 'cod' ? '💵 Cash on Delivery' : '🏦 Online Payment')) + '</div><div>📍 ' + order.address + '</div></div>' + reviewSection + '</div>';
             }).join('');
         }
 
@@ -1377,7 +1385,7 @@
         }
 
         function getRatingText(rating) {
-            const texts = { 1: '😞 Very Bad - ඉතා නරක', 2: '😐 Bad - නරක', 3: '🙂 Okay - OK', 4: '😊 Good - හොඳයි', 5: ' Excellent - ඉතා හොඳයි!' };
+            const texts = { 1: '😞 Very Bad - ඉතා නරක', 2: '😐 Bad - නරක', 3: '🙂 Okay - OK', 4: '😊 Good - හොඳයි', 5: '🤩 Excellent - තා හොඳයි!' };
             return texts[rating] || 'තාරකා තෝරන්න';
         }
 
@@ -1388,7 +1396,7 @@
             database.ref('orders/' + orderId + '/review').set(reviewData).then(() => {
                 showToast('✅ ඔබේ review එක submit විය! ස්තූතියි! 🙏');
                 loadMyOrders();
-            }).catch(error => { showToast(' Error: ' + error.message); });
+            }).catch(error => { showToast('❌ Error: ' + error.message); });
         }
 
         function handleSearch() { 
@@ -1399,7 +1407,7 @@
                 const isGrocery = shop.category === 'Grocery' || shop.category === 'Supermarket';
                 const open = isShopOpen(shop.openTime, shop.closeTime);
                 const statusBadge = open ? '<span class="status-open">විවෘතයි</span>' : '<span class="status-closed">වසා ඇත</span>';
-                return '<div class="shop-card ' + (shop.isFeatured ? 'featured' : '') + '" onclick="' + (isGrocery ? "scrollToSection('allGroceryList')" : "openShopView('" + shop.id + "')") + '"><img src="' + (shop.image || 'https://via.placeholder.com/500x300?text=No+Image') + '" class="shop-image" alt="' + shop.name + '"><div class="shop-info"><div class="shop-name"><span>' + shop.name + (shop.isFeatured ? '<span class="gold-badge">⭐ GOLD</span>' : '') + '</span>' + statusBadge + '</div><div class="shop-details"><span>📞 ' + (shop.phone || 'N/A') + '</span><span class="rating">⭐ ' + (shop.rating || '4.0') + '</span></div></div></div>';
+                return '<div class="shop-card ' + (shop.isFeatured ? 'featured' : '') + '" onclick="' + (isGrocery ? "scrollToSection('allGroceryList')" : "openShopView('" + shop.id + "')") + '"><img src="' + (shop.image || 'https://via.placeholder.com/500x300?text=No+Image') + '" class="shop-image" alt="' + shop.name + '"><div class="shop-info"><div class="shop-name"><span>' + shop.name + (shop.isFeatured ? '<span class="gold-badge">⭐ GOLD</span>' : '') + '</span>' + statusBadge + '</div><div class="shop-details"><span> ' + (shop.phone || 'N/A') + '</span><span class="rating">⭐ ' + (shop.rating || '4.0') + '</span></div></div></div>';
             }).join('') : '<div class="loading">Shops හමු නොවීය</div>';
             const filteredFoods = foods.filter(f => f.name.toLowerCase().includes(query));
             document.getElementById('allFoodsList').innerHTML = filteredFoods.length > 0 ? filteredFoods.map(food => renderFoodCard(food)).join('') : '<div class="loading">Foods හමු නොවීය</div>';
@@ -1415,7 +1423,7 @@
                 const discountPercent = showDiscount ? Math.round(((veg.originalPrice - veg.discountPrice) / veg.originalPrice) * 100) : 0;
                 return '<div class="vegetable-card" style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08);"><div class="image-container food-img-container"><img src="' + (veg.image || 'https://via.placeholder.com/400x120?text=No+Image') + '" class="vegetable-img" alt="' + veg.name + '"></div><div class="vegetable-info"><div class="vegetable-name">' + veg.name + '</div><div class="price-display">' + (showDiscount ? '<span class="discount-badge">-' + discountPercent + '%</span><span class="price-current" style="color: #ef4444;">Rs. ' + veg.discountPrice + '</span>' : '<span class="price-current">Rs. ' + veg.originalPrice + '</span>') + '</div></div></div>';
             }).join('') : '<div class="loading">Vegetables හමු නොවීය</div>';
-            if (query.length > 2) showToast(' "' + query + '" සඳහා සොයමින්...');
+            if (query.length > 2) showToast('🔍 "' + query + '" සඳහා සොයමින්...');
         }
         
         function showToast(message) { 
@@ -1429,7 +1437,7 @@
         }
     </script>
 
-    <!-- ️ LIVE ONLINE USERS TRACKER + VISITOR TRACKER -->
+    <!-- 👁️ LIVE ONLINE USERS TRACKER + VISITOR TRACKER -->
     <script>
     (function() {
         if(!sessionStorage.getItem('silvas_visited')) {
