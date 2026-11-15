@@ -466,7 +466,8 @@
                         <button id="btnUseZone" onclick="showZoneSelect()" class="btn" style="flex: 1; min-width: 150px; padding: 14px; background: #e2e8f0; color: #475569;">🗺️ Zone Select</button>
                     </div>
                     <div id="mapStatus" style="font-size: 13px; color: #64748b; margin-bottom: 10px;"></div>
-                    <div id="deliveryMap" style="height: 280px; border-radius: 14px; display: none; z-index: 1; box-shadow: 0 4px 15px rgba(0,0,0,0.1);"></div>
+                    <!-- ✅ FIXED: Map height එක 200px දක්වා අඩු කළා -->
+                    <div id="deliveryMap" style="height: 200px; border-radius: 14px; display: none; z-index: 1; box-shadow: 0 4px 15px rgba(0,0,0,0.1);"></div>
                     <div id="mapFeeInfo" style="display: none; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 14px; border-radius: 10px; margin-top: 12px; font-size: 14px; line-height: 1.8;">
                         <div>📏 <strong>Distance:</strong> <span id="mapDistance">-</span></div>
                         <div>🛵 <strong>ETA:</strong> <span id="mapEta">-</span></div>
@@ -585,9 +586,9 @@
         // 🗺️ MAP PRICING STATE
         let mapPricing = {
             enabled: true,
-            shopLat: 7.1856,
-            shopLng: 79.8906,
-            shopAddress: 'Silvas Express, Raddolugama',
+            shopLat: 7.138307,
+            shopLng: 79.899648,
+            shopAddress: 'Silvas Family Store, Katunayake 11400',
             beyondPerKm: 50,
             tiers: [
                 { min: 0, max: 1, fee: 100 },
@@ -797,9 +798,9 @@
                 if (d) {
                     mapPricing = {
                         enabled: d.enabled !== false,
-                        shopLat: d.shopLat || 7.1856,
-                        shopLng: d.shopLng || 79.8906,
-                        shopAddress: d.shopAddress || 'Silvas Express, Raddolugama',
+                        shopLat: d.shopLat || 7.138307,
+                        shopLng: d.shopLng || 79.899648,
+                        shopAddress: d.shopAddress || 'Silvas Family Store, Katunayake 11400',
                         beyondPerKm: d.beyondPerKm || 50,
                         tiers: (d.tiers && d.tiers.length) ? d.tiers : mapPricing.tiers
                     };
@@ -1328,13 +1329,13 @@
             return last.fee + extraKm * mapPricing.beyondPerKm;
         }
 
-        // 🗺️ FIXED: Shop marker සහ Customer marker දෙකම පෙන්නනවා
+        // 🗺️ FIXED: Map height එක 200px, markers දෙකම පෙන්නනවා
         function drawMap(coords) {
             document.getElementById('mapStatus').innerHTML = '✅ Route සොයන ලදී!';
             document.getElementById('deliveryMap').style.display = 'block';
             
             if (!mapInstance) {
-                mapInstance = L.map('deliveryMap').setView([mapPricing.shopLat, mapPricing.shopLng], 13);
+                mapInstance = L.map('deliveryMap').setView([mapPricing.shopLat, mapPricing.shopLng], 14);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(mapInstance);
@@ -1344,30 +1345,10 @@
             if (shopMarker) mapInstance.removeLayer(shopMarker);
             if (custMarker) mapInstance.removeLayer(custMarker);
             
-            // 🛣️ Route line එක
             routeLayer = L.polyline(coords, { color: '#22C55E', weight: 5, opacity: 0.8 }).addTo(mapInstance);
+            shopMarker = L.marker([mapPricing.shopLat, mapPricing.shopLng]).addTo(mapInstance).bindPopup('<b>🌿 Silvas Express</b><br>' + mapPricing.shopAddress);
+            custMarker = L.marker([customerLocation.lat, customerLocation.lng]).addTo(mapInstance).bindPopup('<b>📍 ඔබේ Location</b>');
             
-            // 🏪 Shop Marker එක (RED)
-            const shopIcon = L.divIcon({
-                html: '<div style="background: #ef4444; width: 30px; height: 30px; border-radius: 50% 50% 50% 0; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3); transform: rotate(-45deg); display: flex; align-items: center; justify-content: center;"><span style="transform: rotate(45deg); font-size: 16px;">🏪</span></div>',
-                iconSize: [30, 30],
-                iconAnchor: [15, 30]
-            });
-            shopMarker = L.marker([mapPricing.shopLat, mapPricing.shopLng], { icon: shopIcon })
-                .addTo(mapInstance)
-                .bindPopup('<b>🌿 Silvas Express Shop</b><br>📍 ' + mapPricing.shopAddress);
-            
-            // 📍 Customer Marker එක (BLUE)
-            const custIcon = L.divIcon({
-                html: '<div style="background: #3b82f6; width: 30px; height: 30px; border-radius: 50% 50% 50% 0; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3); transform: rotate(-45deg); display: flex; align-items: center; justify-content: center;"><span style="transform: rotate(45deg); font-size: 16px;">📍</span></div>',
-                iconSize: [30, 30],
-                iconAnchor: [15, 30]
-            });
-            custMarker = L.marker([customerLocation.lat, customerLocation.lng], { icon: custIcon })
-                .addTo(mapInstance)
-                .bindPopup('<b>📍 ඔබේ Location</b><br>Delivery Address');
-            
-            // Map එක fit කරන්න
             const bounds = L.latLngBounds([
                 [mapPricing.shopLat, mapPricing.shopLng],
                 [customerLocation.lat, customerLocation.lng]
@@ -1449,6 +1430,7 @@
             document.getElementById('grandTotal').textContent = (itemsTotal + currentDeliveryFee).toLocaleString();
         }
 
+        // ✅ UPDATED: WhatsApp Message එකේ Google Maps Link එක එකතු කරලා
         function confirmCartOrder() {
             if (mapFeeActive && !customerLocation) { showToast('❌ Location එක detect වී නැහැ!'); return; }
             let closedShops = [];
@@ -1482,7 +1464,18 @@
                 const itemTotal = i.price * i.quantity;
                 return '• ' + cleanName + ' x' + i.quantity + ' - Rs. ' + itemTotal.toLocaleString();
             }).join('\n');
-            const areaText = mapFeeActive ? ('📍 Auto GPS - ' + (document.getElementById('mapDistance').textContent || 'Unknown')) : areaSelect.options[areaSelect.selectedIndex].text;
+            
+            // ✅ Google Maps Link එක හදනවා
+            let areaText = '';
+            let mapsLink = '';
+            if (mapFeeActive && customerLocation) {
+                const kmText = document.getElementById('mapDistance').textContent || 'Unknown';
+                areaText = '📍 Auto GPS - ' + kmText;
+                mapsLink = '🗺️ Location: https://www.google.com/maps?q=' + customerLocation.lat + ',' + customerLocation.lng;
+            } else {
+                areaText = areaSelect.options[areaSelect.selectedIndex].text;
+            }
+            
             const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 COD' : '🏦 Online (Ref: ' + transId + ')';
             const grandTotal = itemsTotal + currentDeliveryFee;
             const order = { 
@@ -1494,19 +1487,23 @@
                 customerLng: mapFeeActive ? customerLocation.lng : null,
                 deliveryKm: mapFeeActive ? parseFloat(document.getElementById('mapDistance').textContent) : null
             };
+            
+            // ✅ WhatsApp Message එක - Google Maps Link එක සහිතව
             const orderMessage = 
                 '🛒 *NEW ORDER - Silvas Express*\n\n' +
                 '👤 *Name:* ' + name + '\n' +
                 '📞 *Phone:* ' + phone + '\n' +
                 '📍 *Area:* ' + areaText + '\n' +
-                '🏠 *Address:* ' + address + '\n\n' +
-                '📦 *Items:*\n' + itemsList + '\n\n' +
+                '🏠 *Address:* ' + address + '\n' +
+                (mapsLink ? mapsLink + '\n' : '') +
+                '\n📦 *Items:*\n' + itemsList + '\n\n' +
                 '💰 *Items Total:* Rs. ' + itemsTotal.toLocaleString() + '\n' +
                 '🚚 *Delivery Fee:* Rs. ' + currentDeliveryFee.toLocaleString() + '\n' +
                 '💳 *Payment:* ' + paymentInfo + '\n\n' +
                 '💵 *GRAND TOTAL: Rs. ' + grandTotal.toLocaleString() + '*\n\n' +
                 'කරුණාකර මෙම order එක තහවුරු කරන්න. 🙏\n\n' +
                 '🌐 silvasexpress.store';
+            
             database.ref('orders').push(order).then(() => {
                 window.open('https://wa.me/94702059529?text=' + encodeURIComponent(orderMessage), '_blank');
                 showToast('✅ Order එක WhatsApp එකට යවමින්...');
