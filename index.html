@@ -259,10 +259,15 @@
         .schedule-unavailable { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
         .schedule-info { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
         
-        /* 📝 Address Input Styles */
-        .address-input-group { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
-        .address-input-group input { flex: 1; min-width: 200px; }
-        .address-input-group button { flex: 0 0 auto; min-width: 120px; }
+        /* 🗺️ Advanced Map Styles */
+        .map-controls { display: flex; gap: 8px; margin-bottom: 10px; }
+        .map-view-btn { flex: 1; padding: 8px; border: 2px solid #e2e8f0; border-radius: 8px; background: white; cursor: pointer; font-size: 12px; font-weight: 600; transition: all 0.3s; }
+        .map-view-btn.active { background: #22C55E; color: white; border-color: #22C55E; }
+        .suggestions-list { max-height: 200px; overflow-y: auto; background: white; border: 2px solid #e2e8f0; border-radius: 8px; margin-top: 8px; display: none; }
+        .suggestion-item { padding: 10px; cursor: pointer; border-bottom: 1px solid #f1f5f9; font-size: 13px; transition: background 0.2s; }
+        .suggestion-item:hover { background: #f0fdf4; }
+        .suggestion-item:last-child { border-bottom: none; }
+        .map-instructions { background: #eff6ff; padding: 10px; border-radius: 8px; font-size: 12px; color: #1e40af; margin-top: 10px; border-left: 3px solid #3b82f6; }
         
         @media (min-width: 768px) {
             #shopsList { grid-template-columns: repeat(2, 1fr); gap: 18px; }
@@ -465,7 +470,7 @@
                     <strong>🏪 Shop Location:</strong> <span id="shopAddressDisplay">Loading...</span>
                 </div>
                 
-                <!-- 🗺️ DELIVERY LOCATION OPTIONS -->
+                <!-- 🗺️ ADVANCED MAP LOCATION SYSTEM -->
                 <div class="form-group">
                     <label>📍 Delivery Location එක තෝරන්න *</label>
                     <p style="font-size: 12px; color: #64748b; margin-bottom: 10px;">GPS එකෙන් හෝ Address එක type කරලා location එක දෙන්න</p>
@@ -473,20 +478,34 @@
                     <!-- Option 1: GPS -->
                     <button id="btnUseLocation" onclick="useMyLocation()" class="btn btn-success" style="width: 100%; padding: 14px; margin-bottom: 10px;">📍 Use My Current Location (GPS)</button>
                     
-                    <!-- Option 2: Type Address -->
+                    <!-- Option 2: Type Address with Autocomplete -->
                     <button id="btnTypeAddress" onclick="showAddressInput()" class="btn btn-secondary" style="width: 100%; padding: 14px; margin-bottom: 10px;">📝 Type Delivery Address</button>
                     
-                    <!-- Address Input (Hidden by default) -->
+                    <!-- Address Input with Autocomplete -->
                     <div id="addressInputSection" style="display: none; background: #eff6ff; padding: 15px; border-radius: 12px; margin-top: 10px; border: 2px solid #3b82f6;">
                         <label style="font-weight: 600; color: #1e40af; margin-bottom: 8px; display: block;">📝 Delivery Address එක type කරන්න:</label>
-                        <input type="text" id="manualAddressInput" placeholder="උදා: 123, Main Street, Raddolugama" style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; margin-bottom: 10px;">
-                        <button onclick="searchAddress()" class="btn btn-primary" style="width: 100%; padding: 12px;">🔍 Search & Set Location</button>
-                        <p style="font-size: 11px; color: #64748b; margin-top: 8px;">💡 Address එක search කරාම map එකේ location එක පෙන්නනවා</p>
+                        <input type="text" id="manualAddressInput" placeholder="උදා: Gamamada Para, Raddolugama" style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; margin-bottom: 10px;" oninput="debounceSearch()">
+                        
+                        <!-- Autocomplete Suggestions -->
+                        <div id="suggestionsList" class="suggestions-list"></div>
+                        
+                        <button onclick="searchAddress()" class="btn btn-success" style="width: 100%; padding: 12px; margin-top: 10px;">🔍 Search & Set Location</button>
+                        <div class="map-instructions">
+                            💡 <strong>උපදෙස්:</strong> Address එක type කරද්දී suggestions පෙන්නනවා. නැත්නම් "Search & Set Location" click කරන්න. Map එක click කරලාත් location එක set කරන්න පුළුවන්!
+                        </div>
                     </div>
                 </div>
                 
                 <div id="mapStatus" style="font-size: 13px; color: #64748b; margin-bottom: 10px;"></div>
-                <div id="deliveryMap" style="height: 200px; border-radius: 14px; display: none; z-index: 1; box-shadow: 0 4px 15px rgba(0,0,0,0.1);"></div>
+                
+                <!-- Map with View Toggle -->
+                <div id="deliveryMap" style="height: 250px; border-radius: 14px; display: none; z-index: 1; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative;">
+                    <div class="map-controls" style="position: absolute; top: 10px; right: 10px; z-index: 1000;">
+                        <button class="map-view-btn active" onclick="switchMapView('street')" id="streetViewBtn">🗺️ Street</button>
+                        <button class="map-view-btn" onclick="switchMapView('satellite')" id="satelliteViewBtn">🛰️ Satellite</button>
+                    </div>
+                </div>
+                
                 <div id="mapFeeInfo" style="display: none; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 14px; border-radius: 10px; margin-top: 12px; font-size: 14px; line-height: 1.8;">
                     <div>📏 <strong>Distance:</strong> <span id="mapDistance">-</span></div>
                     <div>🛵 <strong>ETA:</strong> <span id="mapEta">-</span></div>
@@ -608,10 +627,13 @@
             ]
         };
         let customerLocation = null;
-        let manualAddressText = ''; // 📝 Manual address එක
+        let manualAddressText = '';
         let mapFeeActive = false;
         let mapInstance = null;
         let routeLayer = null, shopMarker = null, custMarker = null;
+        let currentMapView = 'street'; // 'street' or 'satellite'
+        let streetLayer = null, satelliteLayer = null;
+        let searchTimeout = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             loadShops(); loadAllFoods(); loadAllGrocery(); loadAllVegetables(); loadMyOrders(); 
@@ -763,7 +785,6 @@
             });
         }
 
-        // 🗺️ Load Map Pricing from Firebase
         function loadMapPricing() {
             database.ref('settings/deliveryPricing').on('value', (snapshot) => {
                 const d = snapshot.val();
@@ -1247,9 +1268,55 @@
         function showAddressInput() {
             const section = document.getElementById('addressInputSection');
             section.style.display = section.style.display === 'none' ? 'block' : 'none';
+            if (section.style.display === 'block') {
+                document.getElementById('manualAddressInput').focus();
+            }
         }
 
-        // 📝 Search Address using Nominatim (FREE)
+        // 🔍 Debounce Search (type කරද්දී automatic search)
+        function debounceSearch() {
+            clearTimeout(searchTimeout);
+            const query = document.getElementById('manualAddressInput').value.trim();
+            if (query.length < 3) {
+                document.getElementById('suggestionsList').style.display = 'none';
+                return;
+            }
+            searchTimeout = setTimeout(() => searchAddressAutocomplete(query), 500);
+        }
+
+        // 🔍 Autocomplete Search (Nominatim API - FREE)
+        async function searchAddressAutocomplete(query) {
+            try {
+                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=lk&limit=5&accept-language=en`);
+                const data = await response.json();
+                
+                const suggestionsList = document.getElementById('suggestionsList');
+                if (data && data.length > 0) {
+                    suggestionsList.innerHTML = data.map(item => `
+                        <div class="suggestion-item" onclick="selectSuggestion(${item.lat}, ${item.lon}, '${item.display_name.replace(/'/g, "\\'")}')">
+                            📍 ${item.display_name}
+                        </div>
+                    `).join('');
+                    suggestionsList.style.display = 'block';
+                } else {
+                    suggestionsList.style.display = 'none';
+                }
+            } catch (e) {
+                console.log('Autocomplete error:', e);
+            }
+        }
+
+        // ✅ Select Suggestion
+        function selectSuggestion(lat, lng, displayName) {
+            customerLocation = { lat: lat, lng: lng };
+            manualAddressText = displayName;
+            document.getElementById('suggestionsList').style.display = 'none';
+            document.getElementById('manualAddressInput').value = displayName;
+            document.getElementById('mapStatus').innerHTML = '✅ Address තෝරාගත්තා: ' + displayName.substring(0, 50) + '...';
+            fetchRouteAndCalc();
+        }
+
+        // 🔍 Manual Search
         async function searchAddress() {
             const address = document.getElementById('manualAddressInput').value.trim();
             if (!address) { showToast('❌ කරුණාකර address එකක් type කරන්න!'); return; }
@@ -1258,8 +1325,7 @@
             document.getElementById('btnTypeAddress').disabled = true;
             
             try {
-                // Nominatim API (FREE - OpenStreetMap)
-                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`);
+                const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&countrycodes=lk&limit=1&accept-language=en`);
                 const data = await response.json();
                 
                 if (data && data.length > 0) {
@@ -1287,13 +1353,40 @@
             }
         }
 
+        // 🗺️ Switch Map View (Street/Satellite)
+        function switchMapView(view) {
+            currentMapView = view;
+            document.getElementById('streetViewBtn').classList.toggle('active', view === 'street');
+            document.getElementById('satelliteViewBtn').classList.toggle('active', view === 'satellite');
+            
+            if (mapInstance) {
+                if (view === 'street') {
+                    if (satelliteLayer) mapInstance.removeLayer(satelliteLayer);
+                    if (!streetLayer) {
+                        streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            attribution: '© OpenStreetMap contributors'
+                        });
+                    }
+                    streetLayer.addTo(mapInstance);
+                } else {
+                    if (streetLayer) mapInstance.removeLayer(streetLayer);
+                    if (!satelliteLayer) {
+                        satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                            attribution: 'Tiles © Esri'
+                        });
+                    }
+                    satelliteLayer.addTo(mapInstance);
+                }
+            }
+        }
+
         // 🗺️ MAP PRICING FUNCTIONS
         function useMyLocation() {
             if (!navigator.geolocation) { showToast('❌ ඔබේ browser එකෙන් Location support කරන්නේ නෑ'); return; }
             if (!mapPricing.enabled) { showToast('⚠️ Map pricing දැනට disable කර ඇත.'); return; }
             document.getElementById('mapStatus').innerHTML = '⏳ ඔබේ location සොයමින්...';
             document.getElementById('btnUseLocation').disabled = true;
-            manualAddressText = ''; // GPS use කරන විට manual address එක clear කරන්න
+            manualAddressText = '';
             
             navigator.geolocation.getCurrentPosition(
                 (pos) => {
@@ -1345,15 +1438,33 @@
             return last.fee + extraKm * mapPricing.beyondPerKm;
         }
 
+        // 🗺️ Advanced Map with Satellite View + Click to Set Location
         function drawMap(coords) {
             document.getElementById('mapStatus').innerHTML = '✅ Route සොයන ලදී!';
             document.getElementById('deliveryMap').style.display = 'block';
             
             if (!mapInstance) {
                 mapInstance = L.map('deliveryMap').setView([mapPricing.shopLat, mapPricing.shopLng], 14);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                
+                // Street View (Default)
+                streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(mapInstance);
+                
+                // Satellite View (Esri - FREE)
+                satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                    attribution: 'Tiles © Esri'
+                });
+                
+                // Click on map to set location
+                mapInstance.on('click', function(e) {
+                    if (customerLocation) {
+                        customerLocation = { lat: e.latlng.lat, lng: e.latlng.lng };
+                        manualAddressText = `Custom Location (${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)})`;
+                        fetchRouteAndCalc();
+                        showToast('📍 Location update කළා!');
+                    }
+                });
             }
             
             if (routeLayer) mapInstance.removeLayer(routeLayer);
@@ -1362,7 +1473,17 @@
             
             routeLayer = L.polyline(coords, { color: '#22C55E', weight: 5, opacity: 0.8 }).addTo(mapInstance);
             shopMarker = L.marker([mapPricing.shopLat, mapPricing.shopLng]).addTo(mapInstance).bindPopup('<b>🌿 Silvas Express</b><br>' + mapPricing.shopAddress);
-            custMarker = L.marker([customerLocation.lat, customerLocation.lng]).addTo(mapInstance).bindPopup('<b>📍 Delivery Location</b>' + (manualAddressText ? '<br>' + manualAddressText.substring(0, 50) : ''));
+            
+            // Draggable customer marker
+            custMarker = L.marker([customerLocation.lat, customerLocation.lng], { draggable: true }).addTo(mapInstance)
+                .bindPopup('<b>📍 Delivery Location</b><br>' + (manualAddressText ? manualAddressText.substring(0, 50) : 'Drag to adjust') + '<br><small>Drag කරලා location එක adjust කරන්න</small>')
+                .on('dragend', function(e) {
+                    const pos = e.target.getLatLng();
+                    customerLocation = { lat: pos.lat, lng: pos.lng };
+                    manualAddressText = `Custom Location (${pos.lat.toFixed(5)}, ${pos.lng.toFixed(5)})`;
+                    fetchRouteAndCalc();
+                    showToast('📍 Location update කළා!');
+                });
             
             const bounds = L.latLngBounds([
                 [mapPricing.shopLat, mapPricing.shopLng],
@@ -1381,7 +1502,6 @@
             document.getElementById('mapEta').textContent = mins + ' min (two-wheeler)';
             document.getElementById('mapFee').textContent = 'Rs. ' + baseFee;
             
-            // 🗺️ Google Maps Link එක
             const mapsLink = 'https://www.google.com/maps?q=' + customerLocation.lat + ',' + customerLocation.lng;
             document.getElementById('mapsLinkUrl').href = mapsLink;
             document.getElementById('mapsLinkUrl').textContent = mapsLink;
@@ -1400,7 +1520,6 @@
             showToast('✅ Distance ' + km.toFixed(1) + 'km - Fee Rs. ' + finalFee);
         }
 
-        // ✅ UPDATED: GPS + Manual Address දෙකම support කරනවා
         function confirmCartOrder() {
             if (!mapFeeActive || !customerLocation) { 
                 showToast('❌ කරුණාකර "📍 Use My Location" හෝ "📝 Type Address" එකෙන් location එක set කරන්න!'); 
@@ -1480,7 +1599,6 @@
                 document.getElementById('deliveryAddress').value = ''; 
                 document.getElementById('transactionId').value = '';
                 document.getElementById('manualAddressInput').value = '';
-                // Reset map
                 mapFeeActive = false;
                 customerLocation = null;
                 manualAddressText = '';
