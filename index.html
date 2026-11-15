@@ -458,35 +458,17 @@
                     <strong>🏪 Shop Location:</strong> <span id="shopAddressDisplay">Loading...</span>
                 </div>
                 
-                <!-- 🗺️ MAP PRICING UI -->
+                <!-- 🗺️ MAP PRICING UI ONLY (Zone Select REMOVED) -->
                 <div class="form-group">
-                    <label>📍 Delivery Fee තෝරන්න</label>
-                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px;">
-                        <button id="btnUseLocation" onclick="useMyLocation()" class="btn btn-success" style="flex: 1; min-width: 150px; padding: 14px;">📍 Use My Location (Auto Price)</button>
-                        <button id="btnUseZone" onclick="showZoneSelect()" class="btn" style="flex: 1; min-width: 150px; padding: 14px; background: #e2e8f0; color: #475569;">🗺️ Zone Select</button>
-                    </div>
+                    <label>📍 Delivery Fee - GPS Location</label>
+                    <button id="btnUseLocation" onclick="useMyLocation()" class="btn btn-success" style="width: 100%; padding: 14px; margin-bottom: 12px;">📍 Use My Location (Auto Price)</button>
                     <div id="mapStatus" style="font-size: 13px; color: #64748b; margin-bottom: 10px;"></div>
-                    <!-- ✅ FIXED: Map height එක 200px දක්වා අඩු කළා -->
                     <div id="deliveryMap" style="height: 200px; border-radius: 14px; display: none; z-index: 1; box-shadow: 0 4px 15px rgba(0,0,0,0.1);"></div>
                     <div id="mapFeeInfo" style="display: none; background: #eff6ff; border-left: 4px solid #3b82f6; padding: 14px; border-radius: 10px; margin-top: 12px; font-size: 14px; line-height: 1.8;">
                         <div>📏 <strong>Distance:</strong> <span id="mapDistance">-</span></div>
                         <div>🛵 <strong>ETA:</strong> <span id="mapEta">-</span></div>
                         <div>💰 <strong>Delivery Fee:</strong> <span id="mapFee" style="color: #16A34A; font-weight: 800;">-</span></div>
                         <div id="mapRainyNote" style="display: none; color: #ea580c; font-size: 12px;">🌧️ වැසි දින අතිරේක ගාස්තුව එකතු කර ඇත</div>
-                    </div>
-                </div>
-                
-                <!-- Zone Select (Fallback) -->
-                <div class="form-group" id="zoneSelectGroup">
-                    <label>📍 ඔබේ ප්‍රදේශය තෝරන්න *</label>
-                    <select id="deliveryArea" onchange="calculateDeliveryFee()">
-                        <option value="">-- ප්‍රදේශය තෝරන්න --</option>
-                    </select>
-                    <div class="delivery-info" id="deliveryInfo" style="display: none;">
-                        <strong>📍 තෝරාගත් ප්‍රදේශය:</strong> <span id="selectedAreaName"></span>
-                        <span id="zoneBadge" class="zone-badge"></span><br>
-                        <strong>🚚 Delivery Fee:</strong> Rs. <span id="zoneFeeDisplay">0</span>
-                        <div id="rainySurchargeDisplay" style="display: none;"></div>
                     </div>
                 </div>
                 
@@ -608,7 +590,6 @@
             loadShops(); loadAllFoods(); loadAllGrocery(); loadAllVegetables(); loadMyOrders(); 
             loadCustomAds(); loadAdSettings(); loadPromotionalBanner(); updateCartBadge();
             loadPublicReviews();
-            loadDeliveryZonesForApp();
             loadRainySurchargeForApp();
             loadMapPricing();
         });
@@ -744,41 +725,6 @@
             });
         }
 
-        function loadDeliveryZonesForApp() {
-            database.ref('settings/deliveryZones').on('value', (snapshot) => {
-                const data = snapshot.val();
-                const zones = [];
-                if (data) {
-                    Object.entries(data).forEach(([key, value]) => {
-                        zones.push({ id: key, ...value });
-                    });
-                }
-                zones.sort((a, b) => (a.displayOrder || 999) - (b.displayOrder || 999));
-                const select = document.getElementById('deliveryArea');
-                select.innerHTML = '<option value="">-- ප්‍රදේශය තෝරන්න --</option>';
-                const grouped = {};
-                zones.forEach(z => {
-                    if (!grouped[z.zone]) grouped[z.zone] = [];
-                    grouped[z.zone].push(z);
-                });
-                Object.keys(grouped).sort((a,b) => parseInt(a) - parseInt(b)).forEach(zNum => {
-                    const optgroup = document.createElement('optgroup');
-                    const sample = grouped[zNum][0];
-                    optgroup.label = `🚚 Zone ${zNum} - ${sample.distance} km (Rs. ${sample.fee})`;
-                    grouped[zNum].forEach(z => {
-                        const option = document.createElement('option');
-                        option.value = z.id;
-                        option.setAttribute('data-fee', z.fee);
-                        option.setAttribute('data-zone', z.zone);
-                        option.setAttribute('data-distance', z.distance);
-                        option.textContent = z.name;
-                        optgroup.appendChild(option);
-                    });
-                    select.appendChild(optgroup);
-                });
-            });
-        }
-
         function loadRainySurchargeForApp() {
             database.ref('settings/rainySurcharge').on('value', (snapshot) => {
                 const data = snapshot.val();
@@ -786,12 +732,11 @@
                 else { rainySurcharge = { enabled: false, percent: 0 }; }
                 if (!document.getElementById('cartTab').classList.contains('hidden')) {
                     if (mapFeeActive && customerLocation) fetchRouteAndCalc();
-                    else calculateDeliveryFee();
                 }
             });
         }
 
-        // 🗺️ Load Map Pricing from Firebase (with shop address)
+        // 🗺️ Load Map Pricing from Firebase
         function loadMapPricing() {
             database.ref('settings/deliveryPricing').on('value', (snapshot) => {
                 const d = snapshot.val();
@@ -1259,7 +1204,6 @@
             list.innerHTML = '<div style="background: #f0fdf4; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #22C55E;"><strong style="font-size: 15px; color: #166534;">✅ Items ' + cart.length + 'ක් තෝරාගෙන ඇත!</strong><br><span style="font-size: 12px; color: #15803d;">පහත විස්තර පුරවා Order එක යවන්න</span></div>' + itemsHTML;
             document.getElementById('orderSummary').innerHTML = summaryHTML;
             document.getElementById('itemsTotal').textContent = total.toLocaleString();
-            if (!mapFeeActive) calculateDeliveryFee();
             checkoutSection.classList.remove('hidden');
         }
 
@@ -1273,10 +1217,10 @@
             document.getElementById('onlinePaymentDetails').style.display = method === 'online' ? 'block' : 'none';
         }
 
-        // 🗺️ MAP PRICING FUNCTIONS
+        // 🗺️ MAP PRICING FUNCTIONS ONLY
         function useMyLocation() {
             if (!navigator.geolocation) { showToast('❌ ඔබේ browser එකෙන් Location support කරන්නේ නෑ'); return; }
-            if (!mapPricing.enabled) { showToast('⚠️ Map pricing දැනට disable කර ඇත. Zone select කරන්න.'); showZoneSelect(); return; }
+            if (!mapPricing.enabled) { showToast('⚠️ Map pricing දැනට disable කර ඇත.'); return; }
             document.getElementById('mapStatus').innerHTML = '⏳ ඔබේ location සොයමින්...';
             document.getElementById('btnUseLocation').disabled = true;
             navigator.geolocation.getCurrentPosition(
@@ -1287,8 +1231,7 @@
                 },
                 (err) => {
                     document.getElementById('btnUseLocation').disabled = false;
-                    document.getElementById('mapStatus').innerHTML = '❌ Location access denied. Zone select කරන්න හෝ permission enable කරන්න.';
-                    showZoneSelect();
+                    document.getElementById('mapStatus').innerHTML = '❌ Location access denied. Permission enable කරන්න.';
                 },
                 { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 }
             );
@@ -1329,7 +1272,6 @@
             return last.fee + extraKm * mapPricing.beyondPerKm;
         }
 
-        // 🗺️ FIXED: Map height එක 200px, markers දෙකම පෙන්නනවා
         function drawMap(coords) {
             document.getElementById('mapStatus').innerHTML = '✅ Route සොයන ලදී!';
             document.getElementById('deliveryMap').style.display = 'block';
@@ -1374,65 +1316,17 @@
             }
             currentDeliveryFee = finalFee;
             document.getElementById('deliveryFeeDisplay').textContent = finalFee.toLocaleString();
-            document.getElementById('zoneFeeDisplay').textContent = finalFee.toLocaleString();
-            document.getElementById('deliveryInfo').style.display = 'block';
-            document.getElementById('selectedAreaName').textContent = '📍 Auto (GPS)';
-            document.getElementById('zoneBadge').textContent = km.toFixed(1) + ' km';
-            document.getElementById('zoneBadge').className = 'zone-badge zone-1';
-            document.getElementById('deliveryArea').value = '';
             const itemsTotal = parseInt(document.getElementById('itemsTotal').textContent.replace(/,/g, '')) || 0;
             document.getElementById('grandTotal').textContent = (itemsTotal + finalFee).toLocaleString();
             showToast('✅ Distance ' + km.toFixed(1) + 'km - Fee Rs. ' + finalFee);
         }
 
-        function showZoneSelect() {
-            mapFeeActive = false;
-            customerLocation = null;
-            document.getElementById('mapStatus').innerHTML = '';
-            document.getElementById('mapFeeInfo').style.display = 'none';
-            document.getElementById('deliveryMap').style.display = 'none';
-            if (mapInstance) { mapInstance.remove(); mapInstance = null; }
-            routeLayer = null; shopMarker = null; custMarker = null;
-            calculateDeliveryFee();
-        }
-
-        function calculateDeliveryFee() {
-            if (mapFeeActive) return;
-            const areaSelect = document.getElementById('deliveryArea');
-            const selectedOption = areaSelect.options[areaSelect.selectedIndex];
-            const rainySurchargeDisplay = document.getElementById('rainySurchargeDisplay');
-            if (!selectedOption || !selectedOption.value) {
-                document.getElementById('deliveryInfo').style.display = 'none';
-                document.getElementById('deliveryFeeDisplay').textContent = '0';
-                currentDeliveryFee = 0;
-            } else {
-                let baseFee = parseInt(selectedOption.getAttribute('data-fee')) || 0;
-                const zone = selectedOption.getAttribute('data-zone');
-                const distance = selectedOption.getAttribute('data-distance') || '';
-                let finalFee = baseFee, surchargeHtml = '';
-                if (rainySurcharge.enabled && rainySurcharge.percent > 0) {
-                    const extra = Math.round(baseFee * rainySurcharge.percent / 100);
-                    finalFee = baseFee + extra;
-                    surchargeHtml = '<div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #86efac; color: #ea580c; font-size: 12px; font-weight: 600;">🌧️ වැසි දින අතිරේක ගාස්තුව (+' + rainySurcharge.percent + '%): Rs. ' + extra + '</div>';
-                }
-                currentDeliveryFee = finalFee;
-                const deliveryInfo = document.getElementById('deliveryInfo');
-                deliveryInfo.style.display = 'block';
-                document.getElementById('selectedAreaName').textContent = selectedOption.text;
-                const zoneBadge = document.getElementById('zoneBadge');
-                zoneBadge.textContent = distance ? 'Zone ' + zone + ' (' + distance + 'km)' : 'Zone ' + zone;
-                zoneBadge.className = 'zone-badge zone-' + zone;
-                document.getElementById('zoneFeeDisplay').textContent = finalFee.toLocaleString();
-                document.getElementById('deliveryFeeDisplay').textContent = finalFee.toLocaleString();
-                if (rainySurchargeDisplay) { rainySurchargeDisplay.innerHTML = surchargeHtml; rainySurchargeDisplay.style.display = surchargeHtml ? 'block' : 'none'; }
-            }
-            const itemsTotal = parseInt(document.getElementById('itemsTotal').textContent.replace(/,/g, '')) || 0;
-            document.getElementById('grandTotal').textContent = (itemsTotal + currentDeliveryFee).toLocaleString();
-        }
-
-        // ✅ UPDATED: WhatsApp Message එකේ Google Maps Link එක එකතු කරලා
+        // ✅ UPDATED: Zone Select ඉවත් කළා - Map Only
         function confirmCartOrder() {
-            if (mapFeeActive && !customerLocation) { showToast('❌ Location එක detect වී නැහැ!'); return; }
+            if (!mapFeeActive || !customerLocation) { 
+                showToast('❌ කරුණාකර "📍 Use My Location" click කරලා location එක detect කරන්න!'); 
+                return; 
+            }
             let closedShops = [];
             cart.forEach(item => {
                 if (item.shopId) {
@@ -1446,10 +1340,8 @@
             const name = document.getElementById('customerName').value.trim();
             const phone = document.getElementById('phoneNumber').value.trim();
             const address = document.getElementById('deliveryAddress').value.trim();
-            const areaSelect = document.getElementById('deliveryArea');
             const transId = document.getElementById('transactionId').value.trim();
             if (!name || !phone || !address) { showToast('❌ කරුණාකර සියලු විස්තර සපුරන්න!'); return; }
-            if (!mapFeeActive && !areaSelect.value) { showToast('❌ කරුණාකර ප්‍රදේශයක් තෝරන්න!'); return; }
             if (selectedPaymentMethod === 'online' && !transId) { showToast('❌ Online ගෙවීම් සඳහා Transaction ID එක අනිවාර්යයි!'); return; }
             localStorage.setItem('customerPhone', phone);
             let itemsTotal = parseInt(document.getElementById('itemsTotal').textContent.replace(/,/g, '')) || 0;
@@ -1465,38 +1357,30 @@
                 return '• ' + cleanName + ' x' + i.quantity + ' - Rs. ' + itemTotal.toLocaleString();
             }).join('\n');
             
-            // ✅ Google Maps Link එක හදනවා
-            let areaText = '';
-            let mapsLink = '';
-            if (mapFeeActive && customerLocation) {
-                const kmText = document.getElementById('mapDistance').textContent || 'Unknown';
-                areaText = '📍 Auto GPS - ' + kmText;
-                mapsLink = '🗺️ Location: https://www.google.com/maps?q=' + customerLocation.lat + ',' + customerLocation.lng;
-            } else {
-                areaText = areaSelect.options[areaSelect.selectedIndex].text;
-            }
-            
+            const kmText = document.getElementById('mapDistance').textContent || 'Unknown';
+            const areaText = '📍 Auto GPS - ' + kmText;
             const paymentInfo = selectedPaymentMethod === 'cod' ? '💵 COD' : '🏦 Online (Ref: ' + transId + ')';
             const grandTotal = itemsTotal + currentDeliveryFee;
+            const mapsLink = '🗺️ Location: https://www.google.com/maps?q=' + customerLocation.lat + ',' + customerLocation.lng;
+            
             const order = { 
                 customerName: name, phone: phone, address: address, 
                 area: areaText, paymentMethod: selectedPaymentMethod, transactionId: transId, 
                 items: itemsList, itemsTotal: itemsTotal, deliveryFee: currentDeliveryFee, 
                 grandTotal: grandTotal, status: 'Pending', date: new Date().toISOString(), paymentInfo: paymentInfo,
-                customerLat: mapFeeActive ? customerLocation.lat : null,
-                customerLng: mapFeeActive ? customerLocation.lng : null,
-                deliveryKm: mapFeeActive ? parseFloat(document.getElementById('mapDistance').textContent) : null
+                customerLat: customerLocation.lat,
+                customerLng: customerLocation.lng,
+                deliveryKm: parseFloat(kmText) || null
             };
             
-            // ✅ WhatsApp Message එක - Google Maps Link එක සහිතව
             const orderMessage = 
                 '🛒 *NEW ORDER - Silvas Express*\n\n' +
                 '👤 *Name:* ' + name + '\n' +
                 '📞 *Phone:* ' + phone + '\n' +
                 '📍 *Area:* ' + areaText + '\n' +
                 '🏠 *Address:* ' + address + '\n' +
-                (mapsLink ? mapsLink + '\n' : '') +
-                '\n📦 *Items:*\n' + itemsList + '\n\n' +
+                mapsLink + '\n\n' +
+                '📦 *Items:*\n' + itemsList + '\n\n' +
                 '💰 *Items Total:* Rs. ' + itemsTotal.toLocaleString() + '\n' +
                 '🚚 *Delivery Fee:* Rs. ' + currentDeliveryFee.toLocaleString() + '\n' +
                 '💳 *Payment:* ' + paymentInfo + '\n\n' +
@@ -1511,8 +1395,15 @@
                 document.getElementById('customerName').value = ''; 
                 document.getElementById('phoneNumber').value = ''; 
                 document.getElementById('deliveryAddress').value = ''; 
-                document.getElementById('deliveryArea').value = ''; 
                 document.getElementById('transactionId').value = '';
+                // Reset map
+                mapFeeActive = false;
+                customerLocation = null;
+                document.getElementById('mapStatus').innerHTML = '';
+                document.getElementById('mapFeeInfo').style.display = 'none';
+                document.getElementById('deliveryMap').style.display = 'none';
+                if (mapInstance) { mapInstance.remove(); mapInstance = null; }
+                routeLayer = null; shopMarker = null; custMarker = null;
             }).catch(error => { showToast('❌ Order යැවීමේ ගැටලුවක්: ' + error.message); });
         }
 
