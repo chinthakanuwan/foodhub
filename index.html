@@ -453,6 +453,11 @@
                 <div class="form-group"><label>📞 දුරකථන අංකය *</label><input type="tel" id="phoneNumber" placeholder="07X XXX XXXX"></div>
                 <div class="form-group"><label>📍 Delivery ලිපිනය *</label><textarea id="deliveryAddress" rows="3" placeholder="නිවසේ ලිපිනය..."></textarea></div>
                 
+                <!-- 🏪 Shop Location Info -->
+                <div id="shopLocationInfo" style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 12px; border-radius: 8px; margin-bottom: 12px; font-size: 13px; display: none;">
+                    <strong>🏪 Shop Location:</strong> <span id="shopAddressDisplay">Loading...</span>
+                </div>
+                
                 <!-- 🗺️ MAP PRICING UI -->
                 <div class="form-group">
                     <label>📍 Delivery Fee තෝරන්න</label>
@@ -582,6 +587,7 @@
             enabled: true,
             shopLat: 7.1856,
             shopLng: 79.8906,
+            shopAddress: 'Silvas Express, Raddolugama',
             beyondPerKm: 50,
             tiers: [
                 { min: 0, max: 1, fee: 100 },
@@ -784,7 +790,7 @@
             });
         }
 
-        // 🗺️ Load Map Pricing from Firebase
+        // 🗺️ Load Map Pricing from Firebase (with shop address)
         function loadMapPricing() {
             database.ref('settings/deliveryPricing').on('value', (snapshot) => {
                 const d = snapshot.val();
@@ -793,9 +799,18 @@
                         enabled: d.enabled !== false,
                         shopLat: d.shopLat || 7.1856,
                         shopLng: d.shopLng || 79.8906,
+                        shopAddress: d.shopAddress || 'Silvas Express, Raddolugama',
                         beyondPerKm: d.beyondPerKm || 50,
                         tiers: (d.tiers && d.tiers.length) ? d.tiers : mapPricing.tiers
                     };
+                    
+                    // 🏪 Show shop address to customer
+                    const shopInfoDiv = document.getElementById('shopLocationInfo');
+                    const shopAddressSpan = document.getElementById('shopAddressDisplay');
+                    if (shopInfoDiv && shopAddressSpan) {
+                        shopInfoDiv.style.display = 'block';
+                        shopAddressSpan.textContent = mapPricing.shopAddress;
+                    }
                 }
             });
         }
@@ -1313,22 +1328,52 @@
             return last.fee + extraKm * mapPricing.beyondPerKm;
         }
 
+        // 🗺️ FIXED: Shop marker සහ Customer marker දෙකම පෙන්නනවා
         function drawMap(coords) {
             document.getElementById('mapStatus').innerHTML = '✅ Route සොයන ලදී!';
             document.getElementById('deliveryMap').style.display = 'block';
+            
             if (!mapInstance) {
-                mapInstance = L.map('deliveryMap').setView(coords[0], 13);
+                mapInstance = L.map('deliveryMap').setView([mapPricing.shopLat, mapPricing.shopLng], 13);
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(mapInstance);
             }
+            
             if (routeLayer) mapInstance.removeLayer(routeLayer);
             if (shopMarker) mapInstance.removeLayer(shopMarker);
             if (custMarker) mapInstance.removeLayer(custMarker);
+            
+            // 🛣️ Route line එක
             routeLayer = L.polyline(coords, { color: '#22C55E', weight: 5, opacity: 0.8 }).addTo(mapInstance);
-            shopMarker = L.marker([mapPricing.shopLat, mapPricing.shopLng]).addTo(mapInstance).bindPopup('<b>🌿 Silvas Express</b>');
-            custMarker = L.marker([customerLocation.lat, customerLocation.lng]).addTo(mapInstance).bindPopup('<b>📍 ඔබේ Location</b>');
-            mapInstance.fitBounds(routeLayer.getBounds().pad(0.2));
+            
+            // 🏪 Shop Marker එක (RED)
+            const shopIcon = L.divIcon({
+                html: '<div style="background: #ef4444; width: 30px; height: 30px; border-radius: 50% 50% 50% 0; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3); transform: rotate(-45deg); display: flex; align-items: center; justify-content: center;"><span style="transform: rotate(45deg); font-size: 16px;">🏪</span></div>',
+                iconSize: [30, 30],
+                iconAnchor: [15, 30]
+            });
+            shopMarker = L.marker([mapPricing.shopLat, mapPricing.shopLng], { icon: shopIcon })
+                .addTo(mapInstance)
+                .bindPopup('<b>🌿 Silvas Express Shop</b><br>📍 ' + mapPricing.shopAddress);
+            
+            // 📍 Customer Marker එක (BLUE)
+            const custIcon = L.divIcon({
+                html: '<div style="background: #3b82f6; width: 30px; height: 30px; border-radius: 50% 50% 50% 0; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3); transform: rotate(-45deg); display: flex; align-items: center; justify-content: center;"><span style="transform: rotate(45deg); font-size: 16px;">📍</span></div>',
+                iconSize: [30, 30],
+                iconAnchor: [15, 30]
+            });
+            custMarker = L.marker([customerLocation.lat, customerLocation.lng], { icon: custIcon })
+                .addTo(mapInstance)
+                .bindPopup('<b>📍 ඔබේ Location</b><br>Delivery Address');
+            
+            // Map එක fit කරන්න
+            const bounds = L.latLngBounds([
+                [mapPricing.shopLat, mapPricing.shopLng],
+                [customerLocation.lat, customerLocation.lng]
+            ]);
+            mapInstance.fitBounds(bounds.pad(0.3));
+            
             setTimeout(() => mapInstance.invalidateSize(), 300);
         }
 
