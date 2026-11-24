@@ -44,7 +44,7 @@
         "name": "Silvas Express",
         "description": "Food, Grocery & Vegetable Delivery Service in Raddolugama, Negombo, Sri Lanka",
         "url": "https://silvasexpress.store",
-        "telephone": "+94702059529",
+        "telephone": "+94766488689",
         "address": { "@type": "PostalAddress", "addressLocality": "Raddolugama", "addressRegion": "Western Province", "addressCountry": "LK" },
         "areaServed": ["Raddolugama", "Negombo", "Katunayake", "Seeduwa", "Bathalawatta", "Kuswala"],
         "priceRange": "Rs. 100 - Rs. 5000",
@@ -161,12 +161,12 @@
         .payment-btn.active { border-color: #22C55E; background: #f0fdf4; color: #16A34A; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2); }
         
         .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white; display: flex; justify-content: space-around; padding: 12px 0 18px; box-shadow: 0 -4px 20px rgba(0,0,0,0.1); z-index: 100; padding-bottom: calc(18px + env(safe-area-inset-bottom)); }
-        .nav-item { text-align: center; padding: 6px 14px; cursor: pointer; color: #94a3b8; position: relative; transition: all 0.3s; text-decoration: none; }
+        .nav-item { text-align: center; padding: 6px 10px; cursor: pointer; color: #94a3b8; position: relative; transition: all 0.3s; text-decoration: none; }
         .nav-item.active { color: #22C55E; }
         .nav-item:hover { color: #22C55E; }
-        .nav-item .icon { font-size: 24px; display: block; margin-bottom: 3px; }
-        .nav-item .label { font-size: 11px; font-weight: 600; }
-        .cart-badge { position: absolute; top: -4px; right: 0; background: #ef4444; color: white; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; border: 2px solid white; }
+        .nav-item .icon { font-size: 22px; display: block; margin-bottom: 3px; }
+        .nav-item .label { font-size: 10px; font-weight: 600; }
+        .cart-badge { position: absolute; top: -4px; right: -4px; background: #ef4444; color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; border: 2px solid white; }
         
         .order-status { padding: 8px 16px; border-radius: 20px; font-weight: 700; font-size: 12px; display: inline-block; }
         .status-pending { background: #fef3c7; color: #92400e; }
@@ -269,6 +269,43 @@
         .suggestion-item:last-child { border-bottom: none; }
         .map-instructions { background: #eff6ff; padding: 10px; border-radius: 8px; font-size: 12px; color: #1e40af; margin-top: 10px; border-left: 3px solid #3b82f6; }
         
+        /* 📞 Floating Contact Button */
+        .floating-contact { position: fixed; bottom: 100px; right: 15px; z-index: 99; display: flex; flex-direction: column; gap: 10px; }
+        .contact-btn { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.25); transition: all 0.3s; cursor: pointer; border: none; position: relative; }
+        .contact-btn:hover { transform: scale(1.1); }
+        .contact-btn.call { background: linear-gradient(135deg, #22C55E, #16A34A); color: white; animation: pulse 2s infinite; }
+        .contact-btn.whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); color: white; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(34, 197, 94, 0); } 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); } }
+        .contact-tooltip { position: absolute; right: 65px; top: 50%; transform: translateY(-50%); background: #1e293b; color: white; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .contact-btn:hover .contact-tooltip { opacity: 1; }
+        
+        /* ℹ️ About Section Styles */
+        .about-card { background: white; border-radius: 16px; padding: 25px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        .about-card h3 { font-size: 20px; font-weight: 800; color: #1e293b; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .about-card p { font-size: 15px; color: #475569; line-height: 1.8; margin-bottom: 12px; }
+        .about-hero { background: linear-gradient(135deg, #22C55E, #16A34A); color: white; border-radius: 20px; padding: 30px 20px; text-align: center; margin-bottom: 20px; box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3); }
+        .about-hero .logo { font-size: 50px; margin-bottom: 10px; }
+        .about-hero h2 { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+        .about-hero p { font-size: 14px; opacity: 0.95; }
+        .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 15px; }
+        .service-item { background: #f0fdf4; padding: 15px; border-radius: 12px; text-align: center; border: 2px solid #dcfce7; transition: all 0.3s; }
+        .service-item:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15); }
+        .service-item .icon { font-size: 32px; margin-bottom: 8px; }
+        .service-item .title { font-weight: 700; font-size: 14px; color: #166534; }
+        .contact-info-box { background: linear-gradient(135deg, #fef3c7, #fde68a); padding: 20px; border-radius: 16px; margin-top: 15px; border-left: 5px solid #f59e0b; }
+        .contact-info-box h4 { color: #92400e; font-size: 16px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .contact-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px dashed #fbbf24; }
+        .contact-row:last-child { border-bottom: none; }
+        .contact-row .icon { font-size: 22px; width: 40px; height: 40px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.1); }
+        .contact-row .info { flex: 1; }
+        .contact-row .label { font-size: 11px; color: #92400e; font-weight: 600; text-transform: uppercase; }
+        .contact-row .value { font-size: 15px; color: #1e293b; font-weight: 700; }
+        .contact-row a { color: #16A34A; text-decoration: none; }
+        .about-call-btn { display: block; width: 100%; padding: 16px; background: linear-gradient(135deg, #22C55E, #16A34A); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; text-align: center; text-decoration: none; margin-top: 15px; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3); transition: all 0.3s; }
+        .about-call-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(34, 197, 94, 0.4); }
+        .about-whatsapp-btn { display: block; width: 100%; padding: 16px; background: linear-gradient(135deg, #25D366, #128C7E); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; text-align: center; text-decoration: none; margin-top: 10px; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); transition: all 0.3s; }
+        .about-whatsapp-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4); }
+        
         @media (min-width: 768px) {
             #shopsList { grid-template-columns: repeat(2, 1fr); gap: 18px; }
             .food-grid, .grocery-grid, .vegetable-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
@@ -278,6 +315,7 @@
             .promo-banner { padding: 35px 20px; }
             .promo-banner h3 { font-size: 28px; }
             .promo-banner .discount-text { font-size: 48px; }
+            .services-grid { grid-template-columns: repeat(4, 1fr); }
         }
         
         @media (min-width: 1024px) {
@@ -310,6 +348,8 @@
             .grocery-cart { bottom: 30px; left: 50%; right: auto; transform: translateX(-50%); max-width: 700px; width: calc(100% - 60px); }
             .toast { bottom: 50px; }
             @keyframes slideUp { from { bottom: 30px; opacity: 0; } to { bottom: 50px; opacity: 1; } }
+            .floating-contact { bottom: 30px; right: 25px; }
+            .contact-btn { width: 60px; height: 60px; font-size: 26px; }
         }
         
         @media (min-width: 1440px) {
@@ -334,6 +374,7 @@
                 <a href="#allGroceryList" class="desktop-nav-link" onclick="scrollToSection('allGroceryList')">🛒 Grocery</a>
                 <a href="#allVegetablesList" class="desktop-nav-link" onclick="scrollToSection('allVegetablesList')">🥬 Vegetables</a>
                 <a href="#reviewsContainer" class="desktop-nav-link" onclick="scrollToSection('reviewsContainer')">⭐ Reviews</a>
+                <a href="#aboutContainer" class="desktop-nav-link" onclick="scrollToSection('aboutContainer')">ℹ️ About</a>
                 <a href="#myOrdersList" class="desktop-nav-link" onclick="scrollToSection('myOrdersList')">📦 Orders</a>
             </div>
             <a href="#cartTab" class="desktop-nav-cart" onclick="showCart()">🛒 Cart <span id="desktopCartCount" style="background: white; color: #22C55E; padding: 2px 8px; border-radius: 12px; font-size: 12px; margin-left: 5px;">0</span></a>
@@ -449,6 +490,120 @@
     </div>
     <div class="section-divider"></div>
     
+    <!-- ℹ️ ABOUT SECTION -->
+    <div class="section-header"><h2>ℹ️ අපි ගැන (About Us)</h2></div>
+    <div class="container" id="aboutContainer">
+        <div class="about-hero">
+            <div class="logo">🌿</div>
+            <h2>Silvas Express</h2>
+            <p>ඔබේ විශ්වාසවන්ත ආහාර & grocery delivery partner</p>
+        </div>
+        
+        <div class="about-card">
+            <h3>📖 අපි කවුද?</h3>
+            <p><strong>Silvas Express</strong> කියන්නේ රද්දොලුගම, නෙගොම්බෝ, කටුනායක සහ ආසන්න ප්‍රදේශවල සේවය කරන <strong>වේගවත්ම ආහාර & grocery delivery service</strong> එකයි. 2024 සිට අපි ඔබේ නිවසටම fresh food, groceries, vegetables ගෙන එනවා.</p>
+            <p>අපගේ අරමුණ - <strong>ඔබට හොඳම භාණ්ඩ, හොඳම මිලට, වේගයෙන් බාර දීම</strong>. 💚</p>
+        </div>
+        
+        <div class="about-card">
+            <h3>🚀 අපේ සේවාවන්</h3>
+            <p>අපි ඔබට පහත සේවාවන් සපයනවා:</p>
+            <div class="services-grid">
+                <div class="service-item">
+                    <div class="icon">🍕</div>
+                    <div class="title">Food Delivery</div>
+                </div>
+                <div class="service-item">
+                    <div class="icon">🛒</div>
+                    <div class="title">Grocery</div>
+                </div>
+                <div class="service-item">
+                    <div class="icon">🥬</div>
+                    <div class="title">Fresh Vegetables</div>
+                </div>
+                <div class="service-item">
+                    <div class="icon">🚚</div>
+                    <div class="title">Fast Delivery</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="about-card">
+            <h3>💡 අපේ විශේෂත්වයන්</h3>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 12px; padding: 10px; background: #f0fdf4; border-radius: 10px;">
+                    <span style="font-size: 24px;">✅</span>
+                    <span style="font-size: 14px; color: #166534; font-weight: 600;">Fresh & Quality Products පමණක්</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; padding: 10px; background: #f0fdf4; border-radius: 10px;">
+                    <span style="font-size: 24px;">💰</span>
+                    <span style="font-size: 14px; color: #166534; font-weight: 600;">සාමාන්‍ය මිලට වඩා අඩු මිල ගණන්</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; padding: 10px; background: #f0fdf4; border-radius: 10px;">
+                    <span style="font-size: 24px;">⚡</span>
+                    <span style="font-size: 14px; color: #166534; font-weight: 600;">වේගවත්ම Delivery Service</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; padding: 10px; background: #f0fdf4; border-radius: 10px;">
+                    <span style="font-size: 24px;">🗺️</span>
+                    <span style="font-size: 14px; color: #166534; font-weight: 600;">GPS Based Distance Pricing - සාධාරණ ගාස්තු</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; padding: 10px; background: #f0fdf4; border-radius: 10px;">
+                    <span style="font-size: 24px;">💵</span>
+                    <span style="font-size: 14px; color: #166534; font-weight: 600;">COD & Online Payment පහසුකම්</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="about-card">
+            <h3>📞 අප අමතන්න</h3>
+            <p>ඕනෑම ප්‍රශ්නයක්, අවශ්‍යතාවයක් තියෙනවා නම් අප අමතන්න!</p>
+            
+            <div class="contact-info-box">
+                <h4>📱 Contact Information</h4>
+                <div class="contact-row">
+                    <div class="icon">📞</div>
+                    <div class="info">
+                        <div class="label">Phone / WhatsApp</div>
+                        <div class="value"><a href="tel:+94766488689">076 648 8689</a></div>
+                    </div>
+                </div>
+                <div class="contact-row">
+                    <div class="icon">🕐</div>
+                    <div class="info">
+                        <div class="label">සේවය ලබා දෙන වේලාව</div>
+                        <div class="value">උදේ 8:00 - රාත්‍රී 10:00</div>
+                    </div>
+                </div>
+                <div class="contact-row">
+                    <div class="icon">📍</div>
+                    <div class="info">
+                        <div class="label">ප්‍රදේශය</div>
+                        <div class="value">රද්දොලුගම, වෙල්ලගම, කටුනායක, නෙගොම්බෝ</div>
+                    </div>
+                </div>
+                <div class="contact-row">
+                    <div class="icon">🌐</div>
+                    <div class="info">
+                        <div class="label">Website</div>
+                        <div class="value"><a href="https://silvasexpress.store" target="_blank">silvasexpress.store</a></div>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="tel:+94766488689" class="about-call-btn">📞 දැන්ම Call කරන්න - 076 648 8689</a>
+            <a href="https://wa.me/94766488689" target="_blank" class="about-whatsapp-btn">💬 WhatsApp එකෙන් Message එකක් යවන්න</a>
+        </div>
+        
+        <div class="about-card" style="text-align: center; background: linear-gradient(135deg, #f0fdf4, #dcfce7);">
+            <h3 style="justify-content: center;">❤️ ස්තූතියි!</h3>
+            <p>අපව තෝරාගත්තාට ඔබට <strong>බොහොම ස්තූතියි!</strong> 🙏<br>
+            ඔබේ විශ්වාසය - අපේ ශක්තියයි! 💚</p>
+            <p style="font-size: 13px; color: #166534; margin-top: 10px;"><strong>🌿 Silvas Express</strong><br>
+            <em>"ඔබේ නිවසටම, ඔබේ අතටම!"</em></p>
+        </div>
+    </div>
+    <div class="section-divider"></div>
+    
     <div class="section-header"><h2>📦 මගේ Orders</h2></div>
     <div class="container">
         <div id="myOrdersList"><div class="loading">Orders බලන්න පළමුව order එකක් තබන්න</div></div>
@@ -561,11 +716,24 @@
         <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="0987654321" data-ad-format="auto" data-full-width-responsive="true"></ins>
     </div>
 
+    <!-- 📞 FLOATING CONTACT BUTTONS -->
+    <div class="floating-contact">
+        <a href="https://wa.me/94766488689" target="_blank" class="contact-btn whatsapp">
+            💬
+            <span class="contact-tooltip">WhatsApp</span>
+        </a>
+        <a href="tel:+94766488689" class="contact-btn call">
+            📞
+            <span class="contact-tooltip">076 648 8689</span>
+        </a>
+    </div>
+
     <nav class="bottom-nav" aria-label="Mobile navigation">
         <a href="#shopsContainer" class="nav-item active" onclick="scrollToSection('shopsContainer')"><span class="icon">🏪</span><span class="label">Shops</span></a>
         <a href="#allGroceryList" class="nav-item" onclick="scrollToSection('allGroceryList')"><span class="icon">🛒</span><span class="label">Grocery</span></a>
-        <a href="#allVegetablesList" class="nav-item" onclick="scrollToSection('allVegetablesList')"><span class="icon">🥬</span><span class="label">Vegetables</span></a>
+        <a href="#allVegetablesList" class="nav-item" onclick="scrollToSection('allVegetablesList')"><span class="icon">🥬</span><span class="label">Veg</span></a>
         <a href="#reviewsContainer" class="nav-item" onclick="scrollToSection('reviewsContainer')"><span class="icon">⭐</span><span class="label">Reviews</span></a>
+        <a href="#aboutContainer" class="nav-item" onclick="scrollToSection('aboutContainer')"><span class="icon">ℹ️</span><span class="label">About</span></a>
         <a href="#cartTab" class="nav-item" onclick="showCart()"><span class="icon">🛒</span><span class="label">Cart</span><span class="cart-badge" id="cartCount">0</span></a>
         <a href="#myOrdersList" class="nav-item" onclick="scrollToSection('myOrdersList')"><span class="icon">📦</span><span class="label">Orders</span></a>
     </nav>
@@ -573,6 +741,7 @@
     <footer class="developer-credit">
         <p>Developed with ❤️ by <strong>TK Chinthaka Nuwan</strong></p>
         <p style="font-size: 10px; margin-top: 5px; color: #94a3b8;">© 2024 Silvas Express App. All rights reserved.</p>
+        <p style="font-size: 12px; margin-top: 8px; color: #22C55E; font-weight: 600;">📞 Contact: 076 648 8689</p>
         <a href="admin.html" style="color: #cbd5e1; text-decoration: none; font-size: 9px; margin-top: 5px; display: inline-block;">Admin Access</a>
     </footer>
 
@@ -1597,6 +1766,7 @@
                 '💳 *Payment:* ' + paymentInfo + '\n\n' +
                 '💵 *GRAND TOTAL: Rs. ' + grandTotal.toLocaleString() + '*\n\n' +
                 'කරුණාකර මෙම order එක තහවුරු කරන්න. 🙏\n\n' +
+                '📞 Contact: 076 648 8689\n' +
                 '🌐 silvasexpress.store';
             
             database.ref('orders').push(order).then(() => {
